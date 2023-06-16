@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import DashboardView from '../views/adminPages/DashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,15 +7,37 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: DashboardView
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/guestPages/LoginView.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/guestPages/RegisterView.vue')
+    },
+    {
+      path: '/forgotpassword',
+      name: 'ForgotPassword',
+      component: () => import('../views/guestPages/ForgotPasswordView.vue')
+    },
+    {
+      path: '/recoverypassword',
+      name: 'RecoveryPassword',
+      component: () => import('../views/guestPages/RecoveryPasswordView.vue')
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: () => import('../views/errorPages/404View.vue')
+    },
+    {
+      path: '/500',
+      name: '500',
+      component: () => import('../views/errorPages/500View.vue')
     }
   ]
 })
