@@ -1,0 +1,8 @@
+@import url('../../node_modules/bootstrap/css/bootstrap.min.css');
+@import url('../../node_modules/bootstrap-icons/bootstrap-icons.css');
+@import url('../../node_modules/boxicons/css/boxicons.min.css');
+@import url('../../node_modules/quill/quill.snow.css');
+@import url('../../node_modules/quill/quill.bubble.css');
+@import url('../../node_modules/remixicon/remixicon.css');
+@import url('../../node_modules/simple-datatables/style.css');
+@import url('./style.css');
