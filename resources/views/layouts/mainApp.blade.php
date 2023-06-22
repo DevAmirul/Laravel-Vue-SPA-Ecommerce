@@ -26,6 +26,7 @@
 
     <!-- Vendor JS Files -->
     @vite(['resources/js/app.js'])
+    @stack('script')
 </body>
 
 </html>
