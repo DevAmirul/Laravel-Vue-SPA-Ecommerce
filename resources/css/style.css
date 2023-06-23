@@ -1221,3 +1221,20 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+hr {
+  margin: 4rem 0;
+  color: #4154f1 !important;
+  border: 0;
+  border-top: var(--bs-border-width) solid;
+  opacity: 100 !important;
+}
+
+.vl {
+  border-left: 6px solid green;
+  height: 500px;
+  position: absolute;
+  left: 50%;
+  margin-left: -3px;
+  top: 0;
+}

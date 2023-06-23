@@ -115,3 +115,7 @@ Route::get('/500', function () {
 Route::get('/invoice', function () {
     return view('adminPages.invoice');
 })->name('invoice');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
