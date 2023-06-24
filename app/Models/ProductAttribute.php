@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class attribute_option extends Model
-{
+class ProductAttribute extends Model {
     use HasFactory;
 }

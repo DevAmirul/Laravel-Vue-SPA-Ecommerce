@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('address_2');
             $table->tinyText('city');
             $table->tinyText('state');
-            $table->tinyText('zip_code',6);
+            $table->tinyInteger('zip_code',6);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
