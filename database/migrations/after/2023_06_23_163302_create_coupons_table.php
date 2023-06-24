@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offer_details', function (Blueprint $table) {
+        Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->tinyText('name');
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offer_details');
+        Schema::dropIfExists('coupuns');
     }
 };
