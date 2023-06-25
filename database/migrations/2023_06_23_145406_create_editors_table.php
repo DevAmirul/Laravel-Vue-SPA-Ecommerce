@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->tinyText('phone', 45);
             $table->string('address');
             $table->tinyText('city');
+            $table->enum('role',['admin' => 1, 'editor' => 0, 'pending' => 2]);
             $table->string('password');
             $table->softDeletes();
             $table->timestamps();
