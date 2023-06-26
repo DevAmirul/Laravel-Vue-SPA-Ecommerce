@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('slug');
             $table->bigInteger('section_id')->unsigned();
             $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned();
+            $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('editors');
             $table->foreign('updated_by')->references('id')->on('editors');

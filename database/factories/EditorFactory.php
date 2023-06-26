@@ -18,7 +18,7 @@ class EditorFactory extends Factory
     {
         return [
             'name' => 'Admin',
-            'email' => 'admin@mail.com',
+            'email' => fake()->email(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'city' => fake()->city(),

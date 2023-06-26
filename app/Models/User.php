@@ -43,7 +43,7 @@ class User extends Authenticatable {
         'password'          => 'hashed',
     ];
 
-    public function UserAddress(): HasOne {
+    public function userAddress(): HasOne {
         return $this->hasOne(UserAddress::class);
     }
 }
