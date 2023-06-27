@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('order_id')->unsigned();
             $table->bigInteger('product_id')->unsigned();
-            $table->integer('product_qty');
+            $table->smallInteger('qty');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

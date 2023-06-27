@@ -11,8 +11,8 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('attribute_options', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('attribute_id')->unsigned();
             $table->tinyText('value');
+            $table->bigInteger('attribute_id')->unsigned();
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade')->onUpdate('cascade');
         });
     }

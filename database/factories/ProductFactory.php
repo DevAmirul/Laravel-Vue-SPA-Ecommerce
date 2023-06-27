@@ -19,7 +19,7 @@ class ProductFactory extends Factory {
         $name      = fake()->name();
         $slug      = Str::slug($name);
         $imagesStr = '';
-        for ($i = 3; $i < 3; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $imagesStr .= 'digital_' . random_int(1, 22) . '.jpg' . ',';
         }
         return [
@@ -28,8 +28,8 @@ class ProductFactory extends Factory {
             'sku'               => 'product123',
             'description'       => fake()->text(500),
             'short_description' => fake()->text(200),
-            'price'             => 50,
-            'stock_status'      => 1,
+            'price'             => fake()->numberBetween(200, 1000),
+            'stock_status'      => fake()->numberBetween(5, 50),
             'qty_in_stock'      => fake()->numberBetween(10, 100),
             'image'             => 'digital_' . random_int(1, 22) . '.jpg',
             'all_images'        => $imagesStr,

@@ -14,12 +14,12 @@ return new class extends Migration {
             $table->bigInteger('user_id')->unsigned();
             $table->tinyText('first_name');
             $table->tinyText('last_name');
-            $table->tinyText('phone', 11);
-            $table->string('address_1');
-            $table->string('address_2')->nullable();
-            $table->tinyText('city');
-            $table->tinyText('state');
-            $table->tinyText('zip_code',4);
+            $table->char('phone', 11);
+            $table->tinyText('address_1');
+            $table->tinyText('address_2')->nullable();
+            $table->char('city', 100);
+            $table->char('state', 100);
+            $table->char('zip_code', 6);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

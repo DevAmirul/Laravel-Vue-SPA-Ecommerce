@@ -21,7 +21,7 @@ class UserAddressFactory extends Factory
             'user_id' => User::factory(),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'phone' => fake()->phoneNumber(),
+            'phone' => '01834513106',
             'address_1' => fake()->address(),
             'address_2' => fake()->address(),
             'city' => fake()->city(),

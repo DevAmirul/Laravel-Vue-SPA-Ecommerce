@@ -11,8 +11,8 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug');
+            $table->tinyText('name');
+            $table->tinyText('slug');
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('editors');

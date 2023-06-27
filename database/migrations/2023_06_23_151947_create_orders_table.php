@@ -12,10 +12,10 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
-            $table->enum('status',['delivered'=>1,'canceled'=>0,'approved'=>2,'pending'=>3]);
-            $table->decimal('discount', 2);
-            $table->decimal('subtotal', 2);
-            $table->decimal('total', 2);
+            $table->enum('status', ['delivered' => 1, 'canceled' => 0, 'approved' => 2, 'pending' => 3]);
+            $table->decimal('discount');
+            $table->decimal('subtotal');
+            $table->decimal('total');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
