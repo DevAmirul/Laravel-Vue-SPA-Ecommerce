@@ -1,7 +1,7 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link " href="index.html">
+            <a class="nav-link " href="{{ route('home') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -12,17 +12,17 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ route('productsTable') }}">
+                    <a href="{{ url('products') }}">
                         <i class="bi bi-circle"></i><span>Products Table</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('editProducts', ['id' => '1']) }}">
+                    <a href="{{ url('Products/1/edit') }}">
                         <i class="bi bi-circle"></i><span>Edit Products</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('addProducts') }}">
+                    <a href="{{ url('products/create') }}">
                         <i class="bi bi-circle"></i><span>Add Products</span>
                     </a>
                 </li>

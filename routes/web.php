@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -60,21 +61,23 @@ Route::get('/editors', function () {
 //     return view('adminPages.editEditors');
 // })->name('editEditors');
 
-Route::get('/products', function () {
-    return view('adminPages.productsTable');
-})->name('productsTable');
+// Route::get('/products', function () {
+//     return view('adminPages.productsTable');
+// })->name('productsTable');
 
-Route::get('/products-details/{id}', function () {
-    return view('adminPages.productsDetails');
-})->name('productsDetails');
+// Route::get('/products-details/{id}', function () {
+//     return view('adminPages.productsDetails');
+// })->name('productsDetails');
 
-Route::get('/add-products', function () {
-    return view('adminPages.addProducts');
-})->name('addProducts');
+// Route::get('/add-products', function () {
+//     return view('adminPages.addProducts');
+// })->name('addProducts');
 
-Route::get('/products/{id}', function () {
-    return view('adminPages.editProducts');
-})->name('editProducts');
+// Route::get('/products/{id}', function () {
+//     return view('adminPages.editProducts');
+// })->name('editProducts');
+
+Route::resource('products', ProductController::class);
 
 Route::get('/users', function () {
     return view('adminPages.usersTable');
@@ -115,7 +118,3 @@ Route::get('/500', function () {
 Route::get('/invoice', function () {
     return view('adminPages.invoice');
 })->name('invoice');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home1');
