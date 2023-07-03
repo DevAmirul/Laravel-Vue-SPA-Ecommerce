@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\Api\ApiProductController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
-
-
 
 Route::get('/', function () {
     return view('adminPages.dashboard');
@@ -77,7 +76,10 @@ Route::get('/editors', function () {
 //     return view('adminPages.editProducts');
 // })->name('editProducts');
 
-Route::resource('products', ProductController::class);
+Route::resources([
+    'products'     => ProductController::class,
+    'api-products' => ApiProductController::class,
+]);
 
 Route::get('/users', function () {
     return view('adminPages.usersTable');

@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
+class ApiProductController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        return view('adminPages.productsTable');
+    public function index(Request $request) {
+        $p = Product::paginate($request->query('dataNumber'));
+        // $p = Product::get()->toArray();
+        return response($p);
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create() {
-
+        //
     }
 
     /**
@@ -33,7 +34,7 @@ class ProductController extends Controller {
      * Display the specified resource.
      */
     public function show(string $id) {
-        
+
     }
 
     /**

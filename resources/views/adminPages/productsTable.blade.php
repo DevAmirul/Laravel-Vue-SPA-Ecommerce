@@ -9,7 +9,20 @@ Dashboard
 <!-- ======= Sidebar ======= -->
 <x-layouts.sidebar></x-layouts.sidebar>
 <!-- End Sidebar-->
+
 <x-table tableName="Product Table">
+    <x-slot name="select">
+        <form x-data="options" x-effect="getData(options.selectedDataOptions)" class="mt-2">
+            <select x-model="options.selectedDataOptions" class="form-select" aria-label="Default select example">
+                <option selected>10</option>
+                <template x-for="dataOption in options.showDataOptions">
+                    <option :value="dataOption" x-text="dataOption"></option>
+                </template>
+            </select>
+        </form>
+    </x-slot>
+
+
     <x-slot name="thead">
         <tr>
             <th scope="col">Image</th>
@@ -25,23 +38,19 @@ Dashboard
         </tr>
     </x-slot>
     <x-slot name="tbody">
-        @foreach ($products as $product)
-        <tr>
-            <td><img src="img_girl.jpg" alt="Product Image" width="100" height="100"></td>
-            <td>{{ $product->title }}</td>
-            <td>{{ $product->sku }}</td>
-            <td>{{ $product->stock_status }}</td>
-            <td>{{ $product->qty_in_stock }}</td>
-            <td>{{ $product->sub_category_id }}</td>
-            <td>{{ $product->price }}</td>
-            <td>{{ $product->discount_price }}</td>
-            <td>{{ $product->offer_price }}</td>
-            <td class="d-flex justify-content-end"><button class="btn btn-primary mx-1"><i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-danger mx-1"><i class="bi bi-archive"></i></button></td>
-        </tr>
-        @endforeach
+
+                    <tr id="tr1">
+                        {{-- <td><img src="img_girl.jpg" alt="Product Image" width="100" height="100"></td> --}}
+                        {{-- <td>okooooooo</td>
+                        <td class="d-flex justify-content-end"><button class="btn btn-primary mx-1"><i
+                                    class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-danger mx-1"><i class="bi bi-archive"></i></button>
+                        </td> --}}
+                    </tr>
     </x-slot>
+
 </x-table>
+
 <!-- End #main -->
 <!-- ======= Footer ======= -->
 <x-layouts.footer></x-layouts.footer>
