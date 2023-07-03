@@ -12,17 +12,17 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ url('products') }}">
+                    <a href="{{ route('products.index') }}">
                         <i class="bi bi-circle"></i><span>Products Table</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ url('Products/1/edit') }}">
+                {{-- <li>
+                    <a href="{{ route('products.create') }}">
                         <i class="bi bi-circle"></i><span>Edit Products</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
-                    <a href="{{ url('products/create') }}">
+                    <a href="{{ route('products.create') }}">
                         <i class="bi bi-circle"></i><span>Add Products</span>
                     </a>
                 </li>
@@ -31,27 +31,51 @@
         </li><!-- End Components Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Sections</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('sections.index') }}">
+                        <i class="bi bi-circle"></i><span>Section Table</span>
+                    </a>
+                </li>
+                {{-- <li>
+                            <a href="{{ route('editCategories', ['id' => '1']) }}">
+                <i class="bi bi-circle"></i><span>Edit Section</span>
+                </a>
+        </li> --}}
+        <li>
+            <a href="{{ route('sections.create') }}">
+                <i class="bi bi-circle"></i><span>Add Section</span>
+            </a>
+        </li>
+
+        </ul>
+        </li><!-- End Forms Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Categories</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ route('categoriesTable') }}">
+                    <a href="{{ route('products.index') }}">
                         <i class="bi bi-circle"></i><span>Categories Table</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('editCategories', ['id' => '1']) }}">
                         <i class="bi bi-circle"></i><span>Edit Categories</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
-                    <a href="{{ route('addCategories') }}">
+                    <a href="{{ route('products.create') }}">
                         <i class="bi bi-circle"></i><span>Add Categories</span>
                     </a>
                 </li>
 
             </ul>
         </li><!-- End Forms Nav -->
+
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-layout-text-window-reverse"></i><span>Sub-Categories</span><i
@@ -59,23 +83,23 @@
             </a>
             <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ route('subCategoriesTable') }}">
+                    <a href="{{ route('SubCategories.index') }}">
                         <i class="bi bi-circle"></i><span>Sub-Categories Table</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('editSubCategories') }}">
                         <i class="bi bi-circle"></i><span>Edit Sub-Categories</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
-                    <a href="{{ route('addSubCategories') }}">
+                    <a href="{{ route('SubCategories.create') }}">
                         <i class="bi bi-circle"></i><span>Add Sub-Categories</span>
                     </a>
                 </li>
             </ul>
         </li><!-- End Tables Nav -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>Editors</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -85,11 +109,11 @@
                         <i class="bi bi-circle"></i><span>Editors Table</span>
                     </a>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="{{ route('profile',['id' => 1]) }}">
                         <i class="bi bi-circle"></i><span>Edit Editors</span>
                     </a>
-                </li> --}}
+                </li>
                 <li>
                     <a href="{{ route('addEditors') }}">
                         <i class="bi bi-circle"></i><span>Add Editors</span>
@@ -97,7 +121,8 @@
                 </li>
 
             </ul>
-        </li><!-- End Charts Nav -->
+        </li> --}}
+        <!-- End Charts Nav -->
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>Orders</span><i class="bi bi-chevron-down ms-auto"></i>

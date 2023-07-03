@@ -14,8 +14,17 @@
 
                                 <span x-text="message">
                             </div> --}}
-
-                            {{ $select }}
+                            
+                            <form x-data="fetchProducts"
+                                x-effect="getData(options.selectedDataOptions,['title','sku','stock_status','qty_in_stock','sub_category','price','discount_price','offer_price'])"
+                                class="mt-2">
+                                <select x-model="options.selectedDataOptions" class="form-select" aria-label="Default select example">
+                                    <option selected>10</option>
+                                    <template x-for="dataOption in options.showDataOptions">
+                                        <option :value="dataOption" x-text="dataOption"></option>
+                                    </template>
+                                </select>
+                            </form>
 
                             <nav class="navbar bg-light">
                                 <div class="container-fluid">
@@ -33,8 +42,8 @@
                             <thead>
                                 {{ $thead }}
                             </thead>
-                            <tbody>
-                                {{ $tbody }}
+                            <tbody id="tbody">
+
                             </tbody>
                         </table>
                         <nav aria-label="Page navigation example">

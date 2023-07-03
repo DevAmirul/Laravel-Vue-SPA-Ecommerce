@@ -14,33 +14,81 @@ Dashboard
     <!-- End Page Title -->
     <x-form>
 
-            <x-form-input-field.general col="col-6" lable="Enter Name" name="name" type="text"></x-form-input-field.general>
-
-            <x-form-input-field.general col="col-6" lable="Enter Email" name="email" type="email">
-                </x-form-input-field.te>
-
-        <x-form-input-field.general col="col-6" lable="Enter Phone" name="phone" type="text"></x-form-input-field.general>
-
-        <x-form-input-field.general col="col-6" lable="Enter Address" name="address" type="text"></x-form-input-field.general>
-
-        <x-form-input-field.select col="col-6" name="select">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </x-form-input-field.select>
-
-        <x-form-input-field.text-area col="col-6" lable="Enter message" name="area"></x-form-input-field.text-area>
-
-        <x-form-input-field.general col="col-6" lable="Enter password" name="password" type="password">
+        <x-form-input-field.general col="col-6" lable="Product title" name="name" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Slug" name="slug" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="SKU" name="sku" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Description" name="description" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Short Description" name="shortDescription" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Information" name="information" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Price" name="price" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Discount Price" name="discountPrice" type="text">
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="offer Price" name="offerPrice" type="text">
         </x-form-input-field.general>
 
-        <x-form-input-field.general col="col-6" lable="Enter confirm password" name="confirmPassword" type="password">
+
+        {{-- <div x-data="fetchSubCategories" x-effect="getCategory(value.selectedSectionValue)" class="col-6">
+            <select id="select" class="form-select" aria-label="Default select example" name="selectSection" x-model="value.selectedSectionValue">
+                <option value="0">Select Section</option>
+                <template x-for="section in getSections()">
+                    <option :value="section[1]['id']" x-text="section[1]['name']"></option>
+                </template>
+            </select>
+        </div> --}}
+
+        <div x-data="fetchSubCategories" class="col-6">
+            <select id="select" class="form-select" aria-label="Default select example" name="selectSection"
+                x-model="value.selectedSectionValue">
+                <option value="0">Select Section</option>
+                <template x-for="section in getSections()">
+                    <option :value="section[1]['id']" x-text="section[1]['name']"></option>
+                </template>
+            </select>
+        </div>
+
+        <x-form-input-field.general col="col-6" lable="Qty In Stock" name="qtyInStock" type="text">
         </x-form-input-field.general>
 
-        <x-form-input-field.file col="col-6" label="Upload Image" name="name"></x-form-input-field.file>
+        {{-- <div x-data="fetchSubCategories" class="col-6">
+            <select id="select" class="form-select" aria-label="Default select example" name="selectSection"
+                x-model="value.selectedSectionValue">
+                <option value="0">Select Section</option>
+                <template x-for="section in getSections()">
+                    <option :value="section[1]['id']" x-text="section[1]['name']"></option>
+                </template>
+            </select>
+        </div> --}}
+        <div x-data="fetchSubCategories" >
+            <div x-model="value.selectedSectionValue"><h1 x-text="value.selectedSectionValue" ></h1></div>
+        </div>
 
-        <x-form-input-field.submit buttonName="submit"></x-form-input-field.submit>
+
+
+        <x-form-input-field.general col="col-6" lable="Stock Status" name="stockStatus" type="text">
+        </x-form-input-field.general>
+
+
+        {{-- <div x-data="fetchSubCategories" class="col-6">
+            <select id="select" class="form-select" aria-label="Default select example" name="selectCategory">
+                <option value="0">Select Sub Category</option>
+                <template x-for="color in getSections()">
+                    <option x-text="color">ok</option>
+                </template>
+            </select>
+        </div> --}}
+
+
+        <x-form-input-field.file col="col-6" label="Upload Image" name="image"></x-form-input-field.file>
+        <x-form-input-field.file col="col-6" label="Upload Images" name="images"></x-form-input-field.file>
+
+        <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
     </x-form>
 </main>
 <!-- ======= Footer ======= -->

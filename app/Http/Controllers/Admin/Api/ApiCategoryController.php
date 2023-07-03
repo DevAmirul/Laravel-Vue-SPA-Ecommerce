@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller {
+class ApiCategoryController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        return view('adminPages.productsTable');
+    public function index(Request $request) {
+        return Category::where('section_id', $request->query('sectionId'))->get();
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create() {
-        return view('adminPages.addProducts');
+        //
     }
 
     /**
@@ -33,7 +32,7 @@ class ProductController extends Controller {
      * Display the specified resource.
      */
     public function show(string $id) {
-
+        //
     }
 
     /**

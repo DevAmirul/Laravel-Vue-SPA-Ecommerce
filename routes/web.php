@@ -1,12 +1,31 @@
 <?php
 
+use App\Http\Controllers\Admin\Api\ApiCategoryController;
 use App\Http\Controllers\Admin\Api\ApiProductController;
+use App\Http\Controllers\Admin\Api\ApiSectionController;
+use App\Http\Controllers\Admin\Api\ApiSubCategoryController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('adminPages.dashboard');
 })->name('home');
+
+
+Route::resources([
+    'products'        => ProductController::class,
+    'api-products'    => ApiProductController::class,
+    'sections'        => SectionController::class,
+    'api-sections'    => ApiSectionController::class,
+    'Categories'        => CategoryController::class,
+    'api-Categories'    => ApiCategoryController::class,
+    'SubCategories'     => SubCategoryController::class,
+    'api-SubCategories' => ApiSubCategoryController::class,
+]);
+
 
 Route::get('/sign-in', function () {
     return view('guestPages.signIn');
@@ -24,37 +43,37 @@ Route::get('/forget-password', function () {
     return view('guestPages.forgetPassword');
 })->name('forgetPassword');
 
-Route::get('/add-categories', function () {
-    return view('adminPages.addCategories');
-})->name('addCategories');
+// Route::get('/add-categories', function () {
+//     return view('adminPages.addCategories');
+// })->name('addCategories');
 
-Route::get('/categories/{id}', function () {
-    return view('adminPages.editCategories');
-})->name('editCategories');
+// Route::get('/categories/{id}', function () {
+//     return view('adminPages.editCategories');
+// })->name('editCategories');
 
-Route::get('/categories', function () {
-    return view('adminPages.categoriesTable');
-})->name('categoriesTable');
+// Route::get('/categories', function () {
+//     return view('adminPages.categoriesTable');
+// })->name('categoriesTable');
 
-Route::get('/sub-categories', function () {
-    return view('adminPages.subCategoriesTable');
-})->name('subCategoriesTable');
+// Route::get('/sub-categories', function () {
+//     return view('adminPages.subCategoriesTable');
+// })->name('subCategoriesTable');
 
-Route::get('/edit-sub-categories', function () {
-    return view('adminPages.editSubCategories');
-})->name('editSubCategories');
+// Route::get('/edit-sub-categories', function () {
+//     return view('adminPages.editSubCategories');
+// })->name('editSubCategories');
 
-Route::get('/add-sub-categories', function () {
-    return view('adminPages.addSubCategories');
-})->name('addSubCategories');
+// Route::get('/add-sub-categories', function () {
+//     return view('adminPages.addSubCategories');
+// })->name('addSubCategories');
 
-Route::get('/add-editors', function () {
-    return view('adminPages.addEditors');
-})->name('addEditors');
+// Route::get('/add-editors', function () {
+//     return view('adminPages.addEditors');
+// })->name('addEditors');
 
-Route::get('/editors', function () {
-    return view('adminPages.editorsTable');
-})->name('editorsTable');
+// Route::get('/editors', function () {
+//     return view('adminPages.editorsTable');
+// })->name('editorsTable');
 
 // Route::get('/editors/{id}', function () {
 //     return view('adminPages.editEditors');
@@ -76,10 +95,7 @@ Route::get('/editors', function () {
 //     return view('adminPages.editProducts');
 // })->name('editProducts');
 
-Route::resources([
-    'products'     => ProductController::class,
-    'api-products' => ApiProductController::class,
-]);
+
 
 Route::get('/users', function () {
     return view('adminPages.usersTable');
