@@ -13,7 +13,10 @@ Dashboard
 
         $tableDataColumnNames = ['image','title','sku','stock_status','qty_in_stock','sub_category_id','price','discount_price','offer_price']
     @endphp
-    <x-table tableName="Products Table" :columnNamesArr='$columnNamesArr' :tableData='$products' :tableDataColumnNames='$tableDataColumnNames' :image='true'>
+
+    <!-- End Page Title -->
+
+    <x-table pageTitle='Products Table' pageUrl='products' tableName="Products Table" :columnNamesArr='$columnNamesArr' :tableData='$products' :tableDataColumnNames='$tableDataColumnNames' :image='true'>
         <X-slot >
             <div class="d-flex justify-content-between">
                 <form class="mt-2">

@@ -8,82 +8,72 @@ Product Create
     <!-- ======= Sidebar ======= -->
     <x-layouts.sidebar></x-layouts.sidebar>
     <!-- End Sidebar-->
-    <main id="main" class="main">
-        <x-layouts.page-title></x-layouts.page-title>
-        <!-- End Page Title -->
 
-        <x-form>
+    <!-- End Page Title -->
+    <x-form pageTitle='Product Add' pageUrl='products / create'>
+        <x-form-input-field.general col="col-6" lable="Product title" name="name" type="text" wireModel='title'>
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Slug" name="slug" type="text" wireModel='slug'>
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="SKU" name="sku" type="text" wireModel='sku'>
+        </x-form-input-field.general>
 
-            <x-form-input-field.general col="col-6" lable="Product title" name="name" type="text">
+        <x-form-input-field.general col="col-6" lable="Price" name="price" type="text" wireModel='price'>
+        </x-form-input-field.general>
+        <x-form-input-field.general col="col-6" lable="Discount Price" name="discountPrice" type="text"
+            wireModel='discount_price'>
+        </x-form-input-field.general>
 
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="Slug" name="slug" type="text">
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="SKU" name="sku" type="text">
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="Description" name="description" type="text">
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="Short Description" name="shortDescription" type="text">
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="Information" name="information" type="text">
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="Price" name="price" type="text">
-            </x-form-input-field.general>
-            <x-form-input-field.general col="col-6" lable="Discount Price" name="discountPrice" type="text">
-            </x-form-input-field.general>
-            <div class="col-6">
-                <select wire:model='selectSection' id="select" class="form-select" aria-label="Default select example">
-                    @foreach ($sections as $option)
-                    <option value="{{ $option->id }}">{{ $option->name }}</option>
-                    @endforeach
-                </select>
+
+        <x-form-input-field.general col="col-6" lable="Qty In Stock" name="qtyInStock" type="text"
+            wireModel='qty_in_stock'>
+        </x-form-input-field.general>
+        <x-form-input-field.select col='col-6' option='Section' :options='$sections' wireModel='selectedSection'>
+        </x-form-input-field.select>
+
+        <x-form-input-field.general col="col-6" lable="Stock Status" name="stockStatus" type="text"
+            wireModel='stock_status'>
+        </x-form-input-field.general>
+        <x-form-input-field.select col='col-6' option='Category' :options='$categories' wireModel='selectedCategory'>
+        </x-form-input-field.select>
+        <x-form-input-field.select col='col-6' option='Sub Category' :options='$subCategories'
+            wireModel='selectedSubCategory'>
+        </x-form-input-field.select>
+        <x-form-input-field.text-area col="col-6" lable="Description" name="description" type="text"
+            wireModel='description'>
+        </x-form-input-field.text-area>
+
+        <x-form-input-field.text-area col="col-6" lable="Short Description" name="shortDescription" type="text"
+            wireModel='short_description'>
+        </x-form-input-field.text-area>
+        {{-- <x-form-input-field.text-area col="col-6" lable="Information" name="information" type="text"
+            wireModel='information'>
+        </x-form-input-field.text-area> --}}
+
+        <!-- Quill Editor Default -->
+        <div class="col-6 pb-5 mb-5">
+            <label for="formFileSm" class="form-label">Product Information Here</label>
+            <div class="quill-editor-default" wire:model='information'>
             </div>
-
-            <x-form-input-field.general col="col-6" lable="offer Price" name="offerPrice" type="text">
-            </x-form-input-field.general>
-
-            <div class="col-6">
-                <select wire:model='' id="select" class="form-select" aria-label="Default select example">
-                    @if ($categories === null)
-                    <option disabled>Please select any section</option>
-                    @else
-                    @foreach ($categories as $option)
-                    <option value="{{ $option->id }}">{{ $option->name }}</option>
-
-                    @endforeach
-                    @endif
-                </select>
-            </div>
-            <x-form-input-field.general col="col-6" lable="Qty In Stock" name="qtyInStock" type="text">
-            </x-form-input-field.general>
-            {{-- <div class="col-6">
-                <select wire:model='selectSection' id="select" class="form-select" aria-label="Default select example">
-                    @foreach ($sections as $option)
-                    <option value="{{ $option->id }}">{{ $option->name }}</option>
-            @endforeach
-            </select>
-</div> --}}
-
-<x-form-input-field.general col="col-6" lable="Stock Status" name="stockStatus" type="text">
-</x-form-input-field.general>
+        </div>
+        <!-- Quill Editor end -->
 
 
 
+        <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
+        </x-form-input-field.file>
+        <x-form-input-field.file col="col-6" label="Upload Images" name="images" wireModel='all_images'>
+        </x-form-input-field.file>
 
 
 
+        <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
+    </x-form>
 
-<x-form-input-field.file col="col-6" label="Upload Image" name="image"></x-form-input-field.file>
-<x-form-input-field.file col="col-6" label="Upload Images" name="images"></x-form-input-field.file>
-
-<x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
-</x-form>
-
-</main>
-<!-- ======= Footer ======= -->
-<x-layouts.footer></x-layouts.footer>
-<!-- End Footer -->
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
+    <!-- ======= Footer ======= -->
+    <x-layouts.footer></x-layouts.footer>
+    <!-- End Footer -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
 </div>

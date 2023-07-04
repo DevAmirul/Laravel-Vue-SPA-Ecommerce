@@ -1,3 +1,3 @@
 <div class="{{ $col }}">
-    <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="{{ $lable }}" rows="3" name="{{ $name }}"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" wire:model={{ $wireModel }} placeholder="{{ $lable }}" rows="3" name="{{ $name }}"></textarea>
 </div>

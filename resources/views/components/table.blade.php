@@ -1,7 +1,5 @@
 <main id="main" class="main">
-    <div class="pagetitle">
-        <h1>{{ $tableName }}</h1>
-    </div>
+    <x-layouts.page-title :pageTitle='$pageTitle' :pageUrl='$pageUrl'></x-layouts.page-title>
     <!-- End Page Title -->
     <section class="section">
         <div class="row">
