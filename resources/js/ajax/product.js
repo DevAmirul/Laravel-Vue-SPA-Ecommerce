@@ -91,4 +91,11 @@ document.addEventListener('alpine:init', () => {
         }
 
     }))
+
+
+    Alpine.store('state', () => ({
+        options: 'ok'
+
+
+    }))
 })

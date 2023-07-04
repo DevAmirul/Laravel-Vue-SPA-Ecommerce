@@ -1,4 +1,4 @@
-@extends('layouts.mainApp')
+{{-- @extends('layouts.mainApp') --}}
 @push('title')
 Dashboard
 @endpush
@@ -65,8 +65,8 @@ Dashboard
                 </template>
             </select>
         </div> --}}
-        <div x-data="fetchSubCategories" >
-            <div x-model="value.selectedSectionValue"><h1 x-text="value.selectedSectionValue" ></h1></div>
+        <div x-data  >
+            <div ><h1 x-text="$store.state.options" ></h1></div>
         </div>
 
 

@@ -1,10 +1,10 @@
 import 'bootstrap';
 
-import Alpine from 'alpinejs'
+// import Alpine from 'alpinejs'
 
-window.Alpine = Alpine
+// window.Alpine = Alpine
 
-Alpine.start()
+// Alpine.start()
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -18,7 +18,7 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
-import './ajax/product.js'
+// import './ajax/product.js'
 
 
 /**

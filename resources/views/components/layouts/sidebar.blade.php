@@ -12,7 +12,7 @@
             </a>
             <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ route('products.index') }}">
+                    <a href="{{ route('products') }}">
                         <i class="bi bi-circle"></i><span>Products Table</span>
                     </a>
                 </li>
@@ -29,7 +29,7 @@
 
             </ul>
         </li><!-- End Components Nav -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Sections</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -43,7 +43,7 @@
                             <a href="{{ route('editCategories', ['id' => '1']) }}">
                 <i class="bi bi-circle"></i><span>Edit Section</span>
                 </a>
-        </li> --}}
+        </li>
         <li>
             <a href="{{ route('sections.create') }}">
                 <i class="bi bi-circle"></i><span>Add Section</span>
@@ -51,8 +51,9 @@
         </li>
 
         </ul>
-        </li><!-- End Forms Nav -->
-        <li class="nav-item">
+        </li> --}}
+        <!-- End Forms Nav -->
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Categories</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -62,11 +63,7 @@
                         <i class="bi bi-circle"></i><span>Categories Table</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="{{ route('editCategories', ['id' => '1']) }}">
-                        <i class="bi bi-circle"></i><span>Edit Categories</span>
-                    </a>
-                </li> --}}
+
                 <li>
                     <a href="{{ route('products.create') }}">
                         <i class="bi bi-circle"></i><span>Add Categories</span>
@@ -74,9 +71,10 @@
                 </li>
 
             </ul>
-        </li><!-- End Forms Nav -->
+        </li> --}}
+        <!-- End Forms Nav -->
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-layout-text-window-reverse"></i><span>Sub-Categories</span><i
                     class="bi bi-chevron-down ms-auto"></i>
@@ -87,18 +85,14 @@
                         <i class="bi bi-circle"></i><span>Sub-Categories Table</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="{{ route('editSubCategories') }}">
-                        <i class="bi bi-circle"></i><span>Edit Sub-Categories</span>
-                    </a>
-                </li> --}}
+
                 <li>
                     <a href="{{ route('SubCategories.create') }}">
                         <i class="bi bi-circle"></i><span>Add Sub-Categories</span>
                     </a>
                 </li>
             </ul>
-        </li><!-- End Tables Nav -->
+        </li><!-- End Tables Nav --> --}}
         {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>Editors</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -123,7 +117,7 @@
             </ul>
         </li> --}}
         <!-- End Charts Nav -->
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>Orders</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -139,17 +133,13 @@
                     </a>
                 </li>
             </ul>
-        </li><!-- End Charts Nav -->
-        <li class="nav-item">
+        </li><!-- End Charts Nav --> --}}
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-person"></i></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('usersTable') }}">
-                        <i class="bi bi-circle"></i><span>Users Table</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="{{ route('usersDetails',['id' => 1]) }}">
                         <i class="bi bi-circle"></i><span>User Details</span>
@@ -157,7 +147,7 @@
                 </li>
 
             </ul>
-        </li><!-- End Icons Nav -->
+        </li><!-- End Icons Nav --> --}}
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('contactUsTable') }}">
                 <i class="bi bi-question-circle"></i>

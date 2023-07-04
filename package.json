@@ -14,7 +14,6 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "alpinejs": "^3.12.2",
         "apexcharts": "^3.41.0",
         "bootstrap-icons": "^1.10.5",
         "boxicons": "^2.1.4",

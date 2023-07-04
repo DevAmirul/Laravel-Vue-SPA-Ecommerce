@@ -18,15 +18,17 @@
     <!-- Vendor CSS Files -->
     @vite(['resources/css/app.css'])
     @stack('css')
+    @livewireStyles
 </head>
 
 <body>
 
-    @yield('section')
+    {{ $slot }}
 
     <!-- Vendor JS Files -->
     @vite(['resources/js/app.js'])
     @stack('script')
+    @livewireScripts
 </body>
 
 </html>

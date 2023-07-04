@@ -8,42 +8,37 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            {{-- <div x-data="{ message: '' }">
-                                <input type="text" x-model="message">
-
-                                <span x-text="message">
-                            </div> --}}
-                            
-                            <form x-data="fetchProducts"
-                                x-effect="getData(options.selectedDataOptions,['title','sku','stock_status','qty_in_stock','sub_category','price','discount_price','offer_price'])"
-                                class="mt-2">
-                                <select x-model="options.selectedDataOptions" class="form-select" aria-label="Default select example">
-                                    <option selected>10</option>
-                                    <template x-for="dataOption in options.showDataOptions">
-                                        <option :value="dataOption" x-text="dataOption"></option>
-                                    </template>
-                                </select>
-                            </form>
-
-                            <nav class="navbar bg-light">
-                                <div class="container-fluid">
-                                    <form class="d-flex" role="search">
-                                        <input class="form-control me-2" type="search" placeholder="Search"
-                                            aria-label="Search">
-                                        <button class="btn btn-light disabled" type="submit"><i
-                                                class="bi bi-search"></i></button>
-                                    </form>
-                                </div>
-                            </nav>
-                        </div>
+                            {{ $slot }}
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
-                                {{ $thead }}
+                                <tr>
+                                    @foreach ($columnNamesArr as $columnName)
+                                        <th scope="col">{{ $columnName }}</th>
+                                    @endforeach
+                                </tr>
                             </thead>
                             <tbody id="tbody">
+                                @foreach ($tableData as $Data)
+                                <tr>
+                                    @if ($image)
+                                        <td><img src="{{ $Data->image }}" alt="{{ $Data->image }}" width="50px" height="50px">
+                                        </td>
+                                    @endif
+                                    @foreach ($tableDataColumnNames as $tableDataColumnName)
+                                        @if ($tableDataColumnName === 'image')
+                                            @continue
+                                        @endif
 
+                                        <td>{{ $Data->$tableDataColumnName }}</td>
+
+                                    @endforeach
+                                        <td class="d-flex p-3">
+                                            <button class="btn btn-primary " value="2"><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-danger mx-1"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <nav aria-label="Page navigation example">
@@ -62,7 +57,9 @@
                                 <h6 class="text-center">Showing 1 to 5 of 5 entries</h6>
                             </div>
                         </nav>
-
+                    @foreach ($tableDataColumnNames as $tableDataColumnName)
+                        {{ $tableDataColumnName }}
+                    @endforeach
 
                         <!-- End Table with stripped rows -->
                     </div>
@@ -70,6 +67,7 @@
             </div>
         </div>
     </section>
+
 
 
 </main>

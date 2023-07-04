@@ -1,31 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\Api\ApiCategoryController;
-use App\Http\Controllers\Admin\Api\ApiProductController;
-use App\Http\Controllers\Admin\Api\ApiSectionController;
-use App\Http\Controllers\Admin\Api\ApiSubCategoryController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\SectionController;
-use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Livewire\DashboardController;
+use App\Http\Livewire\ProductsController;
+use App\Http\Livewire\ProductsCreateController;
+use App\Http\Livewire\ProductsDestroyController;
+use App\Http\Livewire\ProductsShowController;
+use App\Http\Livewire\ProductsUpdateController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('adminPages.dashboard');
-})->name('home');
-
-
-Route::resources([
-    'products'        => ProductController::class,
-    'api-products'    => ApiProductController::class,
-    'sections'        => SectionController::class,
-    'api-sections'    => ApiSectionController::class,
-    'Categories'        => CategoryController::class,
-    'api-Categories'    => ApiCategoryController::class,
-    'SubCategories'     => SubCategoryController::class,
-    'api-SubCategories' => ApiSubCategoryController::class,
-]);
-
+Route::get('/',  DashboardController::class)->name('home');
 
 Route::get('/sign-in', function () {
     return view('guestPages.signIn');
@@ -79,39 +63,30 @@ Route::get('/forget-password', function () {
 //     return view('adminPages.editEditors');
 // })->name('editEditors');
 
-// Route::get('/products', function () {
-//     return view('adminPages.productsTable');
-// })->name('productsTable');
+Route::get('/products', ProductsController::class)->name('products');
 
-// Route::get('/products-details/{id}', function () {
-//     return view('adminPages.productsDetails');
-// })->name('productsDetails');
+Route::post('/products',)->name('Products');
 
-// Route::get('/add-products', function () {
-//     return view('adminPages.addProducts');
-// })->name('addProducts');
+Route::get('/products/create', ProductsCreateController::class )->name('products.create');
 
-// Route::get('/products/{id}', function () {
-//     return view('adminPages.editProducts');
-// })->name('editProducts');
+Route::get('/products/{id}', ProductsShowController::class)->name('products.show');
+
+Route::put('products/{id}',ProductsUpdateController::class)->name('products.update');
+
+Route::delete('products/{id}', ProductsController::class)->name('products.destroy');
 
 
+// Route::get('/users/{id}', function () {
+//     return view('adminPages.usersDetails');
+// })->name('usersDetails');
 
-Route::get('/users', function () {
-    return view('adminPages.usersTable');
-})->name('usersTable');
+// Route::get('/orders', function () {
+//     return view('adminPages.ordersTable');
+// })->name('ordersTable');
 
-Route::get('/users/{id}', function () {
-    return view('adminPages.usersDetails');
-})->name('usersDetails');
-
-Route::get('/orders', function () {
-    return view('adminPages.ordersTable');
-})->name('ordersTable');
-
-Route::get('/orders-details', function () {
-    return view('adminPages.ordersDetails');
-})->name('ordersDetails');
+// Route::get('/orders-details', function () {
+//     return view('adminPages.ordersDetails');
+// })->name('ordersDetails');
 
 Route::get('/contact-us', function () {
     return view('adminPages.contactUsTable');
