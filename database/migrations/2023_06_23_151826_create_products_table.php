@@ -18,7 +18,6 @@ return new class extends Migration
             $table->char('sku',10);
             $table->text('description');
             $table->string('short_description');
-            $table->string('information')->nullable();
             $table->decimal('price');
             $table->decimal('discount_price')->nullable();
             $table->decimal('offer_price')->nullable();

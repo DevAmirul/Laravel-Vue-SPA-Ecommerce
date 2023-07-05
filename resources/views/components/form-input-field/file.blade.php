@@ -1,7 +1,5 @@
 <div class="{{ $col }} ">
-    <label for="formFileSm" class="form-label">{{ $label }}</label>
-    <input class="form-control" type="file" id="formFile" name="{{$name}} wire:model={{ $wireModel }}>
-    <br> <br>
-
+    <input type="file" class="form-control" name="{{$name}}" wire:model={{ $wireModel }} {{ $multiple ?? null }}>
+    @error( 'image' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
 
 </div>

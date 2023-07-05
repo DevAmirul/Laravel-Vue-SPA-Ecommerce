@@ -9,6 +9,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'slug',
+        'sku',
+        'description',
+        'short_description',
+        'information',
+        'price',
+        'discount_price',
+        'stock_status',
+        'qty_in_stock',
+        'sub_category_id',
+        'image',
+        'all_images',
+    ];
+
     public function subCategory(): BelongsTo {
         return $this->belongsTo(subCategory::class);
     }
