@@ -60,7 +60,7 @@ Product Create
 
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
         </x-form-input-field.file>
-        <x-form-input-field.file col="col-6" label="Upload All Images" name="allImages" wireModel='allImages' multiple="multiple">
+        <x-form-input-field.file col="col-6" label="Upload All Images" name="all_Images" wireModel='allImages' multiple="multiple">
         </x-form-input-field.file>
 
 
