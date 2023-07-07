@@ -1,15 +1,31 @@
 <?php
 
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Livewire\CategoriesController;
+use App\Http\Livewire\CategoriesCreateController;
+use App\Http\Livewire\CategoriesUpdateController;
+use App\Http\Livewire\ContactsController;
 use App\Http\Livewire\DashboardController;
+use App\Http\Livewire\EditorsController;
+use App\Http\Livewire\EditorsCreateController;
+use App\Http\Livewire\EditorsUpdateController;
+use App\Http\Livewire\OrdersController;
+use App\Http\Livewire\OrdersCreateController;
+use App\Http\Livewire\OrdersShowController;
+use App\Http\Livewire\OrdersUpdateController;
 use App\Http\Livewire\ProductsController;
 use App\Http\Livewire\ProductsCreateController;
-use App\Http\Livewire\ProductsDestroyController;
 use App\Http\Livewire\ProductsShowController;
 use App\Http\Livewire\ProductsUpdateController;
+use App\Http\Livewire\SectionsController;
+use App\Http\Livewire\SectionsCreateController;
+use App\Http\Livewire\SectionsUpdateController;
+use App\Http\Livewire\SubCategoriesController;
+use App\Http\Livewire\SubCategoriesCreateController;
+use App\Http\Livewire\SubCategoriesUpdateController;
+use App\Http\Livewire\UsersController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',  DashboardController::class)->name('home');
+Route::get('/', DashboardController::class)->name('home');
 
 Route::get('/sign-in', function () {
     return view('guestPages.signIn');
@@ -27,85 +43,70 @@ Route::get('/forget-password', function () {
     return view('guestPages.forgetPassword');
 })->name('forgetPassword');
 
-// Route::get('/add-categories', function () {
-//     return view('adminPages.addCategories');
-// })->name('addCategories');
 
-// Route::get('/categories/{id}', function () {
-//     return view('adminPages.editCategories');
-// })->name('editCategories');
+Route::prefix('products')->name('products')->group(function () {
+    Route::get('/', ProductsController::class);
 
-// Route::get('/categories', function () {
-//     return view('adminPages.categoriesTable');
-// })->name('categoriesTable');
+    Route::get('/create', ProductsCreateController::class)->name('.create');
 
-// Route::get('/sub-categories', function () {
-//     return view('adminPages.subCategoriesTable');
-// })->name('subCategoriesTable');
+    Route::get('/{id}', ProductsShowController::class)->name('.show');
 
-// Route::get('/edit-sub-categories', function () {
-//     return view('adminPages.editSubCategories');
-// })->name('editSubCategories');
+    Route::get('/{id}/edit', ProductsUpdateController::class)->name('.update');
+});
 
-// Route::get('/add-sub-categories', function () {
-//     return view('adminPages.addSubCategories');
-// })->name('addSubCategories');
+Route::prefix('sections')->name('sections')->group(function () {
+    Route::get('/', SectionsController::class);
 
-// Route::get('/add-editors', function () {
-//     return view('adminPages.addEditors');
-// })->name('addEditors');
+    Route::get('/create', SectionsCreateController::class)->name('.create');
 
-// Route::get('/editors', function () {
-//     return view('adminPages.editorsTable');
-// })->name('editorsTable');
+    Route::get('/{id}/edit', SectionsUpdateController::class)->name('.update');
+});
 
-// Route::get('/editors/{id}', function () {
-//     return view('adminPages.editEditors');
-// })->name('editEditors');
+Route::prefix('categories')->name('categories')->group(function () {
+    Route::get('/', CategoriesController::class);
 
-Route::get('/products', ProductsController::class)->name('products');
+    Route::get('/create', CategoriesCreateController::class)->name('.create');
 
-Route::post('/products',)->name('Products');
+    Route::get('/{id}/edit', CategoriesUpdateController::class)->name('.update');
+});
 
-Route::get('/products/create', ProductsCreateController::class )->name('products.create');
+Route::prefix('sub-categories')->name('subCategories')->group(function () {
+    Route::get('/', SubCategoriesController::class);
 
-Route::get('/products/{id}', ProductsShowController::class)->name('products.show');
+    Route::get('/create', SubCategoriesCreateController::class)->name('.create');
 
-Route::put('products/{id}',ProductsUpdateController::class)->name('products.update');
+    Route::get('/{id}/edit', SubCategoriesUpdateController::class)->name('.update');
+});
 
-Route::delete('products/{id}', ProductsController::class)->name('products.destroy');
+Route::prefix('editors')->name('editors')->group(function () {
+    Route::get('/', EditorsController::class);
 
+    Route::get('/create', EditorsCreateController::class)->name('.create');
 
-// Route::get('/users/{id}', function () {
-//     return view('adminPages.usersDetails');
-// })->name('usersDetails');
+    Route::get('/{id}/edit', EditorsUpdateController::class)->name('.update');
+});
 
-// Route::get('/orders', function () {
-//     return view('adminPages.ordersTable');
-// })->name('ordersTable');
+Route::prefix('orders')->name('orders')->group(function () {
+    Route::get('/', OrdersController::class);
 
-// Route::get('/orders-details', function () {
-//     return view('adminPages.ordersDetails');
-// })->name('ordersDetails');
+    Route::get('/create', OrdersCreateController::class)->name('.create');
 
-Route::get('/contact-us', function () {
-    return view('adminPages.contactUsTable');
-})->name('contactUsTable');
+    Route::get('/{id}', OrdersShowController::class)->name('.show');
 
-Route::get('/profile', function () {
-    return view('adminPages.profile');
-})->name('profile');
+    Route::get('/{id}/edit', OrdersUpdateController::class)->name('.update');
+});
 
-Route::get('/profile/{id}', function () {
-    return view('adminPages.editProfile');
-})->name('editProfile');
+Route::get('/users', UsersController::class)->name('users');
+
+Route::get('/contacts',ContactsController::class)->name('contacts');
+
 
 Route::get('/404', function () {
-    return view('errorPages.404');
+    return view('errors.404');
 })->name('404');
 
 Route::get('/500', function () {
-    return view('errorPages.500');
+    return view('errors.500');
 })->name('500');
 
 Route::get('/invoice', function () {

@@ -26,7 +26,7 @@ class Product extends Model {
     ];
 
     public function subCategory(): BelongsTo {
-        return $this->belongsTo(subCategory::class);
+        return $this->belongsTo(SubCategory::class);
     }
 
     public function editor(): BelongsTo {

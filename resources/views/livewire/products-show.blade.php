@@ -9,7 +9,7 @@ Dashboard
     <x-layouts.sidebar></x-layouts.sidebar>
     <!-- End Sidebar-->
     <main id="main" class="main">
-        <x-layouts.page-title></x-layouts.page-title>
+        <x-layouts.page-title pageTitle='Products Details' pageUrl='products / Details'></x-layouts.page-title>
         <!-- End Page Title -->
         <section class="section">
             <div class="row">
@@ -19,18 +19,16 @@ Dashboard
                             <div class="row g-0">
                                 <div class="col-md-6 border-end">
                                     <div class="d-flex flex-column justify-content-center">
-                                        <div class="main_image"> <img src="https://i.imgur.com/TAzli1U.jpg"
+                                        <div class="main_image"> <img src="{{ $product->image }}"
                                                 id="main_product_image" width="350"> </div>
                                         <div class="thumbnail_images">
                                             <ul id="thumbnail">
-                                                <li><img onclick="changeImage(this)"
-                                                        src="https://i.imgur.com/TAzli1U.jpg" width="70"></li>
-                                                <li><img onclick="changeImage(this)"
-                                                        src="https://i.imgur.com/w6kEctd.jpg" width="70"></li>
-                                                <li><img onclick="changeImage(this)"
-                                                        src="https://i.imgur.com/L7hFD8X.jpg" width="70"></li>
-                                                <li><img onclick="changeImage(this)"
-                                                        src="https://i.imgur.com/6ZufmNS.jpg" width="70"></li>
+                                                @php
+                                                $images = explode(' ', $product->all_images);
+                                                @endphp
+                                                @foreach ($images as $image)
+                                                <li><img onclick="changeImage(this)" src="{{ $image }}" width="70"></li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
@@ -38,18 +36,26 @@ Dashboard
                                 <div class="col-md-6">
                                     <div class="p-3 right-side">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <h3>IIlana</h3> <span class="heart"><i class='bx bx-heart'></i></span>
+                                            <h3>{{ $product->title }}</h3> <span class="heart"><i
+                                                    class='bx bx-heart'></i></span>
                                         </div>
                                         <div class="mt-2 pr-3 content">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                eiusmod tempor incididunt ut
-                                                labore et dolore magna aliqua</p>
+                                            <p>{{ $product->short_description }}</p>
                                         </div>
-                                        <h3>$430.99</h3>
+                                        @if ($product->discount_price)
+                                        <h3>${{ $product->discount_price }}</h3>
+                                        <h3><del>${{ $product->price }}</del></h3>
+                                        @else
+                                        <h3>${{ $product->price }}</h3>
+                                        @endif
                                         <div class="ratings d-flex flex-row align-items-center">
-                                            <div class="d-flex flex-row"> <i class='bx bxs-star'></i> <i
-                                                    class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-                                                    class='bx bxs-star'></i> <i class='bx bx-star'></i> </div>
+                                            <div class="d-flex flex-row">
+                                                <i class='bx bxs-star'></i>
+                                                <i class='bx bxs-star'></i>
+                                                <i class='bx bxs-star'></i>
+                                                <i class='bx bxs-star'></i>
+                                                <i class='bx bx-star'></i>
+                                            </div>
                                             <span>441 reviews</span>
                                         </div>
                                         <div class="mt-5"> <span class="fw-bold">Color</span>
@@ -65,7 +71,7 @@ Dashboard
                                         </div>
                                         <div class="buttons d-flex flex-row mt-5 gap-3"> <button
                                                 class="btn btn-outline-dark">Buy
-                                                Now</button> <button class="btn btn-dark">Add to Basket</button>
+                                                Now</button> <button class="btn btn-dark">Add to Cart</button>
                                         </div>
 
                                     </div>

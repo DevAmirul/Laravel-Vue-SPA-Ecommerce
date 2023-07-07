@@ -9,7 +9,7 @@ Dashboard
     <x-layouts.sidebar></x-layouts.sidebar>
     <!-- End Sidebar-->
     <main id="main" class="main">
-        <x-layouts.page-title></x-layouts.page-title>
+        <x-layouts.page-title pageTitle='Dashboard' pageUrl=''></x-layouts.page-title>
         <!-- End Page Title -->
         <section class="section dashboard">
             <div class="row">

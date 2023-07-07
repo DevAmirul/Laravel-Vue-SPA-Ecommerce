@@ -11,7 +11,7 @@ Product Create
     <!-- End Sidebar-->
 
     <!-- End Page Title -->
-    <x-form pageTitle='Product Add' pageUrl='products / create' enctype="multipart/form-data">
+    <x-form pageTitle='Products Create' pageUrl='products / create' enctype="multipart/form-data">
         <x-form-input-field.general col="col-6" lable="Product title" name="title" type="text" wireModel='title'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-3" lable="Slug" name="slug" type="text" wireModel='slug'>
@@ -62,10 +62,6 @@ Product Create
         </x-form-input-field.file>
         <x-form-input-field.file col="col-6" label="Upload All Images" name="all_Images" wireModel='allImages' multiple="multiple">
         </x-form-input-field.file>
-
-
-        {{-- <input type="file" name="image" id="" wire:model='image'> --}}
-
 
         <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
     </x-form>

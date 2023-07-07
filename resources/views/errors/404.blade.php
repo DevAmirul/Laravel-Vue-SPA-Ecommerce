@@ -1,4 +1,4 @@
-@extends('layouts.mainApp')
+@extends('layouts.app')
 @push('title')
 Not Found
 @endpush

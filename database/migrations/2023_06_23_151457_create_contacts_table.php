@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
+            $table->tinyText('name');
+            $table->tinyText('email');
+            $table->char('phone', 11);
+            $table->tinyText('subject');
             $table->string('message');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
