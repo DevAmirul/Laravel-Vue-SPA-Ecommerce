@@ -13,10 +13,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->tinyText('phone',11);
+            $table->tinyText('phone', 11);
             $table->string('address');
             $table->tinyText('city');
-            $table->enum('role',['admin' => 1, 'editor' => 0, 'pending' => 2])->default(2);
+            $table->enum('role', ['pending' => 0, 'admin' => 1, 'editor' => 2])->default(2);
             $table->string('password');
             $table->timestamps();
         });

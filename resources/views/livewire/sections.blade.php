@@ -11,11 +11,12 @@ Sections
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Sections Table' pageUrl='sections' routeName='sections.show'      tableName="Sections Table"
+    <x-table pageTitle='Sections Table' pageUrl='Sections' routeName='sections.show'      tableName="Sections Table"
         :columnNamesArr='$columnNamesArr'
-        :tableData='$sections' 
+        :tableData='$sections'
         :tableDataColumnNames='$tableDataColumnNames'
-        :image='false'>
+        :image='false'
+        statusColName='status'>
     </x-table>
 
     <!-- End #main -->

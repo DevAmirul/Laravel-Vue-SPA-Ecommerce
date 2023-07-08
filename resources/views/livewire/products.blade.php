@@ -18,7 +18,8 @@ Dashboard
     :columnNamesArr='$columnNamesArr'
     :tableData='$products'
     :tableDataColumnNames='$tableDataColumnNames'
-    :image='true'>
+    :image='true'
+    statusColName='status'>
     </x-table>
 
     <!-- End #main -->

@@ -19,16 +19,16 @@ class ProductsController extends Component {
         );
     }
 
-    public function update($productId) {
+    public function update($productId): string {
         return redirect()->route('products.update', $productId);
     }
 
-    public function destroy($id): bool{
+    public function destroy($id): int{
         $product = Product::find($id);
         $images  = explode(' ', $product->all_images);
         array_push($images, $product->image);
-        $product->delete();
-        return $this->fileDestroy($images);
+        $this->fileDestroy($images);
+        return $product->delete();
     }
 
     public function render() {

@@ -35,13 +35,13 @@ trait ProductsValidation {
     public $allImages = [];
 
     protected $rules = [
-        'title'               => 'required|string',
+        'title'               => 'required|string|max:255',
         'sku'                 => 'required|max:6',
-        'slug'                => 'required|string',
+        'slug'                => 'required|string|max:255',
         'description'         => 'required|string',
         'shortDescription'    => 'required|string',
         'price'               => 'required|numeric',
-        'stockStatus'         => 'required|numeric',
+        'stockStatus'         => 'required|numeric|boolean',
         'qtyInStock'          => 'required|numeric',
         'selectedAttributes'  => 'required|numeric',
         'selectedSubCategory' => 'required|numeric',

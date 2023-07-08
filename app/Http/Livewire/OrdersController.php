@@ -19,7 +19,7 @@ class OrdersController extends Component {
         );
     }
     public function update($orderId) {
-        return redirect()->route('subCategories.update', $orderId);
+        return redirect()->route('orders.update', $orderId);
     }
 
     public function render() {

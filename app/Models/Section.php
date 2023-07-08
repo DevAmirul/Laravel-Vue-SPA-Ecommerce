@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Section extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'created_by',
+    ];
+
     public function editors(): BelongsTo {
         return $this->belongsTo(Editor::class);
     }

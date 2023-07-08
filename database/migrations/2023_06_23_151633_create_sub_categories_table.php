@@ -13,10 +13,10 @@ return new class extends Migration {
             $table->id();
             $table->tinyText('name');
             $table->tinyText('slug');
-            $table->bigInteger('cate_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('created_by')->unsigned();
             $table->bigInteger('updated_by')->unsigned()->nullable();
-            $table->foreign('cate_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('editors');
             $table->foreign('updated_by')->references('id')->on('editors');
             $table->timestamps();

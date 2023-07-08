@@ -11,13 +11,17 @@ class CategoriesController extends Component {
 
     public function mount(): void{
         $this->traitMount(
-            ['Id', 'Name', 'Slug'],
+            ['Id', 'Name', 'Slug', 'Action'],
             ['id', 'name', 'slug']
         );
     }
 
     public function update($categoryId) {
         return redirect()->route('categories.update', $categoryId);
+    }
+
+    public function destroy($id): int{
+        return Category::destroy($id);
     }
 
     public function render() {

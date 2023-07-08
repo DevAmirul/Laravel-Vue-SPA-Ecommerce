@@ -10,13 +10,13 @@ use Livewire\Component;
 
 class ProductsCreateController extends Component {
     use ProductsValidation;
-
+    
     public function save(): void{
         $this->rules['selectedSection']  = 'required|numeric';
         $this->rules['selectedCategory'] = 'required|numeric';
         $this->rules['image']            = 'required|mimes:jpeg,png,jpg';
 
-        $val = $this->validate();
+        $this->validate();
 
         $product = new Product();
 

@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SubCategory extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'category_id',
+        'created_by',
+    ];
+
     public function Category(): BelongsTo {
         return $this->belongsTo(Category::class);
     }

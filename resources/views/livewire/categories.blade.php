@@ -13,7 +13,8 @@ Categories
 
     <x-table pageTitle='Categories Table' pageUrl='Categories' routeName='categories.show' tableName="Categories Table"
         :columnNamesArr='$columnNamesArr' :tableData='$categories' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false'>
+        :image='false'
+        statusColName='status'>
     </x-table>
 
     <!-- End #main -->

@@ -10,10 +10,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Editor extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'address',
+        'city',
+        'password',
+    ];
+
     public function section(): HasMany {
         return $this->hasMany(Section::class);
     }
-    
+
     public function product(): HasMany {
         return $this->hasMany(product::class);
     }
