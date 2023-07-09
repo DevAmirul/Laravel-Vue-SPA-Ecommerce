@@ -11,7 +11,7 @@ class CategoriesController extends Component {
 
     public function mount(): void{
         $this->traitMount(
-            ['Id', 'Name', 'Slug', 'Action'],
+            ['Id', 'Name', 'Slug','Section Name', 'Action'],
             ['id', 'name', 'slug']
         );
     }
@@ -20,13 +20,14 @@ class CategoriesController extends Component {
         return redirect()->route('categories.update', $categoryId);
     }
 
-    public function destroy($id): int{
+    public function destroy($id): int {
         return Category::destroy($id);
     }
 
     public function render() {
-        $categories = Category::where('name', 'LIKE', '%' . $this->searchStr . '%')
-            ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+        $categories = Category::with('section:id,name')
+            ->where('name', 'LIKE', '%' . $this->searchStr . '%')
+            ->paginate($this->showDataPerPage);
 
         return view('livewire.categories', [
             'categories' => $categories,

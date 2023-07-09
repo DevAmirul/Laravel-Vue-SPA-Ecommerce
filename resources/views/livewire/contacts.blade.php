@@ -13,7 +13,8 @@ Sub Categories
     <x-table pageTitle='Contacts Table' pageUrl='Contacts' routeName='contacts' tableName="Contacts Table"
         :columnNamesArr='$columnNamesArr' :tableData='$contacts' :tableDataColumnNames='$tableDataColumnNames'
         :image='false'
-        :status='$status' statusColName='status' >
+        :status='$status' statusColName='status'
+        :relation='false' >
     </x-table>
 
     <!-- End #main -->

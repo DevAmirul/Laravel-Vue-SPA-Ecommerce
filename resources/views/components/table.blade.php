@@ -50,6 +50,7 @@
                                     </td>
                                     @continue
                                     @endif
+
                                     @if ($tableDataColumnName === $statusColName && $status)
 
                                     @if ($data->$statusColName == 0)
@@ -65,6 +66,9 @@
                                     @endif
                                     <td>{{ $data->$tableDataColumnName }}</td>
                                     @endforeach
+                                    @if ($relation)
+                                    <td>{{ $data->$relationName->name }}</td>
+                                    @endif
                                     <td class="d-flex p-3">
                                         <button
                                             onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"

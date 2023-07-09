@@ -13,7 +13,9 @@ Sub Categories
 
     <x-table pageTitle='SubCategories Table' pageUrl='sub-categories' routeName='subCategories.show' tableName="SubCategories Table"
         :columnNamesArr='$columnNamesArr' :tableData='$subCategories' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false' statusColName='status'>
+        :image='false' statusColName='status'
+        :relation='true'
+        relationName='category'>
     </x-table>
 
     <!-- End #main -->

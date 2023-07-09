@@ -12,7 +12,7 @@ class EditorsController extends Component {
     public array $status;
 
     public function mount(): void{
-        $this->status = ['Editor', 'Admin', 'Pending'];
+        $this->status = ['pending', 'Admin', 'editor'];
         $this->traitMount(
             ['Id', 'Name', 'Email', 'Phone', 'City', 'Role', 'Action'],
             ['id', 'name', 'email', 'phone', 'city', 'role']

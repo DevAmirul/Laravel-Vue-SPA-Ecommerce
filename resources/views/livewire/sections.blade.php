@@ -16,6 +16,7 @@ Sections
         :tableData='$sections'
         :tableDataColumnNames='$tableDataColumnNames'
         :image='false'
+        :relation='false'
         statusColName='status'>
     </x-table>
 

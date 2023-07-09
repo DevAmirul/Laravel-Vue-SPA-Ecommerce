@@ -18,11 +18,11 @@ class Category extends Model {
         'created_by',
     ];
 
-    public function Section(): BelongsTo {
+    public function section(): BelongsTo {
         return $this->belongsTo(Section::class);
     }
 
-    public function SubCategory(): HasMany {
+    public function subCategory(): HasMany {
         return $this->hasMany(SubCategory::class);
     }
 }

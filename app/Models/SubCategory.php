@@ -17,11 +17,11 @@ class SubCategory extends Model {
         'created_by',
     ];
 
-    public function Category(): BelongsTo {
+    public function category(): BelongsTo {
         return $this->belongsTo(Category::class);
     }
 
-    public function Product(): HasMany {
+    public function product(): HasMany {
         return $this->hasMany(Product::class);
     }
 

@@ -15,7 +15,8 @@ Sub Categories
         :columnNamesArr='$columnNamesArr' :tableData='$editors' :tableDataColumnNames='$tableDataColumnNames'
         :image='false'
         :status='$status'
-        statusColName='role'>
+        statusColName='role'
+        :relation='false'>
     </x-table>
 
     <!-- End #main -->

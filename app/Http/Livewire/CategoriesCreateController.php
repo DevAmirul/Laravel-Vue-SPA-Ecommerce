@@ -17,6 +17,7 @@ class CategoriesCreateController extends Component {
     protected array $rules = [
         'name' => 'required|string|max:255',
         'slug' => 'required|string|max:255',
+        'selectedSection' => 'required|numeric',
     ];
 
     public function save(): bool{

@@ -17,7 +17,7 @@ class SectionsController extends Component {
         );
     }
 
-    public function update($sectionId) :string {
+    public function update($sectionId)  {
         return redirect()->route('sections.update', $sectionId);
     }
 
