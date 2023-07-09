@@ -4,6 +4,7 @@ use App\Http\Livewire\CategoriesController;
 use App\Http\Livewire\CategoriesCreateController;
 use App\Http\Livewire\CategoriesUpdateController;
 use App\Http\Livewire\ContactsController;
+use App\Http\Livewire\ContactsReplayController;
 use App\Http\Livewire\DashboardController;
 use App\Http\Livewire\EditorsController;
 use App\Http\Livewire\EditorsCreateController;
@@ -89,16 +90,13 @@ Route::prefix('editors')->name('editors')->group(function () {
 Route::prefix('orders')->name('orders')->group(function () {
     Route::get('/', OrdersController::class);
 
-    Route::get('/create', OrdersCreateController::class)->name('.create');
-
-    Route::get('/{id}', OrdersShowController::class)->name('.show');
-
     Route::get('/{id}/edit', OrdersUpdateController::class)->name('.update');
 });
 
 Route::get('/users', UsersController::class)->name('users');
 
 Route::get('/contacts',ContactsController::class)->name('contacts');
+Route::get('/contacts/{id}/reply',ContactsReplayController::class)->name('contacts.reply');
 
 
 Route::get('/404', function () {

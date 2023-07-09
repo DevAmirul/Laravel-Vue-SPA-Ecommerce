@@ -14,7 +14,7 @@ Sub Categories
         :columnNamesArr='$columnNamesArr' :tableData='$contacts' :tableDataColumnNames='$tableDataColumnNames'
         :image='false'
         :status='$status' statusColName='status'
-        :relation='false' >
+        :relation='false' :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->

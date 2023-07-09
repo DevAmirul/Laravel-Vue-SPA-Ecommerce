@@ -87,11 +87,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ route('orders.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Orders</span>
-                    </a>
-                </li>
+                
 
             </ul>
         </li>

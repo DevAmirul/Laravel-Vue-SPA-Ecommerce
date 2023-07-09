@@ -16,7 +16,7 @@ Sub Categories
         :image='false'
         :status='$status'
         statusColName='role'
-        :relation='false'>
+        :relation='false' :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->

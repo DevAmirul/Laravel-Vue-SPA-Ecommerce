@@ -13,7 +13,9 @@ Sub Categories
 
     <x-table pageTitle='Users Table' pageUrl='Users' routeName='users.show'
         tableName="Users Table" :columnNamesArr='$columnNamesArr' :tableData='$users'
-        :tableDataColumnNames='$tableDataColumnNames' :image='false' statusColName='status'>
+        :tableDataColumnNames='$tableDataColumnNames' :image='false' statusColName='status'
+        :relation='false'
+        :hideBtn='true'>
     </x-table>
 
     <!-- End #main -->

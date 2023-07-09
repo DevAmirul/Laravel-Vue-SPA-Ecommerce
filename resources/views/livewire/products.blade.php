@@ -19,7 +19,7 @@ Dashboard
     :tableData='$products'
     :tableDataColumnNames='$tableDataColumnNames'
     :image='true'
-    statusColName='status'>
+    statusColName='status' :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->

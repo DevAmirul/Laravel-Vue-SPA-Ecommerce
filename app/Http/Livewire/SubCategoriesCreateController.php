@@ -41,7 +41,7 @@ class SubCategoriesCreateController extends Component {
     public function render() {
         $sections = Section::all(['id', 'name']);
 
-        return view('livewire.sub-categories-create-controller', [
+        return view('livewire.sub-categories-create', [
             'sections' => $sections,
         ]);
     }

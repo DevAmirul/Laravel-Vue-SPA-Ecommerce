@@ -62,7 +62,7 @@ Products Update
             multiple="multiple">
         </x-form-input-field.file>
 
-        <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
+        <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
     <!-- ======= Footer ======= -->
     <x-layouts.footer></x-layouts.footer>

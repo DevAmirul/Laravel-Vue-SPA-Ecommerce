@@ -19,7 +19,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => 'user@mail.com',
+            'email' => 'user3@mail.com',
             'email_verified_at' => now(),
             'password' => '12345678',
             'remember_token' => Str::random(10),

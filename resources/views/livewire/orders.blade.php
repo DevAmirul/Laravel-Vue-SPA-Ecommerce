@@ -13,7 +13,7 @@ Sub Categories
 
     <x-table pageTitle='Orders Table' pageUrl='Orders' routeName='orders.show' tableName="Orders Table"
         :columnNamesArr='$columnNamesArr' :tableData='$orders' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false' :status='$status' statusColName='status'>
+        :image='false' :status='$status' statusColName='status' :relation='false' :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->

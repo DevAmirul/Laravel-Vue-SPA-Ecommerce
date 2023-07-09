@@ -26,7 +26,7 @@ Editors Create
         </x-form-input-field.general>
 
 
-        <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
+        <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
     <!-- ======= Footer ======= -->

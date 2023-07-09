@@ -19,7 +19,7 @@ class ContactsController extends Component {
         );
     }
     public function update($contactId) {
-        return redirect()->route('subCategories.update', $contactId);
+        return redirect()->route('contacts.reply', $contactId);
     }
 
     public function render() {

@@ -42,6 +42,7 @@
                             <tbody id="tbody">
                                 @foreach ($tableData as $data)
                                 <tr>
+
                                     @foreach ($tableDataColumnNames as $tableDataColumnName)
                                     @if ($tableDataColumnName === 'image')
                                     <td><a href="{{ route( $routeName, ['id' => $data->id ]) }}"><img
@@ -64,17 +65,32 @@
                                     @endif
                                     @continue
                                     @endif
+
+                                    @if ($tableDataColumnName == 'created_at')
+                                    @if ($data->created_at < $data->updated_at)
+                                    <td>{{ $data->updated_at->toFormattedDateString() }}</td>
+                                    @else
+                                    <td>{{ $data->created_at->toFormattedDateString() }}</td>
+                                    @endif
+                                    @continue
+                                    @endif
+                                    @if ($tableDataColumnName == 'updated_at')
+                                    @continue
+                                    @endif
+                                    
                                     <td>{{ $data->$tableDataColumnName }}</td>
                                     @endforeach
                                     @if ($relation)
                                     <td>{{ $data->$relationName->name }}</td>
                                     @endif
                                     <td class="d-flex p-3">
+                                        @if (!$hideBtn)
                                         <button
                                             onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
-                                            wire:click='update({{ $data->id }})' class="btn btn-primary " value="2"><i
-                                                class="bi bi-pencil-square"></i>
+                                            wire:click='update({{ $data->id }})' class="btn btn-primary "
+                                            value="2"><i class="bi bi-pencil-square"></i>
                                         </button>
+                                        @endif
 
                                         <button
                                             onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"

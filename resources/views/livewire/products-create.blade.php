@@ -63,7 +63,7 @@ Product Create
         <x-form-input-field.file col="col-6" label="Upload All Images" name="all_Images" wireModel='allImages' multiple="multiple">
         </x-form-input-field.file>
 
-        <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
+        <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
     <!-- ======= Footer ======= -->

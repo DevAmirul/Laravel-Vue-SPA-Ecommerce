@@ -33,8 +33,8 @@ class ProductFactory extends Factory {
             'qty_in_stock'      => fake()->numberBetween(10, 100),
             'image'             => 'digital_' . random_int(1, 22) . '.jpg',
             'all_images'        => $imagesStr,
-            'sub_category_id'   => SubCategory::factory(),
-            'created_by'        => fake()->numberBetween(1, 4),
+            'sub_category_id'   => 30,
+            'created_by'        => 10,
         ];
     }
 }

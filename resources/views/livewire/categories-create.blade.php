@@ -20,7 +20,7 @@ Category Create
         <x-form-input-field.general col="col-12" lable="Category Slug" name="slug" type="text" wireModel='slug'>
         </x-form-input-field.general>
 
-        <x-form-input-field.submit buttonName="Save"></x-form-input-field.submit>
+        <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
     <!-- ======= Footer ======= -->

@@ -1,3 +1,3 @@
 <div x-data="fetchProducts" class="col">
-    <button class="btn btn-primary mt-3" type="submit" >{{ $buttonName }}</button>
+    <button {{ $attributes->merge(['class' => 'btn mt-3 btn-'.$color]) }} type="submit" >{{ $buttonName }}</button>
 </div>

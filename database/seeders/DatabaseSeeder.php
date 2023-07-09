@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder {
      * Seed the application's database.
      */
     public function run(): void {
-        // \App\Models\UserAddress::factory()->count(1)
-        //     ->for(User::factory())->create();
+        \App\Models\UserAddress::factory()->count(1)
+            ->for(User::factory())->create();
 
         // \App\Models\Category::factory()->count(2)
         //     ->for(Section::factory())->create();

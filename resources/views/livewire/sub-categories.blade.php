@@ -15,7 +15,8 @@ Sub Categories
         :columnNamesArr='$columnNamesArr' :tableData='$subCategories' :tableDataColumnNames='$tableDataColumnNames'
         :image='false' statusColName='status'
         :relation='true'
-        relationName='category'>
+        relationName='category'
+        :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->

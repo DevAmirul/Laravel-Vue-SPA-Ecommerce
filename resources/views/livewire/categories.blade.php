@@ -13,7 +13,7 @@ Categories
 
     <x-table pageTitle='Categories Table' pageUrl='Categories' routeName='categories.show' tableName="Categories Table"
         :columnNamesArr='$columnNamesArr' :tableData='$categories' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false' statusColName='status' :relation='true' relationName='section'>
+        :image='false' statusColName='status' :relation='true' relationName='section' :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->

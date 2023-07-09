@@ -17,7 +17,7 @@ Sections
         :tableDataColumnNames='$tableDataColumnNames'
         :image='false'
         :relation='false'
-        statusColName='status'>
+        statusColName='status' :hideBtn='false'>
     </x-table>
 
     <!-- End #main -->
