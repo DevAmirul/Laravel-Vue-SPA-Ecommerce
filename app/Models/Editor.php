@@ -24,7 +24,7 @@ class Editor extends Model {
     }
 
     public function product(): HasMany {
-        return $this->hasMany(product::class);
+        return $this->hasMany(Product::class);
     }
 
 }

@@ -1,28 +1,39 @@
 <?php
 
-use App\Http\Livewire\CategoriesController;
-use App\Http\Livewire\CategoriesCreateController;
-use App\Http\Livewire\CategoriesUpdateController;
-use App\Http\Livewire\ContactsController;
-use App\Http\Livewire\ContactsReplayController;
+use App\Http\Livewire\Categories\CategoriesController;
+use App\Http\Livewire\Categories\CategoriesCreateController;
+use App\Http\Livewire\Categories\CategoriesUpdateController;
+use App\Http\Livewire\Categories\SectionsController;
+use App\Http\Livewire\Categories\SectionsCreateController;
+use App\Http\Livewire\Categories\SectionsUpdateController;
+use App\Http\Livewire\Categories\SubCategoriesController;
+use App\Http\Livewire\Categories\SubCategoriesCreateController;
+use App\Http\Livewire\Categories\SubCategoriesUpdateController;
+use App\Http\Livewire\Contacts\ContactsController;
+use App\Http\Livewire\Contacts\ContactsReplayController;
 use App\Http\Livewire\DashboardController;
-use App\Http\Livewire\EditorsController;
-use App\Http\Livewire\EditorsCreateController;
-use App\Http\Livewire\EditorsUpdateController;
-use App\Http\Livewire\OrdersController;
-use App\Http\Livewire\OrdersCreateController;
-use App\Http\Livewire\OrdersShowController;
-use App\Http\Livewire\OrdersUpdateController;
-use App\Http\Livewire\ProductsController;
-use App\Http\Livewire\ProductsCreateController;
-use App\Http\Livewire\ProductsShowController;
-use App\Http\Livewire\ProductsUpdateController;
-use App\Http\Livewire\SectionsController;
-use App\Http\Livewire\SectionsCreateController;
-use App\Http\Livewire\SectionsUpdateController;
-use App\Http\Livewire\SubCategoriesController;
-use App\Http\Livewire\SubCategoriesCreateController;
-use App\Http\Livewire\SubCategoriesUpdateController;
+use App\Http\Livewire\Editors\EditorsController;
+use App\Http\Livewire\Editors\EditorsCreateController;
+use App\Http\Livewire\Editors\EditorsUpdateController;
+use App\Http\Livewire\Orders\OrdersController;
+use App\Http\Livewire\Orders\OrdersPdfController;
+use App\Http\Livewire\Orders\OrdersUpdateController;
+use App\Http\Livewire\Products\ProductsController;
+use App\Http\Livewire\Products\ProductsCreateController;
+use App\Http\Livewire\Products\ProductsShowController;
+use App\Http\Livewire\Products\ProductsUpdateController;
+use App\Http\Livewire\Reports\BrandedProductsReportController;
+use App\Http\Livewire\Reports\CategorizedProductsReportController;
+use App\Http\Livewire\Reports\CouponsReportController;
+use App\Http\Livewire\Reports\CustomersOrderReportController;
+use App\Http\Livewire\Reports\ProductsPurchaseReportController;
+use App\Http\Livewire\Reports\ProductsStockReportController;
+use App\Http\Livewire\Reports\ProductsViewReportController;
+use App\Http\Livewire\Reports\SalesReportController;
+use App\Http\Livewire\Reports\SearchReportController;
+use App\Http\Livewire\Reports\ShippingReportController;
+use App\Http\Livewire\Reports\TaggedProductsReportController;
+use App\Http\Livewire\SettingsController;
 use App\Http\Livewire\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +54,6 @@ Route::get('/recovery-password', function () {
 Route::get('/forget-password', function () {
     return view('guestPages.forgetPassword');
 })->name('forgetPassword');
-
 
 Route::prefix('products')->name('products')->group(function () {
     Route::get('/', ProductsController::class);
@@ -91,12 +101,32 @@ Route::prefix('orders')->name('orders')->group(function () {
     Route::get('/', OrdersController::class);
 
     Route::get('/{id}/edit', OrdersUpdateController::class)->name('.update');
+
+    Route::get('/{id}/pdf', OrdersPdfController::class)->name('.pdf');
+});
+
+Route::prefix('reports')->name('reports')->group(function () {
+    Route::get('/brand-products', BrandedProductsReportController::class)->name('.brand.products');
+    Route::get('/categorized-products', CategorizedProductsReportController::class)->name('.categorized.products');
+    Route::get('/coupons', CouponsReportController::class)->name('.coupons');
+    Route::get('/customers-order', CustomersOrderReportController::class)->name('.customers.order');
+    Route::get('/products-purchase', ProductsPurchaseReportController::class)->name('.products.purchase');
+    Route::get('/products-stock', ProductsStockReportController::class)->name('.products.stock');
+    Route::get('/products-view', ProductsViewReportController::class)->name('.products.view');
+    Route::get('/sales', SalesReportController::class)->name('.sales');
+    Route::get('/search', SearchReportController::class)->name('.search');
+    Route::get('/shipping', ShippingReportController::class)->name('.shipping');
+    Route::get('/tagged-products', TaggedProductsReportController::class)->name('.tagged.products');
+});
+
+Route::prefix('contacts')->name('contacts')->group(function () {
+    Route::get('/', ContactsController::class);
+    Route::get('/{id}/reply', ContactsReplayController::class)->name('contacts.reply');
 });
 
 Route::get('/users', UsersController::class)->name('users');
 
-Route::get('/contacts',ContactsController::class)->name('contacts');
-Route::get('/contacts/{id}/reply',ContactsReplayController::class)->name('contacts.reply');
+Route::get('/settings', SettingsController::class)->name('settings');
 
 
 Route::get('/404', function () {
