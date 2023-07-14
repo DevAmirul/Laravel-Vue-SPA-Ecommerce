@@ -11,11 +11,7 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('attributes', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('name');
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned()->nullable();
-            $table->foreign('created_by')->references('id')->on('editors');
-            $table->foreign('updated_by')->references('id')->on('editors');
+            $table->char('name', 100);
             $table->timestamps();
         });
     }

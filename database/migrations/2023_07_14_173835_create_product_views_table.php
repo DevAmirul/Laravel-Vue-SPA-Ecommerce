@@ -9,9 +9,10 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('payment_types', function (Blueprint $table) {
+        Schema::create('product_views', function (Blueprint $table) {
             $table->id();
-            $table->string('types');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->integer('view_count');
             $table->timestamps();
         });
     }
@@ -20,6 +21,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('payment_types');
+        Schema::dropIfExists('product_views');
     }
 };

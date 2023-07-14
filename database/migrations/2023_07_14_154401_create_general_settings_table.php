@@ -9,19 +9,20 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('general_settings', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('site_name');
-            $table->tinyText('site_logo');
+            $table->string('site_name');
+            $table->string('site_logo');
             $table->string('site_slogan');
-            $table->tinyText('address');
-            $table->tinyText('email');
+            $table->string('email');
+            $table->string('address');
             $table->char('phone', 11);
             $table->char('phone_2', 11)->nullable();
-            $table->tinyText('facebook');
-            $table->tinyText('youtube');
-            $table->tinyText('twitter');
-            $table->tinyText('instagram');
+            $table->char('zip_code', 6);
+            $table->string('facebook');
+            $table->string('youtube');
+            $table->string('twitter');
+            $table->string('instagram');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('general_settings');
     }
 };

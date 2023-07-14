@@ -9,18 +9,15 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('user_addresses', function (Blueprint $table) {
+        Schema::create('billing_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->tinyText('first_name');
-            $table->tinyText('last_name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->char('phone', 11);
-            $table->tinyText('address_1');
-            $table->tinyText('address_2')->nullable();
+            $table->string('address');
+            $table->string('address_2');
             $table->char('city', 100);
             $table->char('state', 100);
             $table->char('zip_code', 6);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('user_addresses');
+        Schema::dropIfExists('billing_details');
     }
 };

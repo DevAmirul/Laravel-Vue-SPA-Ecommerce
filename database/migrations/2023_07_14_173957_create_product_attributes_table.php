@@ -11,12 +11,9 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('attribute_id')->unsigned();
-            $table->bigInteger('attribute_option_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
-            $table->foreign('attribute_option_id')->references('id')->on('attribute_options')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('attribute_id')->constrained()->onDelete('cascade');
+            $table->string('attribute_value');
             $table->timestamps();
         });
     }

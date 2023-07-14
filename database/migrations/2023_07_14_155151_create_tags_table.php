@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('name');
-            $table->tinyText('email');
-            $table->char('phone',11);
-            $table->tinyText('subject');
-            $table->string('message');
-            $table->boolean('status')->comment('0 means no replay and 1 means replayed');
+            $table->string('keywords')->unique();
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('tags');
     }
 };

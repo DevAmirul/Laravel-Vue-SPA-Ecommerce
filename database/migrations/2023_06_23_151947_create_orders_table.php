@@ -11,13 +11,14 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->enum('order_status', ['canceled' => 0, 'delivered' => 1, 'approved' => 2, 'pending' => 3])->default(3);
-            $table->enum('payment_status', ['canceled' => 0, 'delivered' => 1, 'approved' => 2, 'pending' => 3])->default(3);
+            $table->foreignId('user_id')->constrained();
+            $table->enum('order_status', ['approved' => 0, 'delivered' => 1, 'pending' => 2, 'canceled' => 3, 'returned' => 4])->default(2);
             $table->decimal('discount');
             $table->decimal('subtotal');
             $table->decimal('total');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('payment_status')->default(0);
+            $table->foreignId('shipping_method_id')->constrained();
+            $table->boolean('shipping_different_address')->default(0);
             $table->timestamps();
         });
     }

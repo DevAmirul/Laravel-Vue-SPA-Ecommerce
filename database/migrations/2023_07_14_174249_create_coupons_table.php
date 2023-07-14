@@ -9,13 +9,15 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('sub_categories', function (Blueprint $table) {
+        Schema::create('coupons', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image');
-            $table->string('slug')->unique();
+            $table->string('title');
+            $table->decimal('discount');
+            $table->char('code', 100);
             $table->boolean('status')->default(0);
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->dateTime('start_date');
+            $table->dateTime('expire_date');
+            $table->foreignId('discount_type_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('sub_categories');
+        Schema::dropIfExists('coupons');
     }
 };

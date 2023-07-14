@@ -12,8 +12,7 @@ return new class extends Migration {
         Schema::create('attribute_options', function (Blueprint $table) {
             $table->id();
             $table->tinyText('value');
-            $table->bigInteger('attribute_id')->unsigned();
-            $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('attribute_id')->constrained()->onDelete('cascade');
         });
     }
 

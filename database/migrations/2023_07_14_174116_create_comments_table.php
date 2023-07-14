@@ -9,9 +9,15 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->text('comment');
+            $table->text('replay');
+            $table->bigInteger('reply_by')->unsigned();
+            $table->foreign('reply_by')->references('id')->on('editors');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
@@ -20,6 +26,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('comments');
     }
 };

@@ -9,11 +9,13 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('cart_items', function (Blueprint $table) {
+        Schema::create('discount_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id')->constrained()->onDelete('cascade');
+            $table->decimal('discount');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->integer('qty');
+            $table->foreignId('discount_type_id')->constrained()->onDelete('cascade');
+            $table->dateTime('start_date');
+            $table->dateTime('expire_date');
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('cart_items');
+        Schema::dropIfExists('discount_prices');
     }
 };

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupons', function (Blueprint $table) {
+        Schema::create('searched_words', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('name');
+            $table->string('word')->unique();
+            $table->integer('count');
             $table->timestamps();
         });
     }
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coupuns');
+        Schema::dropIfExists('searched_words');
     }
 };

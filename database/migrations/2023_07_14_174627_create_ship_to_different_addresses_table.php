@@ -9,18 +9,15 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('shipping_addresses', function (Blueprint $table) {
+        Schema::create('ship_to_different_addresses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order_id')->unsigned();
-            $table->tinyText('first_name');
-            $table->tinyText('last_name');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->char('phone', 11);
-            $table->tinyText('address_1');
-            $table->tinyText('address_2')->nullable();
+            $table->string('address');
+            $table->string('address_2');
             $table->char('city', 100);
             $table->char('state', 100);
             $table->char('zip_code', 6);
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('shipping_addresses');
+        Schema::dropIfExists('ship_to_different_addresses');
     }
 };

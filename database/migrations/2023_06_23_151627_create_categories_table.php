@@ -11,14 +11,11 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('name');
-            $table->tinyText('slug');
-            $table->bigInteger('section_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned()->nullable();
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('editors');
-            $table->foreign('updated_by')->references('id')->on('editors');
+            $table->string('name');
+            $table->string('image');
+            $table->string('slug')->unique();
+            $table->boolean('status')->default(0);
+            $table->foreignId('section_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

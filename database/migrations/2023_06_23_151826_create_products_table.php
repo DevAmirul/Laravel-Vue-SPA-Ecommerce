@@ -11,26 +11,22 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('title');
-            $table->tinyText('slug');
-            $table->char('sku', 10);
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->string('sku')->unique();
             $table->text('description');
-            $table->string('short_description');
-            $table->decimal('price');
-            $table->decimal('discount_price')->nullable();
-            $table->decimal('offer_price')->nullable();
             $table->boolean('stock_status');
-            $table->smallInteger('qty_in_stock');
-            $table->tinyText('image');
-            $table->string('all_images');
-            $table->bigInteger('sub_category_id')->unsigned();
-            $table->bigInteger('category_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('updated_by')->unsigned()->nullable();
-            $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('editors');
-            $table->foreign('updated_by')->references('id')->on('editors');
+            $table->integer('qty_in_stock');
+            $table->decimal('sale_price');
+            $table->decimal('original_price');
+            $table->string('image');
+            $table->text('gallery');
+            $table->text('specification');
+            $table->text('product_tag');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained()->onDelete('cascade');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
