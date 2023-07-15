@@ -4,8 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ContactUs extends Model
-{
+class ContactUs extends Model {
     use HasFactory;
+
+    public function editors(): BelongsTo {
+        return $this->belongsTo(Editor::class);
+    }
 }

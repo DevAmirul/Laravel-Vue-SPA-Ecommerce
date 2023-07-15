@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\SubCategory;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -23,18 +23,20 @@ class ProductFactory extends Factory {
             $imagesStr .= 'digital_' . random_int(1, 22) . '.jpg' . ',';
         }
         return [
-            'title'             => $name,
-            'slug'              => $slug,
-            'sku'               => 'product123',
-            'description'       => fake()->text(500),
-            'short_description' => fake()->text(200),
-            'price'             => fake()->numberBetween(200, 1000),
-            'stock_status'      => fake()->numberBetween(5, 50),
-            'qty_in_stock'      => fake()->numberBetween(10, 100),
-            'image'             => 'digital_' . random_int(1, 22) . '.jpg',
-            'all_images'        => $imagesStr,
-            'sub_category_id'   => 30,
-            'created_by'        => 10,
+            'title'           => $name,
+            'slug'            => $slug,
+            'sku'             => $name . random_int(1, 22),
+            'description'     => fake()->text(500),
+            'stock_status'    => 1,
+            'qty_in_stock'    => fake()->numberBetween(10, 100),
+            'sale_price'      => fake()->numberBetween(200, 1000),
+            'original_price'  => fake()->numberBetween(200, 500),
+            'image'           => 'digital_' . random_int(1, 22) . '.jpg',
+            'gallery'         => $imagesStr,
+            'specification'   => fake()->text(500),
+            'category_id'     => fake()->numberBetween(1, 3),
+            'sub_category_id' => fake()->numberBetween(1, 9),
+            'brand_id'        => fake()->numberBetween(1, 5),
         ];
     }
 }

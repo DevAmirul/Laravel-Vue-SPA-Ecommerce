@@ -21,10 +21,8 @@ class SectionFactory extends Factory {
         $slug = Str::slug($name);
         return [
             'name'       => $name,
+            'image'       => 'okkkkkk',
             'slug'       => $slug,
-            'created_by' => Editor::factory(),
-            // 'updated_by' => 1,
-
         ];
     }
 }

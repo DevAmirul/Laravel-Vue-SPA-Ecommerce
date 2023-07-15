@@ -15,14 +15,14 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->string('sku')->unique();
             $table->text('description');
-            $table->boolean('stock_status');
+            $table->boolean('stock_status')->default(1);
             $table->integer('qty_in_stock');
             $table->decimal('sale_price');
             $table->decimal('original_price');
             $table->string('image');
             $table->text('gallery');
             $table->text('specification');
-            $table->text('product_tag');
+            $table->text('product_tag')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');

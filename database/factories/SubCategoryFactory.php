@@ -21,10 +21,7 @@ class SubCategoryFactory extends Factory {
         return [
             'name'        => $name,
             'slug'        => $slug,
-            'category_id' => fake()->numberBetween(1, 6),
-            'created_by'  => fake()->numberBetween(1, 4),
-            // 'updated_by' => 1,
-
+            'category_id' => Category::class,
         ];
     }
 }

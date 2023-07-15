@@ -17,10 +17,42 @@
                         <i class="bi bi-circle"></i><span>Products Table</span>
                     </a>
                 </li>
-
                 <li>
                     <a href="{{ route('products.create') }}">
                         <i class="bi bi-circle"></i><span>Add Products</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('attributes') }}">
+                        <i class="bi bi-circle"></i><span>Attributes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('attributes.create') }}">
+                        <i class="bi bi-circle"></i><span>Add Attributes</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('brands') }}">
+                        <i class="bi bi-circle"></i><span>Brands</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('brands.create') }}">
+                        <i class="bi bi-circle"></i><span>Add Brands</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('tags') }}">
+                        <i class="bi bi-circle"></i><span>Tags</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('tags.create') }}">
+                        <i class="bi bi-circle"></i><span>Add Tags</span>
                     </a>
                 </li>
 

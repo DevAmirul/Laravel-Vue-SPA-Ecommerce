@@ -17,14 +17,13 @@ class EditorFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Admin',
+            'name' => fake()->name(),
             'email' => fake()->email(),
-            'phone' => fake()->phoneNumber(),
+            'phone' => '01834513106',
             'address' => fake()->address(),
             'city' => fake()->city(),
-            // 'email_verified_at' => now(),
+            'state' => fake()->city(),
             'password' => '12345678',
-            // 'remember_token' => Str::random(10),
         ];
     }
 }

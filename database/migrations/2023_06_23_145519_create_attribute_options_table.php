@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('attribute_options', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('value');
+            $table->string('value');
             $table->foreignId('attribute_id')->constrained()->onDelete('cascade');
         });
     }

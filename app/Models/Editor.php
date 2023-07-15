@@ -19,12 +19,7 @@ class Editor extends Model {
         'password',
     ];
 
-    public function section(): HasMany {
-        return $this->hasMany(Section::class);
+    public function contactUs(): HasMany {
+        return $this->hasMany(ContactUs::class);
     }
-
-    public function product(): HasMany {
-        return $this->hasMany(Product::class);
-    }
-
 }

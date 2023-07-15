@@ -18,10 +18,19 @@ use App\Http\Livewire\Editors\EditorsUpdateController;
 use App\Http\Livewire\Orders\OrdersController;
 use App\Http\Livewire\Orders\OrdersPdfController;
 use App\Http\Livewire\Orders\OrdersUpdateController;
+use App\Http\Livewire\Products\AttributesController;
+use App\Http\Livewire\Products\AttributesCreateController;
+use App\Http\Livewire\Products\AttributesUpdateController;
+use App\Http\Livewire\Products\BrandsController;
+use App\Http\Livewire\Products\BrandsCreateController;
+use App\Http\Livewire\Products\BrandsUpdateController;
 use App\Http\Livewire\Products\ProductsController;
 use App\Http\Livewire\Products\ProductsCreateController;
 use App\Http\Livewire\Products\ProductsShowController;
 use App\Http\Livewire\Products\ProductsUpdateController;
+use App\Http\Livewire\Products\TagsController;
+use App\Http\Livewire\Products\TagsCreateController;
+use App\Http\Livewire\Products\TagsUpdateController;
 use App\Http\Livewire\Reports\BrandedProductsReportController;
 use App\Http\Livewire\Reports\CategorizedProductsReportController;
 use App\Http\Livewire\Reports\CouponsReportController;
@@ -63,6 +72,30 @@ Route::prefix('products')->name('products')->group(function () {
     Route::get('/{id}', ProductsShowController::class)->name('.show');
 
     Route::get('/{id}/edit', ProductsUpdateController::class)->name('.update');
+});
+
+Route::prefix('brands')->name('brands')->group(function () {
+    Route::get('/', BrandsController::class);
+
+    Route::get('/create', BrandsCreateController::class)->name('.create');
+
+    Route::get('/{id}/edit', BrandsUpdateController::class)->name('.update');
+});
+
+Route::prefix('tags')->name('tags')->group(function () {
+    Route::get('/', TagsController::class);
+
+    Route::get('/create', TagsCreateController::class)->name('.create');
+
+    Route::get('/{id}/edit', TagsUpdateController::class)->name('.update');
+});
+
+Route::prefix('attributes')->name('attributes')->group(function () {
+    Route::get('/', AttributesController::class);
+
+    Route::get('/create', AttributesCreateController::class)->name('.create');
+
+    Route::get('/{id}/edit', AttributesUpdateController::class)->name('.update');
 });
 
 Route::prefix('sections')->name('sections')->group(function () {
@@ -124,10 +157,14 @@ Route::prefix('contacts')->name('contacts')->group(function () {
     Route::get('/{id}/reply', ContactsReplayController::class)->name('contacts.reply');
 });
 
+// Route::prefix('settings')->name('contacts')->group(function () {
+//     Route::get('/', ContactsController::class);
+//     Route::get('/{id}/reply', ContactsReplayController::class)->name('contacts.reply');
+// });
+
 Route::get('/users', UsersController::class)->name('users');
 
 Route::get('/settings', SettingsController::class)->name('settings');
-
 
 Route::get('/404', function () {
     return view('errors.404');

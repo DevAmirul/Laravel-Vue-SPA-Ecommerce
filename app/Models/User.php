@@ -44,8 +44,12 @@ class User extends Authenticatable {
         'password'          => 'hashed',
     ];
 
-    public function userAddress(): HasOne {
-        return $this->hasOne(UserAddress::class);
+    public function billingDetails(): HasOne {
+        return $this->hasOne(BillingDetails::class);
+    }
+
+    public function shipToDifferentAddress(): HasOne {
+        return $this->hasOne(ShipToDifferentAddress::class);
     }
 
     public function order(): HasMany {

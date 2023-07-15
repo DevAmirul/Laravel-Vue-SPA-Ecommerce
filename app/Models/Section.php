@@ -12,15 +12,12 @@ class Section extends Model {
 
     protected $fillable = [
         'name',
+        'image',
         'slug',
         'created_by',
     ];
 
-    public function editors(): BelongsTo {
-        return $this->belongsTo(Editor::class);
-    }
-
-    public function Categories(): HasMany {
+    public function category(): HasMany {
         return $this->hasMany(Category::class);
     }
 }
