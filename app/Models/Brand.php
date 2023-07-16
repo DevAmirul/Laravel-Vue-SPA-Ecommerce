@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Brand extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+        'status',
+        'image',
+    ];
+
     public function user(): HasMany {
         return $this->hasMany(Product::class);
     }

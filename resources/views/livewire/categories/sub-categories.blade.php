@@ -11,12 +11,10 @@ Sub Categories
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='SubCategories Table' pageUrl='sub-categories' routeName='subCategories.show' tableName="SubCategories Table"
+    <x-table pageTitle='SubCategories Table' pageUrl='sub-categories' tableName="SubCategories Table"
         :columnNamesArr='$columnNamesArr' :tableData='$subCategories' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false' statusColName='status'
-        :relation='true'
-        relationName='category'
-        :hideBtn='false'>
+        :relation='true' relationName='category' :hideBtn='false' booleanColName='status'
+        :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'>
     </x-table>
 
     <!-- End #main -->

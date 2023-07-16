@@ -35,8 +35,6 @@ class ProductsCreateController extends Component {
         $product->all_images = $this->fileUpload($this->allImages);
 
         $product->created_by = 1;
-        // $product->selectedAttributes  = $this->selectedAttributes;
-        // $product->attributeValuesId   = $this->attributeValuesId;
         $product->save();
         dd('ok');
     }

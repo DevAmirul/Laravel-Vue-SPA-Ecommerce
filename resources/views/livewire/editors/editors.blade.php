@@ -11,11 +11,10 @@ Sub Categories
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Editors Table' pageUrl='Editors' routeName='editors.show' tableName="Editors Table"
+    <x-table pageTitle='Editors Table' pageUrl='Editors' tableName="Editors Table"
         :columnNamesArr='$columnNamesArr' :tableData='$editors' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false'
-        :status='$status'
-        statusColName='role'
+        enum='' enumColName=''
+        booleanColName='role' :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'
         :relation='false' :hideBtn='false'>
     </x-table>
 

@@ -15,7 +15,7 @@ class Category extends Model {
         'name',
         'slug',
         'section_id',
-        'created_by',
+        'image',
     ];
 
     public function section(): BelongsTo {

@@ -3,19 +3,25 @@
 namespace App\Http\Livewire\Categories;
 
 use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\FileTrait;
 use App\Models\Section;
-use Illuminate\Support\Arr;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class SectionsCreateController extends Component {
-    use CateSecValidationTrait;
+    use WithFileUploads, CateSecValidationTrait, FileTrait;
 
-    public string $name = '';
-    public string $slug = '';
+    public string $name        = '';
+    public string $slug        = '';
+    public int | null $status  = null;
+    public array $statusOption = ['Unpublish', 'Publish'];
+    public $image;
 
     protected array $rules = [
-        'name' => 'required|string|max:255',
-        'slug' => 'required|string|max:255',
+        'name'   => 'required|string|max:255',
+        'slug'   => 'required|string|max:255',
+        'status' => 'required|boolean',
+        'image'  => 'required|mimes:jpeg,png,jpg',
     ];
 
     public function updated($propertyName): void{
@@ -23,10 +29,10 @@ class SectionsCreateController extends Component {
     }
 
     public function save(): bool{
-        $inputFields = Arr::add($this->validate(), 'created_by', 2);
-        Section::create($inputFields);
+        $validate = $this->validate();
+        $validate['image'] = $this->fileUpload($this->image, 'section');
+        Section::create($validate);
         $this->reset();
-
         return true;
     }
 

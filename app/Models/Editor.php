@@ -16,6 +16,7 @@ class Editor extends Model {
         'phone',
         'address',
         'city',
+        'state',
         'password',
     ];
 

@@ -11,9 +11,11 @@ Categories
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Categories Table' pageUrl='Categories' routeName='categories.show' tableName="Categories Table"
+    <x-table pageTitle='Categories Table' pageUrl='Categories' tableName="Categories Table"
         :columnNamesArr='$columnNamesArr' :tableData='$categories' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false' statusColName='status' :relation='true' relationName='section' :hideBtn='false'>
+        :relation='true' relationName='section' :hideBtn='false'
+        booleanColName='status' :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'
+        >
     </x-table>
 
     <!-- End #main -->

@@ -11,13 +11,10 @@ Sections
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Sections Table' pageUrl='Sections' routeName='sections.show'      tableName="Sections Table"
-        :columnNamesArr='$columnNamesArr'
-        :tableData='$sections'
-        :tableDataColumnNames='$tableDataColumnNames'
-        :image='false'
-        :relation='false'
-        statusColName='status' :hideBtn='false'>
+    <x-table pageTitle='Sections Table' pageUrl='Sections' tableName="Sections Table"
+        :columnNamesArr='$columnNamesArr' :tableData='$sections' :tableDataColumnNames='$tableDataColumnNames'
+        :relation='false' :hideBtn='false'
+        booleanColName='status' :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'>
     </x-table>
 
     <!-- End #main -->

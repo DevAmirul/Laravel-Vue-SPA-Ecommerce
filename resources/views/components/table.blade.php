@@ -42,62 +42,63 @@
                             <tbody id="tbody">
                                 @foreach ($tableData as $data)
                                 <tr>
-
                                     @foreach ($tableDataColumnNames as $tableDataColumnName)
+
+                                    {{-- check image column --}}
                                     @if ($tableDataColumnName === 'image')
-                                    <td><a href="{{ route( $routeName, ['id' => $data->id ]) }}"><img
-                                                src="{{ $data->image }}" alt="{{ $data->image }}" width="50px"
-                                                height="50px"></a>
+                                    <td><img src="{{ $data->image }}" alt="{{ $data->image }}" width="50px"
+                                            height="50px">
                                     </td>
                                     @continue
                                     @endif
+                                    {{-- end check image column --}}
 
-                                    @if ($tableDataColumnName === $statusColName && $status)
-
-                                    @if ($data->$statusColName == 0)
-                                    <td> <span class="badge text-bg-danger">{{ $status[0] }}</span></td>
-                                    @elseif ($data->$statusColName == 1)
-                                    <td><span class="badge text-bg-success">{{ $status[1] }}</span></td>
-                                    @elseif ($data->$statusColName == 2)
-                                    <td><span class="badge text-bg-primary">{{ $status[2] }}</span></td>
-                                    @elseif ($data->$statusColName == 3)
-                                    <td><span class="badge text-bg-info">{{ $status[3] }}</span></td>
+                                    {{-- check image column --}}
+                                    @if ($tableDataColumnName === $booleanColName)
+                                    <x-boolean :booleanAttributes='$booleanAttributes'
+                                        :booleanColNames='$booleanColNames' :data='$data' booleanClass='$booleanClass'>
+                                    </x-boolean>
                                     @endif
+
+                                    @if (in_array($tableDataColumnName, $booleanColNames))
                                     @continue
                                     @endif
+                                    {{-- check image column --}}
 
                                     @if ($tableDataColumnName == 'created_at')
                                     @if ($data->created_at < $data->updated_at)
-                                    <td>{{ $data->updated_at->toFormattedDateString() }}</td>
-                                    @else
-                                    <td>{{ $data->created_at->toFormattedDateString() }}</td>
-                                    @endif
-                                    @continue
-                                    @endif
-                                    @if ($tableDataColumnName == 'updated_at')
-                                    @continue
-                                    @endif
-                                    
-                                    <td>{{ $data->$tableDataColumnName }}</td>
-                                    @endforeach
-                                    @if ($relation)
-                                    <td>{{ $data->$relationName->name }}</td>
-                                    @endif
-                                    <td class="d-flex p-3">
-                                        @if (!$hideBtn)
-                                        <button
-                                            onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
-                                            wire:click='update({{ $data->id }})' class="btn btn-primary "
-                                            value="2"><i class="bi bi-pencil-square"></i>
-                                        </button>
+                                        <td>{{ $data->updated_at->toFormattedDateString() }}</td>
+                                        @else
+                                        <td>{{ $data->created_at->toFormattedDateString() }}</td>
+                                        @endif
+                                        @continue
+                                        @endif
+                                        @if ($tableDataColumnName == 'updated_at')
+                                        @continue
                                         @endif
 
-                                        <button
-                                            onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
-                                            wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
-                                                class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
+                                        <td>{{ $data->$tableDataColumnName }}</td>
+                                        @endforeach
+
+                                        @if ($relation)
+                                            <td>{{ $data->$relationName->name }}</td>
+                                        @endif
+
+                                        <td class="d-flex p-3">
+                                            @if (!$hideBtn)
+                                            <button
+                                                onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
+                                                wire:click='update({{ $data->id }})' class="btn btn-primary "
+                                                value="2"><i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            @endif
+
+                                            <button
+                                                onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
+                                                wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
+                                                    class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                 </tr>
                                 @endforeach
                             </tbody>

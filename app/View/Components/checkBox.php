@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class empty-table extends Component
+class checkBox extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class empty-table extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.empty-table');
+        return view('components.check-box');
     }
 }

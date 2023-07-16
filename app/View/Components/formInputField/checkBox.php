@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\form-input-field;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class editorForm extends Component
+class checkBox extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class editorForm extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.editor-form');
+        return view('components.form-input-field.check-box');
     }
 }

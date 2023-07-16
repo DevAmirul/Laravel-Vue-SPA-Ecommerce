@@ -8,18 +8,20 @@ trait EditorsTraits {
     public string $phone    = '';
     public string $city     = '';
     public string $address  = '';
+    public string $state    = '';
     public string $password = '';
 
     protected function rules() {
-        if ($this->pageUrl = 'Update') {
+        if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'    => 'required|string|max:255',
                 'email'   => 'required|email|max:255',
                 'phone'   => 'required|string|max:11',
                 'city'    => 'required|string|max:255',
-                'address' => 'required|string',
+                'address' => 'required|string|max:255',
+                'state'   => 'required|string|max:255',
             ];
-            
+
             !empty($this->password) ? $rulesForUpdate['password'] = 'required|string|min:8' : null;
             return $rulesForUpdate;
         } else {
@@ -29,6 +31,7 @@ trait EditorsTraits {
                 'phone'    => 'required|string|max:11',
                 'city'     => 'required|string|max:255',
                 'address'  => 'required|string',
+                'state'    => 'required|string|max:255',
                 'password' => 'required|string|min:8',
             ];
         }

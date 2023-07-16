@@ -9,10 +9,19 @@ use Livewire\Component;
 class CategoriesController extends Component {
     use TableHeaderTrait;
 
+    public array $booleanColNames;
+    public array $booleanAttributes;
+
     public function mount(): void{
+
+        $this->booleanAttributes = [
+            ['Unpublish', 'Publish'],
+        ];
+        $this->booleanColNames = ['status'];
+
         $this->traitMount(
-            ['Id', 'Name', 'Slug','Section Name', 'Action'],
-            ['id', 'name', 'slug']
+            ['Id', 'Image', 'Name', 'Slug', 'Status', 'Section Name', 'Action'],
+            ['id', 'image', 'name', 'slug', 'status']
         );
     }
 

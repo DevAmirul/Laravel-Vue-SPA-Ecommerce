@@ -10,7 +10,8 @@
 
                             {{ $slot }}
 
-                        </form><!-- Vertical Form -->
+                        </form>
+                        <!-- Vertical Form -->
                     </div>
                 </div>
 

@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Attribute extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function attributeOption(): HasMany {
         return $this->HasMany(AttributeOption::class);
     }

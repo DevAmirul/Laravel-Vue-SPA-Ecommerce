@@ -10,12 +10,20 @@ class EditorsController extends Component {
     use TableHeaderTrait;
 
     public array $status;
+    public array $role;
+    public array $booleanColNames;
+    public array $booleanAttributes;
 
     public function mount(): void{
-        $this->status = ['pending', 'Admin', 'editor'];
+        $this->booleanAttributes = [
+            ['Editor', 'Admin'],
+            ['Pending', 'Allow'],
+        ];
+        $this->booleanColNames = ['role','status'];
+
         $this->traitMount(
-            ['Id', 'Name', 'Email', 'Phone', 'City', 'Role', 'Action'],
-            ['id', 'name', 'email', 'phone', 'city', 'role']
+            ['Id', 'Name', 'Email', 'Phone', 'City', 'Role', 'Status', 'Action'],
+            ['id', 'name', 'email', 'phone', 'city', 'role', 'status']
         );
     }
     public function update($editorId) {

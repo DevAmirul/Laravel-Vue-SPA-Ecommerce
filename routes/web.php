@@ -157,14 +157,15 @@ Route::prefix('contacts')->name('contacts')->group(function () {
     Route::get('/{id}/reply', ContactsReplayController::class)->name('contacts.reply');
 });
 
-// Route::prefix('settings')->name('contacts')->group(function () {
-//     Route::get('/', ContactsController::class);
-//     Route::get('/{id}/reply', ContactsReplayController::class)->name('contacts.reply');
-// });
+Route::prefix('settings')->name('settings')->group(function () {
+    Route::get('/general', SettingsController::class)->name('.general');
+    Route::get('/coupons', ContactsReplayController::class)->name('.coupons');
+    Route::get('/mail', ContactsReplayController::class)->name('.mail');
+    Route::get('/offers', ContactsReplayController::class)->name('.offers');
+    Route::get('/shipping-method', ContactsReplayController::class)->name('.shippingMethod');
+});
 
 Route::get('/users', UsersController::class)->name('users');
-
-Route::get('/settings', SettingsController::class)->name('settings');
 
 Route::get('/404', function () {
     return view('errors.404');
