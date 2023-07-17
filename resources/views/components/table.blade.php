@@ -60,8 +60,10 @@
                                     </x-boolean>
                                     @endif
 
-                                    @if (in_array($tableDataColumnName, $booleanColNames))
-                                    @continue
+                                    @if ($isBoolean)
+                                        @if (in_array($tableDataColumnName, $booleanColNames))
+                                        @continue
+                                        @endif
                                     @endif
                                     {{-- check image column --}}
 
@@ -98,6 +100,7 @@
                                                 wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
                                                     class="bi bi-trash"></i>
                                             </button>
+
                                         </td>
                                 </tr>
                                 @endforeach

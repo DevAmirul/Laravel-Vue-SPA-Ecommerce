@@ -10,28 +10,34 @@ use Livewire\Component;
 class AttributesCreateController extends Component {
     public int $plusButton = 1;
     public string $name;
-    public array $value = [];
+    public array $values = [];
 
     protected array $rules = [
-        'name'  => 'required|string|max:100',
-        'value' => 'required',
+        'name'   => 'required|string|max:100',
+        'values' => 'required',
     ];
 
     public function updated($propertyName): void{
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function extendInputField(): void{
+    public function increaseInputField(): void{
         $this->plusButton++;
+    }
+
+    public function decreaseInputField(): void {
+        if ($this->plusButton > 1) {
+            $this->plusButton--;
+        }
     }
 
     public function save(): void{
         $validate = $this->validate();
 
-        $a = Arr::map($validate['value'], function ($value, $key) {
+        $a = Arr::map($validate['values'], function ($value, $key) {
             return ['value' => $value];
         });
-        
+
         $attribute = Attribute::create(['name' => $validate['name']]);
         $attribute->attributeOption()->createMany($a);
 

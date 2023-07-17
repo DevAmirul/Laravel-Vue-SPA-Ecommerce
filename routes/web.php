@@ -20,7 +20,7 @@ use App\Http\Livewire\Orders\OrdersPdfController;
 use App\Http\Livewire\Orders\OrdersUpdateController;
 use App\Http\Livewire\Products\AttributesController;
 use App\Http\Livewire\Products\AttributesCreateController;
-use App\Http\Livewire\Products\AttributesUpdateController;
+use App\Http\Livewire\Products\AttributesDetailsController;
 use App\Http\Livewire\Products\BrandsController;
 use App\Http\Livewire\Products\BrandsCreateController;
 use App\Http\Livewire\Products\BrandsUpdateController;
@@ -95,7 +95,7 @@ Route::prefix('attributes')->name('attributes')->group(function () {
 
     Route::get('/create', AttributesCreateController::class)->name('.create');
 
-    Route::get('/{id}/edit', AttributesUpdateController::class)->name('.update');
+    Route::get('/{id}/show', AttributesDetailsController::class)->name('.show');
 });
 
 Route::prefix('sections')->name('sections')->group(function () {
@@ -159,9 +159,9 @@ Route::prefix('contacts')->name('contacts')->group(function () {
 
 Route::prefix('settings')->name('settings')->group(function () {
     Route::get('/general', SettingsController::class)->name('.general');
-    Route::get('/coupons', ContactsReplayController::class)->name('.coupons');
+    Route::get('/coupon', ContactsReplayController::class)->name('.coupon');
     Route::get('/mail', ContactsReplayController::class)->name('.mail');
-    Route::get('/offers', ContactsReplayController::class)->name('.offers');
+    Route::get('/offer', ContactsReplayController::class)->name('.offer');
     Route::get('/shipping-method', ContactsReplayController::class)->name('.shippingMethod');
 });
 

@@ -12,18 +12,22 @@ Brands Create
 
     <!-- End Page Title -->
     <x-form pageTitle='Attribute Create' pageUrl='Attribute / Create'>
-        <x-form-input-field.general col="col-6" lable="Attribute name" name="name" type="text" wireModel='name'>
+        <x-form-input-field.general col="col-8" lable="Attribute name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
 
-        <div class="col-6">
-            <button wire:click.prevent='extendInputField' type="button" class="btn btn-outline-primary"><i
+        <div class="col-1">
+            <button wire:click.prevent='increaseInputField' type="button" class="btn btn-outline-primary"><i
                     class="bi bi-plus-circle"></i></button>
+        </div>
+        <div class="col-1">
+            <button wire:click.prevent='decreaseInputField' type="button" class="btn btn-outline-primary"><i class="bi bi-dash-circle"></i></button>
         </div>
 
         @for ($i = 1; $i <= $plusButton; $i ++)
-        <x-form-input-field.general col="col-sm-4" lable="Attribute value" name="value" type="text" wireModel='value.{{ $i }}'>
+        <x-form-input-field.general col="col-sm-4" lable="Attribute value" name="value" type="text" wireModel='values.{{ $i }}'>
         </x-form-input-field.general>
         @endfor
+
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 

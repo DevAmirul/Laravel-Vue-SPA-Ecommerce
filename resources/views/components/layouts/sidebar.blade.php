@@ -58,26 +58,7 @@
 
             </ul>
         </li><!-- End Components Nav -->
-        {{-- <li class="nav-item">
-            <a class="nav-link collapsed {{
-                (Request::routeIs('sections') || Request::routeIs('sections.create')) ? 'active' : '' }}"
-        data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Sections</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="{{ route('sections') }}">
-                    <i class="bi bi-circle"></i><span>Section Table</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('sections.create') }}">
-                    <i class="bi bi-circle"></i><span>Add Section</span>
-                </a>
-            </li>
 
-        </ul>
-        </li> --}}
 
 
 
@@ -221,6 +202,43 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link collapsed {{
+                        (Request::routeIs('sections') || Request::routeIs('sections.create')) ? 'active' : '' }}"
+                data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('settings.general') }}">
+                        <i class="bi bi-circle"></i><span>General Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.mail') }}">
+                        <i class="bi bi-circle"></i><span>Mail Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.coupon') }}">
+                        <i class="bi bi-circle"></i><span>Coupon Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.offer') }}">
+                        <i class="bi bi-circle"></i><span>Offer Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.shippingMethod') }}">
+                        <i class="bi bi-circle"></i><span>Shipping Method Settings</span>
+                    </a>
+                </li>
+
+
+            </ul>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
                 href="{{ route('contacts') }}">
                 <i class="bi bi-envelope-at"></i>
@@ -233,13 +251,6 @@
                 <span>Users</span>
             </a>
         </li><!-- End F.A.Q Page Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed {{ (request()->is('settings')) ? 'active' : '' }}"
-                href="{{ route('settings') }}">
-                <i class="bi bi-gear"></i>
-                <span>Settings</span>
-            </a>
-        </li><!-- End Error 404 Page Nav -->
 
 
     </ul>

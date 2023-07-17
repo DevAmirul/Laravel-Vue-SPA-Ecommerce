@@ -15,7 +15,6 @@ class ProductsUpdateController extends Component {
 
     public $newImage;
     public $newAllImages;
-
     public int $productId;
 
     public function mount($id): void{
