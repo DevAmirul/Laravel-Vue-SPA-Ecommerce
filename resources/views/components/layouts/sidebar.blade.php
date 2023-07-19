@@ -219,20 +219,40 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('settings.coupon') }}">
-                        <i class="bi bi-circle"></i><span>Coupon Settings</span>
+                    <a href="{{ route('settings.coupons') }}">
+                        <i class="bi bi-circle"></i><span>Coupons</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('settings.offer') }}">
-                        <i class="bi bi-circle"></i><span>Offer Settings</span>
+                    <a href="{{ route('settings.coupons.create') }}">
+                        <i class="bi bi-circle"></i><span>Add Coupons</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('settings.shippingMethod') }}">
-                        <i class="bi bi-circle"></i><span>Shipping Method Settings</span>
+                    <a href="{{ route('settings.offers') }}">
+                        <i class="bi bi-circle"></i><span>Offers</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('settings.offers.create') }}">
+                        <i class="bi bi-circle"></i><span>Add Offers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.shippingMethods') }}">
+                        <i class="bi bi-circle"></i><span>Shipping Methods</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('settings.shippingMethods.create') }}">
+                        <i class="bi bi-circle"></i><span>Add Shipping Methods</span>
+                    </a>
+                </li>
+                {{-- <li>
+                    <a href="{{ route('settings.shippingMethods') }}">
+                        <i class="bi bi-circle"></i><span>Shipping Methods</span>
+                    </a>
+                </li> --}}
 
 
             </ul>

@@ -1,4 +1,3 @@
-
 @push('title')
 Categories
 @endpush
@@ -12,9 +11,9 @@ Categories
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Tags Table' pageUrl='Tags' tableName="Tags Table" :columnNamesArr='$columnNamesArr'
-        :tableData='$tags' :tableDataColumnNames='$tableDataColumnNames' :relation='false' relationName=''
-        :hideBtn='true' :isBoolean='false' booleanColName='status' booleanAttributes=''
+    <x-table pageTitle='Shipping methods Table' pageUrl='Shipping methods' tableName="Shipping methods Table"
+        :columnNamesArr='$columnNamesArr' :tableData='$methods' :tableDataColumnNames='$tableDataColumnNames'
+        :relation='false' relationName='' :hideBtn='false' :isBoolean='false' booleanColName='' booleanAttributes=''
         booleanColNames=''>
     </x-table>
 

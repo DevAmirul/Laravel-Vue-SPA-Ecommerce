@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->boolean('status')->default(0);
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
+            $table->foreignId('offer_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

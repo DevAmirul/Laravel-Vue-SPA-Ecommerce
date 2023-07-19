@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Products;
+namespace App\Http\Livewire\Settings\Offers;
 
 use App\Http\Traits\TableHeaderTrait;
-use App\Models\Brand;
+use App\Models\Offer;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class BrandsController extends Component {
+class OffersController extends Component {
     use WithPagination, TableHeaderTrait;
 
     public array $booleanColNames;
@@ -20,25 +20,25 @@ class BrandsController extends Component {
         $this->booleanColNames = ['status'];
 
         $this->traitMount(
-            ['Id', 'Image', 'Name', 'Slug', 'Status', 'Action'],
-            ['id', 'image', 'name', 'slug', 'status']
+            ['Id', 'Title', 'Type', 'Discount', 'Status', 'Start Date', 'Expire Date', 'Action'],
+            ['id', 'title', 'type', 'discount', 'status', 'start_date', 'expire_date']
         );
     }
 
-    public function update($brandId) {
-        return redirect()->route('brands.update', $brandId);
+    public function update($offerId) {
+        return redirect()->route('settings.offers.update', $offerId);
     }
 
     public function destroy($id): int {
-        return Brand::destroy($id);
+        return Offer::destroy($id);
     }
 
     public function render() {
-        $brands = Brand::where('name', 'LIKE', '%' . $this->searchStr . '%')
+        $offers = Offer::where('title', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 
-        return view('livewire.products.brands', [
-            'brands' => $brands,
+        return view('livewire.settings.offers.offers',[
+            'offers'=> $offers
         ]);
     }
 }

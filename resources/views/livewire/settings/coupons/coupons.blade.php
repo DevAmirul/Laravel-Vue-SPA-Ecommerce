@@ -1,6 +1,5 @@
-
 @push('title')
-Categories
+Coupons
 @endpush
 <div>
     <!-- ======= Header ======= -->
@@ -12,10 +11,10 @@ Categories
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Tags Table' pageUrl='Tags' tableName="Tags Table" :columnNamesArr='$columnNamesArr'
-        :tableData='$tags' :tableDataColumnNames='$tableDataColumnNames' :relation='false' relationName=''
-        :hideBtn='true' :isBoolean='false' booleanColName='status' booleanAttributes=''
-        booleanColNames=''>
+    <x-table pageTitle='Coupons Table' pageUrl='Coupons' tableName="Coupons Table" :columnNamesArr='$columnNamesArr'
+        :tableData='$coupons' :tableDataColumnNames='$tableDataColumnNames' :relation='false' relationName=''
+        :isBoolean='true' :hideBtn='false' booleanColName='status' :booleanAttributes='$booleanAttributes'
+        :booleanColNames='$booleanColNames'>
     </x-table>
 
     <!-- End #main -->

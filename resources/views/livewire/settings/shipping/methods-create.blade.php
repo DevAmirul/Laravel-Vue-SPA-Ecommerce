@@ -1,5 +1,5 @@
 @push('title')
-Brand Create
+Product Create
 @endpush
 
 <div>
@@ -11,16 +11,15 @@ Brand Create
     <!-- End Sidebar-->
 
     <!-- End Page Title -->
-    <x-form pageTitle='Brand Create' pageUrl='Brand / Create'>
-        <x-form-input-field.general col="col-6" lable="Brand name" name="name" type="text" wireModel='name'>
+    <x-form pageTitle='Shipping Methods Create' pageUrl='Shipping-Methods / Create'>
+        <x-form-input-field.general col="col-6" lable="Shipping methods name" name="name" type="text"
+            wireModel='name'>
         </x-form-input-field.general>
-        <x-form-input-field.general col="col-6" lable="Brand Slug" name="slug" type="text" wireModel='slug'>
+
+        <x-form-input-field.general col="col-6" lable="Shipping methods cost" name="cost" type="text"
+            wireModel='cost'>
         </x-form-input-field.general>
-        <x-form-input-field.select-for-array col='col-6' defaultOption='Select Status' :options='$statusOption'
-            wireModel='status' colName='name' name="status">
-        </x-form-input-field.select-for-array>
-        <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
-        </x-form-input-field.file>
+
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
@@ -29,5 +28,4 @@ Brand Create
     <!-- End Footer -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-
 </div>

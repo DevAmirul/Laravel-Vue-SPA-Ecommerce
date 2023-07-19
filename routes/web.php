@@ -20,7 +20,6 @@ use App\Http\Livewire\Orders\OrdersPdfController;
 use App\Http\Livewire\Orders\OrdersUpdateController;
 use App\Http\Livewire\Products\AttributesController;
 use App\Http\Livewire\Products\AttributesCreateController;
-use App\Http\Livewire\Products\AttributesDetailsController;
 use App\Http\Livewire\Products\BrandsController;
 use App\Http\Livewire\Products\BrandsCreateController;
 use App\Http\Livewire\Products\BrandsUpdateController;
@@ -30,7 +29,6 @@ use App\Http\Livewire\Products\ProductsShowController;
 use App\Http\Livewire\Products\ProductsUpdateController;
 use App\Http\Livewire\Products\TagsController;
 use App\Http\Livewire\Products\TagsCreateController;
-use App\Http\Livewire\Products\TagsUpdateController;
 use App\Http\Livewire\Reports\BrandedProductsReportController;
 use App\Http\Livewire\Reports\CategorizedProductsReportController;
 use App\Http\Livewire\Reports\CouponsReportController;
@@ -42,7 +40,17 @@ use App\Http\Livewire\Reports\SalesReportController;
 use App\Http\Livewire\Reports\SearchReportController;
 use App\Http\Livewire\Reports\ShippingReportController;
 use App\Http\Livewire\Reports\TaggedProductsReportController;
-use App\Http\Livewire\SettingsController;
+use App\Http\Livewire\Settings\Coupons\CouponsController;
+use App\Http\Livewire\Settings\Coupons\CouponsCreateController;
+use App\Http\Livewire\Settings\Coupons\CouponsUpdateController;
+use App\Http\Livewire\Settings\GeneralController;
+use App\Http\Livewire\Settings\MailController;
+use App\Http\Livewire\Settings\Offers\OffersController;
+use App\Http\Livewire\Settings\Offers\OffersCreateController;
+use App\Http\Livewire\Settings\Offers\OffersUpdateController;
+use App\Http\Livewire\Settings\Shipping\MethodsController;
+use App\Http\Livewire\Settings\Shipping\MethodsCreateController;
+use App\Http\Livewire\Settings\Shipping\MethodsUpdateController;
 use App\Http\Livewire\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -86,16 +94,12 @@ Route::prefix('tags')->name('tags')->group(function () {
     Route::get('/', TagsController::class);
 
     Route::get('/create', TagsCreateController::class)->name('.create');
-
-    Route::get('/{id}/edit', TagsUpdateController::class)->name('.update');
 });
 
 Route::prefix('attributes')->name('attributes')->group(function () {
     Route::get('/', AttributesController::class);
 
     Route::get('/create', AttributesCreateController::class)->name('.create');
-
-    Route::get('/{id}/show', AttributesDetailsController::class)->name('.show');
 });
 
 Route::prefix('sections')->name('sections')->group(function () {
@@ -158,11 +162,28 @@ Route::prefix('contacts')->name('contacts')->group(function () {
 });
 
 Route::prefix('settings')->name('settings')->group(function () {
-    Route::get('/general', SettingsController::class)->name('.general');
-    Route::get('/coupon', ContactsReplayController::class)->name('.coupon');
-    Route::get('/mail', ContactsReplayController::class)->name('.mail');
-    Route::get('/offer', ContactsReplayController::class)->name('.offer');
-    Route::get('/shipping-method', ContactsReplayController::class)->name('.shippingMethod');
+    Route::get('/general', GeneralController::class)->name('.general');
+
+    Route::prefix('coupons')->name('.coupons')->group(function () {
+        Route::get('/', CouponsController::class);
+        Route::get('/create', CouponsCreateController::class)->name('.create');
+        Route::get('/{id}/edit', CouponsUpdateController::class)->name('.update');
+    });
+
+    Route::prefix('offers')->name('.offers')->group(function () {
+        Route::get('/', OffersController::class);
+        Route::get('/create', OffersCreateController::class)->name('.create');
+        Route::get('/{id}/edit', OffersUpdateController::class)->name('.update');
+    });
+
+    Route::prefix('shipping-methods')->name('.shippingMethods')->group(function () {
+        Route::get('/', MethodsController::class);
+        Route::get('/create', MethodsCreateController::class)->name('.create');
+        Route::get('/{id}/edit', MethodsUpdateController::class)->name('.update');
+    });
+
+    Route::get('/mail', MailController::class)->name('.mail');
+    Route::get('/offer', OffersController::class)->name('.offer');
 });
 
 Route::get('/users', UsersController::class)->name('users');

@@ -13,7 +13,7 @@ Categories
 
     <x-table pageTitle='Categories Table' pageUrl='Categories' tableName="Categories Table"
         :columnNamesArr='$columnNamesArr' :tableData='$categories' :tableDataColumnNames='$tableDataColumnNames'
-        :relation='true' relationName='section' :hideBtn='false'
+        :relation='true' relationName='section' :isBoolean='true' :hideBtn='false'
         booleanColName='status' :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'
         >
     </x-table>

@@ -13,11 +13,11 @@ return new class extends Migration {
             $table->id();
             $table->string('title');
             $table->decimal('discount');
+            $table->enum('type', ['percentage', 'decimal']);
             $table->char('code', 100);
             $table->boolean('status')->default(0);
             $table->dateTime('start_date');
             $table->dateTime('expire_date');
-            $table->foreignId('discount_type_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -9,9 +9,14 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void{
-        Schema::create('discount_types', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->string('title');
+            $table->enum('type', ['percentage', 'decimal']);
+            $table->decimal('discount');
+            $table->boolean('status')->default(0);
+            $table->dateTime('start_date');
+            $table->dateTime('expire_date');
             $table->timestamps();
         });
     }
@@ -20,6 +25,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('discount_types');
+        Schema::dropIfExists('offers');
     }
 };

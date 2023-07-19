@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->enum('order_status', ['approved' => 0, 'delivered' => 1, 'pending' => 2, 'canceled' => 3, 'returned' => 4])->default(2);
+            $table->enum('order_status', ['approved', 'delivered', 'pending', 'canceled', 'returned'])->default('pending');
             $table->decimal('discount');
             $table->decimal('subtotal');
             $table->decimal('total');

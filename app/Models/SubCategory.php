@@ -21,6 +21,10 @@ class SubCategory extends Model {
         return $this->belongsTo(Category::class);
     }
 
+    public function offer(): BelongsTo {
+        return $this->belongsTo(Offer::class);
+    }
+
     public function product(): HasMany {
         return $this->hasMany(Product::class);
     }

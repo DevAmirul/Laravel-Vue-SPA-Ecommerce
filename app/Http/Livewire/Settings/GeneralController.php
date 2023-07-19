@@ -1,36 +1,40 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Settings;
 
+use App\Http\Traits\CateSecValidationTrait;
 use App\Http\Traits\FileTrait;
-use App\Models\Setting;
+use App\Models\GeneralSettings;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class SettingsController extends Component {
-    use WithFileUploads, FileTrait;
+class GeneralController extends Component {
+    use WithFileUploads, FileTrait, CateSecValidationTrait;
 
     public int $settingsId;
     public string $site_name;
+    public $site_logo;
     public string $site_slogan;
-    public string $address;
     public string $email;
     public string $phone;
     public string $phone_2;
+    public string $address;
+    public string $zip_code;
     public string $facebook;
     public string $youtube;
     public string $twitter;
     public string $instagram;
-    public $site_logo;
     public string $oldSiteLogoName;
 
     protected function rules() {
         $rules = [
             'site_name'   => 'required|string|max:255',
             'site_slogan' => 'required|string',
-            'address'     => 'required|string|max:255',
             'email'       => 'required|string|max:255',
             'phone'       => 'required|string|max:11',
+            'phone_2'     => 'required|string|max:11',
+            'address'     => 'required|string|max:255',
+            'zip_code'    => 'required|string|max:255',
             'facebook'    => 'required|string|max:255',
             'youtube'     => 'required|string|max:255',
             'twitter'     => 'required|string|max:255',
@@ -49,16 +53,18 @@ class SettingsController extends Component {
     }
 
     public function mount(): void{
-        $settings              = Setting::first();
+        $settings = GeneralSettings::first();
+
         $this->settingsId      = $settings->id ?? 1;
         $this->site_name       = $settings->site_name ?? '';
         $this->site_logo       = $settings->site_logo ?? '';
         $this->oldSiteLogoName = $settings->site_logo ?? '';
         $this->site_slogan     = $settings->site_slogan ?? '';
-        $this->address         = $settings->address ?? '';
         $this->email           = $settings->email ?? '';
         $this->phone           = $settings->phone ?? '';
         $this->phone_2         = $settings->phone_2 ?? '';
+        $this->address         = $settings->address ?? '';
+        $this->zip_code        = $settings->zip_code ?? '';
         $this->facebook        = $settings->facebook ?? '';
         $this->youtube         = $settings->youtube ?? '';
         $this->twitter         = $settings->twitter ?? '';
@@ -75,11 +81,10 @@ class SettingsController extends Component {
         } elseif (gettype($this->site_logo) == 'object') {
             $validate['site_logo'] = $this->fileUpload($this->site_logo, 'img');
         }
-
-        Setting::updateOrCreate(['id' => $this->settingsId], $validate);
+        GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
     }
 
     public function render() {
-        return view('livewire.settings');
+        return view('livewire.settings.general');
     }
 }

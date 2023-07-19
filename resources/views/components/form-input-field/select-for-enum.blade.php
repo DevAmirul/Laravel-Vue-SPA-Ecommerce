@@ -4,7 +4,7 @@
         <option value="">{{ $defaultOption }}</option>
         @if ($options !== null)
         @foreach ($options as $key => $option)
-            <option {{ $wireModel ? 'selected' : '' }} value="{{ $key }}">{{ $option }}</option>
+        <option {{ $wireModel ? 'selected' : '' }} value="{{ $option }}">{{ $option }}</option>
         @endforeach
         @endif
     </select>
