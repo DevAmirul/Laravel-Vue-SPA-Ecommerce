@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('subject');
             $table->text('message');
             $table->boolean('status')->default(0);
-            $table->bigInteger('reply_by')->unsigned();
+            $table->bigInteger('reply_by')->unsigned()->nullable();
             $table->foreign('reply_by')->references('id')->on('editors');
             $table->timestamps();
         });

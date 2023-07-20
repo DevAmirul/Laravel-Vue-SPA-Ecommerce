@@ -11,9 +11,10 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('general_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('site_name');
-            $table->string('site_logo');
-            $table->string('site_slogan');
+            $table->string('name');
+            $table->string('logo');
+            $table->string('slides');
+            $table->string('slogan');
             $table->string('email');
             $table->string('address');
             $table->char('phone', 11);

@@ -4,21 +4,28 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\TableHeaderTrait;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class UsersController extends Component {
-    use TableHeaderTrait;
+    use WithPagination, TableHeaderTrait;
+
+    public array $enumAttributes;
+    public array $enumColNames;
+    public array $enumClass = [
+        ['badge text-bg-primary', 'badge text-bg-info'],
+    ];
 
     public function mount(): void{
-        $this->traitMount(
-            ['Id', 'Name', 'Email', 'Phone', 'City', 'State', 'ZipCode', 'verify time', 'Action'],
-            ['id', 'name', 'email', 'phone', 'city', 'state', 'zip_code', 'email_verified_at']
-        );
-    }
+        $this->enumColNames   = ['gender'];
+        $this->enumAttributes = [
+            ['male', 'female'],
+        ];
 
-    public function update($userId) {
-        return redirect()->route('subCategories.update', $userId);
+        $this->traitMount(
+            ['Id', 'Name', 'Email', 'Gender', 'Action'],
+            ['id', 'name', 'email', 'gender']
+        );
     }
 
     public function destroy($id): int {
@@ -26,15 +33,11 @@ class UsersController extends Component {
     }
 
     public function render() {
-        $users = DB::table('users')
-            ->join('user_addresses', 'users.id', '=', 'user_addresses.user_id')
-            ->select('users.id', 'users.name', 'users.email', 'users.email_verified_at', 'user_addresses.phone', 'user_addresses.city', 'user_addresses.state', 'user_addresses.zip_code')
-            ->get();
+        $users = User::where('name', 'LIKE', '%' . $this->searchStr . '%')
+            ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 
         return view('livewire.users', [
             'users' => $users,
         ]);
     }
 }
-
-

@@ -250,27 +250,27 @@
                 </li>
                 {{-- <li>
                     <a href="{{ route('settings.shippingMethods') }}">
-                        <i class="bi bi-circle"></i><span>Shipping Methods</span>
-                    </a>
-                </li> --}}
+                <i class="bi bi-circle"></i><span>Shipping Methods</span>
+                </a>
+        </li> --}}
 
 
-            </ul>
-        </li>
+    </ul>
+    </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
-                href="{{ route('contacts') }}">
-                <i class="bi bi-envelope-at"></i>
-                <span>Contacts</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
-                <i class="bi bi-people-fill"></i>
-                <span>Users</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
+    <li class="nav-item">
+        <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
+            href="{{ route('contacts') }}">
+            <i class="bi bi-envelope-at"></i>
+            <span>Contacts</span>
+        </a>
+    </li><!-- End F.A.Q Page Nav -->
+    <li class="nav-item">
+        <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
+            <i class="bi bi-people-fill"></i>
+            <span>Users</span>
+        </a>
+    </li><!-- End F.A.Q Page Nav -->
 
 
     </ul>

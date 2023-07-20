@@ -1,27 +1,22 @@
 @push('title')
-Sub Categories
+Categories
 @endpush
 <div>
     <!-- ======= Header ======= -->
-    <x-layouts.header></x-layouts.header>
+    @livewire('layouts.header')
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <x-layouts.sidebar></x-layouts.sidebar>
+    @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <!-- End Page Title -->
-
-    <x-table pageTitle='Users Table' pageUrl='Users' routeName='users.show'
-        tableName="Users Table" :columnNamesArr='$columnNamesArr' :tableData='$users'
-        :tableDataColumnNames='$tableDataColumnNames' :image='false' statusColName='status'
-        :relation='false'
-        :hideBtn='true'>
+    <x-table pageTitle='Users Table' pageUrl='Home / Users' tableName="Users Table" :columnNamesArr='$columnNamesArr'
+        :tableData='$users' :tableDataColumnNames='$tableDataColumnNames' :showBtn='false' :isEnum='true' :enumColNames='$enumColNames'
+        :enumAttributes='$enumAttributes' :enumClass='$enumClass'>
     </x-table>
 
     <!-- End #main -->
     <!-- ======= Footer ======= -->
-    <x-layouts.footer></x-layouts.footer>
+    @livewire('layouts.footer')
     <!-- End Footer -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    
 </div>

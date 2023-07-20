@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\formInputField;
+namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class area extends Component
+class CheckEnum extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class area extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form-input-field.area');
+        return view('components.check-enum');
     }
 }

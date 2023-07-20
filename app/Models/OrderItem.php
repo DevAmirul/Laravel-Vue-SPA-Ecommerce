@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model {
     use HasFactory;
-
+    public $timestamps = false;
     public function order(): BelongsTo {
         return $this->belongsTo(Order::class);
     }

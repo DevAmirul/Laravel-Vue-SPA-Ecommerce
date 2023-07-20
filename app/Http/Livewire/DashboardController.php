@@ -4,8 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\DashboardTrait;
 use App\Models\Order;
-use App\Models\RevenueFromProduct;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -22,74 +20,61 @@ class DashboardController extends Component {
     public string $revenue;
     public $dataForChart;
 
-    public string $timeToStrForSale       = 'Today';
-    public string $timeToStrForRevenue    = 'Today';
-    public string $timeToStrForUsers      = 'Today';
-    public string $timeToStrForOrders     = 'Today';
-    public string $timeToStrForArrivals   = 'Today';
-    public string $timeToStrForRecentSale = 'Today';
+
 
     public function showSale($timeStr): void{
-        $this->timeToStrForSale = $timeStr;
+        $this->strTimeOfSale = $timeStr;
 
         $time       = $this->getTime($timeStr);
-        $this->sale = Order::where('status', '2')->where('updated_at', '>', $time)->count('status');
+        $this->sale = Order::where('order_status', 'delivered')->where('updated_at', '>', $time)->count('order_status');
 
-    }
-
-    public function showUsers($timeStr): void{
-        $this->timeToStrForUsers = $timeStr;
-        $time                    = $this->getTime($timeStr);
-        $this->getUsersQuery($time);
     }
 
     public function showOrders($timeStr): void{
-        $this->timeToStrForOrders = $timeStr;
-        $time                     = $this->getTime($timeStr);
-        $this->totalOrders        = Order::where('updated_at', '>', $time)
+        $this->strTimeOfOrders = $timeStr;
+        $time                  = $this->getTime($timeStr);
+        $this->totalOrders     = Order::where('updated_at', '>', $time)
             ->where(function (Builder $builder) {
-                $builder->where('status', '2')->orWhere('status', '3');
+                $builder->where('order_status', 'approved')
+                    ->orWhere('order_status', 'pending');
             })->count();
-
     }
 
     public function showRevenue($timeStr): void{
-        $this->timeToStrForRevenue = $timeStr;
-        $time                      = $this->getTime($timeStr);
-        $this->revenue             = Order::where('status', '2')->where('updated_at', '>', $time)->sum('total');
+        $this->strTimeOfRevenue = $timeStr;
+        $time                   = $this->getTime($timeStr);
+        $this->revenue          = Order::where('order_status', 'delivered')->where('updated_at', '>', $time)->sum('total');
+    }
+
+    public function showUsers($timeStr): void{
+        $this->strTimeOfUsers = $timeStr;
+        $this->showUsersQuery($timeStr);
     }
 
     public function showArrivals($timeStr): void{
-        $this->timeToStrForArrivals = $timeStr;
-        $time                       = $this->getTime($timeStr);
-        $this->newArrivalProductsQuery($time);
+        $this->strTimeOfArrivals = $timeStr;
+        $this->newArrivalProductsQuery($timeStr);
     }
 
     public function showRecentSale($timeStr): void{
-        $this->timeToStrForRecentSale = $timeStr;
-        $time                         = $this->getTime($timeStr);
-        $this->newRecentSaleProducts  = [];
-        $this->showRecentSaleQuery($time);
+        $this->strTimeOfRecentSale   = $timeStr;
+        $this->showRecentSaleQuery($timeStr);
+    }
+
+    public function showTopRevenueProducts($timeStr): void{
+        $this->strTimeOfTopRevenueProducts = $timeStr;
+        $this->showTopRevenueProductsQuery($timeStr);
     }
 
     public function mount(): void{
-        $this->topRevenueProducts = RevenueFromProduct::with('product:id,title,price,image')->orderBy('revenue', 'desc')->take(10)->get(['id', 'sold_qty', 'revenue', 'product_id']);
+        $this->setStrTime('Today');
+        $this->AllCalculationsAreBasedOnDayMonthYearQuery('Today');
+        
+    }
 
-        $orders = Order::where('updated_at', '>', Carbon::today())->where(function (Builder $builder) {
-            $builder->where('status', '2')->orWhere('status', '3');
-        })->get(['total', 'status']);
-
-        $this->sale        = $orders->where('status', '2')->count();
-        $this->revenue     = $orders->where('status', '2')->sum('total');
-        $this->totalOrders = $orders->count();
-
-        $this->getUsersQuery(Carbon::today());
-
-        $this->showRecentSaleQuery(Carbon::today());
-
-        $this->newArrivalProductsQuery(Carbon::today());
-
-        // $this->dataForChart = Order::;
+    public function AllCalculationsAreBasedOnDayMonthYear($timeStr): void{
+        $this->setStrTime($timeStr);
+        $this->AllCalculationsAreBasedOnDayMonthYearQuery($timeStr);
     }
 
     public function render() {

@@ -10,11 +10,10 @@ Sub Categories
     <!-- End Sidebar-->
 
     <!-- End Page Title -->
-    <x-table pageTitle='Contacts Table' pageUrl='Contacts' routeName='contacts' tableName="Contacts Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$contacts' :tableDataColumnNames='$tableDataColumnNames'
-        :image='false'
-        :status='$status' statusColName='status'
-        :relation='false' :hideBtn='false'>
+    <x-table pageTitle='Contact Us Table' pageUrl='Home / Contacts' tableName="Contact Us Table" :columnNamesArr='$columnNamesArr'
+        :tableData='$contacts' :tableDataColumnNames='$tableDataColumnNames'
+        :isBoolean='true' :booleanAttributes='$booleanAttributes'
+        :booleanColNames='$booleanColNames' :$booleanClass >
     </x-table>
 
     <!-- End #main -->

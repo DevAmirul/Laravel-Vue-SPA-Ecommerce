@@ -9,8 +9,8 @@ use App\Http\Livewire\Categories\SectionsUpdateController;
 use App\Http\Livewire\Categories\SubCategoriesController;
 use App\Http\Livewire\Categories\SubCategoriesCreateController;
 use App\Http\Livewire\Categories\SubCategoriesUpdateController;
-use App\Http\Livewire\Contacts\ContactsController;
-use App\Http\Livewire\Contacts\ContactsReplayController;
+use App\Http\Livewire\Contacts\ContactUsController;
+use App\Http\Livewire\Contacts\ContactUsReplyController;
 use App\Http\Livewire\DashboardController;
 use App\Http\Livewire\Editors\EditorsController;
 use App\Http\Livewire\Editors\EditorsCreateController;
@@ -157,8 +157,8 @@ Route::prefix('reports')->name('reports')->group(function () {
 });
 
 Route::prefix('contacts')->name('contacts')->group(function () {
-    Route::get('/', ContactsController::class);
-    Route::get('/{id}/reply', ContactsReplayController::class)->name('contacts.reply');
+    Route::get('/', ContactUsController::class);
+    Route::get('/{id}/reply', ContactUsReplyController::class)->name('.reply');
 });
 
 Route::prefix('settings')->name('settings')->group(function () {

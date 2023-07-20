@@ -12,9 +12,9 @@ class GeneralController extends Component {
     use WithFileUploads, FileTrait, CateSecValidationTrait;
 
     public int $settingsId;
-    public string $site_name;
-    public $site_logo;
-    public string $site_slogan;
+    public string $name;
+    public $logo;
+    public string $slogan;
     public string $email;
     public string $phone;
     public string $phone_2;
@@ -28,8 +28,8 @@ class GeneralController extends Component {
 
     protected function rules() {
         $rules = [
-            'site_name'   => 'required|string|max:255',
-            'site_slogan' => 'required|string',
+            'name'   => 'required|string|max:255',
+            'slogan' => 'required|string',
             'email'       => 'required|string|max:255',
             'phone'       => 'required|string|max:11',
             'phone_2'     => 'required|string|max:11',
@@ -40,10 +40,10 @@ class GeneralController extends Component {
             'twitter'     => 'required|string|max:255',
             'instagram'   => 'required|string|max:255',
         ];
-        if (gettype($this->site_logo) == 'object') {
-            $rules['site_logo'] = 'required|mimes:jpeg,png,jpg';
-        } elseif (empty($this->site_logo)) {
-            $rules['site_logo'] = 'required|mimes:jpeg,png,jpg';
+        if (gettype($this->logo) == 'object') {
+            $rules['logo'] = 'required|mimes:jpeg,png,jpg';
+        } elseif (empty($this->logo)) {
+            $rules['logo'] = 'required|mimes:jpeg,png,jpg';
         }
         return $rules;
     }
@@ -56,10 +56,10 @@ class GeneralController extends Component {
         $settings = GeneralSettings::first();
 
         $this->settingsId      = $settings->id ?? 1;
-        $this->site_name       = $settings->site_name ?? '';
-        $this->site_logo       = $settings->site_logo ?? '';
-        $this->oldSiteLogoName = $settings->site_logo ?? '';
-        $this->site_slogan     = $settings->site_slogan ?? '';
+        $this->name       = $settings->name ?? '';
+        $this->logo       = $settings->logo ?? '';
+        $this->oldSiteLogoName = $settings->logo ?? '';
+        $this->slogan     = $settings->slogan ?? '';
         $this->email           = $settings->email ?? '';
         $this->phone           = $settings->phone ?? '';
         $this->phone_2         = $settings->phone_2 ?? '';
@@ -75,11 +75,11 @@ class GeneralController extends Component {
     public function save(): void{
         $validate = $this->validate();
 
-        if (!empty($this->oldSiteLogoName) && (gettype($this->site_logo) == 'object')) {
+        if (!empty($this->oldSiteLogoName) && (gettype($this->logo) == 'object')) {
             $this->fileDestroy($this->oldSiteLogoName, 'img');
-            $validate['site_logo'] = $this->fileUpload($this->site_logo, 'img');
-        } elseif (gettype($this->site_logo) == 'object') {
-            $validate['site_logo'] = $this->fileUpload($this->site_logo, 'img');
+            $validate['logo'] = $this->fileUpload($this->logo, 'img');
+        } elseif (gettype($this->logo) == 'object') {
+            $validate['logo'] = $this->fileUpload($this->logo, 'img');
         }
         GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
     }

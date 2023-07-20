@@ -11,11 +11,9 @@ Sub Categories
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Editors Table' pageUrl='Editors' tableName="Editors Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$editors' :tableDataColumnNames='$tableDataColumnNames'
-        enum='' enumColName=''
-        booleanColName='role' :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'
-        :relation='false' :hideBtn='false'>
+    <x-table pageTitle='Editors Table' pageUrl='Editors' tableName="Editors Table" :columnNamesArr='$columnNamesArr'
+        :tableData='$editors' :tableDataColumnNames='$tableDataColumnNames' :isBoolean='true'
+        :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames' :booleanClass='$booleanClass'>
     </x-table>
 
     <!-- End #main -->

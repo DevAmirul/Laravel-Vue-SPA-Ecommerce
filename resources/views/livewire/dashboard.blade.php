@@ -3,13 +3,15 @@ Dashboard
 @endpush
 <div>
     <!-- ======= Header ======= -->
-    <x-layouts.header></x-layouts.header>
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <x-layouts.sidebar></x-layouts.sidebar>
+    @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <main id="main" class="main">
-        <x-layouts.page-title pageTitle='Dashboard' pageUrl=''></x-layouts.page-title>
+        {{-- @livewire('layouts.page-title',['pageTitle'=> 'Dashboard', 'pageUrl'=>'Home ']) --}}
         <!-- End Page Title -->
         <section class="section dashboard">
             <div class="row">
@@ -45,7 +47,7 @@ Dashboard
                                 </div>
 
                                 <div class="card-body">
-                                    <h5 class="card-title">Sales <span>| {{ $timeToStrForSale }}</span></h5>
+                                    <h5 class="card-title">Sales <span>| {{ $strTimeOfSale }}</span></h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -59,7 +61,8 @@ Dashboard
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- End Sales Card -->
+                        </div>
+                        <!-- End Sales Card -->
                         <!-- Revenue Card -->
                         <div class="col-xxl-4 col-md-6">
                             <div class="card info-card revenue-card">
@@ -88,21 +91,22 @@ Dashboard
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Revenue <span>| {{ $timeToStrForRevenue }}</span></h5>
+                                    <h5 class="card-title">Revenue <span>| {{ $strTimeOfRevenue }}</span></h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-currency-dollar"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>${{ $revenue }}</h6>
+                                            <h6>${{ number_format($revenue, 2) }}</h6>
                                             <span class="text-success small pt-1 fw-bold">8%</span> <span
                                                 class="text-muted small pt-2 ps-1">increase</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- End Revenue Card -->
+                        </div>
+                        <!-- End Revenue Card -->
                         <!-- Customers Card -->
                         <div class="col-xxl-4 col-xl-6">
                             <div class="card info-card customers-card">
@@ -131,7 +135,7 @@ Dashboard
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Customers <span>| {{ $timeToStrForUsers }}</span></h5>
+                                    <h5 class="card-title">Customers <span>| {{ $strTimeOfUsers }}</span></h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -145,7 +149,8 @@ Dashboard
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- End Customers Card -->
+                        </div>
+                        <!-- End Customers Card -->
                         <!-- All Order Card -->
                         <div class="col-xxl-4 col-md-6">
                             <div class="card info-card revenue-card">
@@ -174,7 +179,7 @@ Dashboard
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Orders <span>| {{ $timeToStrForOrders }}</span></h5>
+                                    <h5 class="card-title">Orders <span>| {{ $strTimeOfOrders }}</span></h5>
                                     <div class="d-flex align-items-center">
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -188,24 +193,38 @@ Dashboard
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- End All Order Card -->
+                        </div>
+                        <!-- End All Order Card -->
                         <!-- Top Selling -->
                         <div class="col-12">
                             <div class="card top-selling overflow-auto">
-                                {{-- <div class="filter">
+                                <div class="filter">
                                     <a class="icon" href="#" data-bs-toggle="dropdown"><i
                                             class="bi bi-three-dots"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                         <li class="dropdown-header text-start">
                                             <h6>Filter</h6>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                        <li>
+                                            <form wire:submit.prevent='showTopRevenueProducts("Today")'>
+                                                <button class="dropdown-item">Today</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form wire:submit.prevent='showTopRevenueProducts("The Month")'>
+                                                <button class="dropdown-item">The Month</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form wire:submit.prevent='showTopRevenueProducts("The Year")'>
+                                                <button class="dropdown-item">The Year</button>
+                                            </form>
+                                        </li>
                                     </ul>
-                                </div> --}}
+                                </div>
                                 <div class="card-body pb-0">
-                                    <h5 class="card-title">Top Selling</h5>
+                                    <h5 class="card-title">Top Selling <span>|
+                                            {{ $strTimeOfTopRevenueProducts }}</span></h5>
                                     <table class="table table-borderless">
                                         <thead>
                                             <tr>
@@ -218,19 +237,6 @@ Dashboard
                                         </thead>
                                         <tbody>
                                             @foreach ($topRevenueProducts as $topRevenueProduct)
-                                            {{-- <tr>
-                                                <th scope="row"><a
-                                                        href="{{ route('products.show', ['id' => $topRevenueProduct[0] ]) }}"><img
-                                                src="{{ $topRevenueProduct[1] }}" alt="{{ $topRevenueProduct[1] }}"></a>
-                                            </th>
-                                            <td><a href="{{ route('products.show', ['id' => $topRevenueProduct[0] ]) }}"
-                                                    class="text-primary fw-bold">{{ $topRevenueProduct[2] }}</a>
-                                            </td>
-                                            <td>${{ $topRevenueProduct[3] }}</td>
-                                            <td class="fw-bold">{{ $topRevenueProduct[4] }}</td>
-                                            <td class="fw-bold">${{ $topRevenueProduct[5] }}</td>
-                                            </tr> --}}
-
                                             <tr>
                                                 <th scope="row"><a
                                                         href="{{ route('products.show', ['id' => $topRevenueProduct->product_id ]) }}"><img
@@ -240,17 +246,17 @@ Dashboard
                                                 <td><a href="{{ route('products.show', ['id' => $topRevenueProduct->product_id ]) }}"
                                                         class="text-primary fw-bold">{{ $topRevenueProduct->product->title }}</a>
                                                 </td>
-                                                <td>${{ $topRevenueProduct->product->price }}</td>
-                                                <td class="fw-bold">{{ $topRevenueProduct->sold_qty }}</td>
+                                                <td class="fw-bold">${{ $topRevenueProduct->product->sale_price }}</td>
+                                                <td>{{ $topRevenueProduct->sold_qty }}</td>
                                                 <td class="fw-bold">${{ $topRevenueProduct->revenue }}</td>
                                             </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div><!-- End Top Selling -->
+                        </div>
+                        <!-- End Top Selling -->
 
                         <!-- Recent Sales -->
                         <div class="col-12">
@@ -280,7 +286,7 @@ Dashboard
                                     </ul>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Recent Sales <span>| {{ $timeToStrForRecentSale }}</span>
+                                    <h5 class="card-title">Recent Sales <span>| {{ $strTimeOfRecentSale }}</span>
                                     </h5>
                                     <table class="table table-borderless datatable">
                                         <thead>
@@ -303,8 +309,8 @@ Dashboard
                                                         class="text-primary fw-bold">{{ $product[2] }}</a>
                                                 </td>
                                                 <td>{{ $product[3] }}</td>
-                                                <td>${{ $product[4] }}</td>
-                                                <td class="fw-bold">{{ $product[5] }}</td>
+                                                <td class="fw-bold">${{ $product[4] }}</td>
+                                                <td>{{ $product[5] }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -312,11 +318,22 @@ Dashboard
                                 </div>
                             </div>
                         </div><!-- End Recent Sales -->
-
                     </div>
                 </div><!-- End Left side columns -->
                 <!-- Right side columns -->
                 <div class="col-lg-5">
+                    <!--Button Strat -->
+                    <div class="card" wire:ignore>
+                        <div class="card-body m-auto mt-3">
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("today")'
+                                class="btn btn-outline-primary btn-sm">Today</button>
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("This Month")'
+                                class="btn btn-outline-secondary btn-sm">Month</button>
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("This Year")'
+                                class="btn btn-outline-success btn-sm">Year</button>
+                        </div>
+                    </div>
+                    <!--End Button Strat -->
                     <!--Chart Js -->
                     <div class="card" wire:ignore>
                         <div class="card-body">
@@ -328,8 +345,9 @@ Dashboard
                         </div>
                     </div>
                     <!-- End Chart Js -->
+                    <!-- Start order circle Chart Js -->
                     <div class="card " wire:ignore>
-                        <div class="filter">    
+                        <div class="filter">
                             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <li class="dropdown-header text-start">
@@ -341,15 +359,40 @@ Dashboard
                             </ul>
                         </div>
                         <div class="card-body ">
-                            <h5 class="card-title">Orders Chart <span>| {{ $timeToStrForRecentSale }}</span></h5>
+                            <h5 class="card-title">Orders Chart <span>| {{ $strTimeOfRecentSale }}</span></h5>
 
                             <!-- Doughnut Chart -->
-                            <canvas id="doughnutChart" style="max-height: 400px;"></canvas>
+                            <canvas id="orderChart" style="max-height: 400px;"></canvas>
 
                             <!-- End Doughnut CHart -->
 
                         </div>
                     </div>
+                    <!-- End order circle Chart Js -->
+                    <!-- Start order circle Chart Js -->
+                    <div class="card " wire:ignore>
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+                        <div class="card-body ">
+                            <h5 class="card-title">Expense & Revenue Chart <span>| {{ $strTimeOfRecentSale }}</span></h5>
+
+                            <!-- Doughnut Chart -->
+                            <canvas id="incomeChart" style="max-height: 400px;"></canvas>
+
+                            <!-- End Doughnut CHart -->
+
+                        </div>
+                    </div>
+                    <!-- End order circle Chart Js -->
                     <!-- New Arrivals -->
                     <div class="col-12">
                         <div class="card top-selling overflow-auto">
@@ -377,7 +420,7 @@ Dashboard
                                 </ul>
                             </div>
                             <div class="card-body pb-0">
-                                <h5 class="card-title">New Arrivals <span>| {{ $timeToStrForArrivals }}</span>
+                                <h5 class="card-title">New Arrivals <span>| {{ $strTimeOfArrivals }}</span>
                                 </h5>
                                 <table class="table table-borderless">
                                     <thead>
@@ -398,8 +441,8 @@ Dashboard
                                             <td><a href="{{ route('products.show', ['id' => $product->id ]) }}"
                                                     class="text-primary fw-bold">{{ $product->title }}</a>
                                             </td>
-                                            <td>${{ $product->price }}</td>
-                                            <td class="fw-bold">{{ $product->qty_in_stock }}</td>
+                                            <td class="fw-bold">${{ $product->sale_price }}</td>
+                                            <td>{{ $product->qty_in_stock }}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -407,12 +450,13 @@ Dashboard
                             </div>
                         </div>
                     </div><!-- End New Arrivals -->
-                </div><!-- End Right side columns -->
+                </div>
+                <!-- End Right side columns -->
             </div>
         </section>
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-    <x-layouts.footer></x-layouts.footer>
+    @livewire('layouts.footer')
     <!-- End Footer -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
@@ -460,11 +504,34 @@ Dashboard
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        new Chart(document.querySelector('#doughnutChart'), {
+        new Chart(document.querySelector('#orderChart'), {
         type: 'doughnut',
         data: {
             labels: [
             'Red',
+            'Blue',
+            'Yellow'
+            ],
+            datasets: [{
+            label: 'My First Dataset',
+            data: [300, 50, 100],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+            }]
+        }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        new Chart(document.querySelector('#incomeChart'), {
+        type: 'doughnut',
+        data: {
+            labels: [
+            'Green',
             'Blue',
             'Yellow'
             ],

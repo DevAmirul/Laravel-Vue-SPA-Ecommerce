@@ -9,8 +9,7 @@
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  */
 
-
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Attribute
  *
@@ -29,10 +28,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Attribute whereUpdatedAt($value)
  */
-	class Attribute extends \Eloquent {}
+    class Attribute extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\AttributeOption
  *
@@ -47,10 +46,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|AttributeOption whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AttributeOption whereValue($value)
  */
-	class AttributeOption extends \Eloquent {}
+    class AttributeOption extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\BillingDetails
  *
@@ -80,10 +79,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BillingDetails whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BillingDetails whereZipCode($value)
  */
-	class BillingDetails extends \Eloquent {}
+    class BillingDetails extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Brand
  *
@@ -108,10 +107,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Brand whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Brand whereUpdatedAt($value)
  */
-	class Brand extends \Eloquent {}
+    class Brand extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Cart
  *
@@ -130,10 +129,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cart whereUserId($value)
  */
-	class Cart extends \Eloquent {}
+    class Cart extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\CartItem
  *
@@ -155,10 +154,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CartItem whereQty($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CartItem whereUpdatedAt($value)
  */
-	class CartItem extends \Eloquent {}
+    class CartItem extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Category
  *
@@ -186,10 +185,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  */
-	class Category extends \Eloquent {}
+    class Category extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Comment
  *
@@ -217,10 +216,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
  */
-	class Comment extends \Eloquent {}
+    class Comment extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\ContactUs
  *
@@ -247,10 +246,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs whereSubject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ContactUs whereUpdatedAt($value)
  */
-	class ContactUs extends \Eloquent {}
+    class ContactUs extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Coupon
  *
@@ -279,10 +278,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Coupon whereUpdatedAt($value)
  */
-	class Coupon extends \Eloquent {}
+    class Coupon extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\DiscountPrice
  *
@@ -308,10 +307,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountPrice whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountPrice whereUpdatedAt($value)
  */
-	class DiscountPrice extends \Eloquent {}
+    class DiscountPrice extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\DiscountType
  *
@@ -333,10 +332,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountType whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DiscountType whereUpdatedAt($value)
  */
-	class DiscountType extends \Eloquent {}
+    class DiscountType extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Editor
  *
@@ -371,10 +370,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Editor whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Editor whereUpdatedAt($value)
  */
-	class Editor extends \Eloquent {}
+    class Editor extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\GeneralSettings
  *
@@ -412,10 +411,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSettings whereYoutube($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GeneralSettings whereZipCode($value)
  */
-	class GeneralSettings extends \Eloquent {}
+    class GeneralSettings extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\MailSettings
  *
@@ -443,10 +442,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|MailSettings whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|MailSettings whereUsername($value)
  */
-	class MailSettings extends \Eloquent {}
+    class MailSettings extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Offer
  *
@@ -475,10 +474,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Offer whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Offer whereUpdatedAt($value)
  */
-	class Offer extends \Eloquent {}
+    class Offer extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\OfferSet
  *
@@ -506,10 +505,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|OfferSet whereSubCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OfferSet whereUpdatedAt($value)
  */
-	class OfferSet extends \Eloquent {}
+    class OfferSet extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Order
  *
@@ -542,10 +541,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  */
-	class Order extends \Eloquent {}
+    class Order extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\OrderItem
  *
@@ -563,10 +562,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderItem whereQty($value)
  */
-	class OrderItem extends \Eloquent {}
+    class OrderItem extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\PaymentType
  *
@@ -582,10 +581,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentType whereTypes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PaymentType whereUpdatedAt($value)
  */
-	class PaymentType extends \Eloquent {}
+    class PaymentType extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Product
  *
@@ -612,7 +611,7 @@ namespace App\Models{
  * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductAttribute> $productAttribute
  * @property-read int|null $product_attribute_count
- * @property-read \App\Models\ProductPurchasedRevenue|null $productPurchasedRevenue
+ * @property-read \App\Models\RevenueFromPurchaseAndSaleOfProducts|null $productPurchasedRevenue
  * @property-read \App\Models\ProductView|null $productView
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $review
  * @property-read int|null $review_count
@@ -641,10 +640,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */
-	class Product extends \Eloquent {}
+    class Product extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\ProductAttribute
  *
@@ -667,10 +666,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttribute whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductAttribute whereUpdatedAt($value)
  */
-	class ProductAttribute extends \Eloquent {}
+    class ProductAttribute extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\ProductPurchasedRevenue
  *
@@ -681,20 +680,20 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Product $product
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue query()
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue whereCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue whereRevenue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProductPurchasedRevenue whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts whereCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts whereRevenue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RevenueFromPurchaseAndSaleOfProducts whereUpdatedAt($value)
  */
-	class ProductPurchasedRevenue extends \Eloquent {}
+    class RevenueFromPurchaseAndSaleOfProducts extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\ProductView
  *
@@ -713,10 +712,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProductView whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProductView whereViewCount($value)
  */
-	class ProductView extends \Eloquent {}
+    class ProductView extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Review
  *
@@ -742,10 +741,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Review whereUserId($value)
  */
-	class Review extends \Eloquent {}
+    class Review extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\SearchedWords
  *
@@ -763,10 +762,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereWord($value)
  */
-	class SearchedWords extends \Eloquent {}
+    class SearchedWords extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Section
  *
@@ -791,10 +790,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Section whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Section whereUpdatedAt($value)
  */
-	class Section extends \Eloquent {}
+    class Section extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\ShipToDifferentAddress
  *
@@ -823,10 +822,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ShipToDifferentAddress whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ShipToDifferentAddress whereZipCode($value)
  */
-	class ShipToDifferentAddress extends \Eloquent {}
+    class ShipToDifferentAddress extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\ShippingMethod
  *
@@ -844,10 +843,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ShippingMethod whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ShippingMethod whereUpdatedAt($value)
  */
-	class ShippingMethod extends \Eloquent {}
+    class ShippingMethod extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\SubCategory
  *
@@ -873,10 +872,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|SubCategory whereUpdatedAt($value)
  */
-	class SubCategory extends \Eloquent {}
+    class SubCategory extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\Tag
  *
@@ -892,10 +891,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereKeywords($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
  */
-	class Tag extends \Eloquent {}
+    class Tag extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
  * App\Models\User
  *
@@ -930,6 +929,5 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+    class User extends \Eloquent {}
 }
-

@@ -13,13 +13,17 @@ class EditorsController extends Component {
     public array $role;
     public array $booleanColNames;
     public array $booleanAttributes;
+    public array $booleanClass = [
+        ['badge text-bg-info', 'badge text-bg-success'],
+        ['badge text-bg-warning', 'badge text-bg-primary']
+    ];
 
     public function mount(): void{
         $this->booleanAttributes = [
             ['Editor', 'Admin'],
             ['Pending', 'Allow'],
         ];
-        $this->booleanColNames = ['role','status'];
+        $this->booleanColNames = ['role', 'status'];
 
         $this->traitMount(
             ['Id', 'Name', 'Email', 'Phone', 'City', 'Role', 'Status', 'Action'],

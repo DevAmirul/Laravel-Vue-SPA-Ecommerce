@@ -13,10 +13,10 @@ Editors Create
 
     <!-- End Page Title -->
     <x-form pageTitle='Settings' pageUrl='Settings' enctype="multipart/form-data">
-        <x-form-input-field.general col="col-6" lable="Site name" name="site_name" type="text" wireModel='site_name'>
+        <x-form-input-field.general col="col-6" lable="Site name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
-        <x-form-input-field.general col="col-6" lable="Site slogan" name="site_slogan" type="text"
-            wireModel='site_slogan'>
+        <x-form-input-field.general col="col-6" lable="Site slogan" name="slogan" type="text"
+            wireModel='slogan'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Email" name="email" type="email" wireModel='email'>
         </x-form-input-field.general>
@@ -37,7 +37,7 @@ Editors Create
         <x-form-input-field.general col="col-6" lable="Instagram" name="instagram" type="text" wireModel='instagram'>
         </x-form-input-field.general>
 
-        <x-form-input-field.file col="col-6" label="Upload site logo" name="site_logo" wireModel='site_logo'>
+        <x-form-input-field.file col="col-6" label="Upload site logo" name="logo" wireModel='logo'>
         </x-form-input-field.file>
 
         <x-form-input-field.submit color='primary' buttonName="Save Settings"></x-form-input-field.submit>

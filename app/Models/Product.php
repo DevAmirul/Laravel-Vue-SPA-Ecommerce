@@ -43,8 +43,8 @@ class Product extends Model {
         return $this->hasMany(ProductAttribute::class);
     }
 
-    public function productPurchasedRevenue(): HasOne {
-        return $this->hasOne(ProductPurchasedRevenue::class);
+    public function revenueFromPurchaseAndSaleOfProduct(): HasOne {
+        return $this->hasOne(RevenueFromPurchaseAndSaleOfProduct::class);
     }
 
     public function productView(): HasOne {

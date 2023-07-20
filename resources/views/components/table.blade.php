@@ -1,8 +1,10 @@
 <main id="main" class="main">
-    <x-layouts.page-title :pageTitle='$pageTitle' :pageUrl='$pageUrl'></x-layouts.page-title>
+    @livewire('layouts.page-title',['pageTitle'=> $pageTitle, 'pageUrl'=>$pageUrl])
     <!-- End Page Title -->
     @if ($tableData->count() == null)
-    <x-empty-table :tableName='$tableName'></x-empty-table>
+
+    @livewire('layouts.empty-page',['tableName'=> $tableName])
+
     @else
     <section class="section">
         <div class="row">
@@ -53,19 +55,34 @@
                                     @endif
                                     {{-- end check image column --}}
 
-                                    {{-- check image column --}}
-                                    @if ($tableDataColumnName === $booleanColName)
+                                    {{-- Start check boolean column --}}
+
+
+                                    @if ($isBoolean ?? false)
+                                    @if ($tableDataColumnName === $booleanColNames[0])
                                     <x-boolean :booleanAttributes='$booleanAttributes'
-                                        :booleanColNames='$booleanColNames' :data='$data' booleanClass='$booleanClass'>
+                                        :booleanColNames='$booleanColNames' :data='$data' :booleanClass='$booleanClass'>
                                     </x-boolean>
                                     @endif
-
-                                    @if ($isBoolean)
-                                        @if (in_array($tableDataColumnName, $booleanColNames))
-                                        @continue
-                                        @endif
+                                    @if (in_array($tableDataColumnName, $booleanColNames))
+                                    @continue
                                     @endif
-                                    {{-- check image column --}}
+                                    @endif
+                                    {{-- End check boolean column --}}
+
+                                    {{-- Start check enum column --}}
+                                    @if ($isEnum ?? false)
+                                    @if ($tableDataColumnName === $enumColNames[0])
+                                    <x-enums :data='$data' :enumColNames='$enumColNames'
+                                        :enumAttributes='$enumAttributes' :enumClass='$enumClass'>
+                                    </x-enums>
+                                    @endif
+                                    @if (in_array($tableDataColumnName, $enumColNames))
+                                    @continue
+                                    @endif
+                                    @endif
+
+                                    {{-- End check enum column --}}
 
                                     @if ($tableDataColumnName == 'created_at')
                                     @if ($data->created_at < $data->updated_at)
@@ -80,14 +97,15 @@
                                         @endif
 
                                         <td>{{ $data->$tableDataColumnName }}</td>
+
                                         @endforeach
 
-                                        @if ($relation)
-                                            <td>{{ $data->$relationName->name }}</td>
+                                        @if ($relation ?? false)
+                                        <td>{{ $data->$relationName->name }}</td>
                                         @endif
 
                                         <td class="d-flex p-3">
-                                            @if (!$hideBtn)
+                                            @if ($showBtn ?? true)
                                             <button
                                                 onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
                                                 wire:click='update({{ $data->id }})' class="btn btn-primary "
@@ -106,6 +124,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+
                         <nav aria-label="Page navigation example">
                             <div class="d-flex flex-column">
                                 <ul class="pagination justify-content-center">
@@ -129,8 +148,4 @@
         </div>
     </section>
     @endif
-
-
-
-
 </main>
