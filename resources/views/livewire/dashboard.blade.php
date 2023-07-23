@@ -325,12 +325,12 @@ Dashboard
                     <!--Button Strat -->
                     <div class="card" wire:ignore>
                         <div class="card-body m-auto mt-3">
-                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("today")'
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("Today")'
                                 class="btn btn-outline-primary btn-sm">Today</button>
                             <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("This Month")'
-                                class="btn btn-outline-secondary btn-sm">Month</button>
+                                class="btn btn-outline-secondary btn-sm">This Month</button>
                             <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("This Year")'
-                                class="btn btn-outline-success btn-sm">Year</button>
+                                class="btn btn-outline-success btn-sm">This Year</button>
                         </div>
                     </div>
                     <!--End Button Strat -->
@@ -353,9 +353,21 @@ Dashboard
                                 <li class="dropdown-header text-start">
                                     <h6>Filter</h6>
                                 </li>
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                                <li>
+                                    <form wire:submit.prevent='showOrdersChart("Today")'>
+                                        <button class="dropdown-item">Today</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form wire:submit.prevent='showOrdersChart("This Month")'>
+                                        <button class="dropdown-item">This Month</button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form wire:submit.prevent='showOrdersChart("This Year")'>
+                                        <button class="dropdown-item">This Year</button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body ">
@@ -383,7 +395,8 @@ Dashboard
                             </ul>
                         </div>
                         <div class="card-body ">
-                            <h5 class="card-title">Expense & Revenue Chart <span>| {{ $strTimeOfRecentSale }}</span></h5>
+                            <h5 class="card-title">Expense & Revenue Chart <span>| {{ $strTimeOfRecentSale }}</span>
+                            </h5>
 
                             <!-- Doughnut Chart -->
                             <canvas id="incomeChart" style="max-height: 400px;"></canvas>

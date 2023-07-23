@@ -14,13 +14,12 @@ class DashboardController extends Component {
     public int $sale;
     public int $users;
     public int $totalOrders;
+    public object $ordersChart;
     public object $newArrivalProducts;
     public array $newRecentSaleProducts = [];
     public object $topRevenueProducts;
     public string $revenue;
     public $dataForChart;
-
-
 
     public function showSale($timeStr): void{
         $this->strTimeOfSale = $timeStr;
@@ -57,7 +56,7 @@ class DashboardController extends Component {
     }
 
     public function showRecentSale($timeStr): void{
-        $this->strTimeOfRecentSale   = $timeStr;
+        $this->strTimeOfRecentSale = $timeStr;
         $this->showRecentSaleQuery($timeStr);
     }
 
@@ -69,12 +68,16 @@ class DashboardController extends Component {
     public function mount(): void{
         $this->setStrTime('Today');
         $this->AllCalculationsAreBasedOnDayMonthYearQuery('Today');
-        
     }
 
     public function AllCalculationsAreBasedOnDayMonthYear($timeStr): void{
         $this->setStrTime($timeStr);
         $this->AllCalculationsAreBasedOnDayMonthYearQuery($timeStr);
+    }
+
+    public function showOrdersChart($timeStr): void{
+        $this->strTimeOfOrdersChart = $timeStr;
+        $this->showOrdersChartQuery($timeStr);
     }
 
     public function render() {

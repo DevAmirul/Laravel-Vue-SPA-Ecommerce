@@ -15,6 +15,7 @@ trait DashboardTrait {
     public string $strTimeOfRevenue;
     public string $strTimeOfUsers;
     public string $strTimeOfOrders;
+    public string $strTimeOfOrdersChart;
     public string $strTimeOfArrivals;
     public string $strTimeOfRecentSale;
     public string $strTimeOfTopRevenueProducts;
@@ -61,6 +62,8 @@ trait DashboardTrait {
         $this->newArrivalProductsQuery($timeStr);
 
         $this->showTopRevenueProductsQuery($timeStr);
+
+        $this->showOrdersChartQuery($timeStr);
     }
 
     public function setStrTime(string $timeStr): void{
@@ -75,13 +78,20 @@ trait DashboardTrait {
 
     public function getTime($time): object {
         return match ($time) {
-            'This Year' => Carbon::now()->subYears(),
-            'This Month' => Carbon::now()->subDay(30),
+            'This Month' => Carbon::now()->startOfMonth(),
+            'This Year' => Carbon::now()->startOfYear(),
             default => Carbon::today(),
         };
     }
 
     public function showUsersQuery($time): void{
         $this->users = User::where('created_at', '>', $this->getTime($time))->count();
+    }
+
+    public function showOrdersChartQuery($timeStr): void{
+        $this->ordersChart = DB::table('orders')->
+            select(DB::raw('count(order_status),order_status'))
+            ->where('created_at', '>', $this->getTime($timeStr))->groupBy('order_status')->get();
+        dd($this->ordersChart);
     }
 }
