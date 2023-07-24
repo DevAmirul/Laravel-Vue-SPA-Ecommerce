@@ -1,10 +1,8 @@
 <main id="main" class="main">
-    @livewire('layouts.page-title',['pageTitle'=> $pageTitle, 'pageUrl'=>$pageUrl])
+    @livewire('layouts.page-title',['pageTitle'=> $pageTitle])
     <!-- End Page Title -->
     @if ($tableData->count() == null)
-
-    @livewire('layouts.empty-page',['tableName'=> $tableName])
-
+        @livewire('layouts.empty-page',['tableName'=> $tableName])
     @else
     <section class="section">
         <div class="row">
@@ -101,25 +99,25 @@
                                         @endforeach
 
                                         @if ($relation ?? false)
-                                        <td>{{ $data->$relationName->name }}</td>
+                                        @foreach ($relationTableDataColumnNames as $relationTableDataColumnName)
+                                        <td>{{ $data->$relationName->$relationTableDataColumnName }}</td>
+                                        @endforeach
                                         @endif
 
-                                        <td class="d-flex p-3">
-                                            @if ($showBtn ?? true)
-                                            <button
-                                                onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
-                                                wire:click='update({{ $data->id }})' class="btn btn-primary "
-                                                value="2"><i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            @endif
-
-                                            <button
-                                                onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
-                                                wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
-                                                    class="bi bi-trash"></i>
-                                            </button>
-
+                                        @if ($showBtn ?? true)
+                                        <td class="d-flex">
+                                                @if ($showBtnEdit ?? true)
+                                                <button onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
+                                                    wire:click='update({{ $data->id }})' class="btn btn-primary " ><i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                @endif
+                                                @if ($showBtnDelete ?? true)
+                                                <button onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
+                                                    wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i class="bi bi-trash"></i>
+                                                </button>
+                                                @endif
                                         </td>
+                                        @endif
                                 </tr>
                                 @endforeach
                             </tbody>

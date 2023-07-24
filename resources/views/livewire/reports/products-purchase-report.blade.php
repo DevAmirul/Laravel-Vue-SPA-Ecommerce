@@ -1,3 +1,23 @@
+@push('title')
+Categories
+@endpush
 <div>
-    {{-- Because she competes with no one, no one can compete with her. --}}
+    <!-- ======= Header ======= -->
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
+    <!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    @livewire('layouts.sidebar')
+    <!-- End Sidebar-->
+    <x-table pageTitle='Products Purchase Report' tableName="Products Purchase Report Table"
+        :columnNamesArr='$columnNamesArr' :showBtn='false' :tableData='$revenueProduct'
+        :tableDataColumnNames='$tableDataColumnNames'
+        >
+    </x-table>
+    <!-- End #main -->
+    <!-- ======= Footer ======= -->
+    @livewire('layouts.footer')
+    <!-- End Footer -->
+
 </div>

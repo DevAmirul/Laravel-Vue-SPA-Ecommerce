@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->enum('type', ['percentage', 'decimal']);
             $table->char('code', 100);
             $table->boolean('status')->default(0);
+            $table->integer('order_count')->default(0);
             $table->dateTime('start_date');
             $table->dateTime('expire_date');
             $table->timestamps();

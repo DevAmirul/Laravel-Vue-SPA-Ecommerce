@@ -15,7 +15,6 @@ trait DashboardTrait {
     public string $strTimeOfRevenue;
     public string $strTimeOfUsers;
     public string $strTimeOfOrders;
-    public string $strTimeOfOrdersChart;
     public string $strTimeOfArrivals;
     public string $strTimeOfRecentSale;
     public string $strTimeOfTopRevenueProducts;
@@ -63,7 +62,11 @@ trait DashboardTrait {
 
         $this->showTopRevenueProductsQuery($timeStr);
 
-        $this->showOrdersChartQuery($timeStr);
+        $this->showOrdersChartQuery();
+
+        $this->showIncomeExpenditureChartQuery();
+
+        $this->showOrdersBarChartQuery();
     }
 
     public function setStrTime(string $timeStr): void{
@@ -84,14 +87,27 @@ trait DashboardTrait {
         };
     }
 
-    public function showUsersQuery($time): void{
-        $this->users = User::where('created_at', '>', $this->getTime($time))->count();
+    public function showUsersQuery($timeStr): void{
+        $this->users = User::where('created_at', '>', $this->getTime($timeStr))->count();
     }
 
-    public function showOrdersChartQuery($timeStr): void{
+    public function showOrdersChartQuery(): void{
         $this->ordersChart = DB::table('orders')->
-            select(DB::raw('count(order_status),order_status'))
-            ->where('created_at', '>', $this->getTime($timeStr))->groupBy('order_status')->get();
-        dd($this->ordersChart);
+            select(DB::raw('count(order_status) as status_quantity, order_status'))
+            ->where('created_at', '>', Carbon::now()->startOfYear())
+            ->groupBy('order_status')->get();
+    }
+
+    public function showIncomeExpenditureChartQuery(): void{
+        $this->incomeExpenditureChart = RevenueFromPurchaseAndSaleOfProduct::
+            where('created_at', '>', Carbon::now()->startOfYear())->get(['revenue', 'cost']);
+    }
+
+    public function showOrdersBarChartQuery(): void{
+        $this->ordersBarChart = Order::query()
+            ->selectRaw('count(created_at) as total, MONTHNAME(created_at) as month')
+            ->where('created_at', '>', Carbon::now()->startOfYear())
+            ->groupByRaw('MONTHNAME(created_at)')
+            ->get();
     }
 }

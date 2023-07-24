@@ -4,7 +4,9 @@ namespace App\Http\Livewire;
 
 use App\Http\Traits\DashboardTrait;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,6 +17,8 @@ class DashboardController extends Component {
     public int $users;
     public int $totalOrders;
     public object $ordersChart;
+    public object $ordersBarChart;
+    public object $incomeExpenditureChart;
     public object $newArrivalProducts;
     public array $newRecentSaleProducts = [];
     public object $topRevenueProducts;
@@ -75,10 +79,6 @@ class DashboardController extends Component {
         $this->AllCalculationsAreBasedOnDayMonthYearQuery($timeStr);
     }
 
-    public function showOrdersChart($timeStr): void{
-        $this->strTimeOfOrdersChart = $timeStr;
-        $this->showOrdersChartQuery($timeStr);
-    }
 
     public function render() {
         return view('livewire.dashboard');

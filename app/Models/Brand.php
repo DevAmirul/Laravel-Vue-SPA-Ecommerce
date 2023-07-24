@@ -17,7 +17,7 @@ class Brand extends Model {
         'image',
     ];
 
-    public function user(): HasMany {
+    public function product(): HasMany {
         return $this->hasMany(Product::class);
     }
 
