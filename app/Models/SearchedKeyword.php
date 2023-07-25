@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SearchedWords extends Model {
+class SearchedKeyword extends Model {
     use HasFactory;
 
-    
 }

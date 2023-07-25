@@ -148,6 +148,7 @@
                         <i class="bi bi-circle"></i><span>Products View</span>
                     </a>
                 </li>
+                
                 <li>
                     <a href="{{ route('reports.sales') }}">
                         <i class="bi bi-circle"></i><span>Sales</span>
@@ -163,11 +164,8 @@
                         <i class="bi bi-circle"></i><span>Shipping</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('reports.tagged.products') }}">
-                        <i class="bi bi-circle"></i><span>Tagged Products</span>
-                    </a>
-                </li>
+
+
             </ul>
         </li>
 

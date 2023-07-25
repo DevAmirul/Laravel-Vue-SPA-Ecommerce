@@ -1,3 +1,21 @@
+@push('title')
+Categories
+@endpush
 <div>
-    {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
+    <!-- ======= Header ======= -->
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
+    <!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    @livewire('layouts.sidebar')
+    <!-- End Sidebar-->
+    <x-table pageTitle='Sales Report' tableName="Sales Report Table" :columnNamesArr='$columnNamesArr'
+        :showBtn='false' :tableData='$saleReports' :tableDataColumnNames='$tableDataColumnNames'>
+    </x-table>
+    <!-- End #main -->
+    <!-- ======= Footer ======= -->
+    @livewire('layouts.footer')
+    <!-- End Footer -->
+
 </div>

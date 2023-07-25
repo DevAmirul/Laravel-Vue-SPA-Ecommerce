@@ -223,7 +223,7 @@ Dashboard
                                     </ul>
                                 </div>
                                 <div class="card-body pb-0">
-                                    <h5 class="card-title">Top Selling <span>|
+                                    <h5 class="card-title">Top Revenue <span>|
                                             {{ $strTimeOfTopRevenueProducts }}</span></h5>
                                     <table class="table table-borderless">
                                         <thead>

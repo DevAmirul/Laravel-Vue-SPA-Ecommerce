@@ -16,7 +16,7 @@ class OrdersController extends Component {
         $this->status = ['Canceled', 'delivered', 'approved', 'pending'];
         $this->traitMount(
             ['Id', 'Order Status', 'Discount', 'Subtotal', 'Total', 'time', 'Action'],
-            ['id', 'status', 'discount', 'subtotal', 'total', 'created_at', 'updated_at']
+            ['id', 'order_status', 'discount', 'subtotal', 'total', 'created_at', 'updated_at']
         );
     }
     public function update($orderId) {

@@ -33,13 +33,15 @@ use App\Http\Livewire\Reports\BrandedProductsReportController;
 use App\Http\Livewire\Reports\CategorizedProductsReportController;
 use App\Http\Livewire\Reports\CouponsReportController;
 use App\Http\Livewire\Reports\CustomersOrderReportController;
+use App\Http\Livewire\Reports\NewArrivalsController;
 use App\Http\Livewire\Reports\ProductsPurchaseReportController;
 use App\Http\Livewire\Reports\ProductsStockReportController;
 use App\Http\Livewire\Reports\ProductsViewReportController;
+use App\Http\Livewire\Reports\RecentSalesController;
 use App\Http\Livewire\Reports\SalesReportController;
 use App\Http\Livewire\Reports\SearchReportController;
 use App\Http\Livewire\Reports\ShippingReportController;
-use App\Http\Livewire\Reports\TaggedProductsReportController;
+use App\Http\Livewire\Reports\TopRevenueController;
 use App\Http\Livewire\Settings\Coupons\CouponsController;
 use App\Http\Livewire\Settings\Coupons\CouponsCreateController;
 use App\Http\Livewire\Settings\Coupons\CouponsUpdateController;
@@ -153,7 +155,6 @@ Route::prefix('reports')->name('reports')->group(function () {
     Route::get('/sales', SalesReportController::class)->name('.sales');
     Route::get('/search', SearchReportController::class)->name('.search');
     Route::get('/shipping', ShippingReportController::class)->name('.shipping');
-    Route::get('/tagged-products', TaggedProductsReportController::class)->name('.tagged.products');
 });
 
 Route::prefix('contacts')->name('contacts')->group(function () {

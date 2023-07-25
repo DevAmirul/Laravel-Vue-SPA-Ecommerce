@@ -27,7 +27,7 @@ class ProductFactory extends Factory {
             'slug'            => $slug,
             'sku'             => $name . random_int(1, 50),
             'description'     => fake()->text(500),
-            'stock_status'    => 1,
+            'stock_status'    => random_int(0, 1),
             'qty_in_stock'    => fake()->numberBetween(10, 100),
             'sale_price'      => fake()->numberBetween(200, 1000),
             'original_price'  => fake()->numberBetween(200, 500),

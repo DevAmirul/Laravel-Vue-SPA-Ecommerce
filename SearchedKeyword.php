@@ -753,16 +753,16 @@ namespace App\Models {
  * @property int $count
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords query()
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SearchedWords whereWord($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword query()
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword whereCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|SearchedKeyword whereWord($value)
  */
-    class SearchedWords extends \Eloquent {}
+    class SearchedKeyword extends \Eloquent {}
 }
 
 namespace App\Models {

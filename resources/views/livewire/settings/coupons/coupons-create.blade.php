@@ -6,10 +6,12 @@ Product Create
 @endpush
 <div>
     <!-- ======= Header ======= -->
-    <x-layouts.header></x-layouts.header>
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <x-layouts.sidebar></x-layouts.sidebar>
+    @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
     <!-- End Page Title -->
@@ -31,22 +33,21 @@ Product Create
             wireModel='status' colName='name' name="status">
         </x-form-input-field.select-for-array>
 
-        <div class="col-6"><input wire:model='start_date' class="form-control" id="start_date" type="text" name="start_date"
-                placeholder="Pick start Date" aria-label="Start Date">
+        <div class="col-6"><input wire:model='start_date' class="form-control" id="start_date" type="text"
+                name="start_date" placeholder="Pick start Date" aria-label="Start Date">
             @error( 'start_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
 
-        <div class="col-6"><input wire:model='expire_date' class="form-control" id="expire_date" type="text" name="expire_date"
-                placeholder="Pick expire Date" aria-label="Start Date">
+        <div class="col-6"><input wire:model='expire_date' class="form-control" id="expire_date" type="text"
+                name="expire_date" placeholder="Pick expire Date" aria-label="Start Date">
             @error( 'expire_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
 
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
     <!-- ======= Footer ======= -->
-    <x-layouts.footer></x-layouts.footer>
+    @livewire('layouts.footer')
     <!-- End Footer -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    
 </div>
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

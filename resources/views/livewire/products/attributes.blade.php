@@ -3,13 +3,13 @@ Sub Categories
 @endpush
 <div>
     <!-- ======= Header ======= -->
-    <x-layouts.header></x-layouts.header>
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <x-layouts.sidebar></x-layouts.sidebar>
+    @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-
-    <!-- End Page Title -->
 
     <main id="main" class="main">
         <x-layouts.page-title pageTitle='Attribute' pageUrl='Attribute'></x-layouts.page-title>
@@ -22,7 +22,7 @@ Sub Categories
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            
+
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -68,8 +68,6 @@ Sub Categories
 
     <!-- End #main -->
     <!-- ======= Footer ======= -->
-    <x-layouts.footer></x-layouts.footer>
+    @livewire('layouts.footer')
     <!-- End Footer -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
 </div>

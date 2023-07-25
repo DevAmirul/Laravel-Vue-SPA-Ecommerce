@@ -1,3 +1,21 @@
+@push('title')
+Categories
+@endpush
 <div>
-    {{-- Care about people's approval and you will be their prisoner. --}}
+    <!-- ======= Header ======= -->
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
+    <!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    @livewire('layouts.sidebar')
+    <!-- End Sidebar-->
+    <x-table pageTitle='Sales Report' tableName="Sales Report Table" :columnNamesArr='$columnNamesArr' :showBtn='false'
+        :tableData='$shippingReports' :tableDataColumnNames='$tableDataColumnNames'>
+    </x-table>
+    <!-- End #main -->
+    <!-- ======= Footer ======= -->
+    @livewire('layouts.footer')
+    <!-- End Footer -->
+
 </div>
