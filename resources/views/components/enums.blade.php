@@ -5,7 +5,7 @@ $i = 0;
 @foreach ($enumAttribute as $attributeKey => $attribute)
 @php
 $colName = $enumColNames[$i];
-$class = $enumClass[$enumAttributeKey][$attributeKey];
+$class = $enumClasses[$enumAttributeKey][$attributeKey];
 @endphp
 @if ($data->$colName == $attribute)
 <td><span class=" {{ $class }} "  >{{ $attribute }}</span></td>

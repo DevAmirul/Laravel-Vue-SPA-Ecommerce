@@ -11,10 +11,8 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Brands Table' pageUrl='Brands' tableName="Brands Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$brands' :tableDataColumnNames='$tableDataColumnNames'
-        :relation='false' relationName='' :hideBtn='false' :isBoolean='true' booleanColName='status'
-        :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'>
+    <x-table pageTitle='Brands Table' tableName="Brands Table" :$columnNamesArr :tableData='$brands' :$tableDataColumnNames
+        :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 
     <!-- End #main -->

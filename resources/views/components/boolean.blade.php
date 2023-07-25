@@ -4,8 +4,8 @@ $i = 0;
 @foreach ($booleanAttributes as $key => $booleanAttribute)
 @php
 $colName = $booleanColNames[$i];
-$class1 = $booleanClass[$key][0];
-$class2 = $booleanClass[$key][1];
+$class1 = $booleanClasses[$key][0];
+$class2 = $booleanClasses[$key][1];
 @endphp
 @if ($data->$colName == 0)
 <td> <span class="{{ $class1 }}">{{ $booleanAttribute[0] }}</span></td>

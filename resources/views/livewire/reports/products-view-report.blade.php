@@ -10,8 +10,8 @@ Categories
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-    <x-table pageTitle='Products Stock Report' tableName="Products Stock Report Table" :columnNamesArr='$columnNamesArr'
-        :showBtn='false' :tableData='$products' :tableDataColumnNames='$tableDataColumnNames'>
+    <x-table pageTitle='Products Stock Report' tableName="Products Stock Report Table" :$columnNamesArr :showBtn='false'
+        :tableData='$productViewReports' :$tableDataColumnNames>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

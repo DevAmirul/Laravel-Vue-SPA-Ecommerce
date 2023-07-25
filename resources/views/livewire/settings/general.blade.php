@@ -14,7 +14,7 @@ Editors Create
     <!-- End Sidebar-->
 
     <!-- End Page Title -->
-    <x-form pageTitle='Settings' pageUrl='Settings' enctype="multipart/form-data">
+    <x-form pageTitle='Settings' enctype="multipart/form-data">
         <x-form-input-field.general col="col-6" lable="Site name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Site slogan" name="slogan" type="text"

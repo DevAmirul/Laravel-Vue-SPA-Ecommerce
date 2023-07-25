@@ -2,27 +2,27 @@
 
 namespace App\Http\Livewire\Reports;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\SearchedKeyword;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class SearchReportController extends Component {
-    use TableHeaderTrait, WithPagination;
+    use TableColumnTrait, WithPagination;
 
     public function mount(): void{
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Keyword', 'Hits'],
             ['keyword', 'hits']
         );
     }
 
     public function render() {
-        $keywords = SearchedKeyword::where('keyword', 'LIKE', '%' . $this->searchStr . '%')
+        $keywordReports = SearchedKeyword::where('keyword', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 
         return view('livewire.reports.search-report', [
-            'keywords' => $keywords,
+            'keywordReports' => $keywordReports,
         ]);
     }
 }

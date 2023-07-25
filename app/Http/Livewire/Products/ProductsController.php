@@ -2,20 +2,26 @@
 
 namespace App\Http\Livewire\Products;
 
+use App\Http\Traits\BooleanTrait;
 use App\Http\Traits\FileTrait;
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductsController extends Component {
 
-    use WithPagination, TableHeaderTrait, FileTrait;
+    use WithPagination, BooleanTrait, TableColumnTrait, FileTrait;
 
     public function mount(): void{
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Image', 'Name', 'SKU', 'Stock Status', 'Qty in Stock', 'Sub Category', 'Price', 'Discount Price', 'Offer Price', 'Action'],
             ['image', 'title', 'sku', 'stock_status', 'qty_in_stock', 'sub_category_id', 'price', 'discount_price', 'offer_price']
+        );
+        $this->booleanTrait(
+            ['status'],
+            [['Unpublish', 'Publish']],
+            [['badge text-bg-warning', 'badge text-bg-primary']]
         );
     }
 

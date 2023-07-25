@@ -7,7 +7,7 @@
             </a>
         </li><!-- End Dashboard Nav -->
         <li class="nav-item">
-            <a class="nav-link collapsed {{ (request()->is('products')) ? 'active' : '' }}"
+            <a class="nav-link collapsed {{ ( Request::routeIs('products') ||Request::routeIs('products.create') ||Request::routeIs('products.update') || Request::routeIs('attributes') || Request::routeIs('attributes.create') ||Request::routeIs('brands')||Request::routeIs('brands.create')||Request::routeIs('brands.update') || Request::routeIs('tags')|| Request::routeIs('tags.create')) ? 'active' : '' }}"
                 data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-box2"></i><span>Products</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -59,12 +59,9 @@
             </ul>
         </li><!-- End Components Nav -->
 
-
-
-
         <li class="nav-item">
             <a class="nav-link collapsed {{
-                (Request::routeIs('categories') || Request::routeIs('categories.create') || Request::routeIs('categories.update') || Request::routeIs('sections') || Request::routeIs('sections.create') || Request::routeIs('subCategories') || Request::routeIs('subCategories.create') || Request::routeIs('subCategories.update')) ? 'active' : '' }}"
+                (Request::routeIs('categories') || Request::routeIs('categories.create') || Request::routeIs('categories.update') || Request::routeIs('sections') || Request::routeIs('sections.create') | Request::routeIs('sections.update') || Request::routeIs('subCategories') || Request::routeIs('subCategories.create') || Request::routeIs('subCategories.update')) ? 'active' : '' }}"
                 data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-layout-text-window-reverse"></i><span>Categories</span><i
                     class="bi bi-chevron-down ms-auto"></i>
@@ -108,7 +105,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed {{
-                (Request::routeIs('subCategories') || Request::routeIs('subCategories.create') || Request::routeIs('subCategories.update')) ? 'active' : '' }}"
+                (Request::routeIs('reports.brand.products') || Request::routeIs('reports.categorized.products') || Request::routeIs('reports.coupons')|| Request::routeIs('reports.customers.order')|| Request::routeIs('reports.products.purchase')|| Request::routeIs('reports.products.stock')|| Request::routeIs('reports.products.view')|| Request::routeIs('reports.sales')|| Request::routeIs('reports.search')|| Request::routeIs('reports.shipping')) ? 'active' : '' }}"
                 data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-bar-chart"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -148,7 +145,7 @@
                         <i class="bi bi-circle"></i><span>Products View</span>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="{{ route('reports.sales') }}">
                         <i class="bi bi-circle"></i><span>Sales</span>
@@ -201,7 +198,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed {{
-                        (Request::routeIs('sections') || Request::routeIs('sections.create')) ? 'active' : '' }}"
+                        (Request::routeIs('settings.general') || Request::routeIs('settings.mail') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.mail')|| Request::routeIs('settings.')) ? 'active' : '' }}"
                 data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -246,29 +243,22 @@
                         <i class="bi bi-circle"></i><span>Add Shipping Methods</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="{{ route('settings.shippingMethods') }}">
-                <i class="bi bi-circle"></i><span>Shipping Methods</span>
-                </a>
-        </li> --}}
+            </ul>
+        </li>
 
-
-    </ul>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
-            href="{{ route('contacts') }}">
-            <i class="bi bi-envelope-at"></i>
-            <span>Contacts</span>
-        </a>
-    </li><!-- End F.A.Q Page Nav -->
-    <li class="nav-item">
-        <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
-            <i class="bi bi-people-fill"></i>
-            <span>Users</span>
-        </a>
-    </li><!-- End F.A.Q Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
+                href="{{ route('contacts') }}">
+                <i class="bi bi-envelope-at"></i>
+                <span>Contacts</span>
+            </a>
+        </li><!-- End F.A.Q Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
+                <i class="bi bi-people-fill"></i>
+                <span>Users</span>
+            </a>
+        </li><!-- End F.A.Q Page Nav -->
 
 
     </ul>

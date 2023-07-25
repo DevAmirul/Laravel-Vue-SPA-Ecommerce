@@ -2,27 +2,25 @@
 
 namespace App\Http\Livewire\Categories;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\RelationTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Category;
 use Livewire\Component;
 
 class CategoriesController extends Component {
-    use TableHeaderTrait;
-
-    public array $booleanColNames;
-    public array $booleanAttributes;
+    use TableColumnTrait, BooleanTrait, RelationTrait;
 
     public function mount(): void{
-
-        $this->booleanAttributes = [
-            ['Unpublish', 'Publish'],
-        ];
-        $this->booleanColNames = ['status'];
-
-        $this->traitMount(
-            ['Id', 'Image', 'Name', 'Slug', 'Status', 'Section Name', 'Action'],
+        $this->tableColumnTrait(
+            ['Id', 'image', 'Name', 'Slug', 'status', 'Section', 'Action'],
             ['id', 'image', 'name', 'slug', 'status']
         );
+        $this->booleanTrait(['status'],
+            [['Unpublish', 'Publish']],
+            [['badge text-bg-warning', 'badge text-bg-primary']]
+        );
+        $this->RelationTrait('section', ['name']);
     }
 
     public function update($categoryId) {

@@ -11,9 +11,8 @@ Dashboard
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Products Table' pageUrl='products' routeName='products.show' tableName="Products Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$products' :tableDataColumnNames='$tableDataColumnNames'
-        :image='true' statusColName='status' :hideBtn='false'>
+    <x-table pageTitle='Products Table' tableName="Products Table" :$columnNamesArr :tableData='$products'
+        :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 
     <!-- End #main -->

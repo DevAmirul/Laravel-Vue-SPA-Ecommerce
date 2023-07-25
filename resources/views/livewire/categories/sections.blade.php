@@ -11,10 +11,7 @@ Sections
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Sections Table' pageUrl='Sections' tableName="Sections Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$sections' :tableDataColumnNames='$tableDataColumnNames'
-        :relation='false' :hideBtn='false'
-        booleanColName='status' :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'>
+    <x-table pageTitle='Sections Table' tableName="Sections Table" :$columnNamesArr :tableData='$sections' :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 
     <!-- End #main -->

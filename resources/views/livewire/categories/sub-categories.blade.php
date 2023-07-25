@@ -11,10 +11,9 @@ Sub Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='SubCategories Table' pageUrl='sub-categories' tableName="SubCategories Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$subCategories' :tableDataColumnNames='$tableDataColumnNames'
-        :relation='true' relationName='category' :hideBtn='false' booleanColName='status'
-        :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames'>
+    <x-table pageTitle='Sub Categories Table' tableName="Sub Categories Table" :$columnNamesArr :tableData='$subCategories'
+        :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses :relation='true'
+        :$relationTableDataColumnNames :$relationName>
     </x-table>
 
     <!-- End #main -->

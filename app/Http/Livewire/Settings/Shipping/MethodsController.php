@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Settings\Shipping;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\ShippingMethod;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class MethodsController extends Component {
-    use WithPagination, TableHeaderTrait;
+    use WithPagination, TableColumnTrait;
 
     public function mount(): void{
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Id', 'Name', 'Cost', 'Action'],
             ['id', 'name', 'cost']
         );

@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Reports;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class SalesReportController extends Component {
-    use TableHeaderTrait, WithPagination;
+    use TableColumnTrait, WithPagination;
 
     public function mount(): void{
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Orders', 'Products Quantity', 'Subtotal', 'Discount', 'Shipping', 'Total'],
             ['orders', 'qty', 'subtotal', 'discount', 'shippingCost', 'total']
         );
@@ -25,7 +25,7 @@ class SalesReportController extends Component {
             ->selectRaw('count(orders.created_at) as orders, MONTHNAME(orders.created_at) as month, sum(order_items.qty) as qty, sum(orders.subtotal) as subtotal, sum(orders.discount) as discount, sum(orders.total) as total, sum(shipping_methods.cost) as shippingCost')
             ->groupByRaw('MONTHNAME(orders.created_at)')
             ->paginate($this->showDataPerPage);
-            // ->where('MONTHNAME(orders.created_at)', 'LIKE', '%' . $this->searchStr . '%')
+        // ->where('MONTHNAME(orders.created_at)', 'LIKE', '%' . $this->searchStr . '%')
 
         return view('livewire.reports.sales-report', [
             'saleReports' => $saleReports,

@@ -14,7 +14,7 @@ Product Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Coupons Create' pageUrl='Coupons / Create'>
+    <x-form pageTitle='Coupons Create'>
         <x-form-input-field.general col="col-6" lable="Coupon title" name="title" type="text" wireModel='title'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Coupon discount" name="discount" type="text"

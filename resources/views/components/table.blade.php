@@ -58,8 +58,8 @@
 
                                     @if ($isBoolean ?? false)
                                     @if ($tableDataColumnName === $booleanColNames[0])
-                                    <x-boolean :booleanAttributes='$booleanAttributes'
-                                        :booleanColNames='$booleanColNames' :data='$data' :booleanClass='$booleanClass'>
+                                    <x-boolean :$booleanAttributes
+                                        :$booleanColNames :$data :$booleanClasses >
                                     </x-boolean>
                                     @endif
                                     @if (in_array($tableDataColumnName, $booleanColNames))
@@ -71,8 +71,8 @@
                                     {{-- Start check enum column --}}
                                     @if ($isEnum ?? false)
                                     @if ($tableDataColumnName === $enumColNames[0])
-                                    <x-enums :data='$data' :enumColNames='$enumColNames'
-                                        :enumAttributes='$enumAttributes' :enumClass='$enumClass'>
+                                    <x-enums :$data :$enumColNames
+                                        :$enumAttributes :$enumClasses >
                                     </x-enums>
                                     @endif
                                     @if (in_array($tableDataColumnName, $enumColNames))

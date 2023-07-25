@@ -2,28 +2,25 @@
 
 namespace App\Http\Livewire\Categories;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Section;
 use Livewire\Component;
 
 class SectionsController extends Component {
-    use TableHeaderTrait;
+    use TableColumnTrait, BooleanTrait;
 
-    public array $booleanColNames;
-    public array $booleanAttributes;
-    public bool $status;
     public $image;
 
     public function mount(): void{
-
-        $this->booleanAttributes = [
-            ['Unpublish', 'Publish'],
-        ];
-        $this->booleanColNames = ['status'];
-
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Id', 'image', 'Name', 'Slug', 'status', 'Action'],
             ['id', 'image', 'name', 'slug', 'status']
+        );
+        $this->booleanTrait(
+            ['status'],
+            [['Unpublish', 'Publish']],
+            [['badge text-bg-warning', 'badge text-bg-primary']]
         );
     }
 

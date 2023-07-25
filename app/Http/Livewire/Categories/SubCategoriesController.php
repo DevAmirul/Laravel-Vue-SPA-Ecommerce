@@ -2,26 +2,25 @@
 
 namespace App\Http\Livewire\Categories;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\RelationTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\SubCategory;
 use Livewire\Component;
 
 class SubCategoriesController extends Component {
-    use TableHeaderTrait;
-
-    public array $booleanColNames;
-    public array $booleanAttributes;
+    use TableColumnTrait, BooleanTrait, RelationTrait;
 
     public function mount(): void{
-        $this->booleanAttributes = [
-            ['Unpublish', 'Publish'],
-        ];
-        $this->booleanColNames = ['status'];
-
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Id', 'Image', 'Name', 'Slug', 'Status', 'Category Name', 'Action'],
             ['id', 'image', 'name', 'slug', 'status']
         );
+        $this->booleanTrait(['status'],
+            [['Unpublish', 'Publish']],
+            [['badge text-bg-warning', 'badge text-bg-primary']]
+        );
+        $this->RelationTrait('category', ['name']);
     }
 
     public function update($subCategoryId) {

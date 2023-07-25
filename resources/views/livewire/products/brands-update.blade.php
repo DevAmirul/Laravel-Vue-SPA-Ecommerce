@@ -12,7 +12,7 @@ Brand Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Brand Create' pageUrl='Brand / Create'>
+    <x-form pageTitle='Brand Create'>
         <x-form-input-field.general col="col-6" lable="Brand name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Brand Slug" name="slug" type="text" wireModel='slug'>

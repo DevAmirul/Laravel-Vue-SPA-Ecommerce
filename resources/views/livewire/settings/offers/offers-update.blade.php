@@ -15,8 +15,8 @@ Product Create
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-    
-    <x-form pageTitle='Offers Create' pageUrl='Offers / Create'>
+
+    <x-form pageTitle='Offers Create' >
         <x-form-input-field.general col="col-6" lable="Offers title" name="title" type="text" wireModel='title'>
         </x-form-input-field.general>
 

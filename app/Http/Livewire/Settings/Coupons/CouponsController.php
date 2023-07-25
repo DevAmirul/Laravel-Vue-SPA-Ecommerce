@@ -2,26 +2,24 @@
 
 namespace App\Http\Livewire\Settings\Coupons;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Coupon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class CouponsController extends Component {
-    use WithPagination, TableHeaderTrait;
-
-    public array $booleanColNames;
-    public array $booleanAttributes;
+    use WithPagination, TableColumnTrait, BooleanTrait;
 
     public function mount(): void{
-        $this->booleanAttributes = [
-            ['Unpublish', 'Publish'],
-        ];
-        $this->booleanColNames = ['status'];
-
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Id', 'Title', 'Discount', 'Type', 'Code', 'Status', 'Start Date', 'Expire Date', 'Action'],
             ['id', 'title', 'discount', 'type', 'code', 'status', 'start_date', 'expire_date']
+        );
+        $this->booleanTrait(
+            ['status'],
+            [['Unpublish', 'Publish']],
+            [ ['badge text-bg-warning', 'badge text-bg-primary'] ]
         );
     }
 

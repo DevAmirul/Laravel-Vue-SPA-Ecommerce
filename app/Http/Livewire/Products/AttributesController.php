@@ -2,13 +2,12 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\TableHeaderTrait;
 use App\Models\Attribute;
 use Livewire\Component;
 
 class AttributesController extends Component {
 
-    public function destroy($attributeId) : int {
+    public function destroy($attributeId): int {
         return Attribute::destroy($attributeId);
     }
 

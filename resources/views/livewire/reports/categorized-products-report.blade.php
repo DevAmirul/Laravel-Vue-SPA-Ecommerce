@@ -11,8 +11,8 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <x-table pageTitle='Categorized Products Report' tableName="Categorized Products Report Table"
-        :columnNamesArr='$columnNamesArr' :showBtn='false' :tableData='$categories'
-        :tableDataColumnNames='$tableDataColumnNames'>
+        :$columnNamesArr :showBtn='false' :tableData='$categoriesReports'
+        :$tableDataColumnNames>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

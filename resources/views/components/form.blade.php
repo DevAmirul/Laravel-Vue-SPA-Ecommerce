@@ -1,5 +1,5 @@
 <main id="main" class="main">
-    <x-layouts.page-title :pageTitle='$pageTitle' :pageUrl='$pageUrl'></x-layouts.page-title>
+    @livewire('layouts.page-title',['pageTitle'=> $pageTitle])
     <section class="section">
         <div class="row">
             <div class="col-12">

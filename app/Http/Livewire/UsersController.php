@@ -2,34 +2,25 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\EnumTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class UsersController extends Component {
-    use WithPagination, TableHeaderTrait;
-
-    public array $enumAttributes;
-    public array $enumColNames;
-    public array $enumClass = [
-        ['badge text-bg-primary', 'badge text-bg-info'],
-    ];
+    use WithPagination, TableColumnTrait, EnumTrait;
 
     public function mount(): void{
-        $this->enumColNames   = ['gender'];
-        $this->enumAttributes = [
-            ['male', 'female'],
-        ];
 
-        $this->traitMount(
-            ['Id', 'Name', 'Email', 'Gender', 'Action'],
+        $this->tableColumnTrait(
+            ['Id', 'Name', 'Email', 'Gender'],
             ['id', 'name', 'email', 'gender']
         );
-    }
-
-    public function destroy($id): int {
-        return User::destroy($id);
+        $this->enumTrait(
+            ['gender'], [['male', 'female']],
+            [['badge text-bg-primary', 'badge text-bg-info']]
+        );
     }
 
     public function render() {

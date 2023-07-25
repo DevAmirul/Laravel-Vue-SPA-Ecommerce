@@ -3,19 +3,19 @@ Product Create
 @endpush
 @push('css')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 @endpush
 <div>
     <!-- ======= Header ======= -->
-    <x-layouts.header></x-layouts.header>
+    <div wire:ignore>
+        @livewire('layouts.header')
+    </div>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <x-layouts.sidebar></x-layouts.sidebar>
+    @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <!-- End Page Title -->
-    <x-form pageTitle='Offers Create' pageUrl='Offers / Create'>
+    <x-form pageTitle='Offers Create'>
         <x-form-input-field.general col="col-6" lable="Offers title" name="title" type="text" wireModel='title'>
         </x-form-input-field.general>
 
@@ -66,18 +66,13 @@ Product Create
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
+    <!-- End #main -->
     <!-- ======= Footer ======= -->
-    <x-layouts.footer></x-layouts.footer>
+    @livewire('layouts.footer')
     <!-- End Footer -->
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
 </div>
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
-    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
@@ -106,24 +101,6 @@ Product Create
     select.on('change',function (value){
         @this.set('selectedBrands', value)
     })
-
-    // $(document).ready(function() {
-    //     $('.js-example-basic-multiple').select2();
-    //     $('.js-example-basic-multiple').on('change',function(e){
-
-    //         var data = $('.js-example-basic-multiple').select2('val')
-    //         @this.set('cateModel', data)
-    //     });
-    //     $('.example-basic-multiple').select2();
-    //     $('.example-basic-multiple').on('change',function(e){
-
-    //         var data = $('.example-basic-multiple').select2('val')
-    //         console.log(data);
-    //         // @this.set('cateModel', data)
-    //     });
-    // });
-
-
 
 
 </script>

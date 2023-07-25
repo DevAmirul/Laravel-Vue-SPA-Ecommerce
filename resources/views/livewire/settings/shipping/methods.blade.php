@@ -11,10 +11,7 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Shipping methods Table' pageUrl='Shipping methods' tableName="Shipping methods Table"
-        :columnNamesArr='$columnNamesArr' :tableData='$methods' :tableDataColumnNames='$tableDataColumnNames'
-        :relation='false' relationName='' :hideBtn='false' :isBoolean='false' booleanColName='' booleanAttributes=''
-        booleanColNames=''>
+    <x-table pageTitle='Shipping methods Table' tableName="Shipping methods Table" :$columnNamesArr :tableData='$methods' :$tableDataColumnNames>
     </x-table>
 
     <!-- End #main -->

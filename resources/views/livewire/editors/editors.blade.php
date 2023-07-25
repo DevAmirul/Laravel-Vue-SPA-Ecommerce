@@ -11,9 +11,9 @@ Sub Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Editors Table' pageUrl='Editors' tableName="Editors Table" :columnNamesArr='$columnNamesArr'
-        :tableData='$editors' :tableDataColumnNames='$tableDataColumnNames' :isBoolean='true'
-        :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames' :booleanClass='$booleanClass'>
+    <x-table pageTitle='Editors Table' pageUrl='Editors' tableName="Editors Table" :$columnNamesArr
+        :tableData='$editors' :$tableDataColumnNames :isBoolean='true'
+        :$booleanAttributes :$booleanColNames :$booleanClasses >
     </x-table>
 
     <!-- End #main -->

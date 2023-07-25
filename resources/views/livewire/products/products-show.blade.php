@@ -11,7 +11,7 @@ Dashboard
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <main id="main" class="main">
-        <x-layouts.page-title pageTitle='Products Details' pageUrl='products / Details'></x-layouts.page-title>
+        @livewire('layouts.page-title',['pageTitle'=> 'Products Details'])
         <!-- End Page Title -->
         <section class="section">
             <div class="row">
@@ -85,7 +85,7 @@ Dashboard
             </div>
         </section>
     </main><!-- End #main -->
-    
+
     <!-- End #main -->
     <!-- ======= Footer ======= -->
     @livewire('layouts.footer')

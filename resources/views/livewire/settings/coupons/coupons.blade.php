@@ -13,15 +13,13 @@ Coupons
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Coupons Table' pageUrl='Coupons' tableName="Coupons Table" :columnNamesArr='$columnNamesArr'
-        :tableData='$coupons' :tableDataColumnNames='$tableDataColumnNames' :relation='false' relationName=''
-        :isBoolean='true' :hideBtn='false' booleanColName='status' :booleanAttributes='$booleanAttributes'
-        :booleanColNames='$booleanColNames'>
+    <x-table pageTitle='Coupons Table' tableName="Coupons Table" :$columnNamesArr :tableData='$coupons'
+        :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 
     <!-- End #main -->
     <!-- ======= Footer ======= -->
     @livewire('layouts.footer')
     <!-- End Footer -->
-    
+
 </div>

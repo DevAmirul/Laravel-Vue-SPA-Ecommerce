@@ -11,9 +11,8 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <x-table pageTitle='Products Stock Report' tableName="Products Stock Report Table"
-        :columnNamesArr='$columnNamesArr' :showBtn='false' :tableData='$products'
-        :tableDataColumnNames='$tableDataColumnNames' :isBoolean='true'
-        :booleanAttributes='$booleanAttributes' :booleanColNames='$booleanColNames' :booleanClass='$booleanClass'>
+        :$columnNamesArr :showBtn='false' :tableData='$productStockReports'
+        :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

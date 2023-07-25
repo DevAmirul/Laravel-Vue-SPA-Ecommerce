@@ -2,19 +2,18 @@
 
 namespace App\Http\Livewire\Orders;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Order;
-use Carbon\Carbon;
 use Livewire\Component;
 
 class OrdersController extends Component {
-    use TableHeaderTrait;
+    use TableColumnTrait;
 
     public array $status;
 
     public function mount(): void{
         $this->status = ['Canceled', 'delivered', 'approved', 'pending'];
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Id', 'Order Status', 'Discount', 'Subtotal', 'Total', 'time', 'Action'],
             ['id', 'order_status', 'discount', 'subtotal', 'total', 'created_at', 'updated_at']
         );

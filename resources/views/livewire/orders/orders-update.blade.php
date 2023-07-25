@@ -16,7 +16,7 @@ Sub Categories
         $pageTitle = 'Order Details';
         $pageUrl = 'Order / Details';
         @endphp
-        <x-layouts.page-title :pageTitle='$pageTitle' :pageUrl='$pageUrl'></x-layouts.page-title>
+        <x-layouts.page-title :pageTitle='$pageTitle' ></x-layouts.page-title>
         <!-- End Page Title -->
 
         <section class="section">

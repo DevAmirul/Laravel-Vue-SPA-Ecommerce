@@ -11,10 +11,7 @@ Sub Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Contact Us Table' pageUrl='Home / Contacts' tableName="Contact Us Table" :columnNamesArr='$columnNamesArr'
-        :tableData='$contacts' :tableDataColumnNames='$tableDataColumnNames'
-        :isBoolean='true' :booleanAttributes='$booleanAttributes'
-        :booleanColNames='$booleanColNames' :$booleanClass >
+    <x-table pageTitle='Contact Us Table' tableName="Contact Us Table" :$columnNamesArr :tableData='$contacts' :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses >
     </x-table>
 
     <!-- End #main -->

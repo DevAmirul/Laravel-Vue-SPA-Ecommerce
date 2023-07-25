@@ -10,7 +10,7 @@ Categories
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-    <x-table pageTitle='Sales Report' tableName="Sales Report Table" :columnNamesArr='$columnNamesArr' :showBtn='false' :tableData='$keywords' :tableDataColumnNames='$tableDataColumnNames'>
+    <x-table pageTitle='Sales Report' tableName="Sales Report Table" :$columnNamesArr :showBtn='false' :tableData='$keywordReports' :$tableDataColumnNames>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

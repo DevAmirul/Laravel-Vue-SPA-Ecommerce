@@ -12,10 +12,10 @@ Sub Categories
     <!-- End Sidebar-->
 
     <main id="main" class="main">
-        <x-layouts.page-title pageTitle='Attribute' pageUrl='Attribute'></x-layouts.page-title>
+        @livewire('layouts.page-title',['pageTitle'=> 'Attributes'])
         <!-- End Page Title -->
         @if ($attributes->count() == null)
-        <x-empty-table :tableName='$tableName'></x-empty-table>
+        @livewire('layouts.empty-page',['tableName'=> 'Attributes Table'])
         @else
         <section class="section">
             <div class="row">

@@ -2,14 +2,13 @@
 
 namespace App\Http\Livewire\Orders;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Order;
-use App\Models\RevenueFromProduct;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class OrdersUpdateController extends Component {
-    use TableHeaderTrait;
+    use TableColumnTrait;
 
     public object $order;
     public object $orderItems;

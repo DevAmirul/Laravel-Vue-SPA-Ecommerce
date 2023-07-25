@@ -2,19 +2,16 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\TableHeaderTrait;
+use App\Http\Traits\TableColumnTrait;
 use App\Models\Tag;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class TagsController extends Component {
-    use WithPagination, TableHeaderTrait;
-
-    public array $booleanColNames;
-    public array $booleanAttributes;
+    use WithPagination, TableColumnTrait;
 
     public function mount(): void{
-        $this->traitMount(
+        $this->tableColumnTrait(
             ['Id', 'Keyword', 'Action'],
             ['id', 'keyword']
         );
@@ -36,5 +33,4 @@ class TagsController extends Component {
             'tags' => $tags,
         ]);
     }
-
 }
