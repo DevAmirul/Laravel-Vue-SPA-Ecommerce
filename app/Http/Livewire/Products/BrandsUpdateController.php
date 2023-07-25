@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class BrandsUpdateController extends Component {
-    use WithFileUploads, FileTrait, CateSecValidationTrait;
+    use WithFileUploads, FileTrait, CreateSlugTrait;
 
     public int $brandId;
     public string $name;
@@ -39,12 +39,12 @@ class BrandsUpdateController extends Component {
         $this->statusOption = ['Unpublish', 'Publish'];
         $this->brandId      = $id;
 
-        $category         = Brand::find($this->brandId, ['name', 'image', 'slug', 'status']);
-        $this->name       = $category->name;
-        $this->image      = $category->image;
-        $this->oldImage   = $category->image;
-        $this->slug       = $category->slug;
-        $this->status     = $category->status;
+        $category       = Brand::find($this->brandId, ['name', 'image', 'slug', 'status']);
+        $this->name     = $category->name;
+        $this->image    = $category->image;
+        $this->oldImage = $category->image;
+        $this->slug     = $category->slug;
+        $this->status   = $category->status;
     }
 
     public function save() {

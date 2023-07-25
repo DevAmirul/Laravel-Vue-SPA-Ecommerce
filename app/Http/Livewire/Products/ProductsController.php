@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\FileTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Product;
@@ -11,7 +11,7 @@ use Livewire\WithPagination;
 
 class ProductsController extends Component {
 
-    use WithPagination, BooleanTrait, TableColumnTrait, FileTrait;
+    use WithPagination, BooleanTableTrait, TableColumnTrait, FileTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(

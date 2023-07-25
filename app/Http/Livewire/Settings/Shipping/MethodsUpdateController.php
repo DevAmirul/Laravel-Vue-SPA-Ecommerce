@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Settings\Shipping;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Models\ShippingMethod;
 use Livewire\Component;
 
 class MethodsUpdateController extends Component {
-    use CateSecValidationTrait;
+    use CreateSlugTrait;
 
     public int $methodId;
     public string $name;

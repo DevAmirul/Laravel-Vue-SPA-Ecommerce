@@ -2,19 +2,19 @@
 
 namespace App\Http\Livewire\Settings\Shipping;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Models\ShippingMethod;
 use Livewire\Component;
 
 class MethodsCreateController extends Component {
-    use CateSecValidationTrait;
+    use CreateSlugTrait;
 
     public string $name = '';
     public string $cost = '';
 
     protected array $rules = [
         'name' => 'required|string|max:100',
-        'cost'  => 'required|numeric',
+        'cost' => 'required|numeric',
     ];
 
     public function updated($propertyName): void{

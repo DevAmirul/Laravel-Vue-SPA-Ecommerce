@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Settings\Offers;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Offer;
@@ -10,7 +10,7 @@ use App\Models\SubCategory;
 use Livewire\Component;
 
 class OffersUpdateController extends Component {
-    use CateSecValidationTrait;
+    use CreateSlugTrait;
 
     public int $offerId;
     public string $title                             = '';
@@ -62,7 +62,7 @@ class OffersUpdateController extends Component {
     public function save(): bool{
         $validate = $this->validate();
         Offer::whereId($this->offerId)->update($validate);
-        
+
         if (!empty($this->selectedCategories)) {
             Category::whereIn('id', $this->selectedCategories)->update(['offer_id' => $this->offerId]);
         }

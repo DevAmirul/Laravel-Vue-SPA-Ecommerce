@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Traits;
+namespace App\Http\ServiceTraits;
 
 use App\Http\Traits\FileTrait;
 use App\Models\AttributeOption;
@@ -8,7 +8,7 @@ use App\Models\Category;
 use App\Models\SubCategory;
 use Livewire\WithFileUploads;
 
-trait ProductsValidation {
+trait ProductsService {
     use WithFileUploads, FileTrait;
 
     public string $title;
@@ -65,6 +65,5 @@ trait ProductsValidation {
         $this->attributeValues = AttributeOption::where('attribute_id', $this->selectedAttributes)->get(['id', 'value']);
 
     }
-
 
 }

@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Editors;
 
-use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Editor;
 use Livewire\Component;
 
 class EditorsController extends Component {
-    use TableColumnTrait, BooleanTrait;
+    use TableColumnTrait, BooleanTableTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(

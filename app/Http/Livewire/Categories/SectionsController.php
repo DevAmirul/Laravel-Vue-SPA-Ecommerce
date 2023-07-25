@@ -2,15 +2,13 @@
 
 namespace App\Http\Livewire\Categories;
 
-use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Section;
 use Livewire\Component;
 
 class SectionsController extends Component {
-    use TableColumnTrait, BooleanTrait;
-
-    public $image;
+    use TableColumnTrait, BooleanTableTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(
@@ -35,6 +33,7 @@ class SectionsController extends Component {
     public function render() {
         $sections = Section::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+
         return view('livewire.categories.sections', [
             'sections' => $sections,
         ]);

@@ -2,7 +2,8 @@
 
 namespace App\Http\Livewire\Categories;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\ServiceTraits\CategoriesService;
+use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Category;
 use App\Models\Section;
@@ -10,38 +11,12 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class CategoriesUpdateController extends Component {
-    use WithFileUploads, FileTrait, CateSecValidationTrait;
+    use WithFileUploads, FileTrait, CreateSlugTrait, CategoriesService;
 
-    public int $categoryId;
-    public string $name;
-    public string $slug;
-    public int $section_id;
-    public object $sections;
-    public int $status;
-    public array $statusOption;
-    public $image;
-    public $oldImage;
-
-    protected function rules() {
-        $rules = [
-            'name'       => 'required|string|max:255',
-            'slug'       => 'required|string|max:255',
-            'section_id' => 'required|numeric',
-            'status'     => 'required|boolean',
-        ];
-        if (gettype($this->image) == 'object') {
-            $rules['image'] = 'required|mimes:jpeg,png,jpg';
-        }
-        return $rules;
-    }
-
-    public function updated($propertyName): void{
-        $this->validateOnly($propertyName, $this->rules());
-    }
+    public string $pageUrl = 'update';
 
     public function mount($id): void{
-        $this->statusOption = ['Unpublish', 'Publish'];
-        $this->categoryId   = $id;
+        $this->categoryId = $id;
 
         $this->sections   = Section::all('id', 'name');
         $category         = Category::find($this->categoryId, ['name', 'image', 'slug', 'status', 'section_id']);

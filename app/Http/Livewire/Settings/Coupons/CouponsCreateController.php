@@ -2,12 +2,12 @@
 
 namespace App\Http\Livewire\Settings\Coupons;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Models\Coupon;
 use Livewire\Component;
 
 class CouponsCreateController extends Component {
-    use CateSecValidationTrait;
+    use CreateSlugTrait;
 
     public string $title           = '';
     public string $code            = '';

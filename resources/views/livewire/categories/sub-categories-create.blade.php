@@ -17,7 +17,7 @@ Category Create
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="SubCategory Slug" name="slug" type="text" wireModel='slug'>
         </x-form-input-field.general>
-        <x-form-input-field.select col='col-6' defaultOption='Select Category' :options='$categories'
+        <x-form-input-field.select col='col-6' defaultOption='Select Category' :options='$allCategories'
             wireModel='category_id' colName='name' name="category_id">
         </x-form-input-field.select>
 

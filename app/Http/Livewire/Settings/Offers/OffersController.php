@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Settings\Offers;
 
-use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Offer;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class OffersController extends Component {
-    use WithPagination, TableColumnTrait, BooleanTrait;
+    use WithPagination, TableColumnTrait, BooleanTableTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(

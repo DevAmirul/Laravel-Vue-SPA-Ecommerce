@@ -2,7 +2,7 @@
 
 namespace App\Http\Traits;
 
-trait BooleanTrait {
+trait BooleanTableTrait {
     public $booleanColNames;
     public $booleanAttributes;
     public array $booleanClasses;
@@ -10,6 +10,6 @@ trait BooleanTrait {
     public function booleanTrait(array $booleanColNames = [], array $booleanAttributes = [], array $booleanClasses = []): void{
         $this->booleanColNames   = $booleanColNames;
         $this->booleanAttributes = $booleanAttributes;
-        $this->booleanClasses      = $booleanClasses;
+        $this->booleanClasses    = $booleanClasses;
     }
 }

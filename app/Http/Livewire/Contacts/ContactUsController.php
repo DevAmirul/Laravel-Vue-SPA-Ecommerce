@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\Contacts;
 
-use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\ContactUs;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ContactUsController extends Component {
-    use TableColumnTrait, BooleanTrait, WithPagination;
-
+    use TableColumnTrait, BooleanTableTrait, WithPagination;
 
     public function mount(): void{
         $this->tableColumnTrait(
@@ -19,7 +18,7 @@ class ContactUsController extends Component {
         );
         $this->booleanTrait(
             ['status'],
-            [ ['No Reply', 'Reply'] ],
+            [['No Reply', 'Reply']],
             [['badge text-bg-info', 'badge text-bg-success']]
         );
     }

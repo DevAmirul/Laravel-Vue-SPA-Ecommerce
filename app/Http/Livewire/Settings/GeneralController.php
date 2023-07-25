@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Settings;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\GeneralSettings;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class GeneralController extends Component {
-    use WithFileUploads, FileTrait, CateSecValidationTrait;
+    use WithFileUploads, FileTrait, CreateSlugTrait;
 
     public int $settingsId;
     public string $name;
@@ -28,17 +28,17 @@ class GeneralController extends Component {
 
     protected function rules() {
         $rules = [
-            'name'   => 'required|string|max:255',
-            'slogan' => 'required|string',
-            'email'       => 'required|string|max:255',
-            'phone'       => 'required|string|max:11',
-            'phone_2'     => 'required|string|max:11',
-            'address'     => 'required|string|max:255',
-            'zip_code'    => 'required|string|max:255',
-            'facebook'    => 'required|string|max:255',
-            'youtube'     => 'required|string|max:255',
-            'twitter'     => 'required|string|max:255',
-            'instagram'   => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
+            'slogan'    => 'required|string',
+            'email'     => 'required|string|max:255',
+            'phone'     => 'required|string|max:11',
+            'phone_2'   => 'required|string|max:11',
+            'address'   => 'required|string|max:255',
+            'zip_code'  => 'required|string|max:255',
+            'facebook'  => 'required|string|max:255',
+            'youtube'   => 'required|string|max:255',
+            'twitter'   => 'required|string|max:255',
+            'instagram' => 'required|string|max:255',
         ];
         if (gettype($this->logo) == 'object') {
             $rules['logo'] = 'required|mimes:jpeg,png,jpg';
@@ -56,10 +56,10 @@ class GeneralController extends Component {
         $settings = GeneralSettings::first();
 
         $this->settingsId      = $settings->id ?? 1;
-        $this->name       = $settings->name ?? '';
-        $this->logo       = $settings->logo ?? '';
+        $this->name            = $settings->name ?? '';
+        $this->logo            = $settings->logo ?? '';
         $this->oldSiteLogoName = $settings->logo ?? '';
-        $this->slogan     = $settings->slogan ?? '';
+        $this->slogan          = $settings->slogan ?? '';
         $this->email           = $settings->email ?? '';
         $this->phone           = $settings->phone ?? '';
         $this->phone_2         = $settings->phone_2 ?? '';

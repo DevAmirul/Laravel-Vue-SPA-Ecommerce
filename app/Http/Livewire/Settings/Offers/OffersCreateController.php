@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Settings\Offers;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Offer;
@@ -10,7 +10,7 @@ use App\Models\SubCategory;
 use Livewire\Component;
 
 class OffersCreateController extends Component {
-    use CateSecValidationTrait;
+    use CreateSlugTrait;
 
     public string $title                             = '';
     public string $discount                          = '';

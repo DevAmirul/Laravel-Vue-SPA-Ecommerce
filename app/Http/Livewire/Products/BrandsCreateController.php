@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\CateSecValidationTrait;
+use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class BrandsCreateController extends Component {
-    use WithFileUploads, CateSecValidationTrait, FileTrait;
+    use WithFileUploads, CreateSlugTrait, FileTrait;
 
     public string $name        = '';
     public string $slug        = '';

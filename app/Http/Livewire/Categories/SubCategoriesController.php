@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Categories;
 
-use App\Http\Traits\BooleanTrait;
-use App\Http\Traits\RelationTrait;
+use App\Http\Traits\BooleanTableTrait;
+use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\SubCategory;
 use Livewire\Component;
 
 class SubCategoriesController extends Component {
-    use TableColumnTrait, BooleanTrait, RelationTrait;
+    use TableColumnTrait, BooleanTableTrait, RelationTableTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(

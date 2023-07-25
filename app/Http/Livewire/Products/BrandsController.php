@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\BooleanTrait;
+use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Brand;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class BrandsController extends Component {
-    use WithPagination, TableColumnTrait, BooleanTrait;
+    use WithPagination, TableColumnTrait, BooleanTableTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(

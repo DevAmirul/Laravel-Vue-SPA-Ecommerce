@@ -2,7 +2,7 @@
 
 namespace App\Http\Traits;
 
-trait RelationTrait {
+trait RelationTableTrait {
     public string $relationName;
     public array $relationTableDataColumnNames;
 
