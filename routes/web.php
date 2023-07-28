@@ -79,8 +79,6 @@ Route::prefix('products')->name('products')->group(function () {
 
     Route::get('/create', ProductsCreateController::class)->name('.create');
 
-    Route::get('/{id}', ProductsShowController::class)->name('.show');
-
     Route::get('/{id}/edit', ProductsUpdateController::class)->name('.update');
 });
 
@@ -140,8 +138,6 @@ Route::prefix('orders')->name('orders')->group(function () {
     Route::get('/', OrdersController::class);
 
     Route::get('/{id}/edit', OrdersUpdateController::class)->name('.update');
-
-    Route::get('/{id}/pdf', OrdersPdfController::class)->name('.pdf');
 });
 
 Route::prefix('reports')->name('reports')->group(function () {

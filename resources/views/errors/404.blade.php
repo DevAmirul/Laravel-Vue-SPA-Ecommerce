@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.error-app')
 @push('title')
 Not Found
 @endpush
@@ -12,4 +12,4 @@ Not Found
         </section>
     </div>
 </main>
-@endsection
+@endsectionzz

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Products;
 
+use App\Http\ServiceTraits\BrandsService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Brand;
@@ -9,36 +10,13 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class BrandsUpdateController extends Component {
-    use WithFileUploads, FileTrait, CreateSlugTrait;
+    use WithFileUploads, FileTrait, CreateSlugTrait, BrandsService;
 
-    public int $brandId;
-    public string $name;
-    public string $slug;
-    public int $status;
-    public array $statusOption;
-    public $image;
-    public $oldImage;
-
-    protected function rules() {
-        $rules = [
-            'name'   => 'required|string|max:255',
-            'slug'   => 'required|string|max:255',
-            'status' => 'required|boolean',
-        ];
-        if (gettype($this->image) == 'object') {
-            $rules['image'] = 'required|mimes:jpeg,png,jpg';
-        }
-        return $rules;
-    }
-
-    public function updated($propertyName): void{
-        $this->validateOnly($propertyName, $this->rules());
-    }
+    public string $pageUrl = 'update';
 
     public function mount($id): void{
         $this->statusOption = ['Unpublish', 'Publish'];
         $this->brandId      = $id;
-
         $category       = Brand::find($this->brandId, ['name', 'image', 'slug', 'status']);
         $this->name     = $category->name;
         $this->image    = $category->image;

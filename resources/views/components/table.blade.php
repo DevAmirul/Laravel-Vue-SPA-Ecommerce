@@ -2,7 +2,7 @@
     @livewire('layouts.page-title',['pageTitle'=> $pageTitle])
     <!-- End Page Title -->
     @if ($tableData->count() == null)
-        @livewire('layouts.empty-page',['tableName'=> $tableName])
+    @livewire('layouts.empty-page',['tableName'=> $tableName])
     @else
     <section class="section">
         <div class="row">
@@ -10,7 +10,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <form class="mt-2">
+                            <form class="mt-2 mx-2">
                                 <select wire:model='showDataPerPage' class="form-select"
                                     aria-label="Default select example">
                                     <option value="10" selected>10</option>
@@ -19,6 +19,48 @@
                                     <option value="50">50</option>
                                 </select>
                             </form>
+                            <form class="mt-2 d-flex gap-2">
+                                @if ($filterStatus ?? false)
+                                <div class="col-2">
+                                    <select wire:model='orderStatus' class="form-select"
+                                        aria-label="Default select example">
+                                        <option value="0" selected>Status</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="canceled">Canceled</option>
+                                        <option value="returned">Returned</option>
+                                    </select>
+                                </div>
+                                @endif
+                                @if ($filterGroupBy ?? false)
+                                <div class="col-2">
+                                    <select wire:model='groupBy' class="form-select"
+                                        aria-label="Default select example">
+                                        <option value="0" selected>Group By</option>
+                                        <option value="This Days">Days</option>
+                                        <option value="This Weeks">Weeks</option>
+                                        <option value="This Month">Month</option>
+                                        <option value="This Years">Years</option>
+                                    </select>
+                                </div>
+                                @endif
+                                @if ($filterDate ?? false)
+                                <div class="col-3"><input wire:model='start_date' class="form-control" id="start_date"
+                                        type="text" name="start_date" placeholder="Pick start Date"
+                                        aria-label="Start Date">
+                                    @error( 'start_date' ) <span
+                                        class="error fw-light text-danger">{{ $message }}</span>
+                                    @enderror</div>
+                                <div class="col-3"><input wire:model='start_date' class="form-control" id="start_date"
+                                        type="text" name="start_date" placeholder="Pick start Date"
+                                        aria-label="Start Date">
+                                    @error( 'start_date' ) <span
+                                        class="error fw-light text-danger">{{ $message }}</span>
+                                    @enderror</div>
+                                @endif
+                            </form>
+
                             <nav class="navbar bg-light">
                                 <div class="container-fluid">
                                     <form class="d-flex" role="search">
@@ -54,12 +96,9 @@
                                     {{-- end check image column --}}
 
                                     {{-- Start check boolean column --}}
-
-
                                     @if ($isBoolean ?? false)
                                     @if ($tableDataColumnName === $booleanColNames[0])
-                                    <x-boolean :$booleanAttributes
-                                        :$booleanColNames :$data :$booleanClasses >
+                                    <x-boolean :$booleanAttributes :$booleanColNames :$data :$booleanClasses>
                                     </x-boolean>
                                     @endif
                                     @if (in_array($tableDataColumnName, $booleanColNames))
@@ -71,8 +110,7 @@
                                     {{-- Start check enum column --}}
                                     @if ($isEnum ?? false)
                                     @if ($tableDataColumnName === $enumColNames[0])
-                                    <x-enums :$data :$enumColNames
-                                        :$enumAttributes :$enumClasses >
+                                    <x-enums :$data :$enumColNames :$enumAttributes :$enumClasses>
                                     </x-enums>
                                     @endif
                                     @if (in_array($tableDataColumnName, $enumColNames))
@@ -106,16 +144,20 @@
 
                                         @if ($showBtn ?? true)
                                         <td class="d-flex">
-                                                @if ($showBtnEdit ?? true)
-                                                <button onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
-                                                    wire:click='update({{ $data->id }})' class="btn btn-primary " ><i class="bi bi-pencil-square"></i>
-                                                </button>
-                                                @endif
-                                                @if ($showBtnDelete ?? true)
-                                                <button onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
-                                                    wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i class="bi bi-trash"></i>
-                                                </button>
-                                                @endif
+                                            @if ($showBtnEdit ?? true)
+                                            <button
+                                                onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
+                                                wire:click='update({{ $data->id }})' class="btn btn-primary "><i
+                                                    class="bi bi-pencil-square"></i>
+                                            </button>
+                                            @endif
+                                            @if ($showBtnDelete ?? true)
+                                            <button
+                                                onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
+                                                wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
+                                                    class="bi bi-trash"></i>
+                                            </button>
+                                            @endif
                                         </td>
                                         @endif
                                 </tr>

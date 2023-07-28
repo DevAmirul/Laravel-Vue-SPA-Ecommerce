@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RevenueFromPurchaseAndSaleOfProduct extends Model
 {
     use HasFactory;
+    
+    public $timestamps = false;
 
     public function product(): BelongsTo {
         return $this->belongsTo(Product::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Settings\Offers;
 
+use App\Http\ServiceTraits\OffersService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Models\Brand;
 use App\Models\Category;
@@ -10,34 +11,9 @@ use App\Models\SubCategory;
 use Livewire\Component;
 
 class OffersUpdateController extends Component {
-    use CreateSlugTrait;
+    use CreateSlugTrait, OffersService;
 
-    public int $offerId;
-    public string $title                             = '';
-    public string $discount                          = '';
-    public string $type                              = '';
-    public int | null $status                        = null;
-    public string $start_date                        = '';
-    public string $expire_date                       = '';
-    public array $selectedCategories                 = [];
-    public array $selectedSubCategories              = [];
-    public array $selectedBrands                     = [];
-    public array $offersTypeOption                   = ['percentage', 'decimal'];
-    public array $statusOption                       = ['Unpublish', 'Publish'];
-    public array $categoryOrSubCategoryOrBrandOption = ['Category', 'SubCategory', 'Brand'];
-
-    public object $categories;
-    public object $subCategories;
-    public object $brands;
-
-    protected array $rules = [
-        'title'       => 'required|string|max:100',
-        'discount'    => 'required|string|max:255',
-        'type'        => 'required',
-        'status'      => 'required|boolean',
-        'start_date'  => 'required|date',
-        'expire_date' => 'required|date',
-    ];
+    public string $pageUrl = 'update';
 
     public function updated($propertyName): void{
         $this->validateOnly($propertyName, $this->rules);

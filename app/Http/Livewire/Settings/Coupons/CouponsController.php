@@ -34,6 +34,7 @@ class CouponsController extends Component {
     public function render() {
         $coupons = Coupon::where('title', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+            
         return view('livewire.settings.coupons.coupons', [
             'coupons' => $coupons,
         ]);

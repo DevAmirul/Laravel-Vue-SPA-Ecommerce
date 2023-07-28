@@ -20,6 +20,7 @@ class OrderFactory extends Factory {
         return [
             'user_id'            => User::class,
             'order_status'       => Arr::random($randomArray),
+            'coupon'             => random_int(0, 50),
             'discount'           => random_int(10, 100),
             'subtotal'           => random_int(100, 500),
             'total'              => random_int(100, 500),

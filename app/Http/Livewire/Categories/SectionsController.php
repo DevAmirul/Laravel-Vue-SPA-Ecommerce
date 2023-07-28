@@ -26,8 +26,11 @@ class SectionsController extends Component {
         return redirect()->route('sections.update', $sectionId);
     }
 
-    public function destroy($id): int {
-        return Section::destroy($id);
+    public function destroy($id): int{
+        $section = Section::find($id);
+        $this->fileDestroy($section->image, 'products');
+        $section->delete();
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
     public function render() {

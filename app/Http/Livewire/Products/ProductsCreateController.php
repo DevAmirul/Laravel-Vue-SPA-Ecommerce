@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Products;
 
-use App\Http\Traits\ProductsValidation;
+use App\Http\ServiceTraits\ProductsService;
 use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\Section;
 use Livewire\Component;
 
 class ProductsCreateController extends Component {
-    use ProductsValidation;
+    use ProductsService;
 
     public function save(): void{
         $this->rules['selectedSection']  = 'required|numeric';
@@ -31,12 +31,11 @@ class ProductsCreateController extends Component {
         $product->qty_in_stock      = $this->qtyInStock;
         $product->sub_category_id   = $this->selectedSubCategory;
 
-        $product->image      = $this->fileUpload($this->image);
-        $product->all_images = $this->fileUpload($this->allImages);
+        $product->image      = $this->fileUpload($this->image, 'products');
+        $product->all_images = $this->fileUpload($this->allImages, 'products');
 
         $product->created_by = 1;
         $product->save();
-        dd('ok');
     }
 
     public function render() {

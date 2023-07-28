@@ -10,18 +10,20 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductsController extends Component {
-
     use WithPagination, BooleanTableTrait, TableColumnTrait, FileTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Name', 'SKU', 'Stock Status', 'Qty in Stock', 'Sub Category', 'Price', 'Discount Price', 'Offer Price', 'Action'],
-            ['image', 'title', 'sku', 'stock_status', 'qty_in_stock', 'sub_category_id', 'price', 'discount_price', 'offer_price']
+            ['Image', 'Name', 'SKU', 'Stock Status', 'Status', 'Qty in Stock', 'Sub Category', 'Sale Price', 'Original Price', 'Action'],
+            ['image', 'title', 'sku', 'stock_status', 'status', 'qty_in_stock', 'sub_category_id', 'sale_price', 'original_price']
         );
         $this->booleanTrait(
-            ['status'],
-            [['Unpublish', 'Publish']],
-            [['badge text-bg-warning', 'badge text-bg-primary']]
+            ['stock_status', 'status'],
+            [['Out Of Stock', 'InStock'], ['Unpublish', 'Publish']],
+            [
+                ['badge text-bg-danger', 'badge text-bg-success'],
+                ['badge text-bg-warning', 'badge text-bg-primary'],
+            ]
         );
     }
 
@@ -29,19 +31,18 @@ class ProductsController extends Component {
         return redirect()->route('products.update', $productId);
     }
 
-    public function destroy($id): int{
+    public function destroy($id): void{
         $product = Product::find($id);
         $images  = explode(' ', $product->all_images);
         array_push($images, $product->image);
-        $this->fileDestroy($images);
-        return $product->delete();
+        $this->fileDestroy($images, 'products');
+        $product->delete();
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
     public function render() {
-
         $products = Product::where('title', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, ['id', ...$this->tableDataColumnNames]);
-
         return view('livewire.products.products', [
             'products' => $products,
         ]);

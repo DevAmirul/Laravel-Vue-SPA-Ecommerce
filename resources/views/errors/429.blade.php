@@ -1,4 +1,4 @@
-@extends('layouts.mainApp')
+@extends('layouts.error-app')
 @push('title')
 Too Many Requests
 @endpush

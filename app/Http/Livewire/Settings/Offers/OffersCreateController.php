@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Settings\Offers;
 
+use App\Http\ServiceTraits\OffersService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Models\Brand;
 use App\Models\Category;
@@ -10,29 +11,9 @@ use App\Models\SubCategory;
 use Livewire\Component;
 
 class OffersCreateController extends Component {
-    use CreateSlugTrait;
+    use CreateSlugTrait, OffersService;
 
-    public string $title                             = '';
-    public string $discount                          = '';
-    public string $type                              = '';
-    public int | null $status                        = null;
-    public string $start_date                        = '';
-    public string $expire_date                       = '';
-    public array $selectedCategories                 = [];
-    public array $selectedSubCategories              = [];
-    public array $selectedBrands                     = [];
-    public array $offersTypeOption                   = ['percentage', 'decimal'];
-    public array $statusOption                       = ['Unpublish', 'Publish'];
-    public array $categoryOrSubCategoryOrBrandOption = ['Category', 'SubCategory', 'Brand'];
-
-    protected array $rules = [
-        'title'       => 'required|string|max:100',
-        'discount'    => 'required|string|max:255',
-        'type'        => 'required',
-        'status'      => 'required|boolean',
-        'start_date'  => 'required|date',
-        'expire_date' => 'required|date',
-    ];
+    public string $pageUrl = 'create';
 
     public function updated($propertyName): void{
         $this->validateOnly($propertyName, $this->rules);
@@ -56,13 +37,13 @@ class OffersCreateController extends Component {
     }
 
     public function render() {
-        $categories    = Category::all('id', 'name');
-        $subCategories = SubCategory::all('id', 'name');
-        $brands        = Brand::all('id', 'name');
+        $allCategories    = Category::all('id', 'name');
+        $allSubCategories = SubCategory::all('id', 'name');
+        $allBrands        = Brand::all('id', 'name');
         return view('livewire.settings.offers.offers-create', [
-            'categories'    => $categories,
-            'subCategories' => $subCategories,
-            'brands'        => $brands,
+            'allCategories'    => $allCategories,
+            'allSubCategories' => $allSubCategories,
+            'allBrands'        => $allBrands,
         ]);
     }
 }

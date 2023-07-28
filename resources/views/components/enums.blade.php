@@ -8,7 +8,7 @@ $colName = $enumColNames[$i];
 $class = $enumClasses[$enumAttributeKey][$attributeKey];
 @endphp
 @if ($data->$colName == $attribute)
-<td><span class=" {{ $class }} "  >{{ $attribute }}</span></td>
+<td><span class=" {{ $class }} " >{{ $attribute }}</span></td>
 @endif
 @endforeach
 @php

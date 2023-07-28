@@ -33,14 +33,11 @@ class AttributesCreateController extends Component {
 
     public function save(): void{
         $validate = $this->validate();
-
         $a = Arr::map($validate['values'], function ($value, $key) {
             return ['value' => $value];
         });
-
         $attribute = Attribute::create(['name' => $validate['name']]);
         $attribute->attributeOption()->createMany($a);
-
         dd($attribute->id);
     }
 

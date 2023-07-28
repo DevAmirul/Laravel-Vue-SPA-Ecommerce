@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->enum('order_status', ['approved', 'delivered', 'pending', 'canceled', 'returned'])->default('pending');
+            $table->decimal('coupon')->default(0);
             $table->decimal('discount');
             $table->decimal('subtotal');
             $table->decimal('total');

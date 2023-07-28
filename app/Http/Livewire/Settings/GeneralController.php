@@ -13,7 +13,6 @@ class GeneralController extends Component {
 
     public int $settingsId;
     public string $name;
-    public $logo;
     public string $slogan;
     public string $email;
     public string $phone;
@@ -25,6 +24,7 @@ class GeneralController extends Component {
     public string $twitter;
     public string $instagram;
     public string $oldSiteLogoName;
+    public $logo;
 
     protected function rules() {
         $rules = [

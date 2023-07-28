@@ -1,7 +1,4 @@
-
-
-
-@extends('layouts.mainApp')
+@extends('layouts.error-app')
 @push('title')
 Unauthorized
 @endpush

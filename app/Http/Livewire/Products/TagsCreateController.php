@@ -6,7 +6,6 @@ use App\Models\Tag;
 use Livewire\Component;
 
 class TagsCreateController extends Component {
-
     public string $keyword = '';
 
     protected array $rules = [

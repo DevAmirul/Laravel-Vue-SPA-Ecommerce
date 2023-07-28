@@ -2,29 +2,16 @@
 
 namespace App\Http\Livewire\Settings\Shipping;
 
+use App\Http\ServiceTraits\MethodsService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Models\ShippingMethod;
 use Livewire\Component;
 
 class MethodsUpdateController extends Component {
-    use CreateSlugTrait;
-
-    public int $methodId;
-    public string $name;
-    public string $cost;
-
-    protected array $rules = [
-        'name' => 'required|string|max:100',
-        'cost' => 'required|numeric',
-    ];
-
-    public function updated($propertyName): void{
-        $this->validateOnly($propertyName, $this->rules);
-    }
+    use CreateSlugTrait, MethodsService;
 
     public function mount($id): void{
         $this->methodId = $id;
-
         $method     = ShippingMethod::find($id);
         $this->name = $method->name;
         $this->cost = $method->cost;

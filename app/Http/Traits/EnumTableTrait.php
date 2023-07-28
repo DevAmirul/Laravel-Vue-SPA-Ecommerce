@@ -2,7 +2,7 @@
 
 namespace App\Http\Traits;
 
-trait EnumTrait {
+trait EnumTableTrait {
     public array $enumAttributes;
     public array $enumColNames;
     public array $enumClasses;

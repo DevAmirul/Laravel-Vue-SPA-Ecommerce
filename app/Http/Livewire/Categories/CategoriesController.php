@@ -3,13 +3,15 @@
 namespace App\Http\Livewire\Categories;
 
 use App\Http\Traits\BooleanTableTrait;
+use App\Http\Traits\FileTrait;
 use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Category;
+use Illuminate\Http\FileHelpers;
 use Livewire\Component;
 
 class CategoriesController extends Component {
-    use TableColumnTrait, BooleanTableTrait, RelationTableTrait;
+    use TableColumnTrait, FileTrait, BooleanTableTrait, RelationTableTrait;
 
     public function mount(): void{
         $this->tableColumnTrait(
@@ -27,15 +29,17 @@ class CategoriesController extends Component {
         return redirect()->route('categories.update', $categoryId);
     }
 
-    public function destroy($id): int {
-        return Category::destroy($id);
+    public function destroy($id): void {
+        $category = Category::find($id);
+        $this->fileDestroy($category->image, 'products');
+        $category->delete();
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
     public function render() {
         $categories = Category::with('section:id,name')
             ->where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
-
         return view('livewire.categories.categories', [
             'categories' => $categories,
         ]);

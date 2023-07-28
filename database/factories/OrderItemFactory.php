@@ -17,9 +17,10 @@ class OrderItemFactory extends Factory {
     public function definition(): array
     {
         return [
-            'order_id'   => Order::class,
-            'product_id' => random_int(1, 25),
-            'qty'        => random_int(1, 5),
+            'order_id'       => Order::class,
+            'product_id'     => random_int(1, 25),
+            'qty'            => random_int(1, 5),
+            'discount_price' => fake()->numberBetween(10, 100),
         ];
     }
 }

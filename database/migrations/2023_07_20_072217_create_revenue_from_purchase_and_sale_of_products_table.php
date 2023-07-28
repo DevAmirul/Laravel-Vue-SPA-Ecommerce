@@ -15,7 +15,6 @@ return new class extends Migration {
             $table->decimal('revenue');
             $table->decimal('cost');
             $table->integer('sold_qty');
-            $table->timestamps();
         });
     }
 

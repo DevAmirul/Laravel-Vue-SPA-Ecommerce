@@ -1,5 +1,5 @@
 
-@extends('layouts.mainApp')
+@extends('layouts.error-app')
 @push('title')
 Service Unavailable
 @endpush

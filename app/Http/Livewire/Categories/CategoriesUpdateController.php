@@ -33,8 +33,8 @@ class CategoriesUpdateController extends Component {
         if (gettype($this->image) == 'object') {
             $validate['image'] = $this->fileUpload($this->image, 'category');
         }
-        Category::where('id', $this->categoryId)->update($validate);
-        return redirect()->route('categories');
+        Category::where('id', $this->categoryId)->update($validate); 
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'inserted record!']);
     }
 
     public function render() {

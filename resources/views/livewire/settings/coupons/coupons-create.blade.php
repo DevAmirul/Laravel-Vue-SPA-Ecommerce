@@ -1,9 +1,7 @@
 @push('title')
 Product Create
 @endpush
-@push('css')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-@endpush
+
 <div>
     <!-- ======= Header ======= -->
     <div wire:ignore>
@@ -49,20 +47,3 @@ Product Create
     <!-- End Footer -->
 
 </div>
-@push('script')
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    flatpickr("#start_date", {
-        dateFormat: "Y-m-d H:i:s",
-        // mode: "range",
-        enableTime: true,
-        time_24hr: true
-    });
-    flatpickr("#expire_date", {
-        dateFormat: "Y-m-d H:i:s",
-        // mode: "range",
-        enableTime: true,
-        time_24hr: true
-    });
-</script>
-@endpush

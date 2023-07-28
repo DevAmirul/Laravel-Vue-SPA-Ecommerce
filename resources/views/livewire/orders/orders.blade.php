@@ -11,7 +11,8 @@ Sub Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Orders Table' tableName="Orders Table" :$columnNamesArr :tableData='$orders' :$tableDataColumnNames>
+    <x-table pageTitle='Orders Table' tableName="Orders Table" :$columnNamesArr :tableData='$orders' :$tableDataColumnNames
+    :isEnum='true' :$enumColNames :$enumAttributes :$enumClasses>
     </x-table>
 
     <!-- End #main -->

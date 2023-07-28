@@ -13,8 +13,8 @@ class SubCategoriesController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Id', 'Image', 'Name', 'Slug', 'Status', 'Category Name', 'Action'],
-            ['id', 'image', 'name', 'slug', 'status']
+            ['Id', 'Name', 'Slug', 'Status', 'Category Name', 'Action'],
+            ['id', 'name', 'slug', 'status']
         );
         $this->booleanTrait(['status'],
             [['Unpublish', 'Publish']],

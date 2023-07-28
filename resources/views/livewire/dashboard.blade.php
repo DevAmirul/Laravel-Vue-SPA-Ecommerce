@@ -238,13 +238,11 @@ Dashboard
                                         <tbody>
                                             @foreach ($topRevenueProducts as $topRevenueProduct)
                                             <tr>
-                                                <th scope="row"><a
-                                                        href="{{ route('products.show', ['id' => $topRevenueProduct->product_id ]) }}"><img
+                                                <th scope="row"><img
                                                             src="{{ $topRevenueProduct->product->image }}"
-                                                            alt="{{ $topRevenueProduct->product->image }}"></a>
+                                                            alt="{{ $topRevenueProduct->product->image }}">
                                                 </th>
-                                                <td><a href="{{ route('products.show', ['id' => $topRevenueProduct->product_id ]) }}"
-                                                        class="text-primary fw-bold">{{ $topRevenueProduct->product->title }}</a>
+                                                <td>{{ $topRevenueProduct->product->title }}
                                                 </td>
                                                 <td class="fw-bold">${{ $topRevenueProduct->product->sale_price }}</td>
                                                 <td>{{ $topRevenueProduct->sold_qty }}</td>
@@ -300,12 +298,10 @@ Dashboard
                                         <tbody>
                                             @foreach ($newRecentSaleProducts as $product)
                                             <tr>
-                                                <th scope="row"><a
-                                                        href="{{ route('products.show', ['id' => $product[0] ]) }}"><img
-                                                            src="{{ $product[1] }}" alt="{{ $product[1] }}"></a>
+                                                <th scope="row"><img
+                                                            src="{{ $product[1] }}" alt="{{ $product[1] }}">
                                                 </th>
-                                                <td><a href="{{ route('products.show', ['id' => $product[0] ]) }}"
-                                                        class="text-primary fw-bold">{{ $product[2] }}</a>
+                                                <td>{{ $product[2] }}
                                                 </td>
                                                 <td>{{ $product[3] }}</td>
                                                 <td class="fw-bold">${{ $product[4] }}</td>
@@ -358,11 +354,10 @@ Dashboard
                                         <tbody>
                                             @foreach ($newArrivalProducts as $product)
                                             <tr>
-                                                <th scope="row"><a href="{{ route('products.show', ['id' => $product->id ]) }}"><img
-                                                            src="{{ $product->image }}" alt="{{ $product->image }}"></a>
+                                                <th scope="row"><img
+                                                            src="{{ $product->image }}" alt="{{ $product->image }}">
                                                 </th>
-                                                <td><a href="{{ route('products.show', ['id' => $product->id ]) }}"
-                                                        class="text-primary fw-bold">{{ $product->title }}</a>
+                                                <td>{{ $product->title }}
                                                 </td>
                                                 <td class="fw-bold">${{ $product->sale_price }}</td>
                                                 <td>{{ $product->qty_in_stock }}</td>

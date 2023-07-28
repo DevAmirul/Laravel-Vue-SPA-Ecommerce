@@ -42,21 +42,21 @@ Product Create
 
         <div wire:ignore>
             <select id="select-cate" class="form-select" name="state[]" multiple placeholder="Select categories...(optional)" autocomplete="off">
-                @foreach ($categories as $category)
+                @foreach ($allCategories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
         <div wire:ignore>
             <select id="select-subCate" class="form-select" name="state[]" multiple placeholder="Select sub categories...(optional)" autocomplete="off">
-                @foreach ($subCategories as $subCategory)
+                @foreach ($allSubCategories as $subCategory)
                 <option value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
                 @endforeach
             </select>
         </div>
         <div wire:ignore>
             <select id="select-brand" class="form-select" name="state[]" multiple placeholder="Select brands...(optional)" autocomplete="off">
-                @foreach ($brands as $brand)
+                @foreach ($allBrands as $brand)
                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                 @endforeach
             </select>

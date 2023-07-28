@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Products;
 
+use App\Http\ServiceTraits\ProductsService;
 use App\Http\Traits\ProductsValidation;
 use App\Models\Attribute;
 use App\Models\Product;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 use Livewire\Component;
 
 class ProductsUpdateController extends Component {
-    use ProductsValidation;
+    use ProductsService;
 
     public $newImage;
     public $newAllImages;

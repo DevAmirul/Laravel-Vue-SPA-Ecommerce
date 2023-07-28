@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 trait FileTrait {
-
+    
     public function fileUpload(array | object $images, string $path): string{
         $imageName = '';
         if (gettype($images) === 'array') {
