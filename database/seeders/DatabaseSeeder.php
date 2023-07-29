@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder {
 
         \App\Models\ShippingMethod::factory()->count(3)->create();
         \App\Models\GeneralSettings::factory()->count(1)->create();
+        \App\Models\Coupon::factory()->count(3)->create();
 
         \App\Models\User::factory()
             ->has(BillingDetails::factory())

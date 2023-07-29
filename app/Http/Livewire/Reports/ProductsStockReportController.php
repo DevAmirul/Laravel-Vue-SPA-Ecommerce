@@ -12,7 +12,7 @@ use Livewire\WithPagination;
 class ProductsStockReportController extends Component {
     use TableColumnTrait, WithPagination, BooleanTableTrait;
 
-    public ?int $stockAvailability = 0;// TODO: change status to enum
+    public ?int $stockAvailability = null;
     public ?int $quantityAbove     = null;
     public ?int $quantityBelow     = null;
 
@@ -40,7 +40,9 @@ class ProductsStockReportController extends Component {
                 $builder->where('qty_in_stock', '<', $this->quantityBelow);
             })
             ->when($this->stockAvailability, function (Builder $builder) {
+                ($this->stockAvailability == 2) ? $this->stockAvailability = 0 : null;
                 $builder->where('stock_status', $this->stockAvailability);
+                ($this->stockAvailability == 0) ? $this->stockAvailability = 2 : null;
             })
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 

@@ -18,8 +18,8 @@ Categories
             <div class="col-4">
                 <select wire:model='stockAvailability' class="form-select" aria-label="Default select example">
                     <option value="null" disabled selected>Stock Availability</option>
-                    <option value="0">Out Of Stock</option>
                     <option value="1">In Stock</option>
+                    <option value="2">Out Of Stock</option>
                 </select>
             </div>
             <div class="col-4 d-flex gap-2">

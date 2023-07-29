@@ -12,12 +12,12 @@ class OrdersController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Id', 'Discount', 'Subtotal', 'Total', 'Order Status', 'time', 'Action'],
+            ['Id', 'Discount', 'Subtotal', 'Total', 'Status', 'time', 'Action'],
             ['id', 'discount', 'subtotal', 'total', 'order_status', 'created_at', 'updated_at']
         );
         $this->enumTrait(
             ['order_status'],
-            [['approved', 'delivered', 'pending', 'canceled', 'returned']],
+            [['Approved', 'Delivered', 'Pending', 'Canceled', 'Returned']],
             [['badge text-bg-info', 'badge text-bg-success', 'badge text-bg-secondary', 'badge text-bg-danger', 'badge text-bg-dark']]
         );
     }

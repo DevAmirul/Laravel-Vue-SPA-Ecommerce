@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('type', ['percentage', 'decimal']);
+            $table->enum('type', ['Percentage', 'Decimal']);
             $table->decimal('discount');
             $table->boolean('status')->default(0);
             $table->dateTime('start_date');

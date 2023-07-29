@@ -12,7 +12,7 @@ return new class extends Migration {
         Schema::create('discount_prices', function (Blueprint $table) {
             $table->id();
             $table->decimal('discount');
-            $table->enum('type',['percentage','decimal']);
+            $table->enum('type',['Percentage','Decimal']);
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->dateTime('start_date');
             $table->dateTime('expire_date');

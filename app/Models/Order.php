@@ -18,6 +18,10 @@ class Order extends Model {
         return $this->belongsTo(User::class);
     }
 
+    public function coupon(): BelongsTo {
+        return $this->belongsTo(Coupon::class);
+    }
+
     public function orderItem(): HasMany {
         return $this->hasMany(OrderItem::class);
     }
