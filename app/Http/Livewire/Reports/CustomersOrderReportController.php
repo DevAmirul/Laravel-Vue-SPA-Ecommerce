@@ -16,36 +16,15 @@ class CustomersOrderReportController extends Component {
     public function mount(): void{
         $this->tableColumnTrait(
             ['Name', 'Email', 'Orders', 'Total', 'Date'],
-            ['name', 'email', 'orders', 'total', 'date']
+            ['name', 'email', 'orders', 'total', 'time']
         );
     }
 
-    public function updatedGroupBy(): void {
-        if ($this->groupBy !== 'Today') {
-            $this->tableColumnTrait(
-                ['Name', 'Email', 'Orders', 'Total'],
-                ['name', 'email', 'orders', 'total']
-            );
-        } else {
-            $this->tableColumnTrait(
-                ['Name', 'Email', 'Orders', 'Total', 'Date'],
-                ['name', 'email', 'orders', 'total', 'date']
-            );
-        }
-    }
-
     public function render() {
-        $str          = $this->groupBy;
         $usersReports = DB::table('orders')
             ->join('users', 'orders.user_id', '=', 'users.id')
-            ->when($this->groupBy == 'Today', function (Builder $query) {
-                $query->select(DB::raw(
-                    'users.name, users.email ,count(*) as orders, sum(total) as total, orders.created_at as date'));
-            })
-            ->when($this->groupBy !== 'Today', function (Builder $query) {
-                $query->select(DB::raw(
-                    'users.name, users.email ,count(*) as orders, sum(total) as total'));
-            })
+            ->selectRaw(
+                    'users.name, users.email ,count(*) as orders, sum(total) as total,' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
             ->where(function (Builder $query) {
                 $query->where('users.email', 'LIKE', '%' . $this->searchStr . '%')
                     ->orWhere('users.name', 'LIKE', '%' . $this->searchStr . '%');
@@ -58,6 +37,8 @@ class CustomersOrderReportController extends Component {
             })
             ->groupByRaw($this->getTimeSql($this->groupBy, 'orders.created_at') . ', users.id')
             ->paginate($this->showDataPerPage);
+
+        // dd($usersReports);
         return view('livewire.reports.customers-order-report', [
             'usersReports' => $usersReports,
         ]);

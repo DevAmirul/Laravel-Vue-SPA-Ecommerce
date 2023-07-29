@@ -12,16 +12,17 @@ class ProductsViewReportController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Title', 'View'],
-            ['image', 'title', 'view_count']
+            ['Image', 'Title', 'SKU', 'View'],
+            ['image', 'title', 'sku', 'view_count']
         );
     }
 
     public function render() {
         $productViewReports = DB::table('product_views as view')
             ->join('products', 'view.product_id', '=', 'products.id')
-            ->select('view.view_count', 'products.title', 'products.image as image')
+            ->select('view.view_count', 'products.title', 'products.sku', 'products.image as image')
             ->where('products.title', 'LIKE', '%' . $this->searchStr . '%')
+            ->orWhere('products.sku', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
 
         return view('livewire.reports.products-view-report', [

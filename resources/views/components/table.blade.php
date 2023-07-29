@@ -10,8 +10,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <form class="mt-2 mx-2">
-                                <select wire:model='showDataPerPage' class="form-select"
+                            <form class="mt-2 mx-2 d-flex ">
+                                <select wire:model='showDataPerPage' id="showDataPerPage" class="form-select"
                                     aria-label="Default select example">
                                     <option value="10" selected>10</option>
                                     <option value="20">20</option>
@@ -19,43 +19,8 @@
                                     <option value="50">50</option>
                                 </select>
                             </form>
-                            <form class="mt-2 d-flex gap-2">
-                                @if ($filterStatus ?? false)
-                                <div class="col-2">
-                                    <select wire:model='orderStatus' class="form-select"
-                                        aria-label="Default select example">
-                                        <option value="0" selected>Status</option>
-                                        <option value="approved">Approved</option>
-                                        <option value="delivered">Delivered</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="canceled">Canceled</option>
-                                        <option value="returned">Returned</option>
-                                    </select>
-                                </div>
-                                @endif
-                                @if ($filterGroupBy ?? false)
-                                <div class="col-2">
-                                    <select wire:model='groupBy' class="form-select"
-                                        aria-label="Default select example">
-                                        <option value="0" selected>Group By</option>
-                                        <option value="Today">Days</option>
-                                        <option value="This Weeks">Weeks</option>
-                                        <option value="This Month">Month</option>
-                                        <option value="This Years">Years</option>
-                                    </select>
-                                </div>
-                                @endif
-                                @if ($filterDate ?? false)
-                                <div class="col-3"><input wire:model='startDate' class="form-control" id="start_date"
-                                        type="text" name="start_date" placeholder="Pick start Date"
-                                        aria-label="Start Date" autocomplete="off">
-                                </div>
-                                <div class="col-3"><input wire:model='expireDate' class="form-control" id="start_date"
-                                        type="text" name="start_date" placeholder="Pick start Date"
-                                        aria-label="Start Date" autocomplete="off">
-                                </div>
-                                @endif
-                            </form>
+
+                            {{ $slot }}
 
                             <nav class="navbar bg-light">
                                 <div class="container-fluid">
