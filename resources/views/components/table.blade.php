@@ -38,7 +38,7 @@
                                     <select wire:model='groupBy' class="form-select"
                                         aria-label="Default select example">
                                         <option value="0" selected>Group By</option>
-                                        <option value="This Days">Days</option>
+                                        <option value="Today">Days</option>
                                         <option value="This Weeks">Weeks</option>
                                         <option value="This Month">Month</option>
                                         <option value="This Years">Years</option>
@@ -46,18 +46,14 @@
                                 </div>
                                 @endif
                                 @if ($filterDate ?? false)
-                                <div class="col-3"><input wire:model='start_date' class="form-control" id="start_date"
+                                <div class="col-3"><input wire:model='startDate' class="form-control" id="start_date"
                                         type="text" name="start_date" placeholder="Pick start Date"
-                                        aria-label="Start Date">
-                                    @error( 'start_date' ) <span
-                                        class="error fw-light text-danger">{{ $message }}</span>
-                                    @enderror</div>
-                                <div class="col-3"><input wire:model='start_date' class="form-control" id="start_date"
+                                        aria-label="Start Date" autocomplete="off">
+                                </div>
+                                <div class="col-3"><input wire:model='expireDate' class="form-control" id="start_date"
                                         type="text" name="start_date" placeholder="Pick start Date"
-                                        aria-label="Start Date">
-                                    @error( 'start_date' ) <span
-                                        class="error fw-light text-danger">{{ $message }}</span>
-                                    @enderror</div>
+                                        aria-label="Start Date" autocomplete="off">
+                                </div>
                                 @endif
                             </form>
 

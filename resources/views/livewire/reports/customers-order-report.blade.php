@@ -12,7 +12,9 @@ Categories
     <!-- End Sidebar-->
     <x-table pageTitle='Customers Order Report' tableName="Customers Order Report Table"
         :$columnNamesArr :showBtn='false' :tableData='$usersReports'
-        :$tableDataColumnNames :filterStatus='true' :filterGroupBy='true' :filterDate='true' :$orderStatus :$groupBy :$startDate :$expireDate>
+        :$tableDataColumnNames :filterStatus='true' :filterGroupBy='true' :filterDate='true'
+        :$orderStatus :$groupBy :$startDate :$expireDate
+        >
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->
