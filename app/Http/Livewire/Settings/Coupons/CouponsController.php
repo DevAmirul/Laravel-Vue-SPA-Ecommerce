@@ -13,8 +13,8 @@ class CouponsController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Id', 'Title', 'Discount', 'Type', 'Code', 'Status', 'Start Date', 'Expire Date', 'Action'],
-            ['id', 'title', 'discount', 'type', 'code', 'status', 'start_date', 'expire_date']
+            ['Id', 'Name', 'Discount', 'Type', 'Code', 'Status', 'Start Date', 'Expire Date', 'Action'],
+            ['id', 'name', 'discount', 'type', 'code', 'status', 'start_date', 'expire_date']
         );
         $this->booleanTrait(
             ['status'],
@@ -32,9 +32,9 @@ class CouponsController extends Component {
     }
 
     public function render() {
-        $coupons = Coupon::where('title', 'LIKE', '%' . $this->searchStr . '%')
+        $coupons = Coupon::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
-            
+
         return view('livewire.settings.coupons.coupons', [
             'coupons' => $coupons,
         ]);

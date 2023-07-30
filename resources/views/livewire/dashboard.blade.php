@@ -195,66 +195,7 @@ Dashboard
                             </div>
                         </div>
                         <!-- End All Order Card -->
-                        <!-- Top Selling -->
-                        <div class="col-12">
-                            <div class="card top-selling overflow-auto">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                            class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-                                        <li>
-                                            <form wire:submit.prevent='showTopRevenueProducts("Today")'>
-                                                <button class="dropdown-item">Today</button>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <form wire:submit.prevent='showTopRevenueProducts("This Month")'>
-                                                <button class="dropdown-item">The Month</button>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <form wire:submit.prevent='showTopRevenueProducts("This Year")'>
-                                                <button class="dropdown-item">The Year</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-body pb-0">
-                                    <h5 class="card-title">Top Revenue <span>|
-                                            {{ $strTimeOfTopRevenueProducts }}</span></h5>
-                                    <table class="table table-borderless">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Preview</th>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Sold</th>
-                                                <th scope="col">Revenue</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($topRevenueProducts as $topRevenueProduct)
-                                            <tr>
-                                                <th scope="row"><img
-                                                            src="{{ $topRevenueProduct->product->image }}"
-                                                            alt="{{ $topRevenueProduct->product->image }}">
-                                                </th>
-                                                <td>{{ $topRevenueProduct->product->title }}
-                                                </td>
-                                                <td class="fw-bold">${{ $topRevenueProduct->product->sale_price }}</td>
-                                                <td>{{ $topRevenueProduct->sold_qty }}</td>
-                                                <td class="fw-bold">${{ $topRevenueProduct->revenue }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Top Selling -->
+
                         <!-- Recent Sales -->
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
@@ -368,6 +309,41 @@ Dashboard
                                 </div>
                             </div>
                         </div><!-- End New Arrivals -->
+                        <!-- Top Selling -->
+                        <div class="col-12">
+                            <div class="card top-selling overflow-auto">
+
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title">Top Revenue </h5>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Preview</th>
+                                                <th scope="col">Product</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Sold</th>
+                                                <th scope="col">Revenue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($topRevenueProducts as $topRevenueProduct)
+                                            <tr>
+                                                <th scope="row"><img src="{{ $topRevenueProduct->product->image }}"
+                                                        alt="{{ $topRevenueProduct->product->image }}">
+                                                </th>
+                                                <td>{{ $topRevenueProduct->product->title }}
+                                                </td>
+                                                <td class="fw-bold">${{ $topRevenueProduct->product->sale_price }}</td>
+                                                <td>{{ $topRevenueProduct->sold_qty }}</td>
+                                                <td class="fw-bold">${{ $topRevenueProduct->revenue }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Top Selling -->
                     </div>
                 </div><!-- End Left side columns -->
                 <!-- Right side columns -->
@@ -409,19 +385,16 @@ Dashboard
                     <!-- End order circle Chart Js -->
                     <!-- Start order circle Chart Js -->
                     <div class="card " wire:ignore>
-
                         <div class="card-body ">
                             <h5 class="card-title">Income Expenditure Chart <span></span>
                             </h5>
-
                             <!-- Doughnut Chart -->
                             <canvas id="incomeExpenditureChart" style="max-height: 400px;"></canvas>
-
                             <!-- End Doughnut CHart -->
-
                         </div>
                     </div>
                     <!-- End order circle Chart Js -->
+
 
                 </div>
                 <!-- End Right side columns -->

@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->string('slug')->unique();
             $table->string('sku')->unique();
             $table->text('description');
@@ -21,8 +21,8 @@ return new class extends Migration {
             $table->decimal('original_price');
             $table->string('image');
             $table->text('gallery');
-            $table->text('specification');
-            $table->text('product_tag')->nullable();
+            $table->text('specification')->nullable();
+            $table->text('tags')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');

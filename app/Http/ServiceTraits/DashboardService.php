@@ -31,7 +31,6 @@ trait DashboardService {
     public string $strTimeOfOrders;
     public string $strTimeOfArrivals;
     public string $strTimeOfRecentSale;
-    public string $strTimeOfTopRevenueProducts;
 
     public function showSaleQuery($timeStr): void{
         $this->strTimeOfSale = $timeStr;
@@ -60,23 +59,22 @@ trait DashboardService {
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('products', 'order_items.product_id', '=', 'products.id')
             ->select(
-                'products.id as p_id', 'products.title', 'products.sale_price', 'products.sku', 'products.qty_in_stock', 'products.image'
+                'products.id as p_id', 'products.name', 'products.sale_price', 'products.sku', 'products.qty_in_stock', 'products.image'
             )->get()->unique('p_id')->take(8);
 
         foreach ($newRecentSaleProducts as $value) {
-            array_push($this->newRecentSaleProducts, [$value->p_id, $value->image, $value->title, $value->sku, $value->sale_price, $value->qty_in_stock]);
+            array_push($this->newRecentSaleProducts, [$value->p_id, $value->image, $value->name, $value->sku, $value->sale_price, $value->qty_in_stock]);
         }
     }
 
     public function newArrivalProductsQuery($timeStr): void{
         $this->strTimeOfArrivals  = $timeStr;
         $this->newArrivalProducts = Product::where('created_at', '>', $this->getTimeCarbon($timeStr))
-            ->latest()->take(8)->get(['id', 'title', 'sale_price', 'sku', 'qty_in_stock', 'image']);
+            ->latest()->take(8)->get(['id', 'name', 'sale_price', 'sku', 'qty_in_stock', 'image']);
     }
 
     public function showTopRevenueProductsQuery($timeStr): void{
-        $this->strTimeOfTopRevenueProducts = $timeStr;
-        $this->topRevenueProducts          = RevenueFromPurchaseAndSaleOfProduct::with('product:id,title,sale_price,image')->where('created_at', '>', $this->getTimeCarbon($timeStr))->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
+        $this->topRevenueProducts          = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
     }
 
     public function showUsersQuery($timeStr): void{
@@ -92,8 +90,7 @@ trait DashboardService {
     }
 
     public function showIncomeExpenditureChartQuery(): void{
-        $this->incomeExpenditureChart = RevenueFromPurchaseAndSaleOfProduct::
-            where('created_at', '>', Carbon::now()->startOfYear())->get(['revenue', 'cost']);
+        $this->incomeExpenditureChart = RevenueFromPurchaseAndSaleOfProduct::all(['revenue', 'cost']);
     }
 
     public function showOrdersBarChartQuery(): void{
@@ -123,7 +120,6 @@ trait DashboardService {
         $this->strTimeOfOrders             = $timeStr;
         $this->strTimeOfArrivals           = $timeStr;
         $this->strTimeOfRecentSale         = $timeStr;
-        $this->strTimeOfTopRevenueProducts = $timeStr;
     }
 
     public function AllCalculationsAreBasedOnDayMonthYearQuery($timeStr): void{

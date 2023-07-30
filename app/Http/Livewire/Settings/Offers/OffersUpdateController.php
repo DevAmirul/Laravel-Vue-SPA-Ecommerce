@@ -21,9 +21,8 @@ class OffersUpdateController extends Component {
 
     public function mount($id): void{
         $this->offerId = $id;
-
         $offer             = Offer::find($id);
-        $this->title       = $offer->title;
+        $this->name        = $offer->name;
         $this->discount    = $offer->discount;
         $this->type        = $offer->type;
         $this->status      = $offer->status;

@@ -3,51 +3,43 @@
 namespace App\Http\Livewire\Products;
 
 use App\Http\ServiceTraits\ProductsService;
-use App\Models\Attribute;
+use App\Http\Traits\CreateSlugTrait;
+use App\Http\Traits\FileTrait;
+use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Section;
+use App\Models\Tag;
+use Illuminate\Support\Arr;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ProductsCreateController extends Component {
-    use ProductsService;
+    use ProductsService, WithFileUploads, FileTrait, CreateSlugTrait;
+
+    public string $pageUrl = 'create';
 
     public function save(): void{
-        $this->rules['selectedSection']  = 'required|numeric';
-        $this->rules['selectedCategory'] = 'required|numeric';
-        $this->rules['image']            = 'required|mimes:jpeg,png,jpg';
+        $validate = $this->validate();
+        $validate['selectedTags'] = Tag::whereBetween('id', Arr::sort($validate['selectedTags']))
+            ->pluck('keyword')->implode(', ');
+        $validate['image']   = $this->fileUpload($this->image, 'products');
+        $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
 
-        $this->validate();
+        // dd($validate);
 
-        $product = new Product();
-
-        $product->title             = $this->title;
-        $product->slug              = $this->slug;
-        $product->sku               = $this->sku;
-        $product->description       = $this->description;
-        $product->short_description = $this->shortDescription;
-        $product->price             = $this->price;
-        $product->discount_price    = $this->discountPrice ? $this->discountPrice : null;
-        $product->stock_status      = $this->stockStatus;
-        $product->qty_in_stock      = $this->qtyInStock;
-        $product->sub_category_id   = $this->selectedSubCategory;
-
-        $product->image      = $this->fileUpload($this->image, 'products');
-        $product->all_images = $this->fileUpload($this->allImages, 'products');
-
-        $product->created_by = 1;
-        $product->save();
+        Product::create($validate);
+        dd('ok');
     }
 
     public function render() {
-        $sections   = Section::all(['id', 'name']);
-        $attributes = Attribute::all(['id', 'name']);
+        $sections = Section::all(['id', 'name']);
+        $brands   = Brand::all(['id', 'name']);
+        $allTags     = Tag::all(['id', 'keyword']);
 
         return view('livewire.products.products-create', [
-            'sections'        => $sections,
-            'categories'      => $this->categories,
-            'subCategories'   => $this->subCategories,
-            'attributes'      => $attributes,
-            'attributeValues' => $this->attributeValues,
+            'sections' => $sections,
+            'brands'   => $brands,
+            'allTags'     => $allTags,
         ]);
     }
 }

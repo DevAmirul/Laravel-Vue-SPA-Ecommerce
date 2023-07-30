@@ -12,16 +12,16 @@ class ProductsPurchaseReportController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Title', 'SKU','Revenue', 'Cost', 'Sold'],
-            ['image', 'title','sku', 'revenue', 'cost', 'sold_qty']
+            ['Image', 'Name', 'SKU','Revenue', 'Cost', 'Sold'],
+            ['image', 'name','sku', 'revenue', 'cost', 'sold_qty']
         );
     }
 
     public function render() {
         $revenueReports = DB::table('revenue_from_purchase_and_sale_of_products as revenue')
             ->join('products', 'revenue.product_id', '=', 'products.id')
-            ->select('revenue.cost', 'revenue.revenue', 'revenue.sold_qty', 'products.title', 'products.sku', 'products.image')
-            ->where('products.title', 'LIKE', '%' . $this->searchStr . '%')
+            ->select('revenue.cost', 'revenue.revenue', 'revenue.sold_qty', 'products.name', 'products.sku', 'products.image')
+            ->where('products.name', 'LIKE', '%' . $this->searchStr . '%')
             ->orWhere('products.sku', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
 

@@ -15,25 +15,26 @@ class CouponsReportController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Title', 'Discount', 'Type', 'Orders', 'Amount of Money', 'Date'],
-            ['title', 'discount', 'type', 'order_qty', 'order_amount_of_money']
+            ['Name', 'Code', 'Discount', 'Type', 'Orders', 'Total', 'Date'],
+            ['name', 'code', 'discount', 'type', 'orders', 'total', 'time']
         );
     }
 
     public function render() {
         $couponsReports = DB::table('orders')
             ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
-            ->select('coupons.name as name', 'coupons.code as code', 'coupons.discount as discount', 'coupons.type as type', 'count(orders.coupon_id) as qty', 'sum(orders.total) as total')
-
-        // ->selectRaw('sum(order_items.qty) as qty, sum(orders.subtotal) as subtotal, sum(orders.discount) as discount, sum(orders.total) as total, sum(shipping_methods.cost) as shippingCost, ' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
+            ->selectRaw('coupons.name as name, coupons.code as code, coupons.discount as discount, coupons.type as type, count(orders.coupon_id) as orders, sum(orders.total) as total, ' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
             ->when($this->searchStr, function (Builder $query) {
-                $query->where('coupons.title', 'LIKE', '%' . $this->searchStr . '%')
-                    ->orWhere('coupons.cost', 'LIKE', '%' . $this->searchStr . '%');
+                $query->where('coupons.name', 'LIKE', '%' . $this->searchStr . '%')
+                    ->orWhere('coupons.code', 'LIKE', '%' . $this->searchStr . '%');
+            })
+            ->when($this->orderStatus, function (Builder $query) {
+                $query->where('orders.order_status', $this->orderStatus);
             })
             ->when($this->startDate && $this->expireDate, function (Builder $query) {
                 $query->whereBetween('orders.created_at', [$this->startDate, $this->expireDate]);
             })
-            ->groupByRaw($this->getTimeSql($this->groupBy, 'orders.created_at'))
+            ->groupByRaw($this->getTimeSql($this->groupBy, 'orders.created_at') . ', coupons.id')
             ->paginate($this->showDataPerPage);
 
         return view('livewire.reports.coupons-report', [

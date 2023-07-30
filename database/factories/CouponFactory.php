@@ -17,7 +17,7 @@ class CouponFactory extends Factory {
     public function definition(): array{
         $randomArr = ['Decimal', 'Percentage'];
         return [
-            'title'       => fake()->name(),
+            'name'       => fake()->name(),
             'discount'    => fake()->numberBetween(20, 30),
             'type'        => Arr::random($randomArr),
             'code'        => fake()->randomAscii(),

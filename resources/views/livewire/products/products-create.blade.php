@@ -1,7 +1,9 @@
 @push('title')
 Product Create
 @endpush
-
+@push('css')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+@endpush
 <div>
     <!-- ======= Header ======= -->
     <div wire:ignore>
@@ -12,63 +14,104 @@ Product Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <x-form pageTitle='Products Create' enctype="multipart/form-data">
-        <x-form-input-field.general col="col-6" lable="Product title" name="title" type="text" wireModel='title'>
+        <x-form-input-field.general col="col-6" lable="Product name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
-        <x-form-input-field.general col="col-3" lable="Slug" name="slug" type="text" wireModel='slug'>
+        <x-form-input-field.general col="col-6" lable="Slug" name="slug" type="text" wireModel='slug'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-3" lable="SKU" name="sku" type="text" wireModel='sku'>
         </x-form-input-field.general>
-        <x-form-input-field.general col="col-3" lable="Price" name="price" type="text" wireModel='price'>
+        <x-form-input-field.general col="col-3" lable="Sale Price" name="sale_price" type="text" wireModel='sale_price'>
         </x-form-input-field.general>
-        <x-form-input-field.general col="col-3" lable="Discount Price" name="discountPrice" type="text"
-            wireModel='discountPrice'>
+        <x-form-input-field.general col="col-3" lable="Original Price" name="original_price" type="text"
+            wireModel='original_price'>
         </x-form-input-field.general>
-        <x-form-input-field.general col="col-3" lable="Qty In Stock" name="qtyInStock" type="text"
-            wireModel='qtyInStock'>
-        </x-form-input-field.general>
-        <x-form-input-field.general col="col-3" lable="Stock Status" name="stockStatus" type="text"
-            wireModel='stockStatus'>
+        <x-form-input-field.general col="col-3" lable="Qty In Stock" name="qty_in_stock" type="text"
+            wireModel='qty_in_stock'>
         </x-form-input-field.general>
 
+        <x-form-input-field.select-for-array col="col-6" wireModel='stock_status' defaultOption='Select Stock Status'
+            :options='$stockStatusOption' name="stock_status">
+        </x-form-input-field.select-for-array>
 
-        <x-form-input-field.select col='col-4' defaultOption='Select Section' :options='$sections'
-            wireModel='selectedSection' colName='name' name="selectedSection">
+        <x-form-input-field.select-for-array col="col-6" wireModel='status' defaultOption='Select Status'
+            :options='$statusOption' name="status">
+        </x-form-input-field.select-for-array>
+
+        <x-form-input-field.select col='col-3' defaultOption='Select Section' :options='$sections'
+            wireModel='section_id' colName='name' name="section_id">
         </x-form-input-field.select>
-        <x-form-input-field.select col='col-4' defaultOption='Select Category' :options='$categories'
-            wireModel='selectedCategory' colName='name' name="selectedCategory">
+        <x-form-input-field.select col='col-3' defaultOption='Select Category' :options='$categories'
+            wireModel='category_id' colName='name' name="category_id">
         </x-form-input-field.select>
-        <x-form-input-field.select col='col-4' defaultOption='Select Sub Category' :options='$subCategories'
-            wireModel='selectedSubCategory' colName='name' name="selectedSubCategory">
+        <x-form-input-field.select col='col-3' defaultOption='Select Sub Category' :options='$subCategories'
+            wireModel='subCategory_id' colName='name' name="subCategory_id">
         </x-form-input-field.select>
-
-
-        <x-form-input-field.select col='col-3' defaultOption='Select Attributes' :options='$attributes'
-            wireModel='selectedAttributes' colName='name' name="selectedAttributes">
+        <x-form-input-field.select col='col-3' defaultOption='Select Brand' :options='$brands' wireModel='brand_id'
+            colName='name' name="brand_id">
         </x-form-input-field.select>
 
-        <x-form-input-field.checkBox col='col-3' legend="Check Values" :options='$attributeValues'
-            wireModel='attributeValuesId' name='attributeValuesId'>
-        </x-form-input-field.checkBox>
-
-        <x-form-input-field.text-area col="col-6" lable="Description" name="description" type="text"
-            wireModel='description'>
+        <x-form-input-field.text-area col="" lable="Description" name="description" type="text" wireModel='description'>
         </x-form-input-field.text-area>
 
-        <x-form-input-field.text-area col="col-6" lable="Short Description" name="shortDescription" type="text"
-            wireModel='shortDescription'>
-        </x-form-input-field.text-area>
-
+        <div wire:ignore>
+            <select id="select-tag" class="form-select" name="state[]" multiple placeholder="Select tags...(optional)"
+                autocomplete="off">
+                @foreach ($allTags as $tag)
+                <option value="{{ $tag->id }}">{{ $tag->keyword }}</option>
+                @endforeach
+            </select>
+        </div>
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
         </x-form-input-field.file>
-        <x-form-input-field.file col="col-6" label="Upload All Images" name="all_Images" wireModel='allImages' multiple="multiple">
+
+        <x-form-input-field.file col="col-6" name='gallery.*' label="Upload Gallery" wireModel='gallery'
+            multiple="multiple">
         </x-form-input-field.file>
+        <div class="form-group" wire:ignore>
+            <textarea name="edit" class="form-control" id="editor" rows="2"></textarea>
+            @error( 'edit' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+        </div>
 
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
-    </x-form>
 
+    </x-form>
     <!-- End #main -->
     <!-- ======= Footer ======= -->
     @livewire('layouts.footer')
     <!-- End Footer -->
-
 </div>
+
+@push('script')
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>
+<script>
+    var select = new TomSelect("#select-tag");
+    select.on('change',function (value){
+        @this.set('tags', value)
+    })
+</script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ),{
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+        } )
+        .then( editor => {
+            editor.model.document.on('change:data', () => {
+                @this.set('specification', editor.getData())
+            });
+        })
+        .catch( error => {
+            console.error( error );
+        } );
+
+</script>
+@endpush
+{{-- // ClassicEditor
+    //     .create( document.querySelector( '#editor' ) )
+    //     .then( newEditor => {
+    //         editor = newEditor;
+    //         editor.setData(@js($this->specification))
+    //     } )
+    //     .catch( error => {
+    //         console.error( error );
+    //     } ); --}}

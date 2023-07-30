@@ -23,7 +23,7 @@ class ProductFactory extends Factory {
             $imagesStr .= 'digital_' . random_int(1, 22) . '.jpg' . ',';
         }
         return [
-            'title'           => $name,
+            'name'           => $name,
             'slug'            => $slug,
             'sku'             => $name . random_int(1, 50),
             'description'     => fake()->text(500),
@@ -33,7 +33,6 @@ class ProductFactory extends Factory {
             'original_price'  => fake()->numberBetween(200, 500),
             'image'           => 'digital_' . random_int(1, 35) . '.jpg',
             'gallery'         => $imagesStr,
-            'specification'   => fake()->text(500),
             'category_id'     => fake()->numberBetween(1, 3),
             'sub_category_id' => fake()->numberBetween(1, 9),
             'brand_id'        => fake()->numberBetween(1, 5),

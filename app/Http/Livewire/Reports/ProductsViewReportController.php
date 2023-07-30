@@ -12,16 +12,16 @@ class ProductsViewReportController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Title', 'SKU', 'View'],
-            ['image', 'title', 'sku', 'view_count']
+            ['Image', 'Name', 'SKU', 'View'],
+            ['image', 'name', 'sku', 'view_count']
         );
     }
 
     public function render() {
         $productViewReports = DB::table('product_views as view')
             ->join('products', 'view.product_id', '=', 'products.id')
-            ->select('view.view_count', 'products.title', 'products.sku', 'products.image as image')
-            ->where('products.title', 'LIKE', '%' . $this->searchStr . '%')
+            ->select('view.view_count', 'products.name', 'products.sku', 'products.image as image')
+            ->where('products.name', 'LIKE', '%' . $this->searchStr . '%')
             ->orWhere('products.sku', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
 

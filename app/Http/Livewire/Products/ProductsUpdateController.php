@@ -3,17 +3,19 @@
 namespace App\Http\Livewire\Products;
 
 use App\Http\ServiceTraits\ProductsService;
-use App\Http\Traits\ProductsValidation;
+use App\Http\Traits\FileTrait;
 use App\Models\Attribute;
 use App\Models\Product;
 use App\Models\Section;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class ProductsUpdateController extends Component {
-    use ProductsService;
-
+    use ProductsService, WithFileUploads, FileTrait;
+    
+    public string $pageUrl = 'update';
     public $newImage;
     public $newAllImages;
     public int $productId;
@@ -43,10 +45,10 @@ class ProductsUpdateController extends Component {
         $this->subCategories = SubCategory::where('cate_id', $cateId)->get(['id', 'name']);
     }
 
-    public function save(): void{
-        if(!empty($this->newImage)){
+    public function save(): void {
+        if (!empty($this->newImage)) {
             $this->rules['newImage'] = 'required|mimes:jpeg,png,jpg';
-        }else {
+        } else {
             $this->rules['image'] = 'string';
         }
 
@@ -63,16 +65,16 @@ class ProductsUpdateController extends Component {
         $product->stock_status      = $this->stockStatus;
         $product->qty_in_stock      = $this->qtyInStock;
         $product->sub_category_id   = $this->selectedSubCategory;
-        $product->updated_by = 1;
+        $product->updated_by        = 1;
         $product->image             = $this->image;
         $product->all_images        = $this->allImages;
 
         if (!empty($this->newImage) && !empty($this->newAllImages)) {
             $product->image      = $this->fileUpload($this->newImage);
             $product->all_images = $this->fileUpload($this->newAllImages);
-        } elseif(!empty($this->newAllImages)) {
+        } elseif (!empty($this->newAllImages)) {
             $product->all_images = $this->fileUpload($this->newAllImages);
-        } elseif(!empty($this->newImage)){
+        } elseif (!empty($this->newImage)) {
             $product->image = $this->fileUpload($this->newImage);
         }
 

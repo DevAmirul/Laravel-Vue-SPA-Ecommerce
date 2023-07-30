@@ -1,7 +1,7 @@
 <div class="{{ $col }}">
     <select wire:model='{{ $wireModel }}' id="select" class="form-select" aria-label="Default select example"
         name="{{ $name }}">
-        <option value="">{{ $defaultOption }}</option>
+        <option value="null" disabled>{{ $defaultOption }}</option>
         @if ($options !== null)
         @foreach ($options as $key => $option)
             <option {{ $wireModel ? 'selected' : '' }} value="{{ $key }}">{{ $option }}</option>

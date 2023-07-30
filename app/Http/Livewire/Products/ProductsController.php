@@ -14,8 +14,8 @@ class ProductsController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Name', 'SKU', 'Stock Status', 'Status', 'Qty in Stock', 'Sub Category', 'Sale Price', 'Original Price', 'Action'],
-            ['image', 'title', 'sku', 'stock_status', 'status', 'qty_in_stock', 'sub_category_id', 'sale_price', 'original_price']
+            ['Image', 'Name', 'SKU', 'Qty', 'Sub Category', 'Sale Price', 'Original Price', 'Stock Status', 'Status', 'Action'],
+            ['image', 'name', 'sku', 'qty_in_stock', 'sub_category_id', 'sale_price', 'original_price', 'stock_status', 'status']
         );
         $this->booleanTrait(
             ['stock_status', 'status'],
@@ -41,7 +41,7 @@ class ProductsController extends Component {
     }
 
     public function render() {
-        $products = Product::where('title', 'LIKE', '%' . $this->searchStr . '%')
+        $products = Product::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, ['id', ...$this->tableDataColumnNames]);
         return view('livewire.products.products', [
             'products' => $products,

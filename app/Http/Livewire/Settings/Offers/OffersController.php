@@ -13,8 +13,8 @@ class OffersController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Id', 'Title', 'Type', 'Discount', 'Status', 'Start Date', 'Expire Date', 'Action'],
-            ['id', 'title', 'type', 'discount', 'status', 'start_date', 'expire_date']
+            ['Id', 'Name', 'Type', 'Discount', 'Status', 'Start Date', 'Expire Date', 'Action'],
+            ['id', 'name', 'type', 'discount', 'status', 'start_date', 'expire_date']
         );
         $this->booleanTrait(
             ['status'],
@@ -32,7 +32,7 @@ class OffersController extends Component {
     }
 
     public function render() {
-        $offers = Offer::where('title', 'LIKE', '%' . $this->searchStr . '%')
+        $offers = Offer::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 
         return view('livewire.settings.offers.offers', [

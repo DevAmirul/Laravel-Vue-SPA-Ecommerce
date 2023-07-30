@@ -16,7 +16,7 @@ Product Create
     <!-- End Sidebar-->
 
     <x-form pageTitle='Offers Create'>
-        <x-form-input-field.general col="col-6" lable="Offers title" name="title" type="text" wireModel='title'>
+        <x-form-input-field.general col="col-6" lable="Offers name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
 
         <x-form-input-field.select-for-enum col='col-6' defaultOption='Select Offers type' :options='$offersTypeOption'
@@ -33,11 +33,11 @@ Product Create
         </x-form-input-field.select-for-array>
 
         <div class="col-6"><input wire:model='start_date' class="form-control" id="start_date" type="text"
-                name="start_date" placeholder="Pick start Date" aria-label="Start Date">
+                name="start_date" autocomplete="off" placeholder="Pick start Date" aria-label="Start Date">
             @error( 'start_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
 
         <div class="col-6"><input wire:model='expire_date' class="form-control" id="expire_date" type="text"
-                name="expire_date" placeholder="Pick expire Date" aria-label="Start Date">
+                name="expire_date" autocomplete="off" placeholder="Pick expire Date" aria-label="Start Date">
             @error( 'expire_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
 
         <div wire:ignore>
@@ -60,9 +60,7 @@ Product Create
                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                 @endforeach
             </select>
-
         </div>
-
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
 
@@ -78,13 +76,11 @@ Product Create
 <script>
     flatpickr("#start_date", {
         dateFormat: "Y-m-d H:i:s",
-        // mode: "range",
         enableTime: true,
         time_24hr: true
     });
     flatpickr("#expire_date", {
         dateFormat: "Y-m-d H:i:s",
-        // mode: "range",
         enableTime: true,
         time_24hr: true
     });

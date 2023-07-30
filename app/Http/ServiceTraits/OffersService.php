@@ -7,7 +7,7 @@ trait OffersService {
     public object $categories;
     public object $subCategories;
     public object $brands;
-    public string $title                = '';
+    public string $name                 = '';
     public string $discount             = '';
     public string $type                 = '';
     public ?int $status                 = null;
@@ -20,7 +20,7 @@ trait OffersService {
     public array $statusOption          = ['Unpublish', 'Publish'];
 
     protected array $rules = [
-        'title'       => 'required|string|max:100',
+        'name'       => 'required|string|max:100',
         'discount'    => 'required|string|max:255',
         'type'        => 'required',
         'status'      => 'required|boolean',

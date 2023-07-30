@@ -13,7 +13,7 @@ class CouponsUpdateController extends Component {
     public function mount($id): void{
         $this->couponId    = $id;
         $coupon            = Coupon::find($id);
-        $this->title       = $coupon->title;
+        $this->name        = $coupon->name;
         $this->code        = $coupon->code;
         $this->discount    = $coupon->discount;
         $this->type        = $coupon->type;

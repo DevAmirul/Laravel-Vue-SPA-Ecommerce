@@ -4,7 +4,7 @@ namespace App\Http\ServiceTraits;
 
 trait CouponsService {
     public int $couponId;
-    public string $title           = '';
+    public string $name           = '';
     public string $code            = '';
     public string $discount        = '';
     public string $type            = '';

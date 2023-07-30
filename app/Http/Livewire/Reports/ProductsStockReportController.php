@@ -18,8 +18,8 @@ class ProductsStockReportController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Title', 'SKU', 'Quantity', 'Stock Status'],
-            ['image', 'title', 'sku', 'qty_in_stock', 'stock_status']
+            ['Image', 'Name', 'SKU', 'Quantity', 'Stock Status'],
+            ['image', 'name', 'sku', 'qty_in_stock', 'stock_status']
         );
         $this->booleanTrait(
             ['stock_status'],
@@ -30,7 +30,7 @@ class ProductsStockReportController extends Component {
 
     public function render() {
         $productStockReports = Product::where(function (Builder $builder) {
-            $builder->where('title', 'LIKE', '%' . $this->searchStr . '%')
+            $builder->where('name', 'LIKE', '%' . $this->searchStr . '%')
                 ->orWhere('sku', 'LIKE', '%' . $this->searchStr . '%');
         })
             ->when($this->quantityAbove, function (Builder $builder) {

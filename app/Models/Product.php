@@ -12,19 +12,23 @@ class Product extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
         'slug',
         'sku',
-        'description',
-        'short_description',
-        'information',
-        'price',
-        'discount_price',
-        'stock_status',
+        'sale_price',
+        'original_price',
         'qty_in_stock',
-        'sub_category_id',
+        'stock_status',
+        'status',
+        'section_id',
+        'category_id',
+        'subCategory_id',
+        'brand_id',
+        'tags',
+        'description',
+        'specification',
         'image',
-        'all_images',
+        'gallery.*',
     ];
 
     public function subCategory(): BelongsTo {
