@@ -9,7 +9,6 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Section;
 use App\Models\Tag;
-use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -19,27 +18,19 @@ class ProductsCreateController extends Component {
     public string $pageUrl = 'create';
 
     public function save(): void{
-        $validate = $this->validate();
-        $validate['selectedTags'] = Tag::whereBetween('id', Arr::sort($validate['selectedTags']))
-            ->pluck('keyword')->implode(', ');
-        $validate['image']   = $this->fileUpload($this->image, 'products');
-        $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
-
-        // dd($validate);
-
-        Product::create($validate);
+        Product::create($this->beforeProductSaveFunc());
         dd('ok');
     }
 
     public function render() {
         $sections = Section::all(['id', 'name']);
         $brands   = Brand::all(['id', 'name']);
-        $allTags     = Tag::all(['id', 'keyword']);
+        $allTags  = Tag::all(['id', 'keyword']);
 
         return view('livewire.products.products-create', [
             'sections' => $sections,
             'brands'   => $brands,
-            'allTags'     => $allTags,
+            'allTags'  => $allTags,
         ]);
     }
 }

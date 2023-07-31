@@ -27,7 +27,7 @@ class ProductsController extends Component {
         );
     }
 
-    public function update($productId): string {
+    public function update($productId) {
         return redirect()->route('products.update', $productId);
     }
 

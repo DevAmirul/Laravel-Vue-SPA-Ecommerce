@@ -4,94 +4,60 @@ namespace App\Http\Livewire\Products;
 
 use App\Http\ServiceTraits\ProductsService;
 use App\Http\Traits\FileTrait;
-use App\Models\Attribute;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Section;
 use App\Models\SubCategory;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class ProductsUpdateController extends Component {
     use ProductsService, WithFileUploads, FileTrait;
-    
+
     public string $pageUrl = 'update';
-    public $newImage;
-    public $newAllImages;
     public int $productId;
 
     public function mount($id): void{
         $this->productId = $id;
-        $products        = Product::with('SubCategory:id,name')
-            ->where('id', $id)->get();
-
+        $products        = Product::where('id', $id)->get();
         foreach ($products as $product) {
-            $this->title               = $product->title;
-            $this->slug                = $product->slug;
-            $this->sku                 = $product->sku;
-            $this->description         = $product->description;
-            $this->shortDescription    = $product->short_description;
-            $this->price               = $product->price;
-            $this->discountPrice       = $product->discount_price;
-            $this->stockStatus         = $product->stock_status;
-            $this->qtyInStock          = $product->qty_in_stock;
-            $this->selectedSubCategory = $product->sub_category_id;
-            $this->image               = $product->image;
-            $this->allImages           = $product->all_images;
+            $this->name             = $product->name;
+            $this->slug             = $product->slug;
+            $this->sku              = $product->sku;
+            $this->sale_price       = $product->sale_price;
+            $this->original_price   = $product->original_price;
+            $this->qty_in_stock     = $product->qty_in_stock;
+            $this->stock_status     = $product->stock_status;
+            $this->status           = $product->status;
+            $this->selectedCategory = $product->category_id;
+            $this->sub_category_id  = $product->sub_category_id;
+            $this->brand_id         = $product->brand_id;
+            $this->tags             = $product->tags;
+            $this->description      = $product->description;
+            $this->specification    = $product->specification;
+            $this->oldImage         = $product->image;
+            $this->oldGallery       = $product->gallery;
         }
-
-        $subCategory         = SubCategory::find($this->selectedSubCategory);
-        $cateId              = $subCategory->cate_id;
-        $this->subCategories = SubCategory::where('cate_id', $cateId)->get(['id', 'name']);
+        $this->categories    = Category::all('id', 'name');
+        $this->subCategories = SubCategory::all('id', 'name');
     }
 
-    public function save(): void {
-        if (!empty($this->newImage)) {
-            $this->rules['newImage'] = 'required|mimes:jpeg,png,jpg';
-        } else {
-            $this->rules['image'] = 'string';
-        }
-
-        $this->validate();
-
-        $product                    = Product::find($this->productId);
-        $product->title             = $this->title;
-        $product->slug              = $this->slug;
-        $product->sku               = $this->sku;
-        $product->description       = $this->description;
-        $product->short_description = $this->shortDescription;
-        $product->price             = $this->price;
-        $product->discount_price    = $this->discountPrice ? $this->discountPrice : null;
-        $product->stock_status      = $this->stockStatus;
-        $product->qty_in_stock      = $this->qtyInStock;
-        $product->sub_category_id   = $this->selectedSubCategory;
-        $product->updated_by        = 1;
-        $product->image             = $this->image;
-        $product->all_images        = $this->allImages;
-
-        if (!empty($this->newImage) && !empty($this->newAllImages)) {
-            $product->image      = $this->fileUpload($this->newImage);
-            $product->all_images = $this->fileUpload($this->newAllImages);
-        } elseif (!empty($this->newAllImages)) {
-            $product->all_images = $this->fileUpload($this->newAllImages);
-        } elseif (!empty($this->newImage)) {
-            $product->image = $this->fileUpload($this->newImage);
-        }
-
-        $product->save();
+    public function save(): void{
+        Product::whereId($this->productId)->update($this->beforeProductSaveFunc());
         dd('ok');
     }
 
     public function render(Request $request) {
-        $sections   = Section::all(['id', 'name']);
-        $attributes = Attribute::all(['id', 'name']);
-
+        $sections = Section::all('id', 'name');
+        $brands   = Brand::all('id', 'name');
+        $allTags  = Tag::all('id', 'keyword');
         return view('livewire.products.products-update', [
-            'sections'        => $sections,
-            'attributes'      => $attributes,
-            'categories'      => $this->categories,
-            'subCategories'   => $this->subCategories,
-            'attributeValues' => $this->attributeValues,
+            'sections' => $sections,
+            'brands'   => $brands,
+            'allTags'  => $allTags,
         ]);
     }
 }

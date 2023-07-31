@@ -18,9 +18,7 @@ trait SectionsService {
                 'slug'   => 'required|string|max:255',
                 'status' => 'required|boolean',
             ];
-            if (gettype($this->image) == 'object') {
-                $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
-            }
+            (gettype($this->image) == 'object') ? $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg' : null;
             return $rulesForUpdate;
         } else {
             return [

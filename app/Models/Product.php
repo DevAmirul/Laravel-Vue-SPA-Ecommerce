@@ -22,13 +22,13 @@ class Product extends Model {
         'status',
         'section_id',
         'category_id',
-        'subCategory_id',
+        'sub_category_id',
         'brand_id',
         'tags',
         'description',
         'specification',
         'image',
-        'gallery.*',
+        'gallery',
     ];
 
     public function subCategory(): BelongsTo {

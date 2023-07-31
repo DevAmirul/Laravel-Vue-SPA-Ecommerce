@@ -27,9 +27,7 @@ class BrandsUpdateController extends Component {
 
     public function save() {
         $validate = $this->validate();
-        if (gettype($this->image) == 'object') {
-            $validate['image'] = $this->fileUpload($this->image, 'category');
-        }
+        (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'category') : null;
         Brand::where('id', $this->brandId)->update($validate);
         return redirect()->route('brands');
     }

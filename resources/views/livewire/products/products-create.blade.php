@@ -38,13 +38,13 @@ Product Create
         </x-form-input-field.select-for-array>
 
         <x-form-input-field.select col='col-3' defaultOption='Select Section' :options='$sections'
-            wireModel='section_id' colName='name' name="section_id">
+            wireModel='selectedSection' colName='name' name="section_id">
         </x-form-input-field.select>
         <x-form-input-field.select col='col-3' defaultOption='Select Category' :options='$categories'
-            wireModel='category_id' colName='name' name="category_id">
+            wireModel='selectedCategory' colName='name' name="category_id">
         </x-form-input-field.select>
         <x-form-input-field.select col='col-3' defaultOption='Select Sub Category' :options='$subCategories'
-            wireModel='subCategory_id' colName='name' name="subCategory_id">
+            wireModel='sub_category_id' colName='name' name="sub_category_id">
         </x-form-input-field.select>
         <x-form-input-field.select col='col-3' defaultOption='Select Brand' :options='$brands' wireModel='brand_id'
             colName='name' name="brand_id">
@@ -67,7 +67,7 @@ Product Create
         <x-form-input-field.file col="col-6" name='gallery.*' label="Upload Gallery" wireModel='gallery'
             multiple="multiple">
         </x-form-input-field.file>
-        <div class="form-group" wire:ignore>
+        <div class="form-group col-12" wire:ignore>
             <textarea name="edit" class="form-control" id="editor" rows="2"></textarea>
             @error( 'edit' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
@@ -87,7 +87,7 @@ Product Create
 <script>
     var select = new TomSelect("#select-tag");
     select.on('change',function (value){
-        @this.set('tags', value)
+        @this.set('selectedTags', value)
     })
 </script>
 <script>

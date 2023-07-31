@@ -27,9 +27,7 @@ class SectionsUpdateController extends Component {
 
     public function save() {
         $validate = $this->validate();
-        if (gettype($this->image) == 'object') {
-            $validate['image'] = $this->fileUpload($this->image, 'section');
-        }
+        (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'section') : null;
         Section::where('id', $this->sectionId)->update($validate);
         return redirect()->route('sections');
     }

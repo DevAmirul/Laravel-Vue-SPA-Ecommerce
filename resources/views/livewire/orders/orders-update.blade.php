@@ -151,12 +151,22 @@ Order Details
                                             <ul class="list-unstyled">
                                                 @if ($coupon > 0)
                                                 <li class="text-muted ms-3 mt-2"><span
-                                                        class="fw-bold me-4">Coupon</span>${{ $coupon }}
+                                                        class="fw-bold me-4">Coupon</span>@if ($couponType == 'Percentage')%
+                                                        @else $
+                                                        @endif
+                                                        {{ $coupon }}
                                                 </li>
                                                 @endif
                                                 @if ($discount > 0)
                                                 <li class="text-muted ms-3 mt-2"><span
-                                                        class="fw-bold me-4">Discount</span>${{ $discount }}
+                                                        @if ($couponType == 'Percentage')
+                                                        @php
+                                                            $totalDiscount = $discount + ($total / 100) * $coupon;
+                                                        @endphp
+                                                        class="fw-bold me-4">Discount</span>${{ $totalDiscount }}
+                                                        @elseif ($couponType == 'Decimal')
+                                                        class="fw-bold me-4">Discount</span>${{ $discount + $coupon }}
+                                                        @endif
                                                 </li>
                                                 @endif
 
