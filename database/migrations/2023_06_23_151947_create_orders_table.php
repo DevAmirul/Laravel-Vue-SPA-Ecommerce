@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->decimal('total');
             $table->boolean('payment_status')->default(0);
             $table->foreignId('shipping_method_id')->constrained();
-            $table->foreignId('coupon_id')->constrained();
+            $table->foreignId('coupon_id')->nullable()->constrained();
             $table->boolean('shipping_different_address')->default(0);
             $table->timestamps();
         });

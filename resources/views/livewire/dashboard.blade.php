@@ -11,7 +11,6 @@ Dashboard
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <main id="main" class="main">
-        {{-- @livewire('layouts.page-title',['pageTitle'=> 'Dashboard', 'pageUrl'=>'Home ']) --}}
         <!-- End Page Title -->
         <section class="section dashboard">
             <div class="row">
@@ -298,7 +297,7 @@ Dashboard
                                                 <th scope="row"><img
                                                             src="{{ $product->image }}" alt="{{ $product->image }}">
                                                 </th>
-                                                <td>{{ $product->title }}
+                                                <td>{{ $product->name }}
                                                 </td>
                                                 <td class="fw-bold">${{ $product->sale_price }}</td>
                                                 <td>{{ $product->qty_in_stock }}</td>
@@ -331,7 +330,7 @@ Dashboard
                                                 <th scope="row"><img src="{{ $topRevenueProduct->product->image }}"
                                                         alt="{{ $topRevenueProduct->product->image }}">
                                                 </th>
-                                                <td>{{ $topRevenueProduct->product->title }}
+                                                <td>{{ $topRevenueProduct->product->name }}
                                                 </td>
                                                 <td class="fw-bold">${{ $topRevenueProduct->product->sale_price }}</td>
                                                 <td>{{ $topRevenueProduct->sold_qty }}</td>

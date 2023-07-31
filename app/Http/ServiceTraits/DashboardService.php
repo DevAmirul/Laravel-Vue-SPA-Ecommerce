@@ -8,7 +8,7 @@ use App\Models\Product;
 use App\Models\RevenueFromPurchaseAndSaleOfProduct;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 trait DashboardService {
@@ -34,21 +34,22 @@ trait DashboardService {
 
     public function showSaleQuery($timeStr): void{
         $this->strTimeOfSale = $timeStr;
-        $this->sale          = Order::where('order_status', 'delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->count('order_status');
+
+        $this->sale = Order::where('order_status', 'Delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->count('order_status');
     }
 
     public function showOrdersQuery($timeStr): void{
         $this->strTimeOfOrders = $timeStr;
         $this->totalOrders     = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->where(function (Builder $builder) {
-                $builder->where('order_status', 'approved')
-                    ->orWhere('order_status', 'pending');
+                $builder->where('order_status', 'Approved')
+                    ->orWhere('order_status', 'Pending');
             })->count();
     }
 
     public function showRevenueQuery($timeStr): void{
         $this->strTimeOfRevenue = $timeStr;
-        $this->revenue          = Order::where('order_status', 'delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->sum('total');
+        $this->revenue          = Order::where('order_status', 'Delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->sum('total');
     }
 
     public function showRecentSaleQuery($timeStr): void{
@@ -69,23 +70,22 @@ trait DashboardService {
 
     public function newArrivalProductsQuery($timeStr): void{
         $this->strTimeOfArrivals  = $timeStr;
-        $this->newArrivalProducts = Product::where('created_at', '>', $this->getTimeCarbon($timeStr))
+        $this->newArrivalProducts = Product::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->latest()->take(8)->get(['id', 'name', 'sale_price', 'sku', 'qty_in_stock', 'image']);
     }
 
     public function showTopRevenueProductsQuery($timeStr): void{
-        $this->topRevenueProducts          = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
+        $this->topRevenueProducts = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
     }
 
     public function showUsersQuery($timeStr): void{
         $this->strTimeOfUsers = $timeStr;
-        $this->users          = User::where('created_at', '>', $this->getTimeCarbon($timeStr))->count();
+        $this->users          = User::where('updated_at', '>', $this->getTimeCarbon($timeStr))->count();
     }
 
     public function showOrdersChartQuery(): void{
         $this->ordersChart = DB::table('orders')->
             select(DB::raw('count(order_status) as status_quantity, order_status'))
-            ->where('created_at', '>', Carbon::now()->startOfYear())
             ->groupBy('order_status')->get();
     }
 
@@ -95,35 +95,27 @@ trait DashboardService {
 
     public function showOrdersBarChartQuery(): void{
         $this->ordersBarChart = Order::query()
-            ->selectRaw('count(created_at) as total, MONTHNAME(created_at) as month')
-            ->where('created_at', '>', Carbon::now()->startOfYear())
-            ->groupByRaw('MONTHNAME(created_at)')
+            ->selectRaw('count(updated_at) as total, MONTHNAME(updated_at) as month')
+            ->where('updated_at', '>', Carbon::now()->startOfYear())
+            ->groupByRaw('MONTHNAME(updated_at)')
             ->get();
     }
 
-    public function showOrderQuery($timeStr) {
+    public function mountTimeOrderQuery($timeStr) {
         $orders = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))->where(function (Builder $builder) {
-            $builder->where('order_status', 'approved')
-                ->orWhere('order_status', 'delivered')
-                ->orWhere('order_status', 'pending');
-        })->get(['total', 'order_status', 'created_at']);
+            $builder->where('order_status', 'Approved')
+                ->orWhere('order_status', 'Delivered')
+                ->orWhere('order_status', 'Pending');
+        })->get(['total', 'order_status', 'updated_at']);
 
-        $this->sale        = $orders->where('order_status', 'delivered')->count();
-        $this->revenue     = $orders->where('order_status', 'delivered')->sum('total');
-        $this->totalOrders = $orders->whereIn('order_status', ['approved', 'pending'])->count();
-    }
-
-    public function setStrTime(string $timeStr): void{
-        $this->strTimeOfSale               = $timeStr;
-        $this->strTimeOfRevenue            = $timeStr;
-        $this->strTimeOfUsers              = $timeStr;
-        $this->strTimeOfOrders             = $timeStr;
-        $this->strTimeOfArrivals           = $timeStr;
-        $this->strTimeOfRecentSale         = $timeStr;
+        $this->sale        = $orders->where('order_status', 'Delivered')->count();
+        $this->revenue     = $orders->where('order_status', 'Delivered')->sum('total');
+        $this->totalOrders = $orders->whereIn('order_status', ['Approved', 'Pending'])->count();
     }
 
     public function AllCalculationsAreBasedOnDayMonthYearQuery($timeStr): void{
-        $this->showOrderQuery($timeStr);
+
+        $this->mountTimeOrderQuery($timeStr);
 
         $this->showUsersQuery($timeStr);
 
@@ -138,5 +130,14 @@ trait DashboardService {
         $this->showIncomeExpenditureChartQuery();
 
         $this->showOrdersBarChartQuery();
+    }
+
+    public function setStrTime(string $timeStr): void{
+        $this->strTimeOfSale       = $timeStr;
+        $this->strTimeOfRevenue    = $timeStr;
+        $this->strTimeOfUsers      = $timeStr;
+        $this->strTimeOfOrders     = $timeStr;
+        $this->strTimeOfArrivals   = $timeStr;
+        $this->strTimeOfRecentSale = $timeStr;
     }
 }

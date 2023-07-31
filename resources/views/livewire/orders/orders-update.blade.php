@@ -29,7 +29,8 @@ Order Details
                                         </p>
                                     </div>
                                     <div class="col-xl-3 float-end d-print-none">
-                                        <button class="btn btn btn-outline-secondary btn-sm px-3" onclick="window.print()">Print <i class="bi bi-printer"></i></button>
+                                        <button class="btn btn btn-outline-secondary btn-sm px-3"
+                                            onclick="window.print()">Print <i class="bi bi-printer"></i></button>
                                     </div>
                                     <hr>
                                 </div>
@@ -77,7 +78,7 @@ Order Details
                                                         style="color:#84B0CA ;"></i>
                                                     <span class="me-1 fw-bold">Order Status:</span><span
                                                         class="badge bg-warning text-black fw-bold">
-                                                        <td>{{ ucwords($orderStatus) }}
+                                                        <td>{{ $orderStatus }}
                                                         </td>
                                                     </span>
                                                 </li>
@@ -139,44 +140,50 @@ Order Details
                                                         <option value="Returned">Returned</option>
                                                     </select>
                                                     <br>
-                                                    @if ($changedStatus)
                                                     <x-form-input-field.submit color='primary' buttonName="Save">
                                                     </x-form-input-field.submit>
-                                                    @endif
                                                 </form>
                                             </div>
 
                                         </div>
                                         <div class="col-xl-3">
                                             <ul class="list-unstyled">
-                                                @if ($coupon > 0)
+                                                @if ($coupon !== null)
                                                 <li class="text-muted ms-3 mt-2"><span
-                                                        class="fw-bold me-4">Coupon</span>@if ($couponType == 'Percentage')%
-                                                        @else $
-                                                        @endif
-                                                        {{ $coupon }}
+                                                        class="fw-bold me-4">Coupon</span>@if ($couponType ==
+                                                    'Percentage'){{ $coupon }}%
+                                                    @else ${{ $coupon }}
+                                                    @endif
+
                                                 </li>
                                                 @endif
                                                 @if ($discount > 0)
-                                                <li class="text-muted ms-3 mt-2"><span
-                                                        @if ($couponType == 'Percentage')
-                                                        @php
-                                                            $totalDiscount = $discount + ($total / 100) * $coupon;
+                                                <li class="text-muted ms-3 mt-2"><span @if ($couponType=='Percentage' )
+                                                        @php $totalDiscount=$discount + ($total / 100) * $coupon;
                                                         @endphp
                                                         class="fw-bold me-4">Discount</span>${{ $totalDiscount }}
-                                                        @elseif ($couponType == 'Decimal')
-                                                        class="fw-bold me-4">Discount</span>${{ $discount + $coupon }}
-                                                        @endif
+                                                    @else
+                                                    class="fw-bold
+                                                    me-4">Discount</span>${{ number_format($discount + $coupon,2) }}
+                                                    @endif
                                                 </li>
                                                 @endif
 
                                                 <li class="text-muted ms-3"><span
-                                                        class="fw-bold me-4">SubTotal</span>${{ $subtotal }}
+                                                        class="fw-bold me-4">SubTotal</span>${{ number_format($subtotal,2) }}
                                                 </li>
 
                                             </ul>
                                             <p class="text-black float-start mx-3"><span class="fw-bold me-4">Total :
-                                                </span><span style="font-size: 25px;">${{ $total }}</span></p>
+                                                </span><span style="font-size: 25px;">
+                                                    @if ($totalDiscount ?? false)
+                                                    ${{ number_format(ceil($total - $totalDiscount),2) }}
+                                                    @elseif ($couponType=='Percentage')
+                                                    ${{ number_format(ceil($total - (($total / 100) * $coupon)),2) }}
+                                                    @else
+                                                    ${{ number_format(ceil($total - $coupon),2) }}
+                                                    @endif
+                                                </span></p>
                                         </div>
                                     </div>
                                     <hr>

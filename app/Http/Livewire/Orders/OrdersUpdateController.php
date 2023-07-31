@@ -55,7 +55,7 @@ class OrdersUpdateController extends Component {
             ]);
             array_push($this->soldProductArray, ['product_id' => $value->p_id, 'revenue' => 11, 'cost' => 22, 'sold_qty' => $value->qty]);
         }
-        // dd($this->order);
+
         $this->orderId       = $id;
         $this->name          = $this->order[0]->name;
         $this->orderStatus   = $this->order[0]->order_status;
@@ -70,18 +70,22 @@ class OrdersUpdateController extends Component {
         $this->couponType    = $this->order[0]->type;
         $this->subtotal      = $this->order[0]->subtotal;
         $this->total         = $this->order[0]->total;
+        $this->changedStatus = $this->order[0]->order_status;
     }
 
     public function save(): int{
         Order::where('id', $this->orderId)->update(['order_status' => $this->changedStatus]);
-        $this->orderStatus = $this->changedStatus;
-        foreach ($this->soldProductArray as $product) {
-            DB::table('revenue_from_purchase_and_sale_of_products')
-                ->updateOrInsert(['product_id' => $product['product_id']],
-                    ['revenue' => DB::raw('revenue+' . $product['revenue']),
-                        'cost'     => DB::raw('cost+' . $product['cost']),
-                        'sold_qty' => DB::raw('sold_qty+' . $product['sold_qty'])]
-                );
+        if ($this->changedStatus == 'Delivered') {
+            foreach ($this->soldProductArray as $product) {
+                DB::table('revenue_from_purchase_and_sale_of_products')
+                    ->updateOrInsert(['product_id' => $product['product_id']],
+                        [
+                            'revenue'  => DB::raw('revenue+' . $product['revenue']),
+                            'cost'     => DB::raw('cost+' . $product['cost']),
+                            'sold_qty' => DB::raw('sold_qty+' . $product['sold_qty']),
+                        ]
+                    );
+            }
         }
         return true;
     }
