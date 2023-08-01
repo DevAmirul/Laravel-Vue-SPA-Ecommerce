@@ -1,9 +1,6 @@
 <main id="main" class="main">
     @livewire('layouts.page-title',['pageTitle'=> $pageTitle])
     <!-- End Page Title -->
-    @if ($tableData->count() == null)
-    @livewire('layouts.empty-page',['tableName'=> $tableName])
-    @else
     <section class="section">
         <div class="row">
             <div class="col-lg-12">
@@ -19,7 +16,7 @@
                                     <option value="50">50</option>
                                 </select>
                             </form>
-
+                            
                             {{ $slot }}
 
                             <nav class="navbar bg-light">
@@ -33,6 +30,9 @@
                                 </div>
                             </nav>
                         </div>
+                        @if ($tableData->count() == null)
+                        @livewire('layouts.empty-page',['tableName'=> $tableName])
+                        @else
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
@@ -125,7 +125,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                         <nav aria-label="Page navigation example">
                             <div class="d-flex flex-column">
                                 <ul class="pagination justify-content-center">
@@ -142,11 +141,11 @@
                                 <h6 class="text-center">Showing 1 to 5 of 5 entries</h6>
                             </div>
                         </nav>
+                        @endif
                         <!-- End Table with stripped rows -->
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    @endif
 </main>
