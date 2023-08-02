@@ -1,0 +1,1 @@
+<button {{ $attributes->merge(['class' => 'btn btn-'.$color]) }} type="submit">{{ $buttonName }}</button>
