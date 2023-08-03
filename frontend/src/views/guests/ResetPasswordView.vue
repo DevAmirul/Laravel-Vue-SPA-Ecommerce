@@ -1,6 +1,6 @@
-<script setup>
-</script>
+
 <template>
+
     <!-- Shop Start -->
     <div class="container">
         <div class="row">
@@ -93,9 +93,7 @@
             </div>
         </div>
     </div>
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
+    <!-- Contact End -->
 </template>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");

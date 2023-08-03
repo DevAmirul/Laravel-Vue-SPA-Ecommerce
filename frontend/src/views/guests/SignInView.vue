@@ -1,7 +1,6 @@
-<script setup>
-</script>
+
 <template>
-    <!-- Shop Start -->
+    <!-- Contact Start -->
     <div class="container">
         <div class="row">
             <div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
@@ -93,10 +92,8 @@
             </div>
         </div>
     </div>
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
 </template>
+
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
@@ -143,7 +140,7 @@ a:hover {
 
 .panel {
     min-height: 380px;
-    box-shadow: 20px 20px 80px rgb(218, 218, 218);
+    box-shadow: 10px 10px 20px rgb(218, 218, 218) !important;
     border-radius: 12px;
     box-shadow: 11px 12px 54px -10px rgba(0,0,0,0.84);
 }

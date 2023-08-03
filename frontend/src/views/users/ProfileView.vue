@@ -1,11 +1,6 @@
-<script setup>
-import Footer from "../../components/Footer.vue";
-import Header from "../../components/Header.vue";
-</script>
+
 <template>
-    <!-- Topbar Start -->
-    <Header></Header>
-    <!-- Topbar End -->
+    <!-- Checkout Start -->
     <div class="container my-5">
         <div class="main-body">
             <div class="row">
@@ -23,10 +18,7 @@ import Header from "../../components/Header.vue";
                                 />
                                 <div class="mt-3">
                                     <h4>John Doe</h4>
-
-                                    <p class="text-primary mb-1">
-                                        01834513106
-                                    </p>
+                                    <p class="text-primary mb-1">01834513106</p>
                                     <p class="text-primary mb-1">
                                         mailbox.amirul@gmail.com
                                     </p>
@@ -58,7 +50,6 @@ import Header from "../../components/Header.vue";
                             </ul>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-lg-8">
                     <div class="card">
@@ -123,7 +114,6 @@ import Header from "../../components/Header.vue";
                                     />
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <div class="col-sm-3">
                                     <h6 class="mb-0">Address</h6>
@@ -218,8 +208,6 @@ import Header from "../../components/Header.vue";
                                     />
                                 </div>
                             </div>
-
-
                             <div class="row mt-4">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
@@ -232,14 +220,12 @@ import Header from "../../components/Header.vue";
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
+    <!-- Checkout End -->
+
 </template>
 <style>
 .card {

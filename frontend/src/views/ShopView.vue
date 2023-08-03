@@ -1,188 +1,394 @@
 <script setup>
-
-import Footer from '../components/layouts/Footer.vue'
+import Filter from "../components/Filter.vue";
+import Paginate from "../components/Paginate.vue";
+import Sidebar from "../components/layouts/Sidebar.vue";
+import PageHeader from "../components/layouts/PageHeader.vue";
 </script>
 <template>
-    <template>
-    <!-- Topbar Start -->
-    <!-- Topbar End -->
     <!-- Page Header Start -->
+    <PageHeader></PageHeader>
     <!-- Page Header End -->
-    <!-- Contact Start -->
+    <!-- Shop Start -->
     <div class="container-fluid pt-5">
-        <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">Contact For Any Queries</span></h2>
-        </div>
         <div class="row px-xl-5">
-            <div class="col-lg-7 mb-5">
-                <div class="contact-form">
-                    <div id="success"></div>
-                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
-                        <div class="control-group">
-                            <input type="text" class="form-control" id="name" placeholder="Your Name" required="required" data-validation-required-message="Please enter your name" />
-                            <p class="help-block text-danger"></p>
+            <!-- Shop Sidebar Start -->
+            <Sidebar></Sidebar>
+            <!-- Shop Sidebar End -->
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-12">
+                <div class="row pb-3">
+                    <div class="col-12 pb-1">
+                        <!-- filter start -->
+                        <Filter></Filter>
+                        <!-- filter end -->
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-1.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
                         </div>
-                        <div class="control-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
-                            <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-2.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
                         </div>
-                        <div class="control-group">
-                            <input type="text" class="form-control" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
-                            <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-3.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
                         </div>
-                        <div class="control-group">
-                            <textarea class="form-control" rows="6" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
-                            <p class="help-block text-danger"></p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-4.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
                         </div>
-                        <div>
-                            <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Send
-                                Message</button>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-5.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-6.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-7.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-8.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <div class="card product-item border-0 mb-4">
+                            <div
+                                class="card-header product-img position-relative overflow-hidden bg-transparent border p-0"
+                            >
+                                <img
+                                    class="img-fluid w-100"
+                                    src="img/product-1.jpg"
+                                    alt=""
+                                />
+                            </div>
+                            <div
+                                class="card-body border-left border-right text-center p-0 pt-4 pb-3"
+                            >
+                                <h6 class="text-truncate mb-3">
+                                    Colorful Stylish Shirt
+                                </h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>$123.00</h6>
+                                    <h6 class="text-muted ml-2">
+                                        <del>$123.00</del>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div
+                                class="card-footer d-flex justify-content-between bg-light border"
+                            >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i class="fas fa-eye text-primary mr-1"></i
+                                    >View Detail</a
+                                >
+                                <a href="" class="btn btn-sm text-dark p-0"
+                                    ><i
+                                        class="fas fa-shopping-cart text-primary mr-1"
+                                    ></i
+                                    >Add To Cart</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <!-- paginate start -->
+                    <Paginate></Paginate>
+                    <!-- paginate end -->
                 </div>
             </div>
-            <div class="col-lg-5 mb-5">
-                <h5 class="font-weight-semi-bold mb-3">Get In Touch</h5>
-                <p>Justo sed diam ut sed amet duo amet lorem amet stet sea ipsum, sed duo amet et. Est elitr dolor elitr erat sit sit. Dolor diam et erat clita ipsum justo sed.</p>
-                <div class="d-flex flex-column mb-3">
-                    <h5 class="font-weight-semi-bold mb-3">Store 1</h5>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
-                </div>
-                <div class="d-flex flex-column">
-                    <h5 class="font-weight-semi-bold mb-3">Store 2</h5>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-                    <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
-                </div>
-            </div>
+            <!-- Shop Product End -->
         </div>
     </div>
-    <!-- Contact End -->
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
+    <!-- Shop End -->
 </template>
-</template>
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-}
-
-body {
-    height: 100vh;
-}
-
-.container {
-    margin: 50px auto;
-}
-
-.panel-heading {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-#forgot {
-    min-width: 100px;
-    margin-left: auto;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-.form-inline label {
-    padding-left: 10px;
-    margin: 0;
-    cursor: pointer;
-}
-
-.btn.btn-primary {
-    margin-top: 20px;
-    border-radius: 15px;
-}
-
-.panel {
-    min-height: 380px;
-    box-shadow: 20px 20px 80px rgb(218, 218, 218);
-    border-radius: 12px;
-    box-shadow: 11px 12px 54px -10px rgba(0, 0, 0, 0.84);
-}
-
-.input-field {
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    color: #4343ff;
-}
-
-input[type="text"],
-input[type="password"] {
-    border: none;
-    outline: none;
-    box-shadow: none;
-    width: 100%;
-}
-
-.fa-eye-slash.btn {
-    border: none;
-    outline: none;
-    box-shadow: none;
-}
-
-img {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 50%;
-    position: relative;
-}
-
-a[target="_blank"] {
-    position: relative;
-    transition: all 0.1s ease-in-out;
-}
-
-.bordert {
-    border-top: 1px solid #aaa;
-    position: relative;
-}
-
-.bordert:after {
-    content: "or connect with";
-    position: absolute;
-    top: -13px;
-    left: 33%;
-    background-color: #fff;
-    padding: 0px 8px;
-}
-
-@media (max-width: 360px) {
-    #forgot {
-        margin-left: 0;
-        padding-top: 10px;
-    }
-
-    body {
-        height: 100%;
-    }
-
-    .container {
-        margin: 30px 0;
-    }
-
-    .bordert:after {
-        left: 25%;
-    }
-}
-</style>

@@ -1,11 +1,6 @@
-<script setup>
-import Header from '../../components/Header.vue'
-import Footer from '../../components/Footer.vue'
-</script>
+
 <template>
-    <!-- Topbar Start -->
-    <Header></Header>
-    <!-- Topbar End -->
+    <!-- Checkout Start -->
     <section class="h-100 gradient-custom " style="margin-top: 50px">
         <div class="container py-5 h-100">
             <div
@@ -249,9 +244,8 @@ import Footer from '../../components/Footer.vue'
             </div>
         </div>
     </section>
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
+    <!-- Checkout End -->
+
 </template>
 <style>
 .card-header-2 {

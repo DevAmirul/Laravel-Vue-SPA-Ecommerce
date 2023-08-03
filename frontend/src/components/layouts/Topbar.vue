@@ -1,3 +1,6 @@
+<script setup>
+import { RouterLink } from "vue-router";
+</script>
 <template>
         <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
@@ -49,14 +52,16 @@
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
+                <RouterLink :to="{ name: 'wishList' }"
+                                        ><a class="btn border">
                     <i class="fas fa-heart text-primary"></i>
                     <span class="badge">0</span>
-                </a>
-                <a href="" class="btn border">
+                </a></RouterLink>
+                <RouterLink :to="{ name: 'cart' }"
+                                        ><a class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">0</span>
-                </a>
+                </a></RouterLink>
             </div>
         </div>
     </div>

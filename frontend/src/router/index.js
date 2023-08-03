@@ -13,9 +13,9 @@ const router = createRouter({
       path: '/shop',
       name: 'shop',
       component: () => import('../views/ShopView.vue')
-    }, , {
-      path: '/products',
-      name: 'productDetail',
+    }, {
+      path: '/products/:id',
+      name: 'products',
       component: () => import('../views/ProductsView.vue')
     },
     {
@@ -26,57 +26,57 @@ const router = createRouter({
     {
       path: '/checkout',
       name: 'checkout',
-      component: () => import('../views/CheckoutView.vue')
+      component: () => import('../views/users/CkeckoutView.vue')
     },
     {
       path: '/cart',
       name: 'cart',
-      component: () => import('../views/CartView.vue')
+      component: () => import('../views/users/CartView.vue')
     },
     {
-      path: '/search',
+      path: '/search/:string',
       name: 'search',
       component: () => import('../views/SearchView.vue')
     },
     {
       path: '/orders',
       name: 'orders',
-      component: () => import('../views/userPages/OrdersView.vue')
+      component: () => import('../views/users/OrdersView.vue'),
+      children: [{
+        path: '/items',
+        name: 'orderItems',
+        component: () => import('../views/users/OrderItemsView.vue')
+      }],
     },
     {
-      path: '/orders-items',
-      name: 'orderItems',
-      component: () => import('../views/userPages/OrdersItemsView.vue')
-    },
-    {
-      path: '/wish-list',
+      path: '/wishlist',
       name: 'wishList',
-      component: () => import('../views/wishListView.vue')
+      component: () => import('../views/users/WishlistView.vue')
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/guestPages/LoginView.vue')
+      component: () => import('../views/guests/SignInView.vue')
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/guestPages/RegisterView.vue')
+      component: () => import('../views/guests/SignUpView.vue')
     },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import('../views/userPages/MyProfileView.vue')
+      component: () => import('../views/users/ProfileView.vue')
     },
     {
       path: '/500',
       name: '500',
-      component: () => import('../views/errorPages/500View.vue')
+      component: () => import('../views/errors/500View.vue')
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
-      component: () => import('../views/errorPages/404View.vue')
+      component: () => import('../views/errors/404View.vue')
     }
   ]
 })

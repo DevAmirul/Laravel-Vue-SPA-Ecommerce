@@ -1,12 +1,7 @@
 <script setup>
-import Footer from '../components/layouts/Footer.vue'
-import Topbar from '../components/layouts/Topbar.vue'
-
+import { RouterLink } from "vue-router";
 </script>
 <template>
-    <!-- Topbar Start -->
-    <Topbar/>
-    <!-- Topbar End -->
     <!-- Navbar Start -->
     <div class="container-fluid mb-5">
         <div class="row border-top px-xl-5">
@@ -47,21 +42,73 @@ import Topbar from '../components/layouts/Topbar.vue'
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <RouterLink :to="{ name: 'home' }"
+                                ><a class="nav-item nav-link"
+                                    >Home</a
+                                ></RouterLink
+                            >
+                            <RouterLink :to="{ name: 'shop' }"
+                                ><a class="nav-item nav-link"
+                                    >Shop</a
+                                ></RouterLink
+                            >
+                            <RouterLink :to="{ name: 'contact' }"
+                                ><a class="nav-item nav-link active"
+                                    >Flush Sale</a
+                                ></RouterLink
+                            >
+                            <RouterLink :to="{ name: 'contact' }"
+                                ><a class="nav-item nav-link active"
+                                    >Contact</a
+                                ></RouterLink
+                            >
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
+                            <div class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    >User</a
+                                >
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <RouterLink :to="{ name: 'profile' }"
+                                        ><a class="nav-item nav-link"
+                                            >My Profile</a
+                                        ></RouterLink
+                                    >
+                                    <RouterLink :to="{ name: 'orders' }"
+                                        ><a class="nav-item nav-link"
+                                            >My Orders</a
+                                        ></RouterLink
+                                    >
+
+                                    <RouterLink :to="{ name: 'wishList' }"
+                                        ><a class="nav-item nav-link"
+                                            >Wishlist</a
+                                        ></RouterLink
+                                    >
+                                    <RouterLink :to="{ name: 'cart' }"
+                                        ><a class="nav-item nav-link"
+                                            >Shopping Cart</a
+                                        ></RouterLink
+                                    >
+                                    <RouterLink :to="{ name: 'checkout' }"
+                                        ><a class="nav-item nav-link"
+                                            >Checkout</a
+                                        ></RouterLink
+                                    >
+                                </div>
+                            </div>
+                            <RouterLink :to="{ name: 'login' }"
+                                ><a class="nav-item nav-link"
+                                    >Login</a
+                                ></RouterLink
+                            >
+                            <RouterLink :to="{ name: 'register' }"
+                                ><a class="nav-item nav-link"
+                                    >Register</a
+                                ></RouterLink
+                            >
                         </div>
                     </div>
                 </nav>
@@ -579,7 +626,5 @@ import Topbar from '../components/layouts/Topbar.vue'
         </div>
     </div>
     <!-- Vendor End -->
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
+
 </template>

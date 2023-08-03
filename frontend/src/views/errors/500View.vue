@@ -1,15 +1,5 @@
-<script setup>
-import Footer from "../../components/Footer.vue";
-import Header from "../../components/Header.vue";
-import PageHeader from "../../components/PageHeader.vue";
-</script>
+
 <template>
-    <!-- Topbar Start -->
-    <Header></Header>
-    <!-- Topbar End -->
-    <!-- Page Header Start -->
-    <!-- <PageHeader></PageHeader> -->
-    <!-- Page Header End -->
     <!-- Content Wrapper. Contains page content -->
     <div class="container mt-5 mb-5 px-5">
         <div class="content-wrapper">
@@ -35,7 +25,9 @@ import PageHeader from "../../components/PageHeader.vue";
                             We will work on fixing that right away. Meanwhile,
                             you may
                             <RouterLink :to="{ name: 'home' }"
-                                ><a href="../../index.html">return to dashboard</a></RouterLink
+                                ><a href="../../index.html"
+                                    >return to dashboard</a
+                                ></RouterLink
                             >
                             or try using the search form.
                         </p>
@@ -67,9 +59,4 @@ import PageHeader from "../../components/PageHeader.vue";
         </div>
     </div>
     <!-- /.content-wrapper -->
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
 </template>
-<style>
-</style>

@@ -1,11 +1,6 @@
-<script setup>
-import Header from "../../components/Header.vue";
-import Footer from "../../components/Footer.vue";
-</script>
+
 <template>
-    <!-- Topbar Start -->
-    <Header></Header>
-    <!-- Topbar End -->
+    <!-- Checkout Start -->
     <div class="card my-5">
         <div class="card-body">
             <div class="container mb-5 mt-3">
@@ -16,40 +11,25 @@ import Footer from "../../components/Footer.vue";
                         </p>
                     </div>
                     <div class="col-xl-3 float-end">
-                        <a
-                            class="btn btn-light text-capitalize border-0"
-                            data-mdb-ripple-color="dark"
-                            ><i class="fas fa-print text-primary"></i> Print</a
-                        >
-                        <a
-                            class="btn btn-light text-capitalize"
-                            data-mdb-ripple-color="dark"
-                            ><i class="far fa-file-pdf text-danger"></i>
-                            Export</a
-                        >
+                        <a class="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i class="fas fa-print text-primary"></i> Print</a>
+                        <a class="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i class="far fa-file-pdf text-danger"></i>
+                            Export</a>
                     </div>
                     <hr />
                 </div>
-
                 <div class="container">
                     <div class="col-md-12">
                         <div class="text-center">
-                            <i
-                                class="fab fa-mdb fa-4x ms-0"
-                                style="color: #d19c97 !important"
-                            ></i>
+                            <i class="fab fa-mdb fa-4x ms-0" style="color: #d19c97 !important"></i>
                             <p class="pt-0">MDBootstrap.com</p>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-xl-8">
                             <ul class="list-unstyled">
                                 <li class="text-muted">
                                     To:
-                                    <span style="color: #d19c97 !important"
-                                        >John Lorem</span
-                                    >
+                                    <span style="color: #d19c97 !important">John Lorem</span>
                                 </li>
                                 <li class="text-muted">Street, City</li>
                                 <li class="text-muted">State, Country</li>
@@ -62,42 +42,24 @@ import Footer from "../../components/Footer.vue";
                             <p class="text-muted">Invoice</p>
                             <ul class="list-unstyled">
                                 <li class="text-muted">
-                                    <i
-                                        class="fas fa-circle"
-                                        style="color: #d19c97"
-                                    ></i>
+                                    <i class="fas fa-circle" style="color: #d19c97"></i>
                                     <span class="fw-bold">ID:</span>#123-456
                                 </li>
                                 <li class="text-muted">
-                                    <i
-                                        class="fas fa-circle"
-                                        style="color: #d19c97"
-                                    ></i>
-                                    <span class="fw-bold">Creation Date: </span
-                                    >Jun 23,2021
+                                    <i class="fas fa-circle" style="color: #d19c97"></i>
+                                    <span class="fw-bold">Creation Date: </span>Jun 23,2021
                                 </li>
                                 <li class="text-muted">
-                                    <i
-                                        class="fas fa-circle"
-                                        style="color: #d19c97"
-                                    ></i>
-                                    <span class="me-1 fw-bold">Status:</span
-                                    ><span
-                                        class="badge bg-warning text-black fw-bold"
-                                    >
-                                        Unpaid</span
-                                    >
+                                    <i class="fas fa-circle" style="color: #d19c97"></i>
+                                    <span class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
+                                        Unpaid</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
-
                     <div class="row my-2 mx-1 justify-content-center">
                         <table class="table table-striped table-borderless">
-                            <thead
-                                style="background-color: #d19c97"
-                                class="text-white"
-                            >
+                            <thead style="background-color: #d19c97" class="text-white">
                                 <tr>
                                     <th scope="col" class="hide-th">#</th>
                                     <th scope="col">Description</th>
@@ -140,18 +102,15 @@ import Footer from "../../components/Footer.vue";
                         <div class="col-xl-3">
                             <ul class="list-unstyled">
                                 <li class="text-muted ms-3">
-                                    <span class="text-black me-4">SubTotal</span
-                                    >$1110
+                                    <span class="text-black me-4">SubTotal</span>$1110
                                 </li>
                                 <li class="text-muted ms-3 mt-2">
-                                    <span class="text-black me-4">Tax(15%)</span
-                                    >$111
+                                    <span class="text-black me-4">Tax(15%)</span>$111
                                 </li>
                             </ul>
                             <p class="text-black float-start">
                                 <span class="text-black me-3">
-                                    Total Amount</span
-                                ><span style="font-size: 25px">$1221</span>
+                                    Total Amount</span><span style="font-size: 25px">$1221</span>
                             </p>
                         </div>
                     </div>
@@ -161,11 +120,7 @@ import Footer from "../../components/Footer.vue";
                             <p>Thank you for your purchase</p>
                         </div>
                         <div class="col-xl-2">
-                            <button
-                                type="button"
-                                class="btn btn-primary text-capitalize"
-                                style="background-color: #d19c97"
-                            >
+                            <button type="button" class="btn btn-primary text-capitalize" style="background-color: #d19c97">
                                 Pay Now
                             </button>
                         </div>
@@ -174,9 +129,8 @@ import Footer from "../../components/Footer.vue";
             </div>
         </div>
     </div>
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
+    <!-- Checkout End -->
+
 </template>
 <style>
 .card-header-2 {

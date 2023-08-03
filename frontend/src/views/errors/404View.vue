@@ -1,16 +1,6 @@
-<script setup>
-import Footer from "../../components/Footer.vue";
-import Header from "../../components/Header.vue";
-import PageHeader from "../../components/PageHeader.vue";
-</script>
+
 <template>
-    <!-- Topbar Start -->
-    <Header></Header>
-    <!-- Topbar End -->
-    <!-- Page Header Start -->
-    <!-- <PageHeader></PageHeader> -->
-    <!-- Page Header End -->
-    <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
     <div class="container mt-5 mb-5 px-5">
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -69,9 +59,4 @@ import PageHeader from "../../components/PageHeader.vue";
         </div>
     </div>
     <!-- /.content-wrapper -->
-    <!-- Footer Start -->
-    <Footer></Footer>
-    <!-- Footer End -->
 </template>
-<style>
-</style>

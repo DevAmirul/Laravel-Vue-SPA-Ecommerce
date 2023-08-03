@@ -1,7 +1,7 @@
 <script setup>
 </script>
 <template>
-    <div class="col-12 pb-1">
+    <div class="col-12 pb-1 mt-4">
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center mb-3">
                 <li class="page-item disabled">

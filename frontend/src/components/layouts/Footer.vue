@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from "vue-router";
 </script>
 <template>
     <!-- Footer Start -->
@@ -6,7 +7,8 @@
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <RouterLink :to="{ name: 'home' }">
-                    <img class="logo" :src="logo" alt=""></RouterLink>
+                    <!-- <img class="logo" :src="logo" alt=""> -->
+                </RouterLink>
                 <p>
                     Dolore erat dolor sit lorem vero amet. Sed sit lorem magna,
                     ipsum no sit erat lorem et magna ipsum dolore amet erat.
