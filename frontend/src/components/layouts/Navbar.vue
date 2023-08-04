@@ -19,7 +19,6 @@ import { RouterLink } from "vue-router";
                     id="navbar-vertical"
                     style="width: calc(100% - 30px); z-index: 1"
                 >
-
                     <div
                         class="navbar-nav w-100 overflow-hidden"
                         style="height: 410px"
@@ -81,22 +80,30 @@ import { RouterLink } from "vue-router";
                         id="navbarCollapse"
                     >
                         <div class="navbar-nav mr-auto py-0">
-                            <RouterLink :to="{ name: 'home' }"
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'home' }"
                                 ><a class="nav-item nav-link"
                                     >Home</a
                                 ></RouterLink
                             >
-                            <RouterLink :to="{ name: 'shop' }"
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'shop' }"
                                 ><a class="nav-item nav-link"
                                     >Shop</a
                                 ></RouterLink
                             >
-                            <RouterLink :to="{ name: 'contact' }"
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'contact' }"
                                 ><a class="nav-item nav-link active"
                                     >Flush Sale</a
                                 ></RouterLink
                             >
-                            <RouterLink :to="{ name: 'contact' }"
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'contact' }"
                                 ><a class="nav-item nav-link active"
                                     >Contact</a
                                 ></RouterLink
@@ -110,40 +117,71 @@ import { RouterLink } from "vue-router";
                                     >User</a
                                 >
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <RouterLink :to="{ name: 'profile' }"
+                                    <RouterLink
+                                        style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                        :to="{ name: 'profile' }"
                                         ><a class="nav-item nav-link"
                                             >My Profile</a
                                         ></RouterLink
                                     >
-                                    <RouterLink :to="{ name: 'orders' }"
+                                    <RouterLink
+                                        style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                        :to="{ name: 'orders' }"
                                         ><a class="nav-item nav-link"
                                             >My Orders</a
                                         ></RouterLink
                                     >
 
-                                    <RouterLink :to="{ name: 'wishList' }"
+                                    
+
+                                    <RouterLink
+                                        style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                        :to="{ name: 'wishList' }"
                                         ><a class="nav-item nav-link"
                                             >Wishlist</a
                                         ></RouterLink
                                     >
-                                    <RouterLink :to="{ name: 'cart' }"
+                                    <RouterLink
+                                        style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                        :to="{ name: 'cart' }"
                                         ><a class="nav-item nav-link"
                                             >Shopping Cart</a
                                         ></RouterLink
                                     >
-                                    <RouterLink :to="{ name: 'checkout' }"
+                                    <RouterLink
+                                        style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                        :to="{ name: 'checkout' }"
                                         ><a class="nav-item nav-link"
                                             >Checkout</a
                                         ></RouterLink
                                     >
                                 </div>
                             </div>
-                            <RouterLink :to="{ name: 'login' }"
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'login' }"
                                 ><a class="nav-item nav-link"
                                     >Login</a
                                 ></RouterLink
                             >
-                            <RouterLink :to="{ name: 'register' }"
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'register' }"
                                 ><a class="nav-item nav-link"
                                     >Register</a
                                 ></RouterLink
@@ -153,7 +191,6 @@ import { RouterLink } from "vue-router";
                 </nav>
             </div>
             <!-- End navbar -->
-
         </div>
     </div>
 </template>

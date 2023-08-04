@@ -1,6 +1,10 @@
-
+<script setup>
+import PageHeader from '../../components/layouts/PageHeader.vue'
+</script>
 <template>
-
+    <!-- Page Header Start -->
+    <PageHeader pageName="RESET PASSWORD"></PageHeader>
+    <!-- Page Header End -->
     <!-- Shop Start -->
     <div class="container">
         <div class="row">

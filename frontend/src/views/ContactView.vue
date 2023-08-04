@@ -3,7 +3,7 @@ import PageHeader from '../components/layouts/PageHeader.vue'
 </script>
 <template>
     <!-- Page Header Start -->
-    <PageHeader ></PageHeader>
+    <PageHeader pageName="CONTACT US"></PageHeader>
     <!-- Page Header End -->
     <!-- Contact Start -->
     <div class="container-fluid pt-5">

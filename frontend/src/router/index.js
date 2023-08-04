@@ -42,12 +42,13 @@ const router = createRouter({
       path: '/orders',
       name: 'orders',
       component: () => import('../views/users/OrdersView.vue'),
-      children: [{
-        path: '/items',
-        name: 'orderItems',
-        component: () => import('../views/users/OrderItemsView.vue')
-      }],
     },
+    {
+      path: '/order/items',
+      name: 'orderItems',
+      component: () => import('../views/users/OrderItemsView.vue')
+    },
+
     {
       path: '/wishlist',
       name: 'wishList',

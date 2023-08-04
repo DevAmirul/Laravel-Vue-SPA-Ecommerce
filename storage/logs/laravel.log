@@ -1,0 +1,35 @@
+[2023-08-04 14:35:45] local.ERROR: The "--columns" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--columns\" option does not exist. at /var/www/html/E-commerce/backend/vendor/symfony/console/Input/ArgvInput.php:223)
+[stacktrace]
+#0 /var/www/html/E-commerce/backend/vendor/symfony/console/Input/ArgvInput.php(150): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption()
+#1 /var/www/html/E-commerce/backend/vendor/symfony/console/Input/ArgvInput.php(85): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption()
+#2 /var/www/html/E-commerce/backend/vendor/symfony/console/Input/ArgvInput.php(74): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken()
+#3 /var/www/html/E-commerce/backend/vendor/symfony/console/Input/Input.php(55): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#4 /var/www/html/E-commerce/backend/vendor/symfony/console/Command/Command.php(285): Symfony\\Component\\Console\\Input\\Input->bind()
+#5 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(177): Symfony\\Component\\Console\\Command\\Command->run()
+#6 /var/www/html/E-commerce/backend/vendor/symfony/console/Application.php(1081): Illuminate\\Console\\Command->run()
+#7 /var/www/html/E-commerce/backend/vendor/symfony/console/Application.php(320): Symfony\\Component\\Console\\Application->doRunCommand()
+#8 /var/www/html/E-commerce/backend/vendor/symfony/console/Application.php(174): Symfony\\Component\\Console\\Application->doRun()
+#9 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(200): Symfony\\Component\\Console\\Application->run()
+#10 /var/www/html/E-commerce/backend/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle()
+#11 {main}
+"} 
+[2023-08-04 14:35:45] local.ERROR: Uncaught Symfony\Component\Finder\Exception\DirectoryNotFoundException: The "/var/www/html/E-commerce/resources/views" directory does not exist. in /var/www/html/E-commerce/backend/vendor/symfony/finder/Finder.php:640
+Stack trace:
+#0 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(584): Symfony\Component\Finder\Finder->in()
+#1 Command line code(1): Illuminate\Filesystem\Filesystem->files()
+#2 Command line code(1): getViews()
+#3 {main}
+  thrown {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Uncaught Symfony\\Component\\Finder\\Exception\\DirectoryNotFoundException: The \"/var/www/html/E-commerce/resources/views\" directory does not exist. in /var/www/html/E-commerce/backend/vendor/symfony/finder/Finder.php:640
+Stack trace:
+#0 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Filesystem/Filesystem.php(584): Symfony\\Component\\Finder\\Finder->in()
+#1 Command line code(1): Illuminate\\Filesystem\\Filesystem->files()
+#2 Command line code(1): getViews()
+#3 {main}
+  thrown at /var/www/html/E-commerce/backend/vendor/symfony/finder/Finder.php:640)
+[stacktrace]
+#0 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(243): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: '...', code: '...', error: '...', traceOffset: '...', traceArgs: '...', trace: '...')
+#1 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(230): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '...', traceOffset: '...')
+#2 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(254): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 /var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:/var/www/html/E-commerce/backend/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php:253-255}()
+#4 {main}
+"} 

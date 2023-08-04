@@ -1,5 +1,10 @@
-
+<script setup>
+import PageHeader from '../../components/layouts/PageHeader.vue'
+</script>
 <template>
+    <!-- Page Header Start -->
+    <PageHeader pageName="SHOPPING CART"></PageHeader>
+    <!-- Page Header End -->
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
@@ -35,6 +40,7 @@
                             </td>
                             <td class="align-middle">$150</td>
                             <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                            
                         </tr>
                         <tr>
                             <td class="align-middle"><img src="img/product-2.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>

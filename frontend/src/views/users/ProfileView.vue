@@ -1,5 +1,10 @@
-
+<script setup>
+import PageHeader from '../../components/layouts/PageHeader.vue'
+</script>
 <template>
+    <!-- Page Header Start -->
+    <PageHeader pageName="MY PROFILE"></PageHeader>
+    <!-- Page Header End -->
     <!-- Checkout Start -->
     <div class="container my-5">
         <div class="main-body">
@@ -227,7 +232,7 @@
     <!-- Checkout End -->
 
 </template>
-<style>
+<style scoped>
 .card {
     margin-top: 20px;
     position: relative;

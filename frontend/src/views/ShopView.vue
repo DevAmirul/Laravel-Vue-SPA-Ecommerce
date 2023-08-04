@@ -6,7 +6,7 @@ import PageHeader from "../components/layouts/PageHeader.vue";
 </script>
 <template>
     <!-- Page Header Start -->
-    <PageHeader></PageHeader>
+    <PageHeader pageName="OUR SHOP"></PageHeader>
     <!-- Page Header End -->
     <!-- Shop Start -->
     <div class="container-fluid pt-5">

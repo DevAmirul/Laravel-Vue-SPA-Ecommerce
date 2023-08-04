@@ -1,5 +1,10 @@
-
+<script setup>
+import PageHeader from '../../components/layouts/PageHeader.vue'
+</script>
 <template>
+    <!-- Page Header Start -->
+    <PageHeader pageName="WISHLIST"></PageHeader>
+    <!-- Page Header End -->
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">

@@ -1,5 +1,10 @@
-
+<script setup>
+import PageHeader from '../../components/layouts/PageHeader.vue'
+</script>
 <template>
+    <!-- Page Header Start -->
+    <PageHeader pageName="500!"></PageHeader>
+    <!-- Page Header End -->
     <!-- Content Wrapper. Contains page content -->
     <div class="container mt-5 mb-5 px-5">
         <div class="content-wrapper">

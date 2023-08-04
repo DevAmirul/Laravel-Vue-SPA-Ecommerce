@@ -1,147 +1,269 @@
-
+<script setup>
+import PageHeader from "../../components/layouts/PageHeader.vue";
+</script>
 <template>
-    <!-- Checkout Start -->
-    <div class="card my-5">
-        <div class="card-body">
-            <div class="container mb-5 mt-3">
-                <div class="row d-flex align-items-baseline">
-                    <div class="col-xl-9">
-                        <p style="color: #d19c97; font-size: 20px">
-                            Invoice >> <strong>ID: #123-123</strong>
-                        </p>
-                    </div>
-                    <div class="col-xl-3 float-end">
-                        <a class="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i class="fas fa-print text-primary"></i> Print</a>
-                        <a class="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i class="far fa-file-pdf text-danger"></i>
-                            Export</a>
-                    </div>
-                    <hr />
-                </div>
-                <div class="container">
-                    <div class="col-md-12">
-                        <div class="text-center">
-                            <i class="fab fa-mdb fa-4x ms-0" style="color: #d19c97 !important"></i>
-                            <p class="pt-0">MDBootstrap.com</p>
+    <!-- Page Header Start -->
+    <PageHeader pageName="ORDERS ITEMS"></PageHeader>
+    <!-- Page Header End -->
+    <!-- Cart Start -->
+    <div class="container">
+        <article class="card">
+            <div class="card-body">
+                <h6>Order ID: OD45345345435</h6>
+                <article class="card">
+                    <div class="card-body row">
+                        <div class="col">
+                            <strong style="color: #1c1c1c !important"
+                                >Estimated Delivery time:</strong
+                            >
+                            <br />29 nov 2019
+                        </div>
+                        <div class="col">
+                            <strong style="color: #1c1c1c !important"
+                                >Shipping BY:</strong
+                            >
+                            <br />
+                            BLUEDART, | <i class="fa fa-phone"></i> +1598675986
+                        </div>
+                        <div class="col">
+                            <strong style="color: #1c1c1c !important"
+                                >Status:</strong
+                            >
+                            <br />
+                            Picked by the courier
+                        </div>
+                        <div class="col">
+                            <strong style="color: #1c1c1c !important"
+                                >Tracking #:</strong
+                            >
+                            <br />
+                            BD045903594059
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xl-8">
-                            <ul class="list-unstyled">
-                                <li class="text-muted">
-                                    To:
-                                    <span style="color: #d19c97 !important">John Lorem</span>
-                                </li>
-                                <li class="text-muted">Street, City</li>
-                                <li class="text-muted">State, Country</li>
-                                <li class="text-muted">
-                                    <i class="fas fa-phone"></i> 123-456-789
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-xl-4">
-                            <p class="text-muted">Invoice</p>
-                            <ul class="list-unstyled">
-                                <li class="text-muted">
-                                    <i class="fas fa-circle" style="color: #d19c97"></i>
-                                    <span class="fw-bold">ID:</span>#123-456
-                                </li>
-                                <li class="text-muted">
-                                    <i class="fas fa-circle" style="color: #d19c97"></i>
-                                    <span class="fw-bold">Creation Date: </span>Jun 23,2021
-                                </li>
-                                <li class="text-muted">
-                                    <i class="fas fa-circle" style="color: #d19c97"></i>
-                                    <span class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
-                                        Unpaid</span>
-                                </li>
-                            </ul>
-                        </div>
+                </article>
+                <div class="track">
+                    <div class="step active">
+                        <span class="icon"> <i class="fa fa-check"></i> </span>
+                        <span class="text">Order confirmed</span>
                     </div>
-                    <div class="row my-2 mx-1 justify-content-center">
-                        <table class="table table-striped table-borderless">
-                            <thead style="background-color: #d19c97" class="text-white">
-                                <tr>
-                                    <th scope="col" class="hide-th">#</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row" class="hide-th">1</th>
-                                    <td>Pro Package</td>
-                                    <td>4</td>
-                                    <td>$200</td>
-                                    <td>$800</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="hide-th">2</th>
-                                    <td>Web hosting</td>
-                                    <td>1</td>
-                                    <td>$10</td>
-                                    <td>$10</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="hide-th">3</th>
-                                    <td>Consulting</td>
-                                    <td>1 year</td>
-                                    <td>$300</td>
-                                    <td>$300</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <!-- <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div> -->
+                    <div class="step">
+                        <span class="icon"> <i class="fa fa-truck"></i> </span>
+                        <span class="text"> Picked by courier </span>
                     </div>
-                    <div class="row">
-                        <div class="col-xl-8">
-                            <p class="ms-3">
-                                Add additional notes and payment information
-                            </p>
-                        </div>
-                        <div class="col-xl-3">
-                            <ul class="list-unstyled">
-                                <li class="text-muted ms-3">
-                                    <span class="text-black me-4">SubTotal</span>$1110
-                                </li>
-                                <li class="text-muted ms-3 mt-2">
-                                    <span class="text-black me-4">Tax(15%)</span>$111
-                                </li>
-                            </ul>
-                            <p class="text-black float-start">
-                                <span class="text-black me-3">
-                                    Total Amount</span><span style="font-size: 25px">$1221</span>
-                            </p>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col-xl-10">
-                            <p>Thank you for your purchase</p>
-                        </div>
-                        <div class="col-xl-2">
-                            <button type="button" class="btn btn-primary text-capitalize" style="background-color: #d19c97">
-                                Pay Now
-                            </button>
-                        </div>
+                    <div class="step">
+                        <span class="icon"> <i class="fa fa-box"></i> </span>
+                        <span class="text">Delivered</span>
                     </div>
                 </div>
+                <hr />
+                <ul class="row">
+                    <li class="col-md-4">
+                        <figure class="itemside mb-3">
+                            <div class="aside">
+                                <img
+                                    src="https://i.imgur.com/iDwDQ4o.png"
+                                    class="img-sm border"
+                                />
+                            </div>
+                            <figcaption class="info align-self-center">
+                                <p class="title">
+                                    Dell Laptop with 500GB HDD <br />
+                                    8GB RAM
+                                </p>
+                                <span class="text-muted">$950 </span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-md-4">
+                        <figure class="itemside mb-3">
+                            <div class="aside">
+                                <img
+                                    src="https://i.imgur.com/tVBy5Q0.png"
+                                    class="img-sm border"
+                                />
+                            </div>
+                            <figcaption class="info align-self-center">
+                                <p class="title">
+                                    HP Laptop with 500GB HDD <br />
+                                    8GB RAM
+                                </p>
+                                <span class="text-muted">$850 </span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-md-4">
+                        <figure class="itemside mb-3">
+                            <div class="aside">
+                                <img
+                                    src="https://i.imgur.com/Bd56jKH.png"
+                                    class="img-sm border"
+                                />
+                            </div>
+                            <figcaption class="info align-self-center">
+                                <p class="title">
+                                    ACER Laptop with 500GB HDD <br />
+                                    8GB RAM
+                                </p>
+                                <span class="text-muted">$650 </span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    <li class="col-md-4">
+                        <figure class="itemside mb-3">
+                            <div class="aside">
+                                <img
+                                    src="https://i.imgur.com/Bd56jKH.png"
+                                    class="img-sm border"
+                                />
+                            </div>
+                            <figcaption class="info align-self-center">
+                                <p class="title">
+                                    ACER Laptop with 500GB HDD <br />
+                                    8GB RAM
+                                </p>
+                                <span class="text-muted">$650 </span>
+                            </figcaption>
+                        </figure>
+                    </li>
+                </ul>
+                <hr />
+                <button class="btn btn-sm btn-primary">Back to Order</button>
             </div>
-        </div>
+        </article>
     </div>
-    <!-- Checkout End -->
-
+    <!-- Cart End -->
 </template>
-<style>
-.card-header-2 {
-    background-color: rgb(209, 156, 151);
+<style scoped>
+body {
+    background-color: #eeeeee;
+    font-family: "Open Sans", serif;
 }
-.extra-pt {
-    padding-top: 0px;
+.container {
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
-@media (max-width: 576px) {
-    .hide-th{
-        display: none;
-    }
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.1rem;
+}
+.card-header:first-child {
+    border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0;
+}
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.track {
+    position: relative;
+    background-color: #ddd;
+    height: 7px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 60px;
+    margin-top: 50px;
+}
+.track .step {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    width: 25%;
+    margin-top: -18px;
+    text-align: center;
+    position: relative;
+}
+.track .step.active:before {
+    background: #e67e22;
+}
+.track .step::before {
+    height: 7px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    top: 18px;
+}
+.track .step.active .icon {
+    background: #e67e22;
+    color: #fff;
+}
+.track .icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    border-radius: 100%;
+    background: #ddd;
+}
+.track .step.active .text {
+    font-weight: 400;
+    color: #000;
+}
+.track .text {
+    display: block;
+    margin-top: 7px;
+}
+.itemside {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+.itemside .aside {
+    position: relative;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.img-sm {
+    width: 80px;
+    height: 80px;
+    padding: 7px;
+}
+ul.row,
+ul.row-sm {
+    list-style: none;
+    padding: 0;
+}
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px;
+}
+.itemside .title {
+    display: block;
+    margin-bottom: 5px;
+    color: #212529;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.btn-warning {
+    color: #ffffff;
+    background-color: #e67e22;
+    border-color: #e67e22;
+    border-radius: 1px;
+}
+.btn-warning:hover {
+    color: #ffffff;
+    background-color: #e67e22;
+    border-color: #e67e22;
+    border-radius: 1px;
 }
 </style>

@@ -1,5 +1,10 @@
-
+<script setup>
+import PageHeader from '../../components/layouts/PageHeader.vue'
+</script>
 <template>
+    <!-- Page Header Start -->
+    <PageHeader pageName="SIGN UP"></PageHeader>
+    <!-- Page Header End -->
     <!-- Contact Start -->
     <div class="container">
         <div class="row">
