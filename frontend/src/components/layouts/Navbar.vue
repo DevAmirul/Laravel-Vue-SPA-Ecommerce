@@ -96,16 +96,16 @@ import { RouterLink } from "vue-router";
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
-                                :to="{ name: 'contact' }"
+                                :to="{ name: 'contacts' }"
                                 ><a class="nav-item nav-link active"
                                     >Flush Sale</a
                                 ></RouterLink
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
-                                :to="{ name: 'contact' }"
+                                :to="{ name: 'contacts' }"
                                 ><a class="nav-item nav-link active"
-                                    >Contact</a
+                                    >Contacts</a
                                 ></RouterLink
                             >
                         </div>
