@@ -138,8 +138,6 @@ import { RouterLink } from "vue-router";
                                         ></RouterLink
                                     >
 
-                                    
-
                                     <RouterLink
                                         style="
                                             text-decoration: none;

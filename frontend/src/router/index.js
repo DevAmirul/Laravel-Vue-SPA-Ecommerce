@@ -48,11 +48,15 @@ const router = createRouter({
       name: 'orderItems',
       component: () => import('../views/users/OrderItemsView.vue')
     },
-
     {
       path: '/wishlist',
       name: 'wishList',
       component: () => import('../views/users/WishlistView.vue')
+    },
+    {
+      path: '/compare',
+      name: 'compare',
+      component: () => import('../views/CompareView.vue')
     },
     {
       path: '/login',

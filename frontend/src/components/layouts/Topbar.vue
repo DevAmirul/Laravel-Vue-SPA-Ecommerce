@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 </script>
 <template>
     <div class="container-fluid">
-        <div class="row bg-secondary py-2 px-xl-5">
+        <div class="row bg-secondary pt-2  px-xl-5">
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="d-inline-flex align-items-center">
                     <a class="text-dark" href="">FAQs</a>
@@ -51,6 +51,12 @@ import { RouterLink } from "vue-router";
                 </form>
             </div>
             <div class="col-lg-3 col-6 text-right">
+                <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'compare' }"
+                    ><a class="btn border">
+                        <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>
+                        <span class="badge">0</span>
+                    </a></RouterLink
+                >
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'wishList' }"
                     ><a class="btn border">
                         <i class="fas fa-heart text-primary"></i>

@@ -1,5 +1,5 @@
 <script setup>
-import PageHeader from '../../components/layouts/PageHeader.vue'
+import PageHeader from "../../components/layouts/PageHeader.vue";
 </script>
 <template>
     <!-- Page Header Start -->
@@ -15,12 +15,6 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
                             <div
                                 class="d-flex flex-column align-items-center text-center"
                             >
-                                <img
-                                    src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                                    alt="Admin"
-                                    class="rounded-circle p-1 bg-primary"
-                                    width="110"
-                                />
                                 <div class="mt-3">
                                     <h4>John Doe</h4>
                                     <p class="text-primary mb-1">01834513106</p>
@@ -230,7 +224,6 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
         </div>
     </div>
     <!-- Checkout End -->
-
 </template>
 <style scoped>
 .card {

@@ -1,5 +1,8 @@
 <script setup>
 import PageHeader from "../components/layouts/PageHeader.vue";
+
+import { Carousel, Navigation, Slide } from "vue3-carousel";
+
 </script>
 <template>
     <!-- Page Header Start -->
@@ -474,6 +477,25 @@ import PageHeader from "../components/layouts/PageHeader.vue";
                 </div>
             </div>
         </div>
+    <!-- Categories Start -->
+    <Carousel :items-to-show="6" :wrap-around="true">
+    <Slide v-for="slide in 10" :key="slide">
+        <div class="container-fluid pt-5 bg-dark">
+        <div class="row px-xl-5 pb-3">
+            <div class="col-lg-4 col-md-6 pb-1 ">
+                <h6> category   </h6>
+            </div>
+        </div>
+        </div>
+
+    </Slide>
+
+    <template #addons>
+        <Navigation />
+    </template>
+    </Carousel>
+
+    <!-- Categories End -->
     </div>
     <!-- Shop Detail End -->
 </template>
