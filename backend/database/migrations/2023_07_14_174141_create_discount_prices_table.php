@@ -11,9 +11,9 @@ return new class extends Migration {
     public function up(): void{
         Schema::create('discount_prices', function (Blueprint $table) {
             $table->id();
-            $table->decimal('discount');
-            $table->enum('type',['Percentage','Decimal']);
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->decimal('discount')->default(0);
+            $table->enum('type', ['Percentage', 'Decimal'])->default('Decimal');
             $table->dateTime('start_date');
             $table->dateTime('expire_date');
             $table->timestamps();

@@ -4,32 +4,23 @@ namespace App\Http\Controllers\Api\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Product;
-use App\Models\RevenueFromPurchaseAndSaleOfProduct;
-use Carbon\Carbon;
-use DB;
+use App\Services\NewArrivalService;
+use App\Services\TopRatingService;
+use App\Services\TopSaleServices;
+use Illuminate\Http\Response;
 
 class HomeController extends Controller {
 
-    public function index(): void {
+    /**
+     * Handle the incoming request.
+     */
 
+    public function __invoke(): Response {
+        return response([
+            'categories'  => Category::all(['id', 'name']),
+            'topSales'    => TopSaleServices::topSales(),
+            'topRatings'  => TopRatingService::topRatings(),
+            'newArrivals' => NewArrivalService::newArrivals(),
+        ], 200);
     }
-
-    public function showCategories(): void{
-        $categories = Category::all(['id', 'name', 'image']);
-    }
-
-    public function showTopSales(): void{
-        $topRevenue = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(20)->get(['name','image','sku', 'sale_price','sale_price', 'sku']);
-    }
-
-    public function showNewArrivals(): void{
-        Product::where('updated_at', '>', Carbon::now()->startOfMonth())
-            ->latest()->take(20)->get(['name','image','sku', 'sale_price','sale_price', 'sku']);
-    }
-
-    public function showTopRatings(): void{
-        
-    }
-
 }

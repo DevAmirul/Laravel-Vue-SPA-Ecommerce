@@ -55,13 +55,15 @@ trait DashboardService {
     public function showRecentSaleQuery($timeStr): void{
         $this->strTimeOfRecentSale   = $timeStr;
         $this->newRecentSaleProducts = [];
-        $newRecentSaleProducts       = DB::table('orders')->where('orders.order_status', 'delivered')
-            ->where('orders.updated_at', '>', $this->getTimeCarbon($timeStr))
+        $newRecentSaleProducts       = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('products', 'order_items.product_id', '=', 'products.id')
             ->select(
                 'products.id as p_id', 'products.name', 'products.sale_price', 'products.sku', 'products.qty_in_stock', 'products.image'
-            )->get()->unique('p_id')->take(8);
+            )
+            ->where('orders.order_status', 'delivered')
+            ->where('orders.updated_at', '>', $this->getTimeCarbon($timeStr))
+            ->get()->unique('p_id')->take(8);
 
         foreach ($newRecentSaleProducts as $value) {
             array_push($this->newRecentSaleProducts, [$value->p_id, $value->image, $value->name, $value->sku, $value->sale_price, $value->qty_in_stock]);

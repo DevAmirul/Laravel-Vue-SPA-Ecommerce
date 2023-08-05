@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\BillingDetails;
 use App\Models\Category;
+use App\Models\DiscountPrice;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductView;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder {
         \App\Models\Product::factory()
             ->has(ProductView::factory()->count(1))
             ->has(RevenueFromPurchaseAndSaleOfProduct::factory()->count(1))
+            ->has(DiscountPrice::factory()->count(1))
             ->count(30)->create();
 
         \App\Models\ShippingMethod::factory()->count(3)->create();
@@ -42,6 +44,9 @@ class DatabaseSeeder extends Seeder {
             ->has(Order::factory()->count(2)
             ->has(OrderItem::factory()->count(2)))
             ->count(10)->create();
+
+        \App\Models\Review::factory()->count(20)->create();
+
 
     }
 }
