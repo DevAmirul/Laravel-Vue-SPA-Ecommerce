@@ -12,7 +12,7 @@ class TopSaleController extends Controller {
      * Handle the incoming request.
      */
     public function __invoke(): Response{
-        $topSales = TopSaleServices::topSales();
+        $topSales = TopSaleServices::topSalesQuery();
         return response(compact('topSales'), 200);
     }
 }

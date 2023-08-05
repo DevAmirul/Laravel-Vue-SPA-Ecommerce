@@ -18,9 +18,9 @@ class HomeController extends Controller {
     public function __invoke(): Response {
         return response([
             'categories'  => Category::all(['id', 'name']),
-            'topSales'    => TopSaleServices::topSales(),
-            'topRatings'  => TopRatingService::topRatings(),
-            'newArrivals' => NewArrivalService::newArrivals(),
+            'topSales'    => TopSaleServices::topSalesQuery(),
+            'topRatings'  => TopRatingService::topRatingsQuery(),
+            'newArrivals' => NewArrivalService::newArrivalQuery(),
         ], 200);
     }
 }

@@ -12,7 +12,7 @@ class relatedProductController extends Controller {
      * Handle the incoming request.
      */
     public function __invoke(Request $request): Response{
-        $relatedProducts = relatedProductService::relatedProduct($request->subCateId);
+        $relatedProducts = relatedProductService::relatedProductQuery($request->subCateId);
         return response(compact('relatedProducts'), 200);
     }
 }

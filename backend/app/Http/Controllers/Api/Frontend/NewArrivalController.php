@@ -12,7 +12,7 @@ class NewArrivalController extends Controller {
      * Handle the incoming request.
      */
     public function __invoke(): Response{
-        $newArrivals = NewArrivalService::newArrivals();
+        $newArrivals = NewArrivalService::newArrivalQuery();
         return response(compact('newArrivals'), 200);
     }
 }

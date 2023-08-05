@@ -44,7 +44,7 @@ class User extends Authenticatable {
         'password'          => 'hashed',
     ];
 
-    public function billingDetails(): HasOne {
+    public function billingDetail(): HasOne {
         return $this->hasOne(BillingDetails::class);
     }
 

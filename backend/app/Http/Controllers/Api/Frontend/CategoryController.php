@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Services\SearchProductService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Request;
 
-class SearchController extends Controller {
+class CategoryController extends Controller {
     /**
      * Handle the incoming request.
      */

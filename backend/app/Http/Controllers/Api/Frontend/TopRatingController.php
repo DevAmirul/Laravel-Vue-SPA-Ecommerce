@@ -12,7 +12,7 @@ class TopRatingController extends Controller {
      * Handle the incoming request.
      */
     public function __invoke(): Response{
-        $topRatings = TopRatingService::topRatings();
+        $topRatings = TopRatingService::topRatingsQuery();
         return response(compact('topRatings'), 200);
     }
 }
