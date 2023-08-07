@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->boolean('payment_status')->default(0);
             $table->foreignId('shipping_method_id')->constrained();
             $table->foreignId('coupon_id')->nullable()->constrained();
-            $table->boolean('shipping_different_address')->default(0);
+            $table->boolean('ship_to_different_address')->default(0);
             $table->timestamps();
         });
     }

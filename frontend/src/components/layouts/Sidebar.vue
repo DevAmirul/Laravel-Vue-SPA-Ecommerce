@@ -1,89 +1,65 @@
+<script setup>
+import { ref } from 'vue'
+import axios_C from '../../services/axios';
+import { RouterLink } from "vue-router";
+
+
+let responseData = ref();
+
+axios_C.get('/sidebar')
+    .then(response => {
+        responseData.value = response.data
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+
+let attributeValue = ref({})
+
+</script>
 <template>
     <div class="col-lg-3 col-md-12">
         <div class="border-bottom mb-4 pb-4">
             <nav>
-                <ul class="mcd-menu">
-                    <li>
-                        <a href="" class="active">
-                            <h6>Home</h6>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="active">
-                            <h6>About us</h6>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <h6>Features</h6>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <h6>News</h6>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <h6>Blog</h6>
-                        </a>
-                        <ul>
-                            <li>
-                                <a href="#"
-                                    >Mission</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#"
-                                    >Our Team</a
-                                >
+                <div v-if="responseData">
+                    <ul  v-for="(data, key) in responseData.sidebarCategory" :key='key' class="mcd-menu">
+
+                        <li>
+                            <!-- <RouterLink :to="{ name: 'search', params: { query: data.name } }">
+                            <a class="active">
+                                <h6>{{ data.name }}</h6>
+                            </a>
+                            </RouterLink> -->
+                            <a class="active">
+                                <h6>{{ data.name }}</h6>
+                            </a>
+                            <template v-if="data.category">
                                 <ul>
-                                    <li>
-                                        <a href="#"
-                                            >Leyla
-                                            Sparks</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            >Gleb
-                                            Ismailov</a
-                                        >
-                                        <ul>
-                                            <li>
-                                                <a href="#"
-                                                    >About</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    >Skills</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            >Viktoria Gibbers</a
-                                        >
-                                    </li>
+                                <template v-for="(cateData, cateKey) in data.category" :key='cateKey' >
+                                        <li>
+                                            <a href="#" >
+                                            {{ cateData.name }}
+                                            </a >
+                                            <ul>
+                                                <template v-if="cateData.sub_category">
+                                                    <template v-for="(subCateData, subCateKey) in cateData.sub_category" :key='subCateKey' >
+                                                        <li>
+                                                            <a href="#"
+                                                                >{{ subCateData.name }}</a
+                                                            >
+                                                        </li>
+                                                    </template>
+                                                </template>
+                                            </ul>
+                                        </li>
+                                    </template>
                                 </ul>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    >Rewards</a
-                                >
-                            </li>
-                            <li>
-                                <a href="#"
-                                    >Certificates</a
-                                >
-                            </li>
+                            </template>
+                        </li>
+
                         </ul>
-                    </li>
-
-
-                </ul>
+                </div>
             </nav>
         </div>
         <!-- Price Start -->
@@ -172,170 +148,37 @@
             </form>
         </div>
         <!-- Price End -->
-        <!-- Color Start -->
-        <div class="border-bottom mb-4 pb-4">
-            <h5 class="font-weight-semi-bold mb-4">Filter by color</h5>
-            <form>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        checked
-                        id="color-all"
-                    />
-                    <label class="custom-control-label" for="price-all"
-                        >All Color</label
-                    >
-                    <span class="badge border font-weight-normal">1000</span>
+        <!-- attribute Start -->
+        <template v-if="responseData">
+            <template v-for="(data, key) in responseData.sidebarFilter" :key="key">
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by {{ data.name }}</h5>
+                        <form>
+                                {{  attributeValue }}
+                            <template v-for="(dataOption, keyOption) in data.attribute_option" :key="keyOption">
+                                <div
+                                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                                    <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        :id="dataOption.id"
+                                        v-model="attributeValue[dataOption.value]"
+                                    />
+                                    <label class="custom-control-label" :for="dataOption.id"
+                                        >{{ dataOption.value }}</label
+                                    >
+                                </div>
+                            </template>
+                        </form>
                 </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="color-1"
-                    />
-                    <label class="custom-control-label" for="color-1"
-                        >Black</label
-                    >
-                    <span class="badge border font-weight-normal">150</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="color-2"
-                    />
-                    <label class="custom-control-label" for="color-2"
-                        >White</label
-                    >
-                    <span class="badge border font-weight-normal">295</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="color-3"
-                    />
-                    <label class="custom-control-label" for="color-3"
-                        >Red</label
-                    >
-                    <span class="badge border font-weight-normal">246</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="color-4"
-                    />
-                    <label class="custom-control-label" for="color-4"
-                        >Blue</label
-                    >
-                    <span class="badge border font-weight-normal">145</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="color-5"
-                    />
-                    <label class="custom-control-label" for="color-5"
-                        >Green</label
-                    >
-                    <span class="badge border font-weight-normal">168</span>
-                </div>
-            </form>
-        </div>
-        <!-- Color End -->
-        <!-- Size Start -->
-        <div class="mb-5">
-            <h5 class="font-weight-semi-bold mb-4">Filter by size</h5>
-            <form>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        checked
-                        id="size-all"
-                    />
-                    <label class="custom-control-label" for="size-all"
-                        >All Size</label
-                    >
-                    <span class="badge border font-weight-normal">1000</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="size-1"
-                    />
-                    <label class="custom-control-label" for="size-1">XS</label>
-                    <span class="badge border font-weight-normal">150</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="size-2"
-                    />
-                    <label class="custom-control-label" for="size-2">S</label>
-                    <span class="badge border font-weight-normal">295</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="size-3"
-                    />
-                    <label class="custom-control-label" for="size-3">M</label>
-                    <span class="badge border font-weight-normal">246</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="size-4"
-                    />
-                    <label class="custom-control-label" for="size-4">L</label>
-                    <span class="badge border font-weight-normal">145</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="size-5"
-                    />
-                    <label class="custom-control-label" for="size-5">XL</label>
-                    <span class="badge border font-weight-normal">168</span>
-                </div>
-            </form>
-        </div>
-        <!-- Size End -->
+            </template>
+        </template>
+        <!-- attribute end -->
+
     </div>
 </template>
+
+
 <style>
 .clearfix:before,
 .clearfix:after {

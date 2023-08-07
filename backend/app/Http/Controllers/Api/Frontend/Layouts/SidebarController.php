@@ -14,8 +14,8 @@ class SidebarController {
 
     public function sidebarCategory(): object {
         return Section::with([
-            'category:id,section_id,name' => [
-                'subCategory:id,category_id,name',
+            'category:id,section_id,name,slug' => [
+                'subCategory:id,category_id,name,slug',
             ],
         ])->get(['id', 'name']);
     }

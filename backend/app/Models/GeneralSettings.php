@@ -9,9 +9,9 @@ class GeneralSettings extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'site_name',
-        'site_logo',
-        'site_slogan',
+        'name',
+        'logo',
+        'slogan',
         'email',
         'phone',
         'phone_2',

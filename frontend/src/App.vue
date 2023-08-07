@@ -1,17 +1,29 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterView, useRouter } from "vue-router";
-import PageHeader from "./components/layouts/PageHeader.vue";
+import axios_C from './services/axios';
 import Navbar from "./components/layouts/Navbar.vue";
 import Footer from "./components/layouts/Footer.vue";
 import Topbar from "./components/layouts/Topbar.vue";
 
 const router = useRouter();
-const routerName = router.currentRoute.value.path;
+
+let responseData = ref();
+
+axios_C.get('/site-settings')
+    .then(response => {
+        responseData.value = response.data
+    })
+    .catch(error => {
+        console.log(error);
+    });
 
 </script>
 <template>
     <!-- Topbar Start -->
-    <Topbar></Topbar>
+    <template v-if="responseData">
+        <Topbar></Topbar>
+    </template>
     <!-- Topbar End -->
 
     <div v-if="router.currentRoute.value.path == '/'">
@@ -20,14 +32,12 @@ const routerName = router.currentRoute.value.path;
     <div v-else>
         <!-- Navbar Start -->
         <Navbar></Navbar>
-        <!-- Navbar End -->
-        <!-- Page Header Start -->
-        <!-- <PageHeader :pageName="router.currentRoute.value.path"></PageHeader> -->
-        <!-- Page Header End -->
 
         <RouterView />
     </div>
     <!-- Footer Start -->
-    <Footer></Footer>
+    <template v-if="responseData">
+        <Footer :settings="responseData.settings"></Footer>
+    </template>
     <!-- Footer End -->
 </template>

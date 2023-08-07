@@ -1,9 +1,22 @@
 <script setup>
+import { ref } from 'vue'
+import axios_C from '../services/axios';
 import Filter from "../components/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
-import Product from '../components/Product.vue';
+import ProductsCard from '../components/ProductsCard.vue';
+
+let responseData = ref();
+
+axios_C.get('/shop')
+    .then(response => {
+        responseData.value = response.data
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 
 </script>
 <template>
@@ -24,16 +37,12 @@ import Product from '../components/Product.vue';
                         <Filter></Filter>
                         <!-- filter end -->
                     </div>
-
-                    <div v-for="n in 10">
-                        <Product></Product>
-                    </div>
-
-                    <!-- paginate start -->
-                    <Paginate></Paginate>
-                    <!-- paginate end -->
+                    <template v-if="responseData">
+                    <ProductsCard :products="responseData.products"></ProductsCard>
+                    </template>
                 </div>
             </div>
+            <!-- Shop Product End -->
             <!-- Shop Product End -->
         </div>
     </div>

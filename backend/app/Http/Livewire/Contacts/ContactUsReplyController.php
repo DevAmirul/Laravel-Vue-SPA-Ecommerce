@@ -33,4 +33,3 @@ class ContactUsReplyController extends Component {
         return view('livewire.contacts.contact-us-replay');
     }
 }
-// TODO: ide setup;

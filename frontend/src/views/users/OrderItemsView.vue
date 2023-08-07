@@ -1,5 +1,23 @@
 <script setup>
+import { ref } from 'vue'
+import { RouterLink, useRoute } from "vue-router";
+import axios_C from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
+
+const router = useRoute();
+const paramsId = router.params.id;
+let discount = ref(0);
+let responseData = ref();
+
+axios_C.get('/users/orders/'+ paramsId +'/items')
+    .then(response => {
+        responseData.value = response.data
+        console.log(responseData.value.orderItems[0]);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 </script>
 <template>
     <!-- Page Header Start -->
@@ -8,128 +26,160 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
     <!-- Cart Start -->
     <div class="container">
         <article class="card">
-            <div class="card-body">
-                <h6>Order ID: OD45345345435</h6>
-                <article class="card">
-                    <div class="card-body row">
-                        <div class="col">
-                            <strong style="color: #1c1c1c !important"
-                                >Estimated Delivery time:</strong
-                            >
-                            <br />29 nov 2019
+            <template v-if="responseData">
+                <div class="card-body">
+                    <div class="d-lg-flex justify-content-between">
+                        <h6>Order ID: #{{ paramsId }}</h6>
+                        <h6>Order Status: {{ responseData.orderItems[0].order_status }}</h6>
+                        <h6 v-if="responseData.orderItems[0].payment_status == '0'">Payment Status: Unpaid</h6>
+                        <h6 v-else>Payment Status: Paid</h6>
+                    </div>
+                    <article class="card">
+                        <div class="card-body row">
+                            <!-- <div class="col">
+                                <strong style="color: #1c1c1c !important"
+                                    >Estimated Delivery time:</strong
+                                >
+                                <br />29 nov 2019
+                            </div> -->
+                            <!-- <div class="col">
+                                <strong style="color: #1c1c1c !important"
+                                    >Shipping BY:</strong
+                                >
+                                <br />
+                                BLUEDART, | <i class="fa fa-phone"></i> +1598675986
+                            </div> -->
+
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >Phone:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].phone }}
+                            </div>
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >Email:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].email }}
+                            </div>
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >City:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].city }}
+                            </div>
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >State:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].state }}
+                            </div>
+                            <div class="col-lg">
+                                    <strong style="color: #1c1c1c !important"
+                                        >Address:</strong
+                                    >
+                                    <br />{{ responseData.orderItems[0].address }}
+                                </div>
+                            <div class="col-lg">
+                                    <strong style="color: #1c1c1c !important"
+                                        >Zip Code:</strong
+                                    >
+                                    <br />{{ responseData.orderItems[0].zip_code }}
+                                </div>
                         </div>
-                        <div class="col">
-                            <strong style="color: #1c1c1c !important"
-                                >Shipping BY:</strong
-                            >
-                            <br />
-                            BLUEDART, | <i class="fa fa-phone"></i> +1598675986
+                    </article>
+                    <div class="track">
+                        <div :class="[(responseData.orderItems[0].order_status == 'Approved' || 'Delivered' || 'Shipped') ? 'active' : '', 'step']">
+                            <span class="icon"> <i class="fa fa-check"></i> </span>
+                            <span class="text">Order confirmed</span>
                         </div>
-                        <div class="col">
-                            <strong style="color: #1c1c1c !important"
-                                >Status:</strong
-                            >
-                            <br />
-                            Picked by the courier
+                        <div  :class="[(responseData.orderItems[0].order_status == 'Shipped' || 'Approved') ? 'active' : '', 'step']">
+                            <span class="icon"> <i class="fa fa-truck"></i> </span>
+                            <span class="text"> Picked by courier </span>
                         </div>
-                        <div class="col">
-                            <strong style="color: #1c1c1c !important"
-                                >Tracking #:</strong
-                            >
-                            <br />
-                            BD045903594059
+                        <div :class="[(responseData.orderItems[0].order_status == 'Delivered') ? 'active' : '', 'step']">
+                            <span class="icon"> <i class="fa fa-box"></i> </span>
+                            <span class="text">Delivered</span>
                         </div>
                     </div>
-                </article>
-                <div class="track">
-                    <div class="step active">
-                        <span class="icon"> <i class="fa fa-check"></i> </span>
-                        <span class="text">Order confirmed</span>
-                    </div>
-                    <!-- <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> </div> -->
-                    <div class="step">
-                        <span class="icon"> <i class="fa fa-truck"></i> </span>
-                        <span class="text"> Picked by courier </span>
-                    </div>
-                    <div class="step">
-                        <span class="icon"> <i class="fa fa-box"></i> </span>
-                        <span class="text">Delivered</span>
+                    <hr />
+
+                    <ul  class="row">
+                        <template v-for="(data, key) in responseData.orderItems" :key="key">
+                            <li class="col-md-4">
+                                        <figure class="itemside mb-3">
+                                            <div class="aside">
+                                                <img
+                                                    :src="data.image"
+                                                    class="img-sm border"
+                                                />
+                                            </div>
+                                            <figcaption class="info align-self-center">
+                                                <p class="title">
+                                                    {{ data.name }}
+                                                </p>
+                                                <h6 class="text-muted">${{ data.sale_price }} </h6>
+                                                <h6 class="text-muted">${{ data.discount_price }} </h6>
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                        </template>
+                    </ul>
+
+                    <hr />
+                    <article class="card">
+                            <div class="card-body row">
+                                <!-- <div class="col">
+                                <strong style="color: #1c1c1c !important"
+                                    >Estimated Delivery time:</strong
+                                >
+                                <br />29 nov 2019
+                            </div> -->
+                                <!-- <div class="col">
+                                <strong style="color: #1c1c1c !important"
+                                    >Shipping BY:</strong
+                                >
+                                <br />
+                                BLUEDART, | <i class="fa fa-phone"></i> +1598675986
+                            </div> -->
+
+                                <div v-if="responseData.orderItems[0].c_discount" class="col-lg">
+                                    <strong style="color: #1c1c1c !important"
+                                        >Coupon:</strong
+                                    >
+                                    <br />${{ Math.ceil(responseData.orderItems[0].c_discount) }}
+                                </div>
+                                <div v-if="responseData.orderItems[0].discount_price" class="col-lg">
+                                    <strong style="color: #1c1c1c !important"
+                                        >Total Discount:</strong
+                                    >
+                                    <br />
+                                    <template v-if="responseData.orderItems[0].c_discount">
+                                    ${{ discount = parseInt(responseData.orderItems[0].discount_price) + parseInt(responseData.orderItems[0].c_discount) }}
+                                    </template>
+                                    <template v-else>${{ discount =  Math.ceil(responseData.orderItems[0].discount_price) }}</template>
+                                </div>
+                                <div class="col-lg">
+                                    <strong style="color: #1c1c1c !important"
+                                        >Subtotal:</strong
+                                    >
+                                    <br />${{ Math.ceil(responseData.orderItems[0].subtotal) }}
+                                </div>
+                                <div class="col-lg">
+                                    <strong style="color: #1c1c1c !important"
+                                        >Total:</strong
+                                    >
+                                    <br />${{  responseData.orderItems[0].total - discount }}
+                                </div>
+
+                            </div>
+                    </article>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-primary mt-3" @click="$router.go(-1)">Back to Order</button>
+                        <button class="btn btn-sm btn-outline-primary mt-3">Pay Now</button>
                     </div>
                 </div>
-                <hr />
-                <ul class="row">
-                    <li class="col-md-4">
-                        <figure class="itemside mb-3">
-                            <div class="aside">
-                                <img
-                                    src="https://i.imgur.com/iDwDQ4o.png"
-                                    class="img-sm border"
-                                />
-                            </div>
-                            <figcaption class="info align-self-center">
-                                <p class="title">
-                                    Dell Laptop with 500GB HDD <br />
-                                    8GB RAM
-                                </p>
-                                <span class="text-muted">$950 </span>
-                            </figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-md-4">
-                        <figure class="itemside mb-3">
-                            <div class="aside">
-                                <img
-                                    src="https://i.imgur.com/tVBy5Q0.png"
-                                    class="img-sm border"
-                                />
-                            </div>
-                            <figcaption class="info align-self-center">
-                                <p class="title">
-                                    HP Laptop with 500GB HDD <br />
-                                    8GB RAM
-                                </p>
-                                <span class="text-muted">$850 </span>
-                            </figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-md-4">
-                        <figure class="itemside mb-3">
-                            <div class="aside">
-                                <img
-                                    src="https://i.imgur.com/Bd56jKH.png"
-                                    class="img-sm border"
-                                />
-                            </div>
-                            <figcaption class="info align-self-center">
-                                <p class="title">
-                                    ACER Laptop with 500GB HDD <br />
-                                    8GB RAM
-                                </p>
-                                <span class="text-muted">$650 </span>
-                            </figcaption>
-                        </figure>
-                    </li>
-                    <li class="col-md-4">
-                        <figure class="itemside mb-3">
-                            <div class="aside">
-                                <img
-                                    src="https://i.imgur.com/Bd56jKH.png"
-                                    class="img-sm border"
-                                />
-                            </div>
-                            <figcaption class="info align-self-center">
-                                <p class="title">
-                                    ACER Laptop with 500GB HDD <br />
-                                    8GB RAM
-                                </p>
-                                <span class="text-muted">$650 </span>
-                            </figcaption>
-                        </figure>
-                    </li>
-                </ul>
-                <hr />
-                <button class="btn btn-sm btn-primary">Back to Order</button>
-            </div>
+            </template>
         </article>
     </div>
     <!-- Cart End -->

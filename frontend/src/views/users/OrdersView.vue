@@ -1,5 +1,19 @@
 <script setup>
+import { ref } from 'vue'
+import { RouterLink } from "vue-router";
+import axios_C from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
+
+let responseData = ref();
+
+axios_C.get('/users/orders/'+'2')
+    .then(response => {
+        responseData.value = response.data
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 </script>
 <template>
     <!-- Page Header Start -->
@@ -16,40 +30,43 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                             <th>place On</th>
                             <th>Quantity</th>
                             <th>Total</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Order Status</th>
+                            <th>Payment Status</th>
                             <th>Details</th>
                         </tr>
                     </thead>
                     <tbody class="align-middle">
-                        <tr>
-                            <td class="align-middle">#7777777</td>
-                            <td class="align-middle">Today</td>
-                            <td class="align-middle">Today</td>
-
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">Pending</td>
-                            <td>
-                                <div class="form-group mt-0 mb-0">
-
-                                    <select
-                                        class="form-control"
-                                        id="exampleFormControlSelect1"
-                                    >
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </td>
-                            <td class="align-middle">
-                                <button class="btn btn-sm btn-primary">
-                                    Details
-                                </button>
-                            </td>
-                        </tr>
+                        <template v-if="responseData">
+                            <template v-for="(data, key) in responseData.orders" :key="key">
+                                <tr>
+                                    <td class="align-middle">#{{ data.id }}</td>
+                                    <td class="align-middle">{{ data.placeOn }}</td>
+                                    <td class="align-middle">{{ data.quantity }}</td>
+                                    <td class="align-middle">{{ data.total }}</td>
+                                    <!-- check order status start -->
+                                    <td v-if="data.orderStatus == 'Approved'" class="align-middle"> <button class="btn btn-sm btn-info"> Approved </button>
+                                    </td>
+                                    <td v-else-if="data.orderStatus == 'Delivered'" class="align-middle"><button class="btn btn-sm btn-success">Delivered </button></td>
+                                    <td v-else-if="data.orderStatus == 'Shipped'" class="align-middle"><button class="btn btn-sm btn-primary">Shipped </button></td>
+                                    <td v-else-if="data.orderStatus == 'Pending'" class="align-middle"><button class="btn btn-sm btn-suspend">Pending </button></td>
+                                    <td v-else-if="data.orderStatus == 'Canceled'" class="align-middle"><button class="btn btn-sm btn-danger">Canceled </button></td>
+                                    <td v-else class="align-middle"><button class="btn btn-sm btn-dark">Returned </button></td>
+                                    <!-- check order status end -->
+                                    <!-- check payment status start -->
+                                    <td v-if="data.paymentStatus == 0" class="align-middle"> <button class="btn btn-sm btn-danger"> UnPaid </button>
+                                    </td>
+                                    <td v-else class="align-middle"><button class="btn btn-sm btn-success">Paid </button></td>
+                                    <!-- check payment status end -->
+                                    <td class="align-middle">
+                                        <RouterLink :to="{ name: 'orderItems', params:{id: data.id} }" style="text-decoration: none; color: inherit">
+                                            <button class="btn btn-sm btn-primary">
+                                                Details
+                                            </button>
+                                        </RouterLink>
+                                    </td>
+                                </tr>
+                            </template>
+                        </template>
                     </tbody>
                 </table>
             </div>

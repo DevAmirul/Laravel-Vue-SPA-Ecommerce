@@ -10,8 +10,8 @@ class TopSaleServices {
         return DB::table('products')
             ->join('discount_prices', 'products.id', '=', 'discount_prices.product_id')
             ->join('revenue_from_purchase_and_sale_of_products', 'products.id', '=', 'revenue_from_purchase_and_sale_of_products.product_id')
-            ->select( 'products.id as p_id', 'products.name', 'products.sale_price', 'discount_prices.discount', 'products.slug', 'products.image', 'revenue_from_purchase_and_sale_of_products.revenue' )
+            ->select( 'products.name', 'products.sale_price', 'discount_prices.discount', 'products.slug', 'products.image' )
             ->orderByDesc('revenue_from_purchase_and_sale_of_products.revenue')
-            ->paginate(20);
+            ->paginate(12);
     }
 }

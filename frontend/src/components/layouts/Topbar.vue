@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink } from "vue-router";
+const { settings } = defineProps(['settings'])
+
 </script>
 <template>
     <div class="container-fluid">

@@ -14,7 +14,7 @@ const router = createRouter({
       name: 'shop',
       component: () => import('../views/ShopView.vue')
     }, {
-      path: '/products/:id',
+      path: '/products/:slug',
       name: 'products',
       component: () => import('../views/ProductsView.vue')
     },
@@ -24,27 +24,27 @@ const router = createRouter({
       component: () => import('../views/ContactsView.vue')
     },
     {
-      path: '/checkout',
+      path: '/users/checkout',
       name: 'checkout',
       component: () => import('../views/users/CkeckoutView.vue')
     },
     {
-      path: '/cart',
+      path: '/users/cart',
       name: 'cart',
       component: () => import('../views/users/CartView.vue')
     },
     {
-      path: '/search/:string',
+      path: '/search/:query',
       name: 'search',
       component: () => import('../views/SearchView.vue')
     },
     {
-      path: '/orders',
+      path: '/users/orders',
       name: 'orders',
       component: () => import('../views/users/OrdersView.vue'),
     },
     {
-      path: '/order/items',
+      path: '/users/order/:id(\\d+)/items',
       name: 'orderItems',
       component: () => import('../views/users/OrderItemsView.vue')
     },
@@ -69,7 +69,7 @@ const router = createRouter({
       component: () => import('../views/guests/SignUpView.vue')
     },
     {
-      path: '/profile',
+      path: '/users/profile',
       name: 'profile',
       component: () => import('../views/users/ProfileView.vue')
     },

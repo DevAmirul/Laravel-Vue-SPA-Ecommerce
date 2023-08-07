@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Frontend\ContactController;
 use App\Http\Controllers\Api\Frontend\HomeController;
 use App\Http\Controllers\Api\Frontend\Layouts\FooterController;
 use App\Http\Controllers\Api\Frontend\Layouts\HeaderController;
+use App\Http\Controllers\Api\Frontend\Layouts\SettingsController;
 use App\Http\Controllers\Api\Frontend\Layouts\SidebarController;
 use App\Http\Controllers\Api\Frontend\NewArrivalController;
 use App\Http\Controllers\Api\Frontend\ProductController;
@@ -37,8 +38,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::name('api.')->group(function () {
     Route::get('home', HomeController::class)->name('home');
-    Route::get('footer', FooterController::class)->name('footer');
-    Route::get('header', HeaderController::class)->name('header');
+    Route::get('site-settings', SettingsController::class)->name('siteSettings');
     Route::get('sidebar', [SidebarController::class, 'index'])->name('sidebar');
     Route::get('search', SearchController::class)->name('search');
     Route::get('contacts', ContactController::class)->name('contacts');
@@ -48,23 +48,23 @@ Route::name('api.')->group(function () {
     Route::get('sales', TopSaleController::class)->name('.sales');
 
     Route::prefix('products')->name('products')->group(function () {
-        Route::get('{id}', ProductController::class);
-        Route::get('related/{subCateId}', relatedProductController::class)->name('.related');
+        Route::get('{id}', ProductController::class)->where('id', '[0-9]+');
+        Route::get('related/{subCateId}', relatedProductController::class)->name('.related')->where('id', '[0-9]+');
     });
 
     Route::prefix('users')->name('users')->group(function () {
         Route::get('cart', CartController::class)->name('.cart');
-        Route::get('checkout', CheckoutController::class)->name('.checkout');
+        Route::post('checkout', [CheckoutController::class, 'createCheckout'])->name('.checkout');
 
         Route::prefix('orders')->name('.orders')->group(function () {
-            Route::get('{id}', [OrderController::class, 'showOrdersQuery']);
-            Route::get('{id}/items', [OrderItemController::class, 'index'])->name('.items');
+            Route::get('{id}', [OrderController::class, 'showOrdersQuery'])->where('id', '[0-9]+');
+            Route::get('{id}/items', [OrderItemController::class, 'index'])->name('.items')->where('id', '[0-9]+');
         });
 
         Route::prefix('profiles')->name('.profiles')->group(function () {
-            Route::get('{id}', [ProfileController::class, 'index']);
-            Route::put('{id}', [ProfileController::class, 'update'])->name('.update');
-            Route::get('create', [ProfileController::class, 'create'])->name('.create');
+            Route::get('{id}', [ProfileController::class, 'index'])->where('id', '[0-9]+');
+            Route::put('{id}', [ProfileController::class, 'update'])->name('.update')->where('id', '[0-9]+');
+            Route::post('create', [ProfileController::class, 'create'])->name('.create');
         });
     });
 });
