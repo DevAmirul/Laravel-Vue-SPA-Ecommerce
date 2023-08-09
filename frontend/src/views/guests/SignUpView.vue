@@ -16,17 +16,17 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
                         </h3>
                     </div>
                     <div class="panel-body p-3">
-                        <form action="login_script.php" method="POST">
+                        <form method="POST">
                             <div class="form-group py-2">
                                 <div class="input-field">
                                     <span class="far fa-user p-2"></span>
-                                    <input type="text" placeholder="Full Name" required />
+                                    <input type="text" placeholder="Enter your Full Name" required />
                                 </div>
                             </div>
                             <div class="form-group py-2">
                                 <div class="input-field">
                                     <span class="far fa-envelope p-2"></span>
-                                    <input type="text" placeholder="Username or Email" required />
+                                    <input type="text" placeholder="Enter your Email" required />
                                 </div>
                             </div>
                             <div class="form-group py-1 pb-2">
@@ -52,26 +52,16 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
                                 <label for="remember" class="text-muted">I agree to the Terms of User</label>
                             </div>
                             <div class="btn btn-primary btn-block mt-3">
-                                Sign Up
-                            </div>
+                                    Create Account
+                                </div>
                             <div class="text-center pt-4 text-muted">
-                                Have an account? <a href="#">Sign in</a>
+                                Have an account? <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'login' }"
+                                                    ><a href="#">Sign up</a>
+                                        </RouterLink>
                             </div>
                         </form>
                     </div>
-                    <div class="mx-3 my-2 py-2 bordert">
-                        <div class="text-center py-3">
-                            <a href="https://wwww.facebook.com" target="_blank" class="px-2">
-                                <img src="https://www.dpreview.com/files/p/articles/4698742202/facebook.jpeg" alt="" />
-                            </a>
-                            <a href="https://www.google.com" target="_blank" class="px-2">
-                                <img src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="" />
-                            </a>
-                            <a href="https://www.github.com" target="_blank" class="px-2">
-                                <img src="https://www.freepnglogos.com/uploads/512x512-logo-png/512x512-logo-github-icon-35.png" alt="" />
-                            </a>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

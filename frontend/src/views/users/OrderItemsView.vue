@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { RouterLink, useRoute } from "vue-router";
 import axios_C from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
@@ -12,12 +12,27 @@ let responseData = ref();
 axios_C.get('/users/orders/'+ paramsId +'/items')
     .then(response => {
         responseData.value = response.data
-        console.log(responseData.value.orderItems[0]);
     })
     .catch(error => {
         console.log(error);
     });
 
+let confirmed;
+let Shipped;
+let Delivered;
+
+watch(responseData, () => {
+    if (responseData.value.orderItems[0].order_status == 'Approved') {
+        confirmed = true;
+    } else if (responseData.value.orderItems[0].order_status == 'Shipped') {
+        confirmed = true;
+        Shipped = true;
+    } else if (responseData.value.orderItems[0].order_status == 'Delivered') {
+        confirmed = true;
+        Shipped = true;
+        Delivered = true;
+    }
+})
 </script>
 <template>
     <!-- Page Header Start -->
@@ -88,21 +103,24 @@ axios_C.get('/users/orders/'+ paramsId +'/items')
                                 </div>
                         </div>
                     </article>
-                    <div class="track">
-                        <div :class="[(responseData.orderItems[0].order_status == 'Approved' || 'Delivered' || 'Shipped') ? 'active' : '', 'step']">
-                            <span class="icon"> <i class="fa fa-check"></i> </span>
-                            <span class="text">Order confirmed</span>
-                        </div>
-                        <div  :class="[(responseData.orderItems[0].order_status == 'Shipped' || 'Approved') ? 'active' : '', 'step']">
-                            <span class="icon"> <i class="fa fa-truck"></i> </span>
-                            <span class="text"> Picked by courier </span>
-                        </div>
-                        <div :class="[(responseData.orderItems[0].order_status == 'Delivered') ? 'active' : '', 'step']">
-                            <span class="icon"> <i class="fa fa-box"></i> </span>
-                            <span class="text">Delivered</span>
-                        </div>
-                    </div>
-                    <hr />
+                        <!-- <template v-if="responseData.orderItems[0].order_status !== 'Returned'"> -->
+                            <div class="track">
+                                <div :class="[confirmed ? 'active' : '', 'step']">
+                                    <span class="icon"> <i class="fa fa-check"></i> </span>
+                                    <span class="text">Order confirmed</span>
+                                </div>
+                                <div  :class="[Shipped ? 'active' : '', 'step']">
+                                    <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                    <span class="text">Picked by courier</span>
+                                </div>
+                                <div :class="[Delivered ? 'active' : '', 'step']">
+                                    <span class="icon"> <i class="fa fa-box"></i> </span>
+                                    <span class="text">Delivered</span>
+                                </div>
+                            </div>
+                        <!-- </template> -->
+
+                    <hr/>
 
                     <ul  class="row">
                         <template v-for="(data, key) in responseData.orderItems" :key="key">

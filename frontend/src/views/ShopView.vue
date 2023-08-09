@@ -7,6 +7,7 @@ import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
 
+
 let responseData = ref();
 
 axios_C.get('/shop')
@@ -16,6 +17,7 @@ axios_C.get('/shop')
     .catch(error => {
         console.log(error);
     });
+
 
 
 </script>

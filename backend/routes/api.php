@@ -56,6 +56,10 @@ Route::name('api.')->group(function () {
         Route::get('cart', CartController::class)->name('.cart');
         Route::post('checkout', [CheckoutController::class, 'createCheckout'])->name('.checkout');
 
+        Route::post('login', [ProfileController::class, 'signIn'])->name('.signIn');
+        Route::post('register', [ProfileController::class, 'register'])->name('.register');
+        Route::post('reset', [ProfileController::class, 'reset'])->name('.reset');
+
         Route::prefix('orders')->name('.orders')->group(function () {
             Route::get('{id}', [OrderController::class, 'showOrdersQuery'])->where('id', '[0-9]+');
             Route::get('{id}/items', [OrderItemController::class, 'index'])->name('.items')->where('id', '[0-9]+');

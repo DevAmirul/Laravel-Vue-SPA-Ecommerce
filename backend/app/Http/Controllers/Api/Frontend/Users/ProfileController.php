@@ -14,34 +14,35 @@ class ProfileController extends Controller
 
     public function index(Request $request): Response
     {
-        $user = User::whereId($request->id)
-            ->with('billingDetail:user_id,phone,address,address_2,city,state,zip_code')
-            ->get(['id', 'name', 'email', 'gender']);
+        $user = User::with('billingDetail:user_id,phone,address,address_2,city,state,zip_code')
+            ->withCount('order')
+            ->withCount('review')
+            ->find($request->id, ['id', 'name', 'email', 'gender']);
         return response(compact('user'), 200);
     }
 
     public function update(Request $request): Response
     {
         $user = User::find($request->id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->gender = $request->gender;
+        $user->name = $request->data['name'];
+        $user->email = $request->data['email'];
+        // $request->data['password'] ? 'return validitaion' : null;
         $user->save();
         $user->billingDetail()->updateOrCreate(
             ['user_id' => $user->id],
             [
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'address_2' => $request->address_2,
-                'city' => $request->city,
-                'state' => $request->state,
-                'zip_code' => $request->zip_code,
+                'phone' => $request->data['phone'],
+                'address' => $request->data['address'],
+                'address_2' => $request->data['address_2'],
+                'city' => $request->data['city'],
+                'state' => $request->data['state'],
+                'zip_code' => $request->data['zip_code'],
             ]
         );
         return response(true, 200);
     }
 
-    public function create(Request $request): Response
+    public function register(Request $request): Response
     {
         $user = new User();
         $user->name = $request->name;
@@ -50,16 +51,27 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        $user->billingDetail()->create(
-            [
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'address_2' => $request->address_2,
-                'city' => $request->city,
-                'state' => $request->state,
-                'zip_code' => $request->zip_code,
-            ]
-        );
+        // $user->billingDetail()->create(
+        //     [
+        //         'phone' => $request->phone,
+        //         'address' => $request->address,
+        //         'address_2' => $request->address_2,
+        //         'city' => $request->city,
+        //         'state' => $request->state,
+        //         'zip_code' => $request->zip_code,
+        //     ]
+        // );
+
+        return response(true, 200);
+    }
+
+    public function signIn(Request $request): Response
+    {
+        return response(true, 200);
+    }
+
+    public function reset(Request $request): Response
+    {
         return response(true, 200);
     }
 }

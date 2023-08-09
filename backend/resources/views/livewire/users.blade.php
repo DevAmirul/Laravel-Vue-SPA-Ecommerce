@@ -10,7 +10,7 @@ Categories
     <!-- End Sidebar-->
 
     <x-table pageTitle='Users Table' tableName="Users Table" :$columnNamesArr
-        :tableData='$users' :$tableDataColumnNames :showBtn='false' :isEnum='true' :$enumColNames :$enumAttributes :$enumClasses>
+        :tableData='$users' :$tableDataColumnNames :showBtn='false'>
     </x-table>
 
     <!-- End #main -->

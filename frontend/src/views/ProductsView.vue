@@ -2,6 +2,9 @@
 import PageHeader from "../components/layouts/PageHeader.vue";
 
 import { Carousel, Navigation, Slide } from "vue3-carousel";
+import pro1 from '../../src/assets/img/cat-1.jpg'
+import pro2 from '../../src/assets/img/cat-3.jpg'
+
 
 </script>
 <template>
@@ -21,28 +24,28 @@ import { Carousel, Navigation, Slide } from "vue3-carousel";
                         <div class="carousel-item active">
                             <img
                                 class="w-100 h-100"
-                                src="img/product-1.jpg"
+                                :src="pro1"
                                 alt="Image"
                             />
                         </div>
                         <div class="carousel-item">
                             <img
                                 class="w-100 h-100"
-                                src="img/product-2.jpg"
+                                :src="pro1"
                                 alt="Image"
                             />
                         </div>
                         <div class="carousel-item">
                             <img
                                 class="w-100 h-100"
-                                src="img/product-3.jpg"
+                                :src="pro1"
                                 alt="Image"
                             />
                         </div>
                         <div class="carousel-item">
                             <img
                                 class="w-100 h-100"
-                                src="img/product-4.jpg"
+                                :src="pro2"
                                 alt="Image"
                             />
                         </div>

@@ -1,5 +1,42 @@
 <script setup>
+import { reactive, ref } from 'vue'
+import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
+
+let responseData = reactive({
+    user_id: '',
+    discount: '',
+    subtotal: '',
+    total: '',
+    payment_status: '',
+    shipping_method_id: '',
+    coupon_id: '',
+    product_id: '',
+    qty: '',
+    discount_price: '',
+});
+function save() {
+    axios_C.put('/users/profiles/' + responseData.id, {
+        // data: {
+        //     "name": responseData.name,
+        //     "email": responseData.email,
+        //     "city": responseData.city,
+        //     "phone": responseData.phone,
+        //     "address": responseData.address,
+        //     "address_2": responseData.address_2,
+        //     "state": responseData.state,
+        //     "zip_code": responseData.zip_code,
+        //     "password": responseData.password,
+        //     "confirm_password": responseData.confirm_password
+        // }
+    })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
 </script>
 <template>
     <!-- Page Header Start -->

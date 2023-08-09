@@ -1,12 +1,71 @@
 <script setup>
+import { reactive, ref } from 'vue'
+import axios_C from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
+
+let responseData = reactive({
+    name: '',
+    email: '',
+    phone: '',
+    city: '',
+    state: '',
+    address: '',
+    address_2: '',
+    zip_code: '',
+    password: '',
+    confirm_password: '',
+});
+
+
+let isChangedPass = ref(false);
+axios_C.get('/users/profiles/4')
+    .then(response => {
+        responseData.id = response.data.user.id
+        responseData.name = response.data.user.name
+        responseData.email = response.data.user.email
+        responseData.phone = response.data.user.billing_detail.phone
+        responseData.city = response.data.user.billing_detail.city
+        responseData.state = response.data.user.billing_detail.state
+        responseData.address = response.data.user.billing_detail.address
+        responseData.address_2 = response.data.user.billing_detail.address_2
+        responseData.zip_code = response.data.user.billing_detail.zip_code
+        responseData.orders = response.data.user.order_count
+        responseData.review = response.data.user.review_count
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+function save(){
+    axios_C.put('/users/profiles/' + responseData.id, {
+        data: {
+            "name": responseData.name,
+            "email": responseData.email,
+            "city": responseData.city,
+            "phone": responseData.phone,
+            "address": responseData.address,
+            "address_2": responseData.address_2,
+            "state": responseData.state,
+            "zip_code": responseData.zip_code,
+            "password": responseData.password,
+            "confirm_password": responseData.confirm_password
+        }
+    })
+    .then(response => {
+        console.log(response);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+
 </script>
 <template>
     <!-- Page Header Start -->
     <PageHeader pageName="MY PROFILE"></PageHeader>
     <!-- Page Header End -->
     <!-- Checkout Start -->
-    <div class="container my-5">
+    <div v-if="responseData" class="container my-5">
         <div class="main-body">
             <div class="row">
                 <div class="col-lg-4">
@@ -16,13 +75,14 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                 class="d-flex flex-column align-items-center text-center"
                             >
                                 <div class="mt-3">
-                                    <h4>John Doe</h4>
-                                    <p class="text-primary mb-1">01834513106</p>
-                                    <p class="text-primary mb-1">
-                                        mailbox.amirul@gmail.com
+
+                                    <h4 class="text-primary mb-1">{{ responseData.name }}</h4>
+                                    <p class="text-muted font-size-sm">{{ responseData.phone }}</p>
+                                    <p class="text-muted font-size-sm">
+                                        {{ responseData.email }}
                                     </p>
                                     <p class="text-muted font-size-sm">
-                                        Bay Area, San Francisco, CA
+                                        {{ responseData.address }}
                                     </p>
                                 </div>
                             </div>
@@ -32,20 +92,15 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
                                 >
                                     <h6 class="mb-0">My Orders:</h6>
-                                    <span class="text-primary">50</span>
+                                    <span class="text-primary">{{ responseData.orders }}</span>
                                 </li>
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
                                 >
                                     <h6 class="mb-0">My Review:</h6>
-                                    <span class="text-primary">50</span>
+                                    <span class="text-primary">{{ responseData.review }}</span>
                                 </li>
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-                                >
-                                    <h6 class="mb-0">My Cancellations:</h6>
-                                    <span class="text-primary">50</span>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -55,13 +110,13 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Full Name</h6>
+                                    <h6 class="mb-0">Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="John Doe"
+                                        v-model="responseData.name"
                                     />
                                 </div>
                             </div>
@@ -73,7 +128,7 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="john@example.com"
+                                        v-model="responseData.email"
                                     />
                                 </div>
                             </div>
@@ -85,19 +140,19 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="(239) 816-9029"
+                                        v-model="responseData.phone"
                                     />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Province</h6>
+                                    <h6 class="mb-0">State</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="(239) 816-9029"
+                                        v-model="responseData.state"
                                     />
                                 </div>
                             </div>
@@ -109,7 +164,7 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="(239) 816-9029"
+                                        v-model="responseData.city"
                                     />
                                 </div>
                             </div>
@@ -121,67 +176,33 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="Bay Area, San Francisco, CA"
+                                        v-model="responseData.address"
                                     />
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
-                                    <h6 class="mb-0">Picture</h6>
+                                    <h6 class="mb-0">Address 2</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input
-                                        type="file"
+                                        type="text"
                                         class="form-control"
-                                        value="Bay Area, San Francisco, CA"
+                                        v-model="responseData.address_2"
                                     />
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-3">
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="inlineRadioOptions"
-                                            id="inlineRadio1"
-                                            value="option1"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="inlineRadio1"
-                                            >Male</label
-                                        >
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="inlineRadioOptions"
-                                            id="inlineRadio2"
-                                            value="option2"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="inlineRadio2"
-                                            >Women</label
-                                        >
-                                    </div>
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-sm-3"></div>
-                                <div class="col-sm-9 text-secondary">
-                                    <input
-                                        type="button"
-                                        class="btn btn-primary px-4"
-                                        value="Save Changes"
-                                    />
+                                <div class="col-sm-9 text-secondary d-flex justify-content-between">
+                                    <button @click="isChangedPass = !isChangedPass" class="btn btn-small btn-outline-primary">Change Password <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+
+                                    <button v-show="!isChangedPass" @click="save()" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    <div v-if="isChangedPass" class="card">
                         <div class="card-body">
                             <div class="row mb-3">
                                 <div class="col-sm-3">
@@ -191,7 +212,9 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="John Doe"
+                                        placeholder="********"
+                                        v-model="responseData.password"
+                                        name="password"
                                     />
                                 </div>
                             </div>
@@ -203,18 +226,16 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
                                     <input
                                         type="text"
                                         class="form-control"
-                                        value="John Doe"
+                                        placeholder="********"
+                                        v-model="responseData.confirm_password"
+                                        name="confirm_password"
                                     />
                                 </div>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <input
-                                        type="button"
-                                        class="btn btn-primary px-4"
-                                        value="Save Changes"
-                                    />
+                                    <button @click="save()" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </div>
                         </div>

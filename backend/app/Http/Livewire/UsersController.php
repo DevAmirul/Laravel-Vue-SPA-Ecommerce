@@ -9,17 +9,13 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 class UsersController extends Component {
-    use WithPagination, TableColumnTrait, EnumTableTrait;
+    use WithPagination, TableColumnTrait;
 
     public function mount(): void{
 
         $this->tableColumnTrait(
-            ['Id', 'Name', 'Email', 'Gender'],
-            ['id', 'name', 'email', 'gender']
-        );
-        $this->enumTrait(
-            ['gender'], [['male', 'female']],
-            [['badge text-bg-primary', 'badge text-bg-info']]
+            ['Id', 'Name', 'Email'],
+            ['id', 'name', 'email']
         );
     }
 
