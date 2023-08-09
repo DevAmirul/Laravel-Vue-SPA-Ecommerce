@@ -6,23 +6,23 @@ let productAttributeArray = []
 
 import pro1 from '../../src/assets/img/cat-1.jpg'
 
+
 function addToWishlist(productAttributes){
     let ifExistLocalStorageData = localStorage.getItem('productAttributes');
     if (ifExistLocalStorageData) {
         ifExistLocalStorageData = JSON.parse(localStorage.getItem('productAttributes'))
-        let product = ifExistLocalStorageData.forEach((items) => {
-            // (items.id == productAttributes.id) ? false : true;
-            // let x = 'no';
-            if (items.id !== productAttributes.id) {
-                return productAttributes.id
+
+        let x = true
+        for (let i = 0; i < ifExistLocalStorageData.length; i++) {
+            if (ifExistLocalStorageData[i].id == productAttributes.id) {
+                return x = false;
             }
-        })
-        console.log(product);
-        if (product) {
-            // ifExistLocalStorageData.push(productAttributes);
-            // localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
-            // console.log(productAttributes);
         }
+        if (x) {
+            ifExistLocalStorageData.push(productAttributes);
+            localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
+        }
+
     }else{
         productAttributeArray.push(productAttributes);
         localStorage.setItem("productAttributes", JSON.stringify(productAttributeArray))
