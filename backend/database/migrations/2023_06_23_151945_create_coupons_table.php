@@ -13,7 +13,6 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->decimal('discount');
-            $table->enum('type', ['Percentage', 'Decimal']);
             $table->char('code', 100);
             $table->boolean('status')->default(0);
             $table->dateTime('start_date');

@@ -15,26 +15,27 @@
             </div>
         </form>
         <div class="d-flex">
-            <div class="form-group mt-0 mb-0 mx-3">
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>Latest</option>
+            <div class="col-md-6 form-group">
+                <select class="custom-select">
+                    <option selected>Latest</option>
                     <option>Oldest</option>
-                    <option>Best Rating</option>
                     <option>Price: low to high</option>
                     <option>Price: high to low</option>
                     <option>Ascending</option>
                     <option>Descending</option>
                 </select>
             </div>
-            <div class="form-group mt-0 mb-0">
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>20</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+            <div class="col-md-6 form-group">
+                <select class="custom-select">
+                    <option selected>20</option>
+                    <option>1</option>
+                    <option>1</option>
+                    <option>1</option>
+                    <option>1</option>
                 </select>
             </div>
+
+
         </div>
     </div>
 </template>

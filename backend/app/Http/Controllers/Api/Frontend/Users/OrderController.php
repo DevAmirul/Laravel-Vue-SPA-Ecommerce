@@ -17,4 +17,11 @@ class OrderController extends Controller {
         $orders = OrderResource::collection($orders);
         return response(compact('orders'), 200);
     }
+
+    public function create(Request $request) : Response {
+        
+
+        // return response(compact('orders'), 200);
+        return response($request->input(), 200);
+    }
 }

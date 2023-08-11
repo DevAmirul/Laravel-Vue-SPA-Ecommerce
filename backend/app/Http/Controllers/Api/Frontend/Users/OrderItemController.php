@@ -27,7 +27,6 @@ class OrderItemController extends Controller
                 'orders.total',
                 'orders.created_at',
                 'coupons.discount as c_discount',
-                'coupons.type',
                 'users.name',
                 'users.email',
                 'billing_details.phone',

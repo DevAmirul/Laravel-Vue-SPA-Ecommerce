@@ -1,5 +1,71 @@
 <script setup>
+import { ref, watch } from 'vue'
+import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
+
+let responseData = ref();
+let discount;
+let subtotal;
+
+axios_C.get('/users/cart/' + 2)
+    .then(response => {
+        responseData.value = response.data;
+        console.log(responseData.value.carts);
+
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+function deleteCartItems(itemid){
+    axios_C.delete('/users/cart/' + itemid)
+        .then(response => {
+            response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+
+watch(responseData, () => {
+    discount = responseData.value.carts.reduce((accumulator, currentValue) => {
+        return accumulator + Number(currentValue['discount']);
+    },0 )
+    subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
+        return accumulator + Number(currentValue['sale_price']);
+    },0 )
+} )
+
+function quantityIncrement(cartId, productId, qty) {
+    let productQty = 0;
+    productQty += ++qty
+
+    axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + productQty)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+function quantityDecrement(cartId, productId, qty) {
+    let productQty = 0;
+    if (qty > 1) {
+        productQty += --qty
+
+        axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + productQty)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+}
+
+
 </script>
 <template>
     <!-- Page Header Start -->
@@ -12,152 +78,77 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
                 <table class="table table-bordered text-center mb-0">
                     <thead class="bg-secondary text-dark ">
                         <tr>
+                            <th>Image</th>
                             <th>Products</th>
                             <th>Price</th>
                             <th>Quantity</th>
-                            <th>Total</th>
                             <th>Remove</th>
                         </tr>
                     </thead>
-                    <tbody class="align-middle">
-                        <tr>
-                            <td class="align-middle"><img src="img/product-1.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                    <tbody v-if="responseData" class="align-middle">
+                        <template v-for="(data, key) in responseData.carts" :key="key">
+                            <tr>
+                                <td class="align-middle"><img :src="data.image" alt="image" style="width: 50px;"></td>
+                                <td class="align-middle">{{ data.name }}</td>
+                                <td v-if="data.discount > 0" class="align-middle"><del>{{ Number(data.sale_price) }}</del> {{ Number(data.sale_price) - Number(data.discount) }}</td>
+
+                                <td v-else class="align-middle">{{ Number(data.sale_price) }}</td>
+
+                                <td class="align-middle">
+                                    <div class="input-group quantity mx-auto" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button @click="quantityDecrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm bg-secondary text-center" :value="data.qty">
+
+                                        <div class="input-group-btn">
+                                            <button @click="quantityIncrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                            
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-2.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-3.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-4.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
-                        <tr>
-                            <td class="align-middle"><img src="img/product-5.jpg" alt="" style="width: 50px;"> Colorful Stylish Shirt</td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">$150</td>
-                            <td class="align-middle"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
-                        </tr>
+                                </td>
+                                <td class="align-middle"><button @click="deleteCartItems(data.item_id)" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>
             </div>
             <div class="col-lg-4">
-                <form class="mb-5" action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control p-4" placeholder="Coupon Code">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
-                        </div>
-                    </div>
-                </form>
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Discount</h6>
+                            <h6  class="font-weight-medium">${{ discount }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
+                            <h6 class="font-weight-medium">${{ subtotal }}</h6>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                        <div  v-if="coupon" class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Coupon</h6>
+                            <h6 class="font-weight-medium">${{ Number(coupon.coupon[0].discount) }}</h6>
                         </div>
+
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
+                            <h5 v-if="coupon" class="font-weight-bold">${{ subtotal - (Number(coupon.coupon[0].discount) + discount) }}</h5>
+                            <h5 v-else class="font-weight-bold">${{ subtotal - discount }}</h5>
                         </div>
-                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+
+                        <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'checkout' }"
+                                    ><button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        </RouterLink>
                     </div>
                 </div>
             </div>

@@ -1,34 +1,79 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive,ref,toRaw,watch } from 'vue'
 import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
-let responseData = reactive({
-    user_id: '',
-    discount: '',
-    subtotal: '',
-    total: '',
-    payment_status: '',
-    shipping_method_id: '',
-    coupon_id: '',
-    product_id: '',
-    qty: '',
-    discount_price: '',
+
+let shippingMethod = ref();
+let discount;
+let subtotal;
+let total;
+let couponCode;
+let coupon = ref(0);
+
+let formData = reactive({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    address_2: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    discount: discount,
+    subtotal: subtotal,
+    total: total,
+    shippingMethod: shippingMethod,
+    coupon: coupon,
 });
+
+
+let responseData = ref();
+
+axios_C.get('/users/checkout/' + 2)
+    .then(response => {
+        responseData.value = response.data;
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+
+watch(responseData, () => {
+discount = responseData.value.carts.reduce((accumulator, currentValue) => {
+    return accumulator + Number(currentValue['discount']);
+}, 0)
+subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
+    return accumulator + Number(currentValue['sale_price']);
+}, 0)
+
+
+})
+
 function save() {
-    axios_C.put('/users/profiles/' + responseData.id, {
-        // data: {
-        //     "name": responseData.name,
-        //     "email": responseData.email,
-        //     "city": responseData.city,
-        //     "phone": responseData.phone,
-        //     "address": responseData.address,
-        //     "address_2": responseData.address_2,
-        //     "state": responseData.state,
-        //     "zip_code": responseData.zip_code,
-        //     "password": responseData.password,
-        //     "confirm_password": responseData.confirm_password
-        // }
+    axios_C.post('/users/checkout/' + 2, {
+        data: {
+            "user":{
+                "name": formData.name,
+                "email": formData.email,
+                "billingDetails":{
+                    "city": formData.city,
+                    "phone": formData.phone,
+                    "address": formData.address,
+                    "address_2": formData.address_2,
+                    "state": formData.state,
+                    "zip_code": formData.zipCode,
+                }
+            },
+            "order": {
+                "user_id":2,
+                "discount": discount,
+                "subtotal": subtotal,
+                "total": total,
+                "shipping_method_id": shippingMethod.value,
+                // "coupon_id": coupon.value.coupon[0].id
+            }
+        }
     })
         .then(response => {
             console.log(response);
@@ -36,6 +81,23 @@ function save() {
         .catch(error => {
             console.log(error);
         });
+    // console.log(formData);
+}
+
+
+
+
+function getCoupon(code) {
+    if (code) {
+        axios_C.get('/users/cart/coupon/' + code)
+            .then(response => {
+                coupon.value = response.data;
+                console.log(coupon.value);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 }
 </script>
 <template>
@@ -50,56 +112,39 @@ function save() {
                     <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
                     <div class="row">
                         <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="John">
+                            <label>Full Name</label>
+                            <input class="form-control" v-model="formData.name" type="text" placeholder="John">
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label>Email</label>
+                            <input class="form-control" v-model="formData.email"  type="text" placeholder="example@email.com">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="Doe">
+                            <label>Phone No</label>
+                            <input class="form-control" v-model="formData.phone" type="text" placeholder="+123 456 789">
                         </div>
                         <div class="col-md-6 form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" placeholder="example@email.com">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="+123 456 789">
-                        </div>
+                                <label>City</label>
+                                <input class="form-control" v-model="formData.city" type="text" placeholder="New York">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>State</label>
+                                <input class="form-control" v-model="formData.state" type="text" placeholder="New York">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>ZIP Code</label>
+                                <input class="form-control" v-model="formData.zipCode" type="text" placeholder="123">
+                            </div>
                         <div class="col-md-6 form-group">
                             <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
+                            <input class="form-control" v-model="formData.address" type="text" placeholder="123 Street">
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
+                            <input class="form-control" v-model="formData.address_2" type="text" placeholder="123 Street">
                         </div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select">
-                                <option selected>United States</option>
-                                <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="123">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="newaccount">
-                                <label class="custom-control-label" for="newaccount">Create an account</label>
-                            </div>
-                        </div>
+
                         <div class="col-md-12 form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="shipto">
@@ -108,7 +153,7 @@ function save() {
                         </div>
                     </div>
                 </div>
-                <div class="collapse mb-4" id="shipping-address">
+                <!-- <div class="collapse mb-4" id="shipping-address">
                     <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
                     <div class="row">
                         <div class="col-md-6 form-group">
@@ -157,42 +202,75 @@ function save() {
                             <input class="form-control" type="text" placeholder="123">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
-            <div class="col-lg-4">
+            <div v-if="responseData" class="col-lg-4">
+                <form @submit.prevent="getCoupon(couponCode)" class="mb-5" action="">
+                        <div class="input-group">
+                            <input v-model="couponCode" type="text" class="form-control p-4" placeholder="Coupon Code">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary">Apply Coupon</button>
+                            </div>
+                        </div>
+                </form>
                 <div class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Order Total</h4>
                     </div>
                     <div class="card-body">
                         <h5 class="font-weight-medium mb-3">Products</h5>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 1</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 2</p>
-                            <p>$150</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p>Colorful Stylish Shirt 3</p>
-                            <p>$150</p>
-                        </div>
+                        <template v-for="(data, key) in responseData.carts" :key="key">
+                            <div class="d-flex justify-content-between">
+                                <p>{{ data.name }}</p>
+                                <p v-if="data.discount > 0"><del class="mx-2">${{ data.sale_price }}</del>${{ Number(data.sale_price) - Number(data.discount) }}</p>
+                                <p v-else>${{ Number(data.sale_price) }}</p>
+                            </div>
+                        </template>
+
                         <hr class="mt-0">
+                        <div v-if="coupon" class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Coupon</h6>
+                            <h6 v-if="coupon.coupon.length == 1" class="font-weight-medium">${{ Number(coupon.coupon[0].discount) }}</h6>
+                            <h6 v-else class="font-weight-medium">$0</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Discount</h6>
+                            <h6  class="font-weight-medium">${{ discount }}</h6>
+                        </div>
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$150</h6>
+                            <h6 class="font-weight-medium">${{ subtotal }}</h6>
                         </div>
+
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
                             <h6 class="font-weight-medium">$10</h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">$160</h5>
-                        </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5 class="font-weight-bold">Total</h5>
+                                <h5 v-if="coupon" class="font-weight-bold">${{ total = Number(subtotal) - (Number(coupon.coupon[0].discount) + Number(discount)) }}</h5>
+                                <h5 v-else class="font-weight-bold">${{ total = Number(subtotal) - Number(discount) }}</h5>
+                            </div>
+                    </div>
+                </div>
+
+                <div v-if="responseData" class="card border-secondary mb-5">
+                    <div  class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Shipping method</h4>
+                    </div>
+                    <div  class="card-body">
+                        <template v-for="(data, key) in responseData.methods" :key="key">
+                            <div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input"  :id="key" :value="key" v-model="shippingMethod"
+                                    >
+                                    <label class="custom-control-label" :for="key">{{ data.name }}</label>
+                                </div>
+                            </div>
+                        </template>
+
                     </div>
                 </div>
                 <div class="card border-secondary mb-5">
@@ -220,7 +298,7 @@ function save() {
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                        <button @click="save()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
                     </div>
                 </div>
             </div>

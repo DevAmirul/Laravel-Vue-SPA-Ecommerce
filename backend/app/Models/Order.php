@@ -10,6 +10,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'discount',
+        'subtotal',
+        'total',
+        'shipping_method_id',
+        'coupon_id',
+    ];
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d',
     ];

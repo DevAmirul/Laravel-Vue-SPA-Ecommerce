@@ -55,12 +55,16 @@ class Product extends Model {
         return $this->hasOne(ProductView::class);
     }
 
-    public function DiscountPrice(): HasOne {
+    public function discountPrice(): HasOne {
         return $this->hasOne(DiscountPrice::class);
     }
 
     public function review(): HasMany {
         return $this->hasMany(Review::class);
+    }
+
+    public function product(): HasMany {
+        return $this->hasMany(CartItem::class);
     }
 
 }

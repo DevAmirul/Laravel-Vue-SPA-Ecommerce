@@ -53,8 +53,17 @@ Route::name('api.')->group(function () {
     });
 
     Route::prefix('users')->name('users')->group(function () {
-        Route::get('cart', CartController::class)->name('.cart');
-        Route::post('checkout', [CheckoutController::class, 'createCheckout'])->name('.checkout');
+        Route::get('cart/{id}', [CartController::class,'inbox'])->name('.cart')->where('id', '[0-9]+');
+        Route::delete('cart/{id}', [CartController::class, 'deleteCartItems'])->name('.cartItemDelete')->where('id', '[0-9]+');
+
+        Route::put('cart/{cartId}/{productId}/{qty}', [CartController::class, 'updateCartItems']);
+
+        Route::get('cart/coupon/{code}', [CartController::class, 'getCoupon'])->name('.cartCoupon');
+        Route::get('cart/save', [CartController::class,'save'])->name('.cartSave');
+
+        Route::post('checkout/{userId}', [CheckoutController::class, 'create'])->name('.checkout');
+        Route::get('checkout/{id}', [CheckoutController::class, 'inbox'])->name('.checkout.inbox');
+
 
         Route::post('login', [ProfileController::class, 'signIn'])->name('.signIn');
         Route::post('register', [ProfileController::class, 'register'])->name('.register');
@@ -62,6 +71,7 @@ Route::name('api.')->group(function () {
 
         Route::prefix('orders')->name('.orders')->group(function () {
             Route::get('{id}', [OrderController::class, 'showOrdersQuery'])->where('id', '[0-9]+');
+            Route::post('/', [OrderController::class, 'create'])->name('create')->where('id', '[0-9]+');
             Route::get('{id}/items', [OrderItemController::class, 'index'])->name('.items')->where('id', '[0-9]+');
         });
 

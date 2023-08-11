@@ -1,20 +1,20 @@
 <script setup>
 import { ref, watch } from 'vue';
+import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
 let isRenderPage = ref(true)
-
-let wishlist =  ref(JSON.parse(localStorage.getItem('productAttributes')));
+let wishlistProductIdArrayForAddToCart = [];
+let wishlist =  JSON.parse(localStorage.getItem('productAttributes'));
 
 function deleteWishlist(productId) {
     isRenderPage.value = false;
     let ifExistLocalStorageData = localStorage.getItem('productAttributes');
     if (ifExistLocalStorageData) {
         ifExistLocalStorageData = JSON.parse(localStorage.getItem('productAttributes'))
-        let index;
         for (let i = 0; i < ifExistLocalStorageData.length; i++) {
             if (ifExistLocalStorageData[i].id == productId) {
-                index =ifExistLocalStorageData.splice(i, 1);
+                ifExistLocalStorageData.splice(i, 1);
                 localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
                 break;
             }
@@ -23,10 +23,24 @@ function deleteWishlist(productId) {
 }
 
 watch(isRenderPage, () => {
-    wishlist.value = JSON.parse(localStorage.getItem('productAttributes'))
+    wishlist = JSON.parse(localStorage.getItem('productAttributes'))
     isRenderPage.value = true;
 })
 
+// TODO: make composition this function
+function addToCart(productId) {
+    let query;
+    query = encodeURIComponent([productId]);
+    deleteWishlist(productId)
+    axios_C.get('/users/cart/save/?productId=' + query + '&user=2')
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+}
 </script>
 <template>
     <!-- Page Header Start -->
@@ -53,12 +67,13 @@ watch(isRenderPage, () => {
                                     <td class="align-middle">{{ data.name }}</td>
                                     <td class="align-middle">{{ data.salePrice }}</td>
                                     <td class="align-middle"><button @click="deleteWishlist(data.id)" class="btn btn-sm btn-primary mx-2"><i class="fa fa-times"></i></button>
-                                        <button class="btn btn-sm btn-primary mx-2">Add to card <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                        <button @click="addToCart(data.id)" class="btn btn-sm btn-primary mx-2">Add to card <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                                     </td>
                                 </tr>
                             </template>
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </div>
