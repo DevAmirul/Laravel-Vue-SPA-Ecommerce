@@ -10,8 +10,6 @@ let subtotal;
 axios_C.get('/users/cart/' + 2)
     .then(response => {
         responseData.value = response.data;
-        console.log(responseData.value.carts);
-
     })
     .catch(error => {
         console.log(error);
@@ -37,7 +35,7 @@ watch(responseData, () => {
     },0 )
 } )
 
-function quantityIncrement(cartId, productId, qty) {
+function productQuantityIncrement(cartId, productId, qty) {
     let productQty = 0;
     productQty += ++qty
 
@@ -50,7 +48,7 @@ function quantityIncrement(cartId, productId, qty) {
         });
 }
 
-function quantityDecrement(cartId, productId, qty) {
+function productQuantityDecrement(cartId, productId, qty) {
     let productQty = 0;
     if (qty > 1) {
         productQty += --qty
@@ -97,7 +95,7 @@ function quantityDecrement(cartId, productId, qty) {
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button @click="quantityDecrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
+                                            <button @click="productQuantityDecrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
                                                 <i class="fa fa-minus"></i>
                                             </button>
 
@@ -105,7 +103,7 @@ function quantityDecrement(cartId, productId, qty) {
                                         <input type="text" class="form-control form-control-sm bg-secondary text-center" :value="data.qty">
 
                                         <div class="input-group-btn">
-                                            <button @click="quantityIncrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
+                                            <button @click="productQuantityIncrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>

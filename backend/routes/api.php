@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Frontend\CompareController;
 use App\Http\Controllers\Api\Frontend\ContactController;
 use App\Http\Controllers\Api\Frontend\HomeController;
 use App\Http\Controllers\Api\Frontend\Layouts\FooterController;
@@ -46,9 +47,10 @@ Route::name('api.')->group(function () {
     Route::get('arrivals', NewArrivalController::class)->name('.arrivals');
     Route::get('ratings', TopRatingController::class)->name('.ratings');
     Route::get('sales', TopSaleController::class)->name('.sales');
+    Route::post('compare', CompareController::class)->name('.compare');
 
     Route::prefix('products')->name('products')->group(function () {
-        Route::get('{id}', ProductController::class)->where('id', '[0-9]+');
+        Route::get('{slug}', ProductController::class)->where('id', '[0-9]+');
         Route::get('related/{subCateId}', relatedProductController::class)->name('.related')->where('id', '[0-9]+');
     });
 
@@ -61,7 +63,7 @@ Route::name('api.')->group(function () {
         Route::get('cart/coupon/{code}', [CartController::class, 'getCoupon'])->name('.cartCoupon');
         Route::get('cart/save', [CartController::class,'save'])->name('.cartSave');
 
-        Route::post('checkout/{userId}', [CheckoutController::class, 'create'])->name('.checkout');
+        Route::post('checkout', [CheckoutController::class, 'create'])->name('.checkout');
         Route::get('checkout/{id}', [CheckoutController::class, 'inbox'])->name('.checkout.inbox');
 
 

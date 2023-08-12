@@ -1,6 +1,29 @@
 <script setup>
+import { ref, watch } from 'vue'
+import axios_C from '../services/axios';
 import PageHeader from "../components/layouts/PageHeader.vue";
-let a = [1, 2,3];
+
+let responseData = ref();
+
+const compareList = JSON.parse(localStorage.getItem('compare'));
+
+axios_C.post('/compare',{
+        data:{
+            productIdArray: compareList
+        }
+    })
+    .then(response => {
+        responseData.value = response.data;
+        console.log(responseData.value);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
+function clearCompareList(){
+    localStorage.removeItem('compare')
+}
+
 </script>
 <template>
     <!-- Page Header Start -->
@@ -8,77 +31,64 @@ let a = [1, 2,3];
     <!-- Page Header End -->
     <!-- Contact Start -->
     <div class="container-fluid pt-5">
-        <div class="row px-xl-5">
-            <template v-for="n in a" :key="n">
-            <div class="col-lg-4 mb-5">
-                <div
-                    id="product-carousel"
-                    class="carousel slide mb-3"
-                    data-ride="carousel"
-                >
-                    <div class="carousel-inner border">
-                        <div class="carousel-item active">
-                            <img
-                                class="w-100 h-100"
-                                src="img/product-1.jpg"
-                                alt="Image"
-                            />
-                        </div>
-                        <div class="carousel-item">
-                            <img
-                                class="w-100 h-100"
-                                src="img/product-2.jpg"
-                                alt="Image"
-                            />
-                        </div>
-                        <div class="carousel-item">
-                            <img
-                                class="w-100 h-100"
-                                src="img/product-3.jpg"
-                                alt="Image"
-                            />
-                        </div>
-                        <div class="carousel-item">
-                            <img
-                                class="w-100 h-100"
-                                src="img/product-4.jpg"
-                                alt="Image"
-                            />
-                        </div>
-                    </div>
-                    <a
-                        class="carousel-control-prev"
-                        href="#product-carousel"
-                        data-slide="prev"
-                    >
-                        <i class="fa fa-2x fa-angle-left text-dark"></i>
-                    </a>
-                    <a
-                        class="carousel-control-next"
-                        href="#product-carousel"
-                        data-slide="next"
-                    >
-                        <i class="fa fa-2x fa-angle-right text-dark"></i>
-                    </a>
-                </div>
+        <div v-if="responseData" class="row px-xl-5">
+                <template v-for="(data, key) in responseData.products" :key="key">
+                    <div :class="[(compareList.length == 3) ? 'col-lg-4' : 'col-lg-6', 'mb-5']" >
+                        <div
+                            id="product-carousel"
+                            class="carousel slide mb-3"
+                            data-ride="carousel"
+                        >
+                            <div class="carousel-inner border">
+                                <div class="carousel-item active">
+                                    <img
+                                        class="w-100 h-100"
+                                        :src="data.image"
+                                        alt="Image"
+                                    />
+                                </div>
 
-                <h3 class="font-weight-semi-bold">Colorful Stylish Shirt</h3>
-                <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star"></small>
-                        <small class="fas fa-star-half-alt"></small>
-                        <small class="far fa-star"></small>
+                            </div>
+
+                        </div>
+
+                        <h3 class="font-weight-semi-bold">{{ data.name }}</h3>
+                        <div class="d-flex mb-3">
+                            <div class="text-primary mr-2">
+                                <template v-for= "(number , key) in Math.floor(data.review_avg_rating_value)" :key="key">
+                                    <small class="fas fa-star"></small>
+                                </template>
+                                <template v-if="!Number.isInteger(data.review_avg_rating_value) && data.review_avg_rating_value !== null">
+                                    <small class="fas fa-star-half-alt"></small>
+                                </template>
+                                <template v-for= "(number, key) in Math.floor(5 - data.review_avg_rating_value)" :key="key">
+                                        <small class="far fa-star"></small>
+                                </template>
+                            </div>
+                            <small class="pt-1">({{ data.review_count }})</small>
+                        </div>
+                        <template v-if="data.discount_price.discount > 0" >
+                            <h5 class="font-weight-semi-bold mb-4">
+                                <del><small>${{ data.sale_price }}</small></del>
+                                ${{ data.sale_price - data.discount_price.discount }}.00
+                            </h5>
+                        </template>
+                        <template v-else>
+                            <h5  class="text-muted ml-2">
+                                ${{ data.sale_price }}
+                            </h5>
+                        </template>
+                            <h4 class="mb-3">Description</h4>
+                                <p>
+                                    {{ data.description }}
+                                </p>
+                            <h4 class="mb-3">Additional Information</h4>
+                                <p>
+                                    {{ data.specification }}
+                                </p>
                     </div>
-                    <small class="pt-1">(50 Reviews)</small>
-                </div>
-                <h3 class="font-weight-semi-bold mb-4">$150.00</h3>
-                <h6 class="text-muted ml-2">
-                    <del>$123.00</del>
-                </h6>
-            </div>
-            </template>
+                </template>
+            <button @click="clearCompareList()" class="btn btn-primary m-auto">Clear Compare List</button>
         </div>
     </div>
     <!-- Contact End -->

@@ -12,8 +12,6 @@ let couponCode;
 let coupon = ref(0);
 
 let formData = reactive({
-    name: '',
-    email: '',
     phone: '',
     address: '',
     address_2: '',
@@ -51,19 +49,15 @@ subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
 })
 
 function save() {
-    axios_C.post('/users/checkout/' + 2, {
+    axios_C.post('/users/checkout/', {
         data: {
-            "user":{
-                "name": formData.name,
-                "email": formData.email,
-                "billingDetails":{
-                    "city": formData.city,
-                    "phone": formData.phone,
-                    "address": formData.address,
-                    "address_2": formData.address_2,
-                    "state": formData.state,
-                    "zip_code": formData.zipCode,
-                }
+            "billingDetails": {
+                "city": formData.city,
+                "phone": formData.phone,
+                "address": formData.address,
+                "address_2": formData.address_2,
+                "state": formData.state,
+                "zip_code": formData.zipCode,
             },
             "order": {
                 "user_id":2,
@@ -71,7 +65,7 @@ function save() {
                 "subtotal": subtotal,
                 "total": total,
                 "shipping_method_id": shippingMethod.value,
-                // "coupon_id": coupon.value.coupon[0].id
+                "coupon_id": coupon.value.coupon[0].id
             }
         }
     })
@@ -81,7 +75,6 @@ function save() {
         .catch(error => {
             console.log(error);
         });
-    // console.log(formData);
 }
 
 
@@ -111,15 +104,6 @@ function getCoupon(code) {
                 <div class="mb-4">
                     <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
                     <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Full Name</label>
-                            <input class="form-control" v-model="formData.name" type="text" placeholder="John">
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label>Email</label>
-                            <input class="form-control" v-model="formData.email"  type="text" placeholder="example@email.com">
-                        </div>
                         <div class="col-md-6 form-group">
                             <label>Phone No</label>
                             <input class="form-control" v-model="formData.phone" type="text" placeholder="+123 456 789">
@@ -264,7 +248,7 @@ function getCoupon(code) {
                         <template v-for="(data, key) in responseData.methods" :key="key">
                             <div class="form-group">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input"  :id="key" :value="key" v-model="shippingMethod"
+                                    <input type="radio" class="custom-control-input" :id="key" :value="key" v-model="shippingMethod"
                                     >
                                     <label class="custom-control-label" :for="key">{{ data.name }}</label>
                                 </div>

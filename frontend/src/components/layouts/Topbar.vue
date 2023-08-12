@@ -2,6 +2,10 @@
 import { RouterLink } from "vue-router";
 const { settings } = defineProps(['settings'])
 
+const compareList = JSON.parse(localStorage.getItem('compare'));
+const wishlist = JSON.parse(localStorage.getItem('productAttributes'));
+
+
 </script>
 <template>
     <div class="container-fluid">
@@ -52,21 +56,21 @@ const { settings } = defineProps(['settings'])
                     </div>
                 </form>
             </div>
-            <div class="col-lg-3 col-6 text-right">
+            <div class="col-lg-3 col-6 text-right ">
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'compare' }"
-                    ><a class="btn border">
+                    ><a class="btn border mx-2">
                         <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>
-                        <span class="badge">0</span>
+                        <span class="badge">{{ compareList.length }}</span>
                     </a></RouterLink
                 >
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'wishList' }"
-                    ><a class="btn border">
+                    ><a class="btn border mx-2">
                         <i class="fas fa-heart text-primary"></i>
-                        <span class="badge">0</span>
+                        <span class="badge">{{ wishlist.length }}</span>
                     </a></RouterLink
                 >
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'cart' }"
-                    ><a class="btn border">
+                    ><a class="btn  border mx-2">
                         <i class="fas fa-shopping-cart text-primary"></i>
                         <span class="badge">0</span>
                     </a></RouterLink

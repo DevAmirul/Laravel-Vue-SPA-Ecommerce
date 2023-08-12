@@ -31,6 +31,10 @@ class Product extends Model {
         'gallery',
     ];
 
+    protected $casts = [
+        'review_avg_rating_value' => 'integer',
+    ];
+
     public function subCategory(): BelongsTo {
         return $this->belongsTo(SubCategory::class);
     }
@@ -63,7 +67,7 @@ class Product extends Model {
         return $this->hasMany(Review::class);
     }
 
-    public function product(): HasMany {
+    public function cartItem(): HasMany {
         return $this->hasMany(CartItem::class);
     }
 

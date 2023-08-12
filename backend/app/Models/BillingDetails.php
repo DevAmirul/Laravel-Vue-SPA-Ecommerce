@@ -11,6 +11,7 @@ class BillingDetails extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'phone',
         'address',
         'address_2',

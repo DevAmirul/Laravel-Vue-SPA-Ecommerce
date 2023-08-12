@@ -3,9 +3,22 @@ import { RouterLink } from "vue-router";
 
 const { products } = defineProps(['products'])
 let productAttributeArray = []
+let productCompareArray = []
 
 import pro1 from '../../src/assets/img/cat-1.jpg'
 
+function addToCompare(productId){
+    let ifExistLocalStorageData = JSON.parse(localStorage.getItem('compare'));
+    if (ifExistLocalStorageData ) {
+        if (ifExistLocalStorageData.length < 3) {
+            ifExistLocalStorageData.push(productId);
+            localStorage.setItem("compare", JSON.stringify(ifExistLocalStorageData))
+        }
+    } else {
+        productCompareArray.push(productId);
+        localStorage.setItem("compare", JSON.stringify(productCompareArray))
+    }
+}
 
 function addToWishlist(productAttributes){
     let ifExistLocalStorageData = localStorage.getItem('productAttributes');
@@ -56,22 +69,27 @@ function addToCart(params){
                                 </template>
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
+                        <div class="card-footer d-flex justify-content-between bg-light border d-flex justify-content-around">
+
                             <button @click="addToWishlist({id:data.p_id,name:data.name, image:data.image, salePrice:data.sale_price})" class="btn btn-sm text-dark p-0"><i
-                                        class="fas fa-heart text-primary mr-1"></i>Add To Wishlist</button>
+                                        class="fas fa-heart text-primary mr-1"></i></button>
 
                             <button @click="addToCart()" class="btn btn-sm text-dark p-0">
                                 <i
-                                        class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
+                                        class="fas fa-shopping-cart text-primary mr-1"></i>
                             </button>
-                        </div>
-                        <div class="card-footer d-flex justify-content-center bg-light border">
+                            <button @click="addToCompare(data.p_id)" class="btn btn-sm text-dark p-0">
+                                            <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>
+                            </button>
                             <RouterLink
                                         style="text-decoration: none; color: inherit"
                                         :to="{ name: 'products', params: { slug: data.slug } }"
-                                        ><a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
-                                        Detail</a>
-                                </RouterLink>
+                                        ><a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i></a>
+                            </RouterLink>
+
+                        </div>
+                        <div class="card-footer d-flex justify-content-center bg-light border d-flex justify-content-around">
+
                         </div>
                     </div>
                 </div>

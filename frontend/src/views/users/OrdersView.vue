@@ -48,7 +48,7 @@ axios_C.get('/users/orders/'+'2')
                                     </td>
                                     <td v-else-if="data.orderStatus == 'Delivered'" class="align-middle"><button class="btn btn-sm btn-success">Delivered </button></td>
                                     <td v-else-if="data.orderStatus == 'Shipped'" class="align-middle"><button class="btn btn-sm btn-primary">Shipped </button></td>
-                                    <td v-else-if="data.orderStatus == 'Pending'" class="align-middle"><button class="btn btn-sm btn-suspend">Pending </button></td>
+                                    <td v-else-if="data.orderStatus == 'Pending'" class="align-middle"><button class="btn btn-sm btn-info">Pending </button></td>
                                     <td v-else-if="data.orderStatus == 'Canceled'" class="align-middle"><button class="btn btn-sm btn-danger">Canceled </button></td>
                                     <td v-else class="align-middle"><button class="btn btn-sm btn-dark">Returned </button></td>
                                     <!-- check order status end -->
