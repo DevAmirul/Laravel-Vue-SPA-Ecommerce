@@ -58,7 +58,7 @@ function clearCompareList(){
                                 <template v-for= "(number , key) in Math.floor(data.review_avg_rating_value)" :key="key">
                                     <small class="fas fa-star"></small>
                                 </template>
-                                <template v-if="!Number.isInteger(data.review_avg_rating_value) && data.review_avg_rating_value !== null">
+                                <template v-if="!Number.isInteger(data.review_avg_rating_value) && data.review_avg_rating_value !== null && (data.review_avg_rating_value.charAt(data.review_avg_rating_value.length - 4) !== '0')">
                                     <small class="fas fa-star-half-alt"></small>
                                 </template>
                                 <template v-for= "(number, key) in Math.floor(5 - data.review_avg_rating_value)" :key="key">

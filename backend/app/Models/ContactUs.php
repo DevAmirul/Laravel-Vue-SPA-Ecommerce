@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ContactUs extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'email',
+        'subject',
+        'message',
+    ];
+
     public function editors(): BelongsTo {
         return $this->belongsTo(Editor::class);
     }

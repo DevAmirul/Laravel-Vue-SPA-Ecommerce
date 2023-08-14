@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/shop',
       name: 'shop',
-      component: () => import('../views/ShopView.vue')
+      component: () => import('../views/ShopsView.vue')
     }, {
       path: '/products/:slug',
       name: 'products',
@@ -37,6 +37,21 @@ const router = createRouter({
       path: '/search/:query',
       name: 'search',
       component: () => import('../views/SearchView.vue')
+    },
+    {
+      path: '/categories/:slug',
+      name: 'category',
+      component: () => import('../views/CategoriesView.vue')
+    },
+    {
+      path: '/sub-categories/:slug',
+      name: 'subCategory',
+      component: () => import('../views/SubCategoriesView.vue')
+    },
+    {
+      path: '/offers/:name',
+      name: 'offers',
+      component: () => import('../views/OffersView.vue')
     },
     {
       path: '/users/orders',

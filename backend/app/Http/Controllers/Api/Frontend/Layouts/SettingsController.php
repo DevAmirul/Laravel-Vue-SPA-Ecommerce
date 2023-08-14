@@ -14,7 +14,7 @@ class SettingsController extends Controller
      */
     public function __invoke(): Response
     {
-        $settings = GeneralSettings::find(1, ['name', 'email', 'logo', 'slogan', 'slides', 'phone', 'address', 'facebook', 'youtube', 'instagram', 'twitter']);
+        $settings = GeneralSettings::first( ['name', 'email', 'logo', 'slogan', 'slide', 'phone', 'address', 'facebook', 'youtube', 'instagram', 'twitter']);
         return response(compact('settings'));
     }
 }

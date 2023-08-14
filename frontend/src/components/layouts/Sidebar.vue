@@ -1,21 +1,29 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
 
-
 let responseData = ref();
+const attributeFilterValue = reactive({
+    color: {},
+    size: {}
+})
+const priceFilter = reactive({
+    minPrice: {},
+    maxPrice: {}
+})
 
 axios_C.get('/sidebar')
     .then(response => {
         responseData.value = response.data
+        console.log(responseData.value);
     })
     .catch(error => {
         console.log(error);
     });
 
 
-let attributeValue = ref({})
+
 
 </script>
 <template>
@@ -23,14 +31,8 @@ let attributeValue = ref({})
         <div class="border-bottom mb-4 pb-4">
             <nav>
                 <div v-if="responseData">
-                    <ul  v-for="(data, key) in responseData.sidebarCategory" :key='key' class="mcd-menu">
-
+                    <ul  v-for="(data, key) in responseData.allCategory" :key='key' class="mcd-menu">
                         <li>
-                            <!-- <RouterLink :to="{ name: 'search', params: { query: data.name } }">
-                            <a class="active">
-                                <h6>{{ data.name }}</h6>
-                            </a>
-                            </RouterLink> -->
                             <a class="active">
                                 <h6>{{ data.name }}</h6>
                             </a>
@@ -38,16 +40,20 @@ let attributeValue = ref({})
                                 <ul>
                                 <template v-for="(cateData, cateKey) in data.category" :key='cateKey' >
                                         <li>
-                                            <a href="#" >
-                                            {{ cateData.name }}
-                                            </a >
+                                            <RouterLink :to="{ name: 'category', params: { slug: cateData.slug }}">
+                                                <a >
+                                                    {{ cateData.name }}
+                                                </a >
+                                            </RouterLink>
                                             <ul>
                                                 <template v-if="cateData.sub_category">
                                                     <template v-for="(subCateData, subCateKey) in cateData.sub_category" :key='subCateKey' >
                                                         <li>
-                                                            <a href="#"
-                                                                >{{ subCateData.name }}</a
-                                                            >
+                                                            <RouterLink :to="{ name: 'subCategory', params: { slug: subCateData.slug } }">
+                                                                <a >
+                                                                    {{ subCateData.name }}
+                                                                </a >
+                                                            </RouterLink>
                                                         </li>
                                                     </template>
                                                 </template>
@@ -65,113 +71,76 @@ let attributeValue = ref({})
         <!-- Price Start -->
         <div class="border-bottom mb-4 pb-4">
             <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-            <form>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        checked
-                        id="price-all"
-                    />
-                    <label class="custom-control-label" for="price-all"
-                        >All Price</label
-                    >
-                    <span class="badge border font-weight-normal">1000</span>
+            <form >
+                <div class="d-flex">
+                    <div class="form-group col-6">
+                        <input
+                                type="number"
+                                class="form-control"
+                                id="minPrice"
+                                placeholder="Min price"
+                                v-model="priceFilter.minPrice"
+                            />
+                    </div>
+                    <div class="form-group col-6">
+                        <input
+                                type="number"
+                                class="form-control"
+                                id="maxPrice"
+                                placeholder="Max price"
+                                v-model="priceFilter.maxPrice"
+                            />
+                    </div>
                 </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="price-1"
-                    />
-                    <label class="custom-control-label" for="price-1"
-                        >$0 - $100</label
-                    >
-                    <span class="badge border font-weight-normal">150</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="price-2"
-                    />
-                    <label class="custom-control-label" for="price-2"
-                        >$100 - $200</label
-                    >
-                    <span class="badge border font-weight-normal">295</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="price-3"
-                    />
-                    <label class="custom-control-label" for="price-3"
-                        >$200 - $300</label
-                    >
-                    <span class="badge border font-weight-normal">246</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="price-4"
-                    />
-                    <label class="custom-control-label" for="price-4"
-                        >$300 - $400</label
-                    >
-                    <span class="badge border font-weight-normal">145</span>
-                </div>
-                <div
-                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between"
-                >
-                    <input
-                        type="checkbox"
-                        class="custom-control-input"
-                        id="price-5"
-                    />
-                    <label class="custom-control-label" for="price-5"
-                        >$400 - $500</label
-                    >
-                    <span class="badge border font-weight-normal">168</span>
+                <div class="form-group col-12 d-flex justify-content-center">
+                    <button class="btn btn-sm btn-outline-primary">Filter</button>
                 </div>
             </form>
         </div>
         <!-- Price End -->
         <!-- attribute Start -->
         <template v-if="responseData">
-            <template v-for="(data, key) in responseData.sidebarFilter" :key="key">
                 <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by {{ data.name }}</h5>
+                        <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
                         <form>
-                                {{  attributeValue }}
-                            <template v-for="(dataOption, keyOption) in data.attribute_option" :key="keyOption">
+                            <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
+
                                 <div
                                     class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
                                     <input
                                         type="checkbox"
                                         class="custom-control-input"
-                                        :id="dataOption.id"
-                                        v-model="attributeValue[dataOption.value]"
+                                        :id="data.id"
+                                        :value="data.value"
+                                        v-model="attributeFilterValue.color[data.value]"
                                     />
-                                    <label class="custom-control-label" :for="dataOption.id"
-                                        >{{ dataOption.value }}</label
+                                    <label class="custom-control-label" :for="data.id"
+                                        >{{ data.value }}</label
                                     >
                                 </div>
                             </template>
                         </form>
                 </div>
-            </template>
+                <div class="border-bottom mb-4 pb-4">
+                        <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
+                        <form>
+                            <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
+                                <div
+                                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                                    <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        :id="data.id"
+                                        :value="data.value"
+                                        v-model="attributeFilterValue.size[data.value]"
+                                    />
+                                    <label class="custom-control-label" :for="data.id"
+                                        >{{ data.value }}</label
+                                    >
+                                </div>
+                            </template>
+                        </form>
+                </div>
         </template>
         <!-- attribute end -->
 

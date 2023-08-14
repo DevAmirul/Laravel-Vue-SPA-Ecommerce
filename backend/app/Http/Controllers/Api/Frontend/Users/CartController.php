@@ -30,7 +30,7 @@ class CartController extends Controller
 
     public function getCoupon(Request $request): Response
     {
-        $coupon = Coupon::whereCode($request->code)->whereStatus(1)->where('expire_date', '>', now())->get(['id','discount']);
+        $coupon = Coupon::whereCode($request->code)->where('expire_date', '>', now())->where('status', 1)->first(['id','discount']);
 
         return response(compact('coupon'), 200);
     }
@@ -48,5 +48,11 @@ class CartController extends Controller
         CartItem::whereCartId($request->cartId)->whereProductId($request->productId)->update(['qty' => $request->qty]);
 
         return response($request->cartId, 200);
+    }
+
+    public function countCart(Request $request): Response
+    {
+        $cartItemNumber = Cart::select('id')->whereUserId($request->userId)->withCount('cartItem')->first();
+        return response(compact('cartItemNumber'), 200);
     }
 }

@@ -18,11 +18,12 @@ axios_C.get('/site-settings')
         console.log(error);
     });
 
+
 </script>
 <template>
     <!-- Topbar Start -->
     <template v-if="responseData">
-        <Topbar></Topbar>
+        <Topbar :settings="responseData.settings.logo"></Topbar>
     </template>
     <!-- Topbar End -->
 

@@ -32,7 +32,7 @@ class Product extends Model {
     ];
 
     protected $casts = [
-        'review_avg_rating_value' => 'integer',
+        // 'review_avg_rating_value' => 'integer',
     ];
 
     public function subCategory(): BelongsTo {

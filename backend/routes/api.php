@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Frontend\Layouts\SidebarController;
 use App\Http\Controllers\Api\Frontend\NewArrivalController;
 use App\Http\Controllers\Api\Frontend\ProductController;
 use App\Http\Controllers\Api\Frontend\relatedProductController;
+use App\Http\Controllers\Api\Frontend\ReviewController;
 use App\Http\Controllers\Api\Frontend\SearchController;
 use App\Http\Controllers\Api\Frontend\ShopController;
 use App\Http\Controllers\Api\Frontend\TopRatingController;
@@ -38,11 +39,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::name('api.')->group(function () {
-    Route::get('home', HomeController::class)->name('home');
+    Route::get('home', [HomeController::class, 'index'])->name('home');
+    Route::get('home/offers', [HomeController::class, 'getOffer'])->name('home.offers');
+    Route::get('home/categories', [HomeController::class, 'getCategory'])->name('home.category');
+    Route::get('home/sidebar', [HomeController::class, 'getSidebar'])->name('home.getSidebar');
     Route::get('site-settings', SettingsController::class)->name('siteSettings');
     Route::get('sidebar', [SidebarController::class, 'index'])->name('sidebar');
+
     Route::get('search', SearchController::class)->name('search');
-    Route::get('contacts', ContactController::class)->name('contacts');
+    Route::get('offers', SearchController::class)->name('offers');
+    Route::post('contacts', ContactController::class)->name('contacts');
     Route::get('shop', ShopController::class)->name('shop');
     Route::get('arrivals', NewArrivalController::class)->name('.arrivals');
     Route::get('ratings', TopRatingController::class)->name('.ratings');
@@ -50,18 +56,20 @@ Route::name('api.')->group(function () {
     Route::post('compare', CompareController::class)->name('.compare');
 
     Route::prefix('products')->name('products')->group(function () {
-        Route::get('{slug}', ProductController::class)->where('id', '[0-9]+');
-        Route::get('related/{subCateId}', relatedProductController::class)->name('.related')->where('id', '[0-9]+');
+        Route::get('{slug}', [ProductController::class, 'productDetails'])->where('id', '[0-9]+');
+        Route::get('related/{cateId}', [ProductController::class, 'relatedProduct'])->name('.related')->where('id', '[0-9]+');
     });
 
     Route::prefix('users')->name('users')->group(function () {
-        Route::get('cart/{id}', [CartController::class,'inbox'])->name('.cart')->where('id', '[0-9]+');
+        Route::get('cart/{id}', [CartController::class, 'inbox'])->name('.cart')->where('id', '[0-9]+');
         Route::delete('cart/{id}', [CartController::class, 'deleteCartItems'])->name('.cartItemDelete')->where('id', '[0-9]+');
 
         Route::put('cart/{cartId}/{productId}/{qty}', [CartController::class, 'updateCartItems']);
+        Route::get('cart/count/{userId}', [CartController::class, 'countCart'])->name('countCart');
 
         Route::get('cart/coupon/{code}', [CartController::class, 'getCoupon'])->name('.cartCoupon');
-        Route::get('cart/save', [CartController::class,'save'])->name('.cartSave');
+        Route::get('cart/save', [CartController::class, 'save'])->name('.cartSave');
+        Route::post('review', [ReviewController::class, 'create'])->name('.review');
 
         Route::post('checkout', [CheckoutController::class, 'create'])->name('.checkout');
         Route::get('checkout/{id}', [CheckoutController::class, 'inbox'])->name('.checkout.inbox');

@@ -1,41 +1,32 @@
 <script setup>
+import { ref } from "vue";
 import { RouterLink } from "vue-router";
+import axios_C from '../../services/axios';
+
 const { settings } = defineProps(['settings'])
+
+let responseCartNumber = ref();
+axios_C.get('/users/cart/count/' + 2)
+    .then(response => {
+        responseCartNumber.value = response.data
+    })
+    .catch(error => {
+        console.log(error);
+    });
 
 const compareList = JSON.parse(localStorage.getItem('compare'));
 const wishlist = JSON.parse(localStorage.getItem('productAttributes'));
 
-
 </script>
 <template>
     <div class="container-fluid">
-        <div class="row bg-secondary pt-2  px-xl-5">
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">FAQs</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Help</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Support</a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <p>Phone (+1) 0000-000-000</p>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-center py-3 px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
+        <div class="row align-items-center py-3 px-xl-5 m-auto">
+            <div class="col-lg-3 d-none d-lg-block ">
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'home' }"
                     ><a class="text-decoration-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold">
-                            <span
-                                class="text-primary font-weight-bold border px-3 mr-1"
-                                >E</span
-                            >Shop
-                        </h1>
-                    </a></RouterLink
+                        <img :src="settings" alt="logo" style="height: 90px;">
+                    </a>
+                </RouterLink
                 >
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -72,8 +63,19 @@ const wishlist = JSON.parse(localStorage.getItem('productAttributes'));
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'cart' }"
                     ><a class="btn  border mx-2">
                         <i class="fas fa-shopping-cart text-primary"></i>
-                        <span class="badge">0</span>
-                    </a></RouterLink
+                        <template v-if="responseCartNumber">
+                            <template v-if="responseCartNumber.cartItemNumber !== null">
+                                <template v-if="responseCartNumber.cartItemNumber.cart_item_count > 0">
+                                    <span class="badge">{{ responseCartNumber.cartItemNumber.cart_item_count }}</span>
+                                </template>
+                            </template>
+                            <template v-else>
+                                <span class="badge">0</span>
+                            </template>
+                        </template>
+
+                    </a>
+                </RouterLink
                 >
             </div>
         </div>

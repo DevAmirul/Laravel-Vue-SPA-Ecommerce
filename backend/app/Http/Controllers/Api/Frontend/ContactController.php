@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contact;
+use App\Models\ContactUs;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ContactController extends Controller {
@@ -11,9 +12,9 @@ class ContactController extends Controller {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(): Response{
+    public function __invoke(Request $request): Response{
         // $validate          = $this->validate();
-        Contact::create();
+        ContactUs::create($request->formData);
         return response(true, 200);
     }
 }

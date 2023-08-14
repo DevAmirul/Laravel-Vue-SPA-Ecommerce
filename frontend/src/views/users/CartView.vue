@@ -129,17 +129,13 @@ function productQuantityDecrement(cartId, productId, qty) {
                             <h6 class="font-weight-medium">Subtotal</h6>
                             <h6 class="font-weight-medium">${{ subtotal }}</h6>
                         </div>
-                        <div  v-if="coupon" class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Coupon</h6>
-                            <h6 class="font-weight-medium">${{ Number(coupon.coupon[0].discount) }}</h6>
-                        </div>
+
 
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 v-if="coupon" class="font-weight-bold">${{ subtotal - (Number(coupon.coupon[0].discount) + discount) }}</h5>
-                            <h5 v-else class="font-weight-bold">${{ subtotal - discount }}</h5>
+                            <h5 class="font-weight-bold">${{ subtotal - discount }}</h5>
                         </div>
 
                         <RouterLink

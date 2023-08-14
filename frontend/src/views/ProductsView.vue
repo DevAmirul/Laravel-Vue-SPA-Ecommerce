@@ -1,9 +1,10 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import axios_C from '../services/axios';
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import PageHeader from "../components/layouts/PageHeader.vue";
+import ProductCard from "../components/ProductsCard.vue";
 
 import pro1 from '../../src/assets/img/cat-1.jpg'
 import pro2 from '../../src/assets/img/cat-2.jpg'
@@ -14,6 +15,27 @@ let responseData = ref();
 const attribute = ref({ color:{},size:{} });
 let productQuantity = ref(1)
 
+const formData = reactive({
+    rating: '',
+    comment: '',
+});
+
+function create() {
+    axios_C.post('/users/review', {
+        data: {
+            "product_id": responseData.value.product[0].id,
+            "user_id": 2,
+            "rating_value": formData.rating,
+            "comment": formData.comment
+        }
+    })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
 
 function productQuantityDecrement(){
     if (productQuantity.value > 1) { productQuantity.value-- }
@@ -26,12 +48,11 @@ function productQuantityIncrement(){
 axios_C.get('/products/' + router.params.slug)
     .then(response => {
         responseData.value = response.data;
-        // console.log((responseData.value.product[0].product_attribute[0].attribute_values.split(',')));
-        console.log((responseData.value.product));
     })
     .catch(error => {
         console.log(error);
     });
+
 
 function addToCart(productId) {
     axios_C.get('/users/cart/save/?productId=' + productId + '&user=2')
@@ -107,13 +128,13 @@ function addToCart(productId) {
                 <h3 class="font-weight-semi-bold">{{ responseData.product[0].name }}</h3>
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
-                        <template v-for= "(number, key) in Math.floor(responseData.product[0].review_avg_rating_value)" :key="key">
+                        <template v-for= "(rating, key) in Math.floor(responseData.product[0].review_avg_rating_value)" :key="key">
                             <small class="fas fa-star"></small>
                         </template>
-                        <template v-if="!Number.isInteger(responseData.product[0].review_avg_rating_value) && responseData.product[0].review_avg_rating_value !== null">
+                        <template v-if="responseData.product[0].review_avg_rating_value !== null && !Number.isInteger(responseData.product[0].review_avg_rating_value) && (responseData.product[0].review_avg_rating_value.charAt(responseData.product[0].review_avg_rating_value.length - 4) !== '0')">
                             <small class="fas fa-star-half-alt"></small>
                         </template>
-                        <template v-for= "(number, key) in Math.floor(5 - responseData.product[0].review_avg_rating_value)" :key="key">
+                        <template v-for= "(rating, key) in Math.floor(5 - responseData.product[0].review_avg_rating_value)" :key="key">
                                 <small class="far fa-star"></small>
                         </template>
                     </div>
@@ -121,7 +142,6 @@ function addToCart(productId) {
                 </div>
                 <template v-if="responseData.product[0].discount_price.discount > 0" >
                     <h3 class="font-weight-semi-bold mb-4">${{ responseData.product[0].sale_price - responseData.product[0].discount_price.discount }}.00</h3>
-
                     <h6 class="text-muted ml-2">
                         <del>${{ responseData.product[0].sale_price }}</del>
                     </h6>
@@ -195,7 +215,7 @@ function addToCart(productId) {
 
             </div>
         </div>
-        <div class="row px-xl-5">
+        <div class="row px-xl-5 mb-5">
             <div class="col">
                 <div
                     class="nav nav-tabs justify-content-center border-secondary mb-4"
@@ -216,7 +236,7 @@ function addToCart(productId) {
                         class="nav-item nav-link"
                         data-toggle="tab"
                         href="#tab-pane-3"
-                        >Reviews (0)</a
+                        >Reviews ({{ responseData.product[0].review_count }})</a
                     >
                 </div>
                 <div class="tab-content">
@@ -240,48 +260,52 @@ function addToCart(productId) {
                                 <h4 class="mb-4">
                                     {{ responseData.product[0].review_count }} review for {{ responseData.product[0].name }}
                                 </h4>
-                                <div class="media mb-4">
-
-                                    <div class="media-body">
-                                        <h6>
-                                            John Doe<small>
-                                                - <i>01 Jan 2045</i></small
-                                            >
-                                        </h6>
-                                        <div class="text-primary mb-2">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                            <i class="far fa-star"></i>
+                                <template v-for="(data, key) in responseData.product[0].review" :key="key">
+                                    <div class="media mb-4">
+                                        <div class="media-body">
+                                            <h6>
+                                                {{ data.user.name }}<small>
+                                                    -  <i>{{ data.created_at }}</i></small
+                                                >
+                                            </h6>
+                                            <div class="text-primary mb-2">
+                                                <template v-for= "(rating, key) in Math.floor(data.rating_value)" :key="key">
+                                                    <small class="fas fa-star"></small>
+                                                </template>
+                                                <template v-if="data.rating_value !== null && !Number.isInteger(data.rating_value) && (data.rating_value.charAt(data.rating_value.length - 4) !== '0')">
+                                                    <small class="fas fa-star-half-alt"></small>
+                                                </template>
+                                                <template v-for= "(rating, key) in Math.floor(5 - data.rating_value)" :key="key">
+                                                        <small class="far fa-star"></small>
+                                                </template>
+                                            </div>
+                                            <p>
+                                                {{ data.comment }}
+                                            </p>
                                         </div>
-                                        <p>
-                                            Diam amet duo labore stet elitr ea
-                                            clita ipsum, tempor labore accusam
-                                            ipsum et no at. Kasd diam tempor
-                                            rebum magna dolores sed sed eirmod
-                                            ipsum.
-                                        </p>
                                     </div>
-                                </div>
+                                </template>
                             </div>
+
                             <div class="col-md-6">
                                 <h4 class="mb-4">Leave a review</h4>
                                 <small
                                     >Your email address will not be published.
                                     Required fields are marked *</small
                                 >
-                                <div class="d-flex my-3">
-                                    <p class="mb-0 mr-2">Your Rating * :</p>
-                                    <div class="text-primary">
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
+                                <form @submit.prevent="create()">
+                                    <div class="d-flex my-3">
+                                        <p class="mb-0 mr-2">Your Rating * :</p>
+                                        <div class="form-group col-4">
+                                            <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    id="name"
+                                                    placeholder="Max 5, Min 0"
+                                                    v-model="formData.rating"
+                                                />
+                                        </div>
                                     </div>
-                                </div>
-                                <form>
                                     <div class="form-group">
                                         <label for="message"
                                             >Your Review *</label
@@ -291,30 +315,12 @@ function addToCart(productId) {
                                             cols="30"
                                             rows="5"
                                             class="form-control"
+                                            v-model="formData.comment"
                                         ></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="name">Your Name *</label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="name"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Your Email *</label>
-                                        <input
-                                            type="email"
-                                            class="form-control"
-                                            id="email"
-                                        />
-                                    </div>
+
                                     <div class="form-group mb-0 mb-4">
-                                        <input
-                                            type="submit"
-                                            value="Leave Your Review"
-                                            class="btn btn-primary px-3"
-                                        />
+                                        <button class="btn btn-primary px-3">Leave Your Review</button>
                                     </div>
                                 </form>
                             </div>
@@ -323,25 +329,62 @@ function addToCart(productId) {
                 </div>
             </div>
         </div>
-    <!-- Categories Start -->
-    <Carousel :items-to-show="6" :wrap-around="true">
-    <Slide v-for="slide in 10" :key="slide">
-        <div class="container-fluid pt-5 bg-dark">
-        <div class="row px-xl-5 pb-3">
-            <div class="col-lg-4 col-md-6 pb-1 ">
-                <h6> category   </h6>
+    <!-- Related Product Start -->
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5">
+                <span class="px-2">Related Product</span>
+            </h2>
+        </div>
+        <div v-if="responseData">
+            <Carousel :items-to-show="5" :wrap-around="true">
+            <Slide v-for="(data, key) in responseData.relatedProducts" :key="key">
+                <div class="row px-xl-2 pb-3">
+                        <div class="col-lg-12 col-md-12 col-sm-12 pb-1">
+                            <div class="card product-item border-0 mb-4">
+                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" :src="pro1" alt="image" />
+                                </div>
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-truncate mb-3">
+                                        {{ data.name }}
+                                    </h6>
+                                    <div class="d-flex justify-content-center">
+                                        <template v-if="data.discount > 0">
+                                            <h6>${{ data.discount }}</h6>
+                                            <h6 class="text-muted ml-2"><del>${{ data.sale_price }}</del></h6>
+                                        </template>
+                                        <template v-else>
+                                            <h6>${{ data.sale_price }}</h6>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border d-flex justify-content-around">
+                                    <button @click="addToWishlist({ id: data.p_id, name: data.name, image: data.image, salePrice: data.sale_price })" class="btn btn-sm text-dark p-0"><i
+                                                class="fas fa-heart text-primary mr-1"></i></button>
+                                    <button @click="addToCart()" class="btn btn-sm text-dark p-0">
+                                        <i
+                                                class="fas fa-shopping-cart text-primary mr-1"></i>
+                                    </button>
+                                    <button @click="addToCompare(data.p_id)" class="btn btn-sm text-dark p-0">
+                                                    <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>
+                                    </button>
+                                    <RouterLink
+                                                style="text-decoration: none; color: inherit"
+                                                :to="{ name: 'products', params: { slug: data.slug } }"
+                                                ><a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i></a>
+                                    </RouterLink>
+                                </div>
+
+                            </div>
+                        </div>
             </div>
+            </Slide>
+                <template #addons>
+                    <Navigation />
+                </template>
+            </Carousel>
         </div>
-        </div>
-
-    </Slide>
-
-    <template #addons>
-        <Navigation />
-    </template>
-    </Carousel>
-
-    <!-- Categories End -->
+    <!-- Related Product End -->
     </div>
     <!-- Shop Detail End -->
 </template>

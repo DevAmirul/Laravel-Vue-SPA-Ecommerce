@@ -12,6 +12,8 @@ return new class extends Migration {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image');
+            $table->string('title');
             $table->enum('type', ['Percentage', 'Decimal']);
             $table->decimal('discount');
             $table->boolean('status')->default(0);

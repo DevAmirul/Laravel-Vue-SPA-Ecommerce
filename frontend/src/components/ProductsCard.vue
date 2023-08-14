@@ -48,7 +48,7 @@ function addToCart(params){
 
 </script>
 <template>
-    <div class="row px-xl-5 pb-3">
+    <div class="row px-xl-5  pb-3">
             <template v-for="(data, key) in products.data" :key="key">
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
@@ -84,11 +84,8 @@ function addToCart(params){
                             <RouterLink
                                         style="text-decoration: none; color: inherit"
                                         :to="{ name: 'products', params: { slug: data.slug } }"
-                                        ><a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i></a>
+                                        ><a class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i></a>
                             </RouterLink>
-
-                        </div>
-                        <div class="card-footer d-flex justify-content-center bg-light border d-flex justify-content-around">
 
                         </div>
                     </div>

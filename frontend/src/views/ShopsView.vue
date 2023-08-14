@@ -18,7 +18,9 @@ axios_C.get('/shop')
         console.log(error);
     });
 
-
+function searchProduct(params){
+    
+}
 
 </script>
 <template>

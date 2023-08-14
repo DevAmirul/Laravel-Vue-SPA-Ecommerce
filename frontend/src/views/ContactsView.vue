@@ -1,5 +1,37 @@
 <script setup>
+import { ref,reactive } from 'vue';
+import axios_C from '../services/axios';
 import PageHeader from '../components/layouts/PageHeader.vue'
+
+const formData = reactive({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+});
+
+function sendMessage(){
+    axios_C.post('/contacts',{
+        formData
+    })
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+let responseData = ref();
+
+axios_C.get('/site-settings')
+    .then(response => {
+        responseData.value = response.data
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 </script>
 <template>
     <!-- Page Header Start -->
@@ -16,10 +48,7 @@ import PageHeader from '../components/layouts/PageHeader.vue'
             <div class="col-lg-7 mb-5">
                 <div class="contact-form">
                     <div id="success"></div>
-                    <form
-                        name="sentMessage"
-                        id="contactForm"
-                        novalidate="novalidate"
+                    <form @submit.prevent="sendMessage()" id="contactForm"
                     >
                         <div class="control-group">
                             <input
@@ -28,7 +57,7 @@ import PageHeader from '../components/layouts/PageHeader.vue'
                                 id="name"
                                 placeholder="Your Name"
                                 required="required"
-                                data-validation-required-message="Please enter your name"
+                                v-model="formData.name"
                             />
                             <p class="help-block text-danger"></p>
                         </div>
@@ -39,7 +68,7 @@ import PageHeader from '../components/layouts/PageHeader.vue'
                                 id="email"
                                 placeholder="Your Email"
                                 required="required"
-                                data-validation-required-message="Please enter your email"
+                                v-model="formData.email"
                             />
                             <p class="help-block text-danger"></p>
                         </div>
@@ -50,7 +79,7 @@ import PageHeader from '../components/layouts/PageHeader.vue'
                                 id="subject"
                                 placeholder="Subject"
                                 required="required"
-                                data-validation-required-message="Please enter a subject"
+                                v-model="formData.subject"
                             />
                             <p class="help-block text-danger"></p>
                         </div>
@@ -61,7 +90,7 @@ import PageHeader from '../components/layouts/PageHeader.vue'
                                 id="message"
                                 placeholder="Message"
                                 required="required"
-                                data-validation-required-message="Please enter your message"
+                                v-model="formData.message"
                             ></textarea>
                             <p class="help-block text-danger"></p>
                         </div>
@@ -78,40 +107,20 @@ import PageHeader from '../components/layouts/PageHeader.vue'
                 </div>
             </div>
             <div class="col-lg-5 mb-5">
-                <h5 class="font-weight-semi-bold mb-3">Get In Touch</h5>
-                <p>
-                    Justo sed diam ut sed amet duo amet lorem amet stet sea
-                    ipsum, sed duo amet et. Est elitr dolor elitr erat sit sit.
-                    Dolor diam et erat clita ipsum justo sed.
-                </p>
-                <div class="d-flex flex-column mb-3">
-                    <h5 class="font-weight-semi-bold mb-3">Store 1</h5>
-                    <p class="mb-2">
-                        <i class="fa fa-map-marker-alt text-primary mr-3"></i
-                        >123 Street, New York, USA
-                    </p>
+
+                <div v-if="responseData" class="d-flex flex-column mb-3">
+                    <h5 class="font-weight-semi-bold mb-3">Address</h5>
+
                     <p class="mb-2">
                         <i class="fa fa-envelope text-primary mr-3"></i
-                        >info@example.com
+                        >{{ responseData.settings.email }}
                     </p>
                     <p class="mb-2">
-                        <i class="fa fa-phone-alt text-primary mr-3"></i>+012
-                        345 67890
-                    </p>
-                </div>
-                <div class="d-flex flex-column">
-                    <h5 class="font-weight-semi-bold mb-3">Store 2</h5>
-                    <p class="mb-2">
-                        <i class="fa fa-map-marker-alt text-primary mr-3"></i
-                        >123 Street, New York, USA
+                        <i class="fa fa-phone-alt text-primary mr-3"></i>{{ responseData.settings.phone }}
                     </p>
                     <p class="mb-2">
-                        <i class="fa fa-envelope text-primary mr-3"></i
-                        >info@example.com
-                    </p>
-                    <p class="mb-0">
-                        <i class="fa fa-phone-alt text-primary mr-3"></i>+012
-                        345 67890
+                            <i class="fa fa-map-marker-alt text-primary mr-3"></i
+                            >{{ responseData.settings.address }}
                     </p>
                 </div>
             </div>

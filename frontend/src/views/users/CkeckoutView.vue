@@ -4,14 +4,14 @@ import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
 
-let shippingMethod = ref();
+let shippingMethod = ref(null);
 let discount;
 let subtotal;
 let total;
-let couponCode;
-let coupon = ref(0);
+let couponCode = ref();
+let responseCoupon = ref(0);
 
-let formData = reactive({
+const formData = reactive({
     phone: '',
     address: '',
     address_2: '',
@@ -22,7 +22,7 @@ let formData = reactive({
     subtotal: subtotal,
     total: total,
     shippingMethod: shippingMethod,
-    coupon: coupon,
+    coupon: responseCoupon,
 });
 
 
@@ -44,8 +44,6 @@ discount = responseData.value.carts.reduce((accumulator, currentValue) => {
 subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
     return accumulator + Number(currentValue['sale_price']);
 }, 0)
-
-
 })
 
 function save() {
@@ -84,8 +82,8 @@ function getCoupon(code) {
     if (code) {
         axios_C.get('/users/cart/coupon/' + code)
             .then(response => {
-                coupon.value = response.data;
-                console.log(coupon.value);
+                responseCoupon.value = response.data;
+                console.log(responseCoupon.value.coupon);
             })
             .catch(error => {
                 console.log(error);
@@ -212,9 +210,9 @@ function getCoupon(code) {
                         </template>
 
                         <hr class="mt-0">
-                        <div v-if="coupon" class="d-flex justify-content-between mb-3 pt-1">
+                        <div v-if="responseCoupon" class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Coupon</h6>
-                            <h6 v-if="coupon.coupon.length == 1" class="font-weight-medium">${{ Number(coupon.coupon[0].discount) }}</h6>
+                            <h6 v-if="responseCoupon.coupon !== null" class="font-weight-medium">${{ Number(responseCoupon.coupon.discount) }}</h6>
                             <h6 v-else class="font-weight-medium">$0</h6>
                         </div>
                         <div class="d-flex justify-content-between mb-3 pt-1">
@@ -226,16 +224,36 @@ function getCoupon(code) {
                             <h6 class="font-weight-medium">${{ subtotal }}</h6>
                         </div>
 
-                        <div class="d-flex justify-content-between">
+                        <div v-if="shippingMethod !== null" class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium">$10</h6>
+                            <h6  class="font-weight-medium">${{ shippingMethod }}</h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                            <div class="d-flex justify-content-between mt-2">
+                            <div v-if="shippingMethod !== null" class="d-flex justify-content-between mt-2">
                                 <h5 class="font-weight-bold">Total</h5>
-                                <h5 v-if="coupon" class="font-weight-bold">${{ total = Number(subtotal) - (Number(coupon.coupon[0].discount) + Number(discount)) }}</h5>
-                                <h5 v-else class="font-weight-bold">${{ total = Number(subtotal) - Number(discount) }}</h5>
+                                <template v-if="responseCoupon">
+                                    <h5 v-if="responseCoupon.coupon !== null" class="font-weight-bold">${{ total = Number(subtotal) - (Number(responseCoupon.coupon.discount) + Number(discount)  + Number(shippingMethod)) }}</h5>
+                                    <h5 v-else class="font-weight-bold">${{total = Number(subtotal) - (Number(discount)  + Number(shippingMethod)) }}
+                                    </h5>
+                                </template>
+                                <template v-else>
+                                    <h5  class="font-weight-bold">${{total = Number(subtotal) - (Number(discount)  + Number(shippingMethod)) }}
+                                    </h5>
+                                </template>
+                            </div>
+
+                            <div v-else class="d-flex justify-content-between mt-2">
+                                <h5 class="font-weight-bold">Total</h5>
+                                <template v-if="responseCoupon">
+                                    <h5 v-if="responseCoupon.coupon !== null" class="font-weight-bold">${{ total = Number(subtotal) - (Number(responseCoupon.coupon.discount) + Number(discount)) }}</h5>
+                                    <h5 v-else class="font-weight-bold">${{ total = Number(subtotal) - Number(discount) }}
+                                    </h5>
+                                </template>
+                                <template v-else>
+                                    <h5  class="font-weight-bold">${{ total = Number(subtotal) - Number(discount) }}
+                                    </h5>
+                                </template>
                             </div>
                     </div>
                 </div>
@@ -248,13 +266,12 @@ function getCoupon(code) {
                         <template v-for="(data, key) in responseData.methods" :key="key">
                             <div class="form-group">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" :id="key" :value="key" v-model="shippingMethod"
+                                    <input type="radio" class="custom-control-input" :id="key" :value="data.cost" v-model="shippingMethod"
                                     >
                                     <label class="custom-control-label" :for="key">{{ data.name }}</label>
                                 </div>
                             </div>
                         </template>
-
                     </div>
                 </div>
                 <div class="card border-secondary mb-5">

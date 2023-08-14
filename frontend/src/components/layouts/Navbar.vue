@@ -1,10 +1,24 @@
 <script setup>
+import { ref } from 'vue'
+import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
+
+let responseData = ref();
+
+axios_C.get('/home/sidebar')
+    .then(response => {
+        responseData.value = response.data
+        // console.log(responseData.value);
+    })
+    .catch(error => {
+        console.log(error);
+    });
+
 </script>
 <template>
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
-            <div class="col-lg-3">
+            <div v-if="responseData" class="col-lg-3">
                 <a
                     class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100 cate_color"
                     data-toggle="collapse"
@@ -23,34 +37,27 @@ import { RouterLink } from "vue-router";
                         class="navbar-nav w-100 overflow-hidden"
                         style="height: 410px"
                     >
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link" data-toggle="dropdown"
-                                >Dresses
-                                <i class="fa fa-angle-down float-right mt-1"></i
-                            ></a>
-                            <div
-                                class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0"
-                            >
-                                <a href="" class="dropdown-item"
-                                    >Men's Dresses</a
-                                >
-                                <a href="" class="dropdown-item"
-                                    >Women's Dresses</a
-                                >
-                                <a href="" class="dropdown-item"
-                                    >Baby's Dresses</a
-                                >
-                            </div>
-                        </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
+                    <template v-for="(data, key) in responseData.allCategory" :key="key">
+                        <template v-if="data.category.length !== 0">
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link" data-toggle="dropdown"
+                                        >{{ data.name }}
+                                        <i class="fa fa-angle-down float-right mt-1"></i
+                                    ></a>
+                                    <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
+                                        <template v-for="(cateData, cateKey) in data.category" :key="cateKey">
+                                            <RouterLink
+                                                style="text-decoration: none; color: inherit"
+                                                :to="{ name: 'category', params: { slug: cateData.slug } }"
+                                                ><a class="dropdown-item"
+                                                    >{{ cateData.name }}
+                                                </a >
+                                            </RouterLink>
+                                        </template>
+                                    </div>
+                                </div>
+                        </template>
+                    </template>
                     </div>
                 </nav>
             </div>
@@ -98,7 +105,14 @@ import { RouterLink } from "vue-router";
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'contacts' }"
                                 ><a class="nav-item nav-link active"
-                                    >Flush Sale</a
+                                    >Sale</a
+                                ></RouterLink
+                            >
+                            <RouterLink
+                                style="text-decoration: none; color: inherit"
+                                :to="{ name: 'contacts' }"
+                                ><a class="nav-item nav-link active"
+                                    >New Arrived</a
                                 ></RouterLink
                             >
                             <RouterLink
