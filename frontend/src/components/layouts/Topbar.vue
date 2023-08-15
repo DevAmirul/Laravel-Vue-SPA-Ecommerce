@@ -5,10 +5,10 @@ import axios_C from '../../services/axios';
 
 const { settings } = defineProps(['settings'])
 
-let responseCartNumber = ref();
+let responseCartItemsNumber = ref();
 axios_C.get('/users/cart/count/' + 2)
     .then(response => {
-        responseCartNumber.value = response.data
+        responseCartItemsNumber.value = response.data;
     })
     .catch(error => {
         console.log(error);
@@ -63,14 +63,14 @@ const wishlist = JSON.parse(localStorage.getItem('productAttributes'));
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'cart' }"
                     ><a class="btn  border mx-2">
                         <i class="fas fa-shopping-cart text-primary"></i>
-                        <template v-if="responseCartNumber">
-                            <template v-if="responseCartNumber.cartItemNumber !== null">
-                                <template v-if="responseCartNumber.cartItemNumber.cart_item_count > 0">
-                                    <span class="badge">{{ responseCartNumber.cartItemNumber.cart_item_count }}</span>
+                        <template v-if="responseCartItemsNumber">
+                            <template v-if="responseCartItemsNumber.cartItemNumber !== null">
+                                <template v-if="responseCartItemsNumber.cartItemNumber.cart_item_count > 0">
+                                    <span class="badge">{{ responseCartItemsNumber.cartItemNumber.cart_item_count }}</span>
                                 </template>
-                            </template>
-                            <template v-else>
-                                <span class="badge">0</span>
+                                <template v-else>
+                                    <span class="badge">0</span>
+                                </template>
                             </template>
                         </template>
 

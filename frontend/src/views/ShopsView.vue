@@ -13,6 +13,7 @@ let responseData = ref();
 axios_C.get('/shop')
     .then(response => {
         responseData.value = response.data
+        // console.log(responseData.value);
     })
     .catch(error => {
         console.log(error);
@@ -44,9 +45,9 @@ function searchProduct(params){
                     <template v-if="responseData">
                     <ProductsCard :products="responseData.products"></ProductsCard>
                     </template>
+                    <Paginate></Paginate>
                 </div>
             </div>
-            <!-- Shop Product End -->
             <!-- Shop Product End -->
         </div>
     </div>

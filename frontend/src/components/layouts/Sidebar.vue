@@ -16,7 +16,7 @@ const priceFilter = reactive({
 axios_C.get('/sidebar')
     .then(response => {
         responseData.value = response.data
-        console.log(responseData.value);
+        // console.log(responseData.value);
     })
     .catch(error => {
         console.log(error);

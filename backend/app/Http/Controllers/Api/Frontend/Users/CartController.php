@@ -38,7 +38,7 @@ class CartController extends Controller
     public function save(Request $request): Response
     {
         $cart = Cart::updateOrCreate(['user_id' => $request->user]);
-        $cart->cartItem()->updateOrCreate(['cart_id' => $cart->id, 'product_id' => $request->productId], ['qty' => DB::raw('qty+1')]);
+        $cart->cartItem()->updateOrCreate(['cart_id' => $cart->id, 'product_id' => $request->productId], ['qty' => DB::raw('qty')]);
 
         return response($cart->id, 200);
     }

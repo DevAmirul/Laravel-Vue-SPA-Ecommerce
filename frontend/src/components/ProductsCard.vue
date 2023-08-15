@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from "vue-router";
+import axios_C from '../services/axios';
 
 const { products } = defineProps(['products'])
 let productAttributeArray = []
@@ -42,8 +43,15 @@ function addToWishlist(productAttributes){
     }
 }
 
-function addToCart(params){
-
+function addToCart(productId) {
+    axios_C.get('/users/cart/save/?productId=' + productId + '&user=2')
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    // console.log(productId);
 }
 
 </script>
@@ -74,7 +82,7 @@ function addToCart(params){
                             <button @click="addToWishlist({id:data.p_id,name:data.name, image:data.image, salePrice:data.sale_price})" class="btn btn-sm text-dark p-0"><i
                                         class="fas fa-heart text-primary mr-1"></i></button>
 
-                            <button @click="addToCart()" class="btn btn-sm text-dark p-0">
+                            <button @click="addToCart(data.p_id)" class="btn btn-sm text-dark p-0">
                                 <i
                                         class="fas fa-shopping-cart text-primary mr-1"></i>
                             </button>

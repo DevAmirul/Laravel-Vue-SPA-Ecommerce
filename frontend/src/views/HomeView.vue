@@ -32,7 +32,6 @@ axios_C.get('home/categories')
 axios_C.get('/home/offers')
     .then(response => {
         responseOfferData.value = response.data
-        console.log(responseOfferData.value);
     })
     .catch(error => {
         console.log(error);
@@ -106,7 +105,7 @@ axios_C.get('/home/offers')
     </div>
     <!-- Categories End -->
 
-    <!-- Products Start -->
+    <!-- Top Sales Start -->
     <div class="container-fluid pt-5">
         <div class="text-center mb-4">
             <h2 class="section-title px-5">
@@ -117,7 +116,7 @@ axios_C.get('/home/offers')
         <ProductsCard :products="responseData.topSales"></ProductsCard>
         </template>
     </div>
-    <!-- Products End -->
+    <!-- Top Sales End -->
     <!-- Offer Start -->
     <div v-if="responseOfferData" class="container-fluid offer pt-5">
         <div class="row px-xl-5">
@@ -193,40 +192,6 @@ axios_C.get('/home/offers')
         </template>
     </div>
     <!-- Products End -->
-    <!-- Vendor Start -->
-    <!-- <div class="container-fluid py-5">
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel vendor-carousel">
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-1.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-2.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-3.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-4.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-5.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-6.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-7.jpg" alt="" />
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-8.jpg" alt="" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- Vendor End -->
 </template>
 
 <style scoped>
