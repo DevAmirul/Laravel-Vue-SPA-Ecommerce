@@ -51,7 +51,6 @@ function addToCart(productId) {
         .catch(error => {
             console.log(error);
         });
-    // console.log(productId);
 }
 
 </script>

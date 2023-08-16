@@ -1,4 +1,12 @@
 <script setup>
+import { useSearch } from "../../services/search";
+
+const { sort, limit, search } = useSearch();
+
+// function fun(){
+//     console.log(sort.value );
+// }
+
 </script>
 <template>
     <div class="d-flex align-items-center justify-content-between mb-4">
@@ -8,7 +16,7 @@
                     type="text"
                     class="form-control"
                     placeholder="Search by name or tag"
-                    v-model="searchStr"
+                    v-model="search"
                 />
                 <div class="input-group-append">
                     <span class="input-group-text bg-transparent text-primary">
@@ -19,17 +27,17 @@
         </form>
         <div class="d-flex">
             <div class="col-md-6 form-group">
-                <select v-model="dataPerPage" class="custom-select">
+                <select v-model="sort" class="custom-select">
                     <option value="latest" selected>Latest</option>
                     <option value="oldest">Oldest</option>
-                    <option value="lth">Price: low to high</option>
-                    <option value="htl">Price: high to low</option>
+                    <option value="p_lth">Price: low to high</option>
+                    <option value="p_htl">Price: high to low</option>
                     <option value="asc">Ascending</option>
                     <option value="des">Descending</option>
                 </select>
             </div>
             <div class="col-md-6 form-group">
-                <select v-model="dataFilter" class="custom-select">
+                <select v-model="limit" class="custom-select">
                     <option value="20" selected>20</option>
                     <option value="40">40</option>
                     <option value="48">48</option>

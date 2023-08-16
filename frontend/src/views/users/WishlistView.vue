@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import axios_C from '../../services/axios';
+// import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
 let isRenderPage = ref(true)
@@ -73,7 +73,7 @@ function addToCart(productId) {
                             </template>
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>

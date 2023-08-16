@@ -3,16 +3,11 @@ import { reactive, ref } from 'vue'
 import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
 
-let responseData = ref();
-const attributeFilterValue = reactive({
-    color: {},
-    size: {}
-})
-const priceFilter = reactive({
-    minPrice: {},
-    maxPrice: {}
-})
+import { useSearch } from "../../services/search";
 
+const { attributeFilterData, priceFilterData } = useSearch();
+
+let responseData = ref();
 axios_C.get('/sidebar')
     .then(response => {
         responseData.value = response.data
@@ -21,8 +16,6 @@ axios_C.get('/sidebar')
     .catch(error => {
         console.log(error);
     });
-
-
 
 
 </script>
@@ -71,29 +64,29 @@ axios_C.get('/sidebar')
         <!-- Price Start -->
         <div class="border-bottom mb-4 pb-4">
             <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-            <form >
+            <form>
                 <div class="d-flex">
-                    <div class="form-group col-6">
+                    <div class="form-group col-5">
                         <input
                                 type="number"
                                 class="form-control"
                                 id="minPrice"
-                                placeholder="Min price"
-                                v-model="priceFilter.minPrice"
+                                placeholder="Min"
+                                v-model="priceFilterData.minPrice"
                             />
                     </div>
-                    <div class="form-group col-6">
+                    <div class="form-group col-5">
                         <input
                                 type="number"
                                 class="form-control"
                                 id="maxPrice"
-                                placeholder="Max price"
-                                v-model="priceFilter.maxPrice"
+                                placeholder="Max"
+                                v-model="priceFilterData.maxPrice"
                             />
                     </div>
-                </div>
-                <div class="form-group col-12 d-flex justify-content-center">
-                    <button class="btn btn-sm btn-outline-primary">Filter</button>
+                    <div class="form-group col-2">
+                        <button class="btn btn-sm btn-outline-primary"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -112,7 +105,7 @@ axios_C.get('/sidebar')
                                         class="custom-control-input"
                                         :id="data.id"
                                         :value="data.value"
-                                        v-model="attributeFilterValue.color[data.value]"
+                                        v-model="attributeFilterData.color[data.value]"
                                     />
                                     <label class="custom-control-label" :for="data.id"
                                         >{{ data.value }}</label
@@ -132,7 +125,7 @@ axios_C.get('/sidebar')
                                         class="custom-control-input"
                                         :id="data.id"
                                         :value="data.value"
-                                        v-model="attributeFilterValue.size[data.value]"
+                                        v-model="attributeFilterData.size[data.value]"
                                     />
                                     <label class="custom-control-label" :for="data.id"
                                         >{{ data.value }}</label
