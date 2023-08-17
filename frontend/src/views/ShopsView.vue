@@ -1,53 +1,23 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import axios_C from '../services/axios';
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import { useRoute } from 'vue-router'
+import { useSearch } from "../services/search";
 
-const route = useRoute();
-const queryFromLink = new URLSearchParams(route.query).toString();
+const { responseData } = useSearch();
 
-let responseData = ref();
-
-    if (queryFromLink !== '') {
-        axios_C.get('/shop?' + queryFromLink)
-            .then(response => {
-                responseData.value = response.data
-                console.log(responseData.value, 'with');
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    } else {
-        axios_C.get('/shop')
-            .then(response => {
-                responseData.value = response.data
-                console.log(responseData.value);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
-// axios_C.get('/shop')
-//     .then(response => {
-//         responseData.value = response.data
-//         // console.log(responseData.value);
-//     })
-//     .catch(error => {
-//         console.log(error);
-//     });
-
-// watch(query, () => {
-//     console.log(query.value);
-// } )
-
-
-
+axios_C.get('/shop')
+    .then(response => {
+        responseData.value = response.data
+        // console.log(responseData.value);
+    })
+    .catch(error => {
+        console.log(error);
+    });
 
 </script>
 <template>

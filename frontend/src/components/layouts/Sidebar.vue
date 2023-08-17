@@ -1,13 +1,14 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref,watch, watchEffect } from 'vue'
 import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
 
 import { useSearch } from "../../services/search";
 
-const { attributeFilterData, priceFilterData } = useSearch();
+const {  attributeFilter, priceFilter } = useSearch();
 
-let responseData = ref();
+const responseData = ref();
+
 axios_C.get('/sidebar')
     .then(response => {
         responseData.value = response.data
@@ -18,6 +19,23 @@ axios_C.get('/sidebar')
     });
 
 
+
+function setAttributeValueToAttributeFilter(attributeName, attributeValue){
+    if (attributeFilter[attributeName] == '') {
+        attributeFilter[attributeName] = attributeValue
+    }else{
+        let a = attributeFilter[attributeName].search(attributeValue)
+        if (a == -1) {
+            attributeFilter[attributeName]  += ',' + attributeValue
+        }
+        else{
+            var newArr = attributeFilter[attributeName].split(',');
+            const index = newArr.indexOf(attributeValue)
+            newArr.splice(index, 1);
+            attributeFilter[attributeName] = newArr.toString()
+        }
+    }
+}
 </script>
 <template>
     <div class="col-lg-3 col-md-12">
@@ -72,7 +90,7 @@ axios_C.get('/sidebar')
                                 class="form-control"
                                 id="minPrice"
                                 placeholder="Min"
-                                v-model="priceFilterData.minPrice"
+                                v-model="priceFilter.minPrice"
                             />
                     </div>
                     <div class="form-group col-5">
@@ -81,7 +99,7 @@ axios_C.get('/sidebar')
                                 class="form-control"
                                 id="maxPrice"
                                 placeholder="Max"
-                                v-model="priceFilterData.maxPrice"
+                                v-model="priceFilter.maxPrice"
                             />
                     </div>
                     <div class="form-group col-2">
@@ -93,47 +111,70 @@ axios_C.get('/sidebar')
         <!-- Price End -->
         <!-- attribute Start -->
         <template v-if="responseData">
-                <div class="border-bottom mb-4 pb-4">
-                        <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
-                        <form>
-                            <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
+            <!-- <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
+                    <form>
+                        <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
 
-                                <div
-                                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        :id="data.id"
-                                        :value="data.value"
-                                        v-model="attributeFilterData.color[data.value]"
+                            <div
+                                class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    :id="data.id"
+                                    :value="data.value"
+                                    @click="setAttributeValueToAttributeFilter('color',data.value)"
                                     />
-                                    <label class="custom-control-label" :for="data.id"
-                                        >{{ data.value }}</label
-                                    >
-                                </div>
-                            </template>
-                        </form>
-                </div>
-                <div class="border-bottom mb-4 pb-4">
-                        <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
+                                <label class="custom-control-label" :for="data.id"
+                                    >{{ data.value }}</label
+                                >
+                            </div>
+                        </template>
+                    </form>
+            </div> -->
+            <!-- <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
+                    <form>
+                        <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
+                            <div
+                                class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    :id="data.id"
+                                    :value="data.value"
+                                    @click="setAttributeValueToAttributeFilter('size', data.value)"
+                                />
+                                <label class="custom-control-label" :for="data.id"
+                                    >{{ data.value }}</label
+                                >
+                            </div>
+                        </template>
+                    </form>
+            </div> -->
+
+            <div class="border-bottom mb-4 pb-4">
+                <template v-for="(data, key) in responseData.sidebarFilter" :key="key">
+                <h5 class="font-weight-semi-bold mb-4">Filter by {{ data.name }}</h5>
+                    <template v-for="(dataOption, keyOption) in data.attribute_option" :key="keyOption">
                         <form>
-                            <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
-                                <div
-                                    class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
-                                    <input
-                                        type="checkbox"
-                                        class="custom-control-input"
-                                        :id="data.id"
-                                        :value="data.value"
-                                        v-model="attributeFilterData.size[data.value]"
+                            <div
+                                class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                                <input
+                                    type="checkbox"
+                                    class="custom-control-input"
+                                    :id="dataOption.id"
+                                    :value="dataOption.value"
+                                    @click="setAttributeValueToAttributeFilter(data.name, dataOption.value)"
                                     />
-                                    <label class="custom-control-label" :for="data.id"
-                                        >{{ data.value }}</label
-                                    >
-                                </div>
-                            </template>
+                                <label class="custom-control-label" :for="dataOption.id"
+                                    >{{ dataOption.value }}</label
+                                >
+                            </div>
                         </form>
-                </div>
+                    </template>
+                </template>
+            </div>
         </template>
         <!-- attribute end -->
 
