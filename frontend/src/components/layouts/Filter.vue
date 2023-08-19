@@ -1,7 +1,8 @@
 <script setup>
-import { useSearch } from "../../services/search";
+import { useSearch } from '../../stores/Search'
+import { storeToRefs } from "pinia";
 
-const { sort, limit, search } = useSearch();
+const { sort, limit, search } = storeToRefs(useSearch());
 
 // function fun(){
 //     console.log(sort.value );

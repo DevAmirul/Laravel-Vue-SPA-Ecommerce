@@ -6,9 +6,8 @@ import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import { useSearch } from "../services/search";
 
-const { responseData } = useSearch();
+const responseData  = ref();
 
 axios_C.get('/shop')
     .then(response => {
@@ -19,6 +18,10 @@ axios_C.get('/shop')
         console.log(error);
     });
 
+
+// function pushToRouter(params) {
+//     console.log(params);
+// }
 </script>
 <template>
     <!-- Page Header Start -->
@@ -28,7 +31,7 @@ axios_C.get('/shop')
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
-            <Sidebar></Sidebar>
+            <Sidebar ></Sidebar>
             <!-- Shop Sidebar End -->
             <!-- Shop Product Start -->
             <div class="col-lg-9 col-md-12">

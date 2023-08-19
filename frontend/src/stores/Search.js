@@ -1,9 +1,9 @@
+import { defineStore } from 'pinia'
 import { reactive, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import axios_C from "./axios";
+import axios_C from "../services/axios";
 
-
-export function useSearch() {
+export const useSearch = defineStore('search', () => {
     const router = useRouter();
     const route = useRoute();
 
@@ -22,23 +22,31 @@ export function useSearch() {
     //     minPrice: '',
     //     maxPrice: ''
     // })
-    const side= ref(false);
+
     const responseData = ref();
     const queryFromLink = new URLSearchParams(route.query).toString();
     const query = ref({});
 
     watch([search, sort, limit, minPrice, maxPrice], () => {
-        if (search.value) query.value['search'] = search.value
+        // if (search.value) {query.value['search'] = search.value}
         // else{
         //     delete query.value.search
         // }
-        if (minPrice.value) query.value['minPrice'] = minPrice.value
-        if (maxPrice.value) query.value['maxPrice'] = maxPrice.value
-        if (limit.value !== '20') query.value['limit'] = limit.value
-        if (sort.value !== 'latest') query.value['sort'] = sort.value
+        // if (minPrice.value) {query.value['minPrice'] = minPrice.value}
+        // else {
+        //     delete query.value.minPrice
+        // }
+        // if (maxPrice.value) query.value['maxPrice'] = maxPrice.value
+        // if (limit.value !== '20') query.value['limit'] = limit.value
+        // if (sort.value !== 'latest') query.value['sort'] = sort.value
         // push()
         console.log(query.value);
-        console.log(side.value);
+
+        // (search.value) ? query.value['search'] = search.value : delete query.value.search;
+        // (minPrice.value) ? query.value['minPrice'] = search.value : delete query.value['minPrice'];
+        // (maxPrice.value) ? query.value['maxPrice'] = search.value : delete query.value['maxPrice'];
+        // (limit.value) ? query.value['limit'] = search.value : delete query.value['limit'];
+        // (sort.value) ? query.value['sort'] = search.value : delete query.value['sort'];
     })
 
     // watch(
@@ -61,7 +69,7 @@ export function useSearch() {
     //     }
     // )
 
-    function push(){
+    function push() {
         // if (Object.keys(route.query).length > 0) {
         //     let arrKey = Object.keys(query.value);
         //     for (const key in route.query){
@@ -76,32 +84,5 @@ export function useSearch() {
     }
 
 
-    return { sort, limit, search, attributeFilter,  maxPrice, minPrice ,responseData }
-}
-
-
-
-
-
-
-// const queryFromLink = new URLSearchParams(route.query).toString();
-        // if (queryFromLink !== '') {
-        //     axios_C.get('/shop?' + queryFromLink)
-        //         .then(response => {
-        //             res.value = response.data
-        //             console.log(res.value);
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         });
-        // } else {
-        //     axios_C.get('/shop')
-        //         .then(response => {
-        //             res.value = response.data
-        //             console.log(res.value);
-        //         })
-        //         .catch(error => {
-        //             console.log(error);
-        //         });
-        // }
-        // console.log('ok');
+    return { sort, limit, search, attributeFilter, maxPrice, minPrice, responseData }
+})

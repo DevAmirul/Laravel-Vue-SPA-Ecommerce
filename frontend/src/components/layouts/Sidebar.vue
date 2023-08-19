@@ -1,11 +1,11 @@
 <script setup>
-import { reactive, ref,watch, watchEffect } from 'vue'
+import { reactive,ref , watch, watchEffect } from 'vue'
 import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
+import { useSearch } from '../../stores/Search'
+import { storeToRefs } from "pinia";
 
-import { useSearch } from "../../services/search";
-
-const {  attributeFilter, priceFilter } = useSearch();
+const { maxPrice, minPrice } = storeToRefs(useSearch());
 
 const responseData = ref();
 
@@ -18,9 +18,8 @@ axios_C.get('/sidebar')
         console.log(error);
     });
 
-
-
 function setAttributeValueToAttributeFilter(attributeName, attributeValue){
+    side.value = true
     if (attributeFilter[attributeName] == '') {
         attributeFilter[attributeName] = attributeValue
     }else{
@@ -36,6 +35,8 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
         }
     }
 }
+
+
 </script>
 <template>
     <div class="col-lg-3 col-md-12">
@@ -79,6 +80,7 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                 </div>
             </nav>
         </div>
+
         <!-- Price Start -->
         <div class="border-bottom mb-4 pb-4">
             <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
@@ -90,7 +92,7 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                                 class="form-control"
                                 id="minPrice"
                                 placeholder="Min"
-                                v-model="priceFilter.minPrice"
+                                v-model="minPrice"
                             />
                     </div>
                     <div class="form-group col-5">
@@ -99,7 +101,7 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                                 class="form-control"
                                 id="maxPrice"
                                 placeholder="Max"
-                                v-model="priceFilter.maxPrice"
+                                v-model="maxPrice"
                             />
                     </div>
                     <div class="form-group col-2">
