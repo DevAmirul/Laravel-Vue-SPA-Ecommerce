@@ -1,11 +1,11 @@
 <script setup>
-import { reactive,ref , watch, watchEffect } from 'vue'
+import { ref, onMounted, onBeforeMount  } from 'vue'
 import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
 import { useSearch } from '../../stores/Search'
 import { storeToRefs } from "pinia";
 
-const { maxPrice, minPrice } = storeToRefs(useSearch());
+const { prevQuerySize, size, prevQueryColor, color, maxPrice, minPrice } = storeToRefs(useSearch());
 
 const responseData = ref();
 
@@ -18,23 +18,38 @@ axios_C.get('/sidebar')
         console.log(error);
     });
 
-function setAttributeValueToAttributeFilter(attributeName, attributeValue){
-    side.value = true
-    if (attributeFilter[attributeName] == '') {
-        attributeFilter[attributeName] = attributeValue
-    }else{
-        let a = attributeFilter[attributeName].search(attributeValue)
-        if (a == -1) {
-            attributeFilter[attributeName]  += ',' + attributeValue
+function setAttributeValueToColor(attributeValue){
+    if (color.value == '') {
+        color.value = attributeValue
+    } else{
+        if (color.value.search(attributeValue) == -1) {
+            color.value += ',' + attributeValue
         }
         else{
-            var newArr = attributeFilter[attributeName].split(',');
+            const newArr = color.value.split(',');
             const index = newArr.indexOf(attributeValue)
             newArr.splice(index, 1);
-            attributeFilter[attributeName] = newArr.toString()
+            color.value = newArr.toString()
         }
     }
 }
+
+function setAttributeValueToSize(attributeValue){
+    if (size.value == '') {
+        size.value = attributeValue
+    } else{
+        if (size.value.search(attributeValue) == -1) {
+            size.value += ',' + attributeValue
+        }
+        else{
+            const newArr = size.value.split(',');
+            const index = newArr.indexOf(attributeValue)
+            newArr.splice(index, 1);
+            size.value = newArr.toString()
+        }
+    }
+}
+
 
 
 </script>
@@ -113,7 +128,7 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
         <!-- Price End -->
         <!-- attribute Start -->
         <template v-if="responseData">
-            <!-- <div class="border-bottom mb-4 pb-4">
+            <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
                     <form>
                         <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
@@ -124,8 +139,8 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                                     type="checkbox"
                                     class="custom-control-input"
                                     :id="data.id"
-                                    :value="data.value"
-                                    @click="setAttributeValueToAttributeFilter('color',data.value)"
+                                    :checked="prevQueryColor.indexOf(data.value) !== -1"
+                                    @click="setAttributeValueToColor(data.value)"
                                     />
                                 <label class="custom-control-label" :for="data.id"
                                     >{{ data.value }}</label
@@ -133,8 +148,8 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                             </div>
                         </template>
                     </form>
-            </div> -->
-            <!-- <div class="border-bottom mb-4 pb-4">
+            </div>
+            <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
                     <form>
                         <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
@@ -144,8 +159,8 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                                     type="checkbox"
                                     class="custom-control-input"
                                     :id="data.id"
-                                    :value="data.value"
-                                    @click="setAttributeValueToAttributeFilter('size', data.value)"
+                                    :checked="prevQuerySize.indexOf(data.value) !== -1"
+                                    @click="setAttributeValueToSize(data.value)"
                                 />
                                 <label class="custom-control-label" :for="data.id"
                                     >{{ data.value }}</label
@@ -153,9 +168,9 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                             </div>
                         </template>
                     </form>
-            </div> -->
+            </div>
 
-            <div class="border-bottom mb-4 pb-4">
+            <!-- <div class="border-bottom mb-4 pb-4">
                 <template v-for="(data, key) in responseData.sidebarFilter" :key="key">
                 <h5 class="font-weight-semi-bold mb-4">Filter by {{ data.name }}</h5>
                     <template v-for="(dataOption, keyOption) in data.attribute_option" :key="keyOption">
@@ -176,7 +191,8 @@ function setAttributeValueToAttributeFilter(attributeName, attributeValue){
                         </form>
                     </template>
                 </template>
-            </div>
+            </div> -->
+
         </template>
         <!-- attribute end -->
 

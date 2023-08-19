@@ -4,10 +4,6 @@ import { storeToRefs } from "pinia";
 
 const { sort, limit, search } = storeToRefs(useSearch());
 
-// function fun(){
-//     console.log(sort.value );
-// }
-
 </script>
 <template>
     <div class="d-flex align-items-center justify-content-between mb-4">

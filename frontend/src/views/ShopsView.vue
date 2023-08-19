@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from 'vue'
+import { useSearch } from '../stores/Search'
+import { storeToRefs } from "pinia";
 import axios_C from '../services/axios';
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
@@ -7,21 +9,8 @@ import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
 
-const responseData  = ref();
+const { responseData } = storeToRefs(useSearch());
 
-axios_C.get('/shop')
-    .then(response => {
-        responseData.value = response.data
-        // console.log(responseData.value);
-    })
-    .catch(error => {
-        console.log(error);
-    });
-
-
-// function pushToRouter(params) {
-//     console.log(params);
-// }
 </script>
 <template>
     <!-- Page Header Start -->

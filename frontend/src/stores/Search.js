@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reactive, ref, watch } from 'vue'
+import { onMounted, onBeforeMount, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios_C from "../services/axios";
 
@@ -11,78 +11,72 @@ export const useSearch = defineStore('search', () => {
     const limit = ref('20');
     const search = ref('');
 
-    const attributeFilter = reactive({
-        color: '',
-        size: ''
-    })
-    const maxPrice = ref(0)
-    const minPrice = ref(0)
-
-    // const priceFilter = reactive({
-    //     minPrice: '',
-    //     maxPrice: ''
-    // })
+    const maxPrice = ref('')
+    const minPrice = ref('')
+    const color = ref('');
+    const size = ref('');
+    const prevQueryColor = ref('');
+    const prevQuerySize = ref('');
 
     const responseData = ref();
-    const queryFromLink = new URLSearchParams(route.query).toString();
+
     const query = ref({});
 
-    watch([search, sort, limit, minPrice, maxPrice], () => {
-        // if (search.value) {query.value['search'] = search.value}
-        // else{
-        //     delete query.value.search
-        // }
-        // if (minPrice.value) {query.value['minPrice'] = minPrice.value}
-        // else {
-        //     delete query.value.minPrice
-        // }
-        // if (maxPrice.value) query.value['maxPrice'] = maxPrice.value
-        // if (limit.value !== '20') query.value['limit'] = limit.value
-        // if (sort.value !== 'latest') query.value['sort'] = sort.value
-        // push()
-        console.log(query.value);
+    onMounted(() => {
+        const queryFromLink = new URLSearchParams(route.query).toString();
+        if (queryFromLink == '') {
+            axios_C.get('/shop')
+                .then(response => {
+                    responseData.value = response.data
+                    console.log(responseData.value , 'mounted');
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    } )
 
-        // (search.value) ? query.value['search'] = search.value : delete query.value.search;
-        // (minPrice.value) ? query.value['minPrice'] = search.value : delete query.value['minPrice'];
-        // (maxPrice.value) ? query.value['maxPrice'] = search.value : delete query.value['maxPrice'];
-        // (limit.value) ? query.value['limit'] = search.value : delete query.value['limit'];
-        // (sort.value) ? query.value['sort'] = search.value : delete query.value['sort'];
-    })
+    watch([search, sort, limit, minPrice, maxPrice, color, size], () => {
+        (search.value) ? query.value['search'] = search.value : delete query.value.search;
+        (minPrice.value) ? query.value['minPrice'] = minPrice.value : delete query.value['minPrice'];
+        (maxPrice.value) ? query.value['maxPrice'] = maxPrice.value : delete query.value['maxPrice'];
+        (color.value) ? query.value['color'] = color.value : delete query.value['color'];
+        (size.value) ? query.value['size'] = size.value : delete query.value['size'];
+        (limit.value !== '20') ? query.value['limit'] = limit.value : delete query.value['limit'];
+        (sort.value !== 'latest') ? query.value['sort'] = sort.value : delete query.value['sort'];
 
-    // watch(
-    //     () => [priceFilter.minPrice, priceFilter.maxPrice],
-    //     ([ minPrice, maxPrice]) => {
-    //         if (minPrice) query.value['minPrice'] = priceFilter.minPrice
-    //         if (maxPrice) query.value['maxPrice'] = priceFilter.maxPrice
-    //         // color ? query.value['color'] = attributeFilter.color : query.value['color'] = null;
-    //         // size ? query.value['size'] = attributeFilter.size : query.value['size'] = null;
-    //         push()
-    //     }
-    // )
-
-    // watch(
-    //     () => [attributeFilter.color, attributeFilter.size],
-    //     ([color, size]) => {
-    //         color ? query.value['color'] = attributeFilter.color : query.value['color'] = null;
-    //         size ? query.value['size'] = attributeFilter.size : query.value['size'] = null;
-    //         push()
-    //     }
-    // )
-
-    function push() {
-        // if (Object.keys(route.query).length > 0) {
-        //     let arrKey = Object.keys(query.value);
-        //     for (const key in route.query){
-        //         if (arrKey.indexOf(key) == -1) {
-        //             query.value[key] = route.query[key];
-        //         }
-        //     }
-        // }
         router.push({
             query: query.value
         })
-    }
 
+        axios_C.get('/shop?' + search + sort + limit + minPrice + maxPrice + color + size )
+            .then(response => {
+                responseData.value = response.data
+                console.log(responseData.value, 'watch');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    })
 
-    return { sort, limit, search, attributeFilter, maxPrice, minPrice, responseData }
+    // Convert the query received from the router into an array.
+    onBeforeMount(() => {
+        if (new URLSearchParams(route.query).toString()) {
+            if (route.query.search) search.value = route.query.search
+            if (route.query.sort) sort.value = route.query.sort
+            if (route.query.limit) limit.value = route.query.limit
+            if (route.query.minPrice) minPrice.value = route.query.minPrice
+            if (route.query.maxPrice) maxPrice.value = route.query.maxPrice
+            if (route.query.color) {
+                prevQueryColor.value = route.query.color.split(',');
+                color.value = route.query.color;
+            }
+            if (route.query.size) {
+                prevQuerySize.value = route.query.size.split(',');
+                size.value = route.query.size;
+            }
+        }
+    })
+
+    return { route, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData }
 })
