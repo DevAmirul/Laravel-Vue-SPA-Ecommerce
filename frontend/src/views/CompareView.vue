@@ -2,28 +2,35 @@
 import { ref, watch } from 'vue'
 import axios_C from '../services/axios';
 import PageHeader from "../components/layouts/PageHeader.vue";
+import useRefresh from '../stores/Refresh';
+import { storeToRefs } from "pinia";
 
-let responseData = ref();
+const { refreshCompareItemsNumber, refreshComparePage } = storeToRefs(useRefresh());
+const responseData = ref();
+const compareList = ref();
 
-const compareList = JSON.parse(localStorage.getItem('compare'));
+compareList.value = JSON.parse(localStorage.getItem('compare'));
 
-axios_C.post('/compare',{
-        data:{
-            productIdArray: compareList
+if (compareList.value) {
+    axios_C.post('/compare', {
+        data: {
+            productIdArray: compareList.value
         }
     })
-    .then(response => {
-        responseData.value = response.data;
-        console.log(responseData.value);
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .then(response => {
+            responseData.value = response.data;
+            console.log(responseData.value);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
 
 function clearCompareList(){
     localStorage.removeItem('compare')
+    responseData.value = null
+    refreshCompareItemsNumber.value = !refreshCompareItemsNumber.value
 }
-
 </script>
 <template>
     <!-- Page Header Start -->

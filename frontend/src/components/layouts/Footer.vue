@@ -56,9 +56,7 @@ const { settings } = defineProps(['settings'])
                                         <a class="text-dark" href="contacts.html"><i class="fa fa-angle-right mr-2"></i>Contact
                                         Us</a>
                                     </RouterLink>
-                            <a class="text-dark mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
-                            <a class="text-dark mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Terms and condition</a>
-                            <a class="text-dark mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>privacy policy</a>
+                            
                         </div>
                     </div>
 

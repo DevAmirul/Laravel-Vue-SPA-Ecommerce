@@ -3,13 +3,15 @@ import { onMounted, onBeforeMount, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios_C from "../services/axios";
 
-export const useSearch = defineStore('search', () => {
+const useSearch = defineStore('search', () => {
     const router = useRouter();
     const route = useRoute();
 
     const sort = ref('latest');
     const limit = ref('20');
     const search = ref('');
+
+    const topBarSearch = ref('');
 
     const maxPrice = ref('')
     const minPrice = ref('')
@@ -21,20 +23,6 @@ export const useSearch = defineStore('search', () => {
     const responseData = ref();
 
     const query = ref({});
-
-    onMounted(() => {
-        const queryFromLink = new URLSearchParams(route.query).toString();
-        if (queryFromLink == '') {
-            axios_C.get('/shop')
-                .then(response => {
-                    responseData.value = response.data
-                    console.log(responseData.value , 'mounted');
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-    } )
 
     watch([search, sort, limit, minPrice, maxPrice, color, size], () => {
         (search.value) ? query.value['search'] = search.value : delete query.value.search;
@@ -49,15 +37,41 @@ export const useSearch = defineStore('search', () => {
             query: query.value
         })
 
-        axios_C.get('/shop?' + search + sort + limit + minPrice + maxPrice + color + size )
-            .then(response => {
-                responseData.value = response.data
-                console.log(responseData.value, 'watch');
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        // const searchParams = new URLSearchParams({
+        //     search: search.value,
+        //     sort: sort.value,
+        //     limit: limit.value,
+        //     minPrice: minPrice.value,
+        //     maxPrice: maxPrice.value,
+        //     color: color.value,
+        //     size: size.value,
+        // }).toString()
+
+        // axios_C.get( `${route.path}?${searchParams}` )
+        //     .then(response => {
+        //         responseData.value = response.data
+        //         console.log(responseData.value, 'watch');
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
+
     })
+
+    watch(() => route.query,
+        () => {
+            // axios_C.get(route.path)
+            //     .then(response => {
+            //         responseData.value = response.data;
+            //     })
+            //     .catch(error => {
+            //         console.log(error);
+            //     });
+
+            const searchParams = new URLSearchParams(route.query).toString()
+            console.log(searchParams);
+        }
+    )
 
     // Convert the query received from the router into an array.
     onBeforeMount(() => {
@@ -78,5 +92,8 @@ export const useSearch = defineStore('search', () => {
         }
     })
 
-    return { route, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData }
+    return { topBarSearch, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData, query }
 })
+
+
+export default useSearch;

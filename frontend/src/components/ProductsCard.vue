@@ -1,45 +1,50 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import axios_C from '../services/axios';
+import useRefresh from '../stores/Refresh';
+import { storeToRefs } from "pinia";
+
+const { refreshCartItemsNumber, refreshWishlistItemsNumber, refreshCompareItemsNumber } = storeToRefs(useRefresh());
 
 const { products } = defineProps(['products'])
+
 let productAttributeArray = []
 let productCompareArray = []
 
-import pro1 from '../../src/assets/img/cat-1.jpg'
-
-function addToCompare(productId){
+function addToCompare(productId) {
     let ifExistLocalStorageData = JSON.parse(localStorage.getItem('compare'));
-    if (ifExistLocalStorageData ) {
+    if (ifExistLocalStorageData) {
         if (ifExistLocalStorageData.length < 3) {
             ifExistLocalStorageData.push(productId);
             localStorage.setItem("compare", JSON.stringify(ifExistLocalStorageData))
+            refreshCompareItemsNumber.value = !refreshCompareItemsNumber.value
         }
     } else {
         productCompareArray.push(productId);
         localStorage.setItem("compare", JSON.stringify(productCompareArray))
+        refreshCompareItemsNumber.value = !refreshCompareItemsNumber.value
     }
 }
 
-function addToWishlist(productAttributes){
+function addToWishlist(productAttributes) {
     let ifExistLocalStorageData = localStorage.getItem('productAttributes');
     if (ifExistLocalStorageData) {
         ifExistLocalStorageData = JSON.parse(localStorage.getItem('productAttributes'))
-
-        let x = true
+        let hasId = true
         for (let i = 0; i < ifExistLocalStorageData.length; i++) {
             if (ifExistLocalStorageData[i].id == productAttributes.id) {
-                return x = false;
+                return hasId = false;
             }
         }
-        if (x) {
+        if (hasId) {
             ifExistLocalStorageData.push(productAttributes);
             localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
+            refreshWishlistItemsNumber.value = !refreshWishlistItemsNumber.value
         }
-
-    }else{
+    } else {
         productAttributeArray.push(productAttributes);
         localStorage.setItem("productAttributes", JSON.stringify(productAttributeArray))
+        refreshWishlistItemsNumber.value = !refreshWishlistItemsNumber.value
     }
 }
 
@@ -47,6 +52,7 @@ function addToCart(productId) {
     axios_C.get('/users/cart/save/?productId=' + productId + '&user=2')
         .then(response => {
             console.log(response.data)
+            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
         })
         .catch(error => {
             console.log(error);
@@ -82,8 +88,8 @@ function addToCart(productId) {
                                         class="fas fa-heart text-primary mr-1"></i></button>
 
                             <button @click="addToCart(data.p_id)" class="btn btn-sm text-dark p-0">
-                                <i
-                                        class="fas fa-shopping-cart text-primary mr-1"></i>
+                                <iz
+                                        class="fas fa-shopping-cart text-primary mr-1"></iz>
                             </button>
                             <button @click="addToCompare(data.p_id)" class="btn btn-sm text-dark p-0">
                                             <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>

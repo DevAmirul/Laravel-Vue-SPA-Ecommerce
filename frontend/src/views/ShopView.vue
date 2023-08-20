@@ -26,18 +26,6 @@ onMounted(() => {
             });
     }
 })
-watch(() => route.path,
-    () => {
-        axios_C.get(route.path)
-            .then(response => {
-                responseData.value = response.data;
-                console.log('ok');
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-)
 
 </script>
 <template>

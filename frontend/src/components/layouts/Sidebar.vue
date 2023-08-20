@@ -2,12 +2,14 @@
 import { ref, onMounted, onBeforeMount  } from 'vue'
 import axios_C from '../../services/axios';
 import { RouterLink } from "vue-router";
-import { useSearch } from '../../stores/Search'
+import useSearch from '../../stores/Search'
 import { storeToRefs } from "pinia";
 
 const { prevQuerySize, size, prevQueryColor, color, maxPrice, minPrice } = storeToRefs(useSearch());
 
 const responseData = ref();
+const min = ref(minPrice.value);
+const max = ref(maxPrice.value);
 
 axios_C.get('/sidebar')
     .then(response => {
@@ -50,7 +52,13 @@ function setAttributeValueToSize(attributeValue){
     }
 }
 
-
+function addPriceFilter(min, max){
+    if (min < max) {
+        minPrice.value = min
+        maxPrice.value = max
+    }
+    // TODO: here error notification
+}
 
 </script>
 <template>
@@ -99,7 +107,7 @@ function setAttributeValueToSize(attributeValue){
         <!-- Price Start -->
         <div class="border-bottom mb-4 pb-4">
             <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
-            <form>
+            <form @submit.prevent="addPriceFilter(min, max)">
                 <div class="d-flex">
                     <div class="form-group col-5">
                         <input
@@ -107,7 +115,8 @@ function setAttributeValueToSize(attributeValue){
                                 class="form-control"
                                 id="minPrice"
                                 placeholder="Min"
-                                v-model="minPrice"
+                                v-model="min"
+
                             />
                     </div>
                     <div class="form-group col-5">
@@ -116,11 +125,11 @@ function setAttributeValueToSize(attributeValue){
                                 class="form-control"
                                 id="maxPrice"
                                 placeholder="Max"
-                                v-model="maxPrice"
+                                v-model="max"
                             />
                     </div>
                     <div class="form-group col-2">
-                        <button class="btn btn-sm btn-outline-primary"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                     </div>
                 </div>
             </form>

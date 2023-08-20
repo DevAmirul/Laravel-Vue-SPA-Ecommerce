@@ -1,7 +1,11 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
+import useRefresh from '../../stores/Refresh';
+import { storeToRefs } from "pinia";
+
+const { refreshCartItemsNumber, refreshCartPage } = storeToRefs(useRefresh());
 
 let responseData = ref();
 let discount;
@@ -15,16 +19,27 @@ axios_C.get('/users/cart/' + 2)
         console.log(error);
     });
 
+watch(refreshCartPage, () => {
+    axios_C.get('/users/cart/' + 2)
+        .then(response => {
+            responseData.value = response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+} )
+
 function deleteCartItems(itemid){
     axios_C.delete('/users/cart/' + itemid)
         .then(response => {
             response.data;
+            refreshCartPage.value = !refreshCartPage.value
+            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
         })
         .catch(error => {
             console.log(error);
         });
 }
-
 
 watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
@@ -36,12 +51,10 @@ watch(responseData, () => {
 } )
 
 function productQuantityIncrement(cartId, productId, qty) {
-    let productQty = 0;
-    productQty += ++qty
-
-    axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + productQty)
+    axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
         .then(response => {
             console.log(response.data);
+            refreshCartPage.value = !refreshCartPage.value
         })
         .catch(error => {
             console.log(error);
@@ -49,21 +62,17 @@ function productQuantityIncrement(cartId, productId, qty) {
 }
 
 function productQuantityDecrement(cartId, productId, qty) {
-    let productQty = 0;
     if (qty > 1) {
-        productQty += --qty
-
-        axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + productQty)
+        axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + --qty)
             .then(response => {
                 console.log(response.data);
+                refreshCartPage.value = !refreshCartPage.value
             })
             .catch(error => {
                 console.log(error);
             });
     }
 }
-
-
 </script>
 <template>
     <!-- Page Header Start -->

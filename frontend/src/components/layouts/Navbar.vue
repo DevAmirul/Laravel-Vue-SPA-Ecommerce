@@ -103,16 +103,16 @@ axios_C.get('/home/sidebar')
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
-                                :to="{ name: 'contacts' }"
+                                :to="{ name: 'sale' }"
                                 ><a class="nav-item nav-link active"
                                     >Sale</a
                                 ></RouterLink
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
-                                :to="{ name: 'contacts' }"
+                                :to="{ name: 'newArrivals' }"
                                 ><a class="nav-item nav-link active"
-                                    >New Arrived</a
+                                    >New Arrivals</a
                                 ></RouterLink
                             >
                             <RouterLink

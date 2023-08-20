@@ -1,5 +1,5 @@
 <script setup>
-import { useSearch } from '../../stores/Search'
+import useSearch from '../../stores/Search'
 import { storeToRefs } from "pinia";
 
 const { sort, limit, search } = storeToRefs(useSearch());
@@ -7,13 +7,13 @@ const { sort, limit, search } = storeToRefs(useSearch());
 </script>
 <template>
     <div class="d-flex align-items-center justify-content-between mb-4">
-        <form action="">
+        <form @submit.prevent>
             <div class="input-group">
                 <input
                     type="text"
                     class="form-control"
                     placeholder="Search by name or tag"
-                    v-model="search"
+                    v-model.lazy="search"
                 />
                 <div class="input-group-append">
                     <span class="input-group-text bg-transparent text-primary">

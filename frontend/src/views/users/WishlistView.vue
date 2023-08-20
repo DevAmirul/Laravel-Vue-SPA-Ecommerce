@@ -1,14 +1,20 @@
 <script setup>
 import { ref, watch } from 'vue';
-// import axios_C from '../../services/axios';
+import axios_C from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
+import useRefresh from '../../stores/Refresh';
+import { storeToRefs } from "pinia";
 
-let isRenderPage = ref(true)
-let wishlistProductIdArrayForAddToCart = [];
-let wishlist =  JSON.parse(localStorage.getItem('productAttributes'));
+const { refreshCartItemsNumber, refreshWishlistPage, refreshWishlistItemsNumber } = storeToRefs(useRefresh());
+const wishlist = ref();
+
+wishlist.value =  JSON.parse(localStorage.getItem('productAttributes'));
+
+watch(refreshWishlistPage, () => {
+    wishlist.value = JSON.parse(localStorage.getItem('productAttributes'));
+})
 
 function deleteWishlist(productId) {
-    isRenderPage.value = false;
     let ifExistLocalStorageData = localStorage.getItem('productAttributes');
     if (ifExistLocalStorageData) {
         ifExistLocalStorageData = JSON.parse(localStorage.getItem('productAttributes'))
@@ -16,18 +22,14 @@ function deleteWishlist(productId) {
             if (ifExistLocalStorageData[i].id == productId) {
                 ifExistLocalStorageData.splice(i, 1);
                 localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
+                refreshWishlistPage.value = !refreshWishlistPage.value
+                refreshWishlistItemsNumber.value = !refreshWishlistItemsNumber.value
                 break;
             }
         }
     }
 }
 
-watch(isRenderPage, () => {
-    wishlist = JSON.parse(localStorage.getItem('productAttributes'))
-    isRenderPage.value = true;
-})
-
-// TODO: make composition this function
 function addToCart(productId) {
     let query;
     query = encodeURIComponent([productId]);
@@ -35,11 +37,11 @@ function addToCart(productId) {
     axios_C.get('/users/cart/save/?productId=' + query + '&user=2')
         .then(response => {
             console.log(response.data)
+            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
         })
         .catch(error => {
             console.log(error);
         });
-
 }
 </script>
 <template>
@@ -47,7 +49,7 @@ function addToCart(productId) {
     <PageHeader pageName="WISHLIST"></PageHeader>
     <!-- Page Header End -->
     <!-- Cart Start -->
-    <div v-if="Array.isArray(wishlist) && isRenderPage" class="container-fluid pt-5">
+    <div v-if="wishlist" class="container-fluid pt-5">
         <div class="row px-xl-5">
             <div class="col-lg-12 table-responsive mb-5">
                 <table class="table table-bordered text-center mb-0">
