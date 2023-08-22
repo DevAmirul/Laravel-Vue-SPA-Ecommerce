@@ -1,23 +1,25 @@
 <script setup>
-import { ref, onMounted, onBeforeMount  } from 'vue'
-import axios_C from '../../services/axios';
+import { ref } from 'vue'
+import useAxios from '../../services/axios';
 import { RouterLink } from "vue-router";
 import useSearch from '../../stores/Search'
 import { storeToRefs } from "pinia";
+import useAlert from "../../services/Sweetalert";
 
 const { prevQuerySize, size, prevQueryColor, color, maxPrice, minPrice } = storeToRefs(useSearch());
+const { topAlert } = storeToRefs(useAlert());
 
 const responseData = ref();
 const min = ref(minPrice.value);
 const max = ref(maxPrice.value);
 
-axios_C.get('/sidebar')
+useAxios.get('/sidebar')
     .then(response => {
         responseData.value = response.data
-        // console.log(responseData.value);
+        console.log(responseData.value);
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 function setAttributeValueToColor(attributeValue){
@@ -56,16 +58,18 @@ function addPriceFilter(min, max){
     if (min < max) {
         minPrice.value = min
         maxPrice.value = max
+    }else{
+        useAlert().topAlert('info', 'The minimum value must be less than the maximum value.')
     }
-    // TODO: here error notification
 }
 
 </script>
 <template>
-    <div class="col-lg-3 col-md-12">
+    <div v-if="responseData" class="col-lg-3 col-md-12">
         <div class="border-bottom mb-4 pb-4">
+            <h5 class="font-weight-semi-bold mb-4">All Categories</h5>
             <nav>
-                <div v-if="responseData">
+                <div v-if="responseData.allCategory">
                     <ul  v-for="(data, key) in responseData.allCategory" :key='key' class="mcd-menu">
                         <li>
                             <a class="active">
@@ -75,7 +79,7 @@ function addPriceFilter(min, max){
                                 <ul>
                                 <template v-for="(cateData, cateKey) in data.category" :key='cateKey' >
                                         <li>
-                                            <RouterLink :to="{ name: 'category', params: { slug: cateData.slug }}">
+                                            <RouterLink :to="{ name: 'categories', params: { slug: cateData.slug }}" style="text-decoration: none; color: inherit">
                                                 <a >
                                                     {{ cateData.name }}
                                                 </a >
@@ -84,7 +88,7 @@ function addPriceFilter(min, max){
                                                 <template v-if="cateData.sub_category">
                                                     <template v-for="(subCateData, subCateKey) in cateData.sub_category" :key='subCateKey' >
                                                         <li>
-                                                            <RouterLink :to="{ name: 'subCategory', params: { slug: subCateData.slug } }">
+                                                            <RouterLink :to="{ name: 'subCategories', params: { slug: subCateData.slug } }" style="text-decoration: none; color: inherit">
                                                                 <a >
                                                                     {{ subCateData.name }}
                                                                 </a >
@@ -103,7 +107,6 @@ function addPriceFilter(min, max){
                 </div>
             </nav>
         </div>
-
         <!-- Price Start -->
         <div class="border-bottom mb-4 pb-4">
             <h5 class="font-weight-semi-bold mb-4">Filter by price</h5>
@@ -136,7 +139,7 @@ function addPriceFilter(min, max){
         </div>
         <!-- Price End -->
         <!-- attribute Start -->
-        <template v-if="responseData">
+        <template v-if="responseData.sidebarFilter">
             <div class="border-bottom mb-4 pb-4">
                     <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
                     <form>
@@ -204,6 +207,19 @@ function addPriceFilter(min, max){
 
         </template>
         <!-- attribute end -->
+
+        <div v-if="responseData.sidebarBrand" class="border-bottom mb-4 pb-4">
+            <h5 class="font-weight-semi-bold mb-4">All Brands</h5>
+            <nav class="collapse show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
+                <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
+                    <template v-for="(data, key) in responseData.sidebarBrand" :key='key'>
+                        <RouterLink :to="{ name: 'brands', params: { slug: data.slug } }" style="text-decoration: none; color: inherit">
+                            <a class="nav-item nav-link">{{ data.name }}</a>
+                        </RouterLink>
+                    </template>
+                </div>
+            </nav>
+        </div>
 
     </div>
 </template>

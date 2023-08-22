@@ -27,8 +27,8 @@ const { sort, limit, search } = storeToRefs(useSearch());
                 <select v-model="sort" class="custom-select">
                     <option value="latest" selected>Latest</option>
                     <option value="oldest">Oldest</option>
-                    <option value="p_lth">Price: low to high</option>
-                    <option value="p_htl">Price: high to low</option>
+                    <option value="p_low_to_high">Price: low to high</option>
+                    <option value="p_high_to_low">Price: high to low</option>
                     <option value="asc">Ascending</option>
                     <option value="des">Descending</option>
                 </select>

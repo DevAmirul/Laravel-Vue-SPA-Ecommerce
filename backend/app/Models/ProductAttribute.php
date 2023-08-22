@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class ProductAttribute extends Model {
     use HasFactory;
 
-    
+    public $timestamps = false;
 
     public function product(): HasMany {
         return $this->hasMany(Product::class);

@@ -1,6 +1,7 @@
 <script setup>
 import { ref,reactive } from 'vue';
-import axios_C from '../services/axios';
+import useAxios from '../services/axios';
+import useAlert from '../services/Sweetalert';
 import PageHeader from '../components/layouts/PageHeader.vue'
 
 const formData = reactive({
@@ -9,27 +10,26 @@ const formData = reactive({
     subject: '',
     message: '',
 });
+let responseData = ref();
 
 function sendMessage(){
-    axios_C.post('/contacts',{
+    useAxios.post('/contacts',{
         formData
     })
         .then(response => {
-            console.log(response.data);
+            useAlert().topAlert('success', 'Successfully send message')
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
-let responseData = ref();
-
-axios_C.get('/site-settings')
+useAxios.get('/site-settings')
     .then(response => {
         responseData.value = response.data
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 </script>

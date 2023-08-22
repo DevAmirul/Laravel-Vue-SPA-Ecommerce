@@ -52,7 +52,8 @@ class CartController extends Controller
 
     public function countCart(Request $request): Response
     {
-        $cartItemNumber = Cart::select('id')->whereUserId($request->userId)->withCount('cartItem')->first();
+        $cartItemNumber = Cart::select('id')->whereUserId($request->userId)
+            ->withSum('cartItem', 'qty')->first();
         return response(compact('cartItemNumber'), 200);
     }
 }

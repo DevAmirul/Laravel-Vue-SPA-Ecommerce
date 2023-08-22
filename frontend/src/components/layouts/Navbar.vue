@@ -48,7 +48,7 @@ axios_C.get('/home/sidebar')
                                         <template v-for="(cateData, cateKey) in data.category" :key="cateKey">
                                             <RouterLink
                                                 style="text-decoration: none; color: inherit"
-                                                :to="{ name: 'category', params: { slug: cateData.slug } }"
+                                                :to="{ name: 'categories', params: { slug: cateData.slug } }"
                                                 ><a class="dropdown-item"
                                                     >{{ cateData.name }}
                                                 </a >
@@ -108,18 +108,13 @@ axios_C.get('/home/sidebar')
                                     >Sale</a
                                 ></RouterLink
                             >
+
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
-                                :to="{ name: 'newArrivals' }"
+                                :to="{ name: 'contactUs' }"
                                 ><a class="nav-item nav-link active"
-                                    >New Arrivals</a
-                                ></RouterLink
-                            >
-                            <RouterLink
-                                style="text-decoration: none; color: inherit"
-                                :to="{ name: 'contacts' }"
-                                ><a class="nav-item nav-link active"
-                                    >Contacts</a
+                                    >Contact Us
+                                    </a
                                 ></RouterLink
                             >
                         </div>
@@ -169,7 +164,7 @@ axios_C.get('/home/sidebar')
                                         "
                                         :to="{ name: 'cart' }"
                                         ><a class="nav-item nav-link"
-                                            >Shopping Cart</a
+                                            >Cart</a
                                         ></RouterLink
                                     >
                                     <RouterLink

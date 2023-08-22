@@ -1,43 +1,44 @@
 <script setup>
-import { ref, watch, watchEffect } from 'vue'
-import axios_C from '../../services/axios';
+import { ref, watch } from 'vue'
+import useAxios from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
 import { storeToRefs } from "pinia";
-
+import useAlert  from "../../services/Sweetalert";
 const { refreshCartItemsNumber, refreshCartPage } = storeToRefs(useRefresh());
 
-let responseData = ref();
+const responseData = ref();
 let discount;
 let subtotal;
 
-axios_C.get('/users/cart/' + 2)
+useAxios.get('/users/cart/' + 2)
     .then(response => {
         responseData.value = response.data;
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 watch(refreshCartPage, () => {
-    axios_C.get('/users/cart/' + 2)
+    useAxios.get('/users/cart/' + 2)
         .then(response => {
             responseData.value = response.data;
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 } )
 
 function deleteCartItems(itemid){
-    axios_C.delete('/users/cart/' + itemid)
+    useAxios.delete('/users/cart/' + itemid)
         .then(response => {
             response.data;
             refreshCartPage.value = !refreshCartPage.value
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
+            useAlert().topAlert('success', 'Successfully deleted cart item')
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
@@ -51,28 +52,31 @@ watch(responseData, () => {
 } )
 
 function productQuantityIncrement(cartId, productId, qty) {
-    axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
+    useAxios.put('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
         .then(response => {
             console.log(response.data);
             refreshCartPage.value = !refreshCartPage.value
+            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
 function productQuantityDecrement(cartId, productId, qty) {
     if (qty > 1) {
-        axios_C.put('/users/cart/' + cartId + '/' + productId + '/' + --qty)
+        useAxios.put('/users/cart/' + cartId + '/' + productId + '/' + --qty)
             .then(response => {
                 console.log(response.data);
                 refreshCartPage.value = !refreshCartPage.value
+                refreshCartItemsNumber.value = !refreshCartItemsNumber.value
             })
             .catch(error => {
-                console.log(error);
+                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
             });
     }
 }
+
 </script>
 <template>
     <!-- Page Header Start -->

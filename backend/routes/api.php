@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Frontend\BrandController;
+use App\Http\Controllers\Api\Frontend\CategoryController;
 use App\Http\Controllers\Api\Frontend\CompareController;
 use App\Http\Controllers\Api\Frontend\ContactController;
 use App\Http\Controllers\Api\Frontend\HomeController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\Api\Frontend\relatedProductController;
 use App\Http\Controllers\Api\Frontend\ReviewController;
 use App\Http\Controllers\Api\Frontend\SearchController;
 use App\Http\Controllers\Api\Frontend\ShopController;
+use App\Http\Controllers\Api\Frontend\SubCategoryController;
 use App\Http\Controllers\Api\Frontend\TopRatingController;
 use App\Http\Controllers\Api\Frontend\TopSaleController;
 use App\Http\Controllers\Api\Frontend\Users\CartController;
@@ -50,15 +53,14 @@ Route::name('api.')->group(function () {
     Route::get('offers', SearchController::class)->name('offers');
     Route::post('contacts', ContactController::class)->name('contacts');
     Route::get('shop', ShopController::class)->name('shop');
-    Route::get('arrivals', NewArrivalController::class)->name('.arrivals');
+    Route::get('categories/{slug}', CategoryController::class)->name('.categories');
+    Route::get('sub-categories/{slug}', SubCategoryController::class)->name('.subCategories');
+    Route::get('brands/{slug}', BrandController::class)->name('.brands');
     Route::get('ratings', TopRatingController::class)->name('.ratings');
     Route::get('sales', TopSaleController::class)->name('.sales');
     Route::post('compare', CompareController::class)->name('.compare');
 
-    Route::prefix('products')->name('products')->group(function () {
-        Route::get('{slug}', [ProductController::class, 'productDetails'])->where('id', '[0-9]+');
-        Route::get('related/{cateId}', [ProductController::class, 'relatedProduct'])->name('.related')->where('id', '[0-9]+');
-    });
+    Route::get('products/{slug}', [ProductController::class, 'productDetails'])->name('productDetails');
 
     Route::prefix('users')->name('users')->group(function () {
         Route::get('cart/{id}', [CartController::class, 'inbox'])->name('.cart')->where('id', '[0-9]+');

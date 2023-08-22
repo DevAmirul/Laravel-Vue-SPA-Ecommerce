@@ -1,13 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue';
-import axios_C from '../../services/axios';
+import useAxios from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
 import { storeToRefs } from "pinia";
+import useAlert from "../../services/Sweetalert";
 
 const { refreshCartItemsNumber, refreshWishlistPage, refreshWishlistItemsNumber } = storeToRefs(useRefresh());
-const wishlist = ref();
 
+const wishlist = ref();
 wishlist.value =  JSON.parse(localStorage.getItem('productAttributes'));
 
 watch(refreshWishlistPage, () => {
@@ -24,6 +25,7 @@ function deleteWishlist(productId) {
                 localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
                 refreshWishlistPage.value = !refreshWishlistPage.value
                 refreshWishlistItemsNumber.value = !refreshWishlistItemsNumber.value
+                useAlert().topAlert('success', 'Successfully deleted item to wishlist')
                 break;
             }
         }
@@ -34,13 +36,14 @@ function addToCart(productId) {
     let query;
     query = encodeURIComponent([productId]);
     deleteWishlist(productId)
-    axios_C.get('/users/cart/save/?productId=' + query + '&user=2')
+    useAxios.get('/users/cart/save/?productId=' + query + '&user=2')
         .then(response => {
             console.log(response.data)
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
+            useAlert().topAlert('success', 'Successfully added to cart')
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 </script>

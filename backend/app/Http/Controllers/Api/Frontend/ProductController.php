@@ -14,14 +14,14 @@ class ProductController extends Controller
 {
     public function productDetails(Request $request): Response
     {
-        $product = Product::select('id', 'name', 'image', 'slug', 'description', 'sale_price','category_id')
-            ->where('id', 1)
-            // ->where('products.slug', $request->slug)
+        $product = Product::select('id', 'name', 'image', 'slug', 'description', 'sale_price','category_id','gallery')
+            ->where('slug', $request->slug)
             ->withCount('review')->withAvg('review', 'rating_value')
             ->with(['discountPrice:product_id,discount,type,start_date,expire_date', 'productAttribute:product_id,attribute_name,attribute_values', 'review' => function ($query) {
                     $query->take(10)->with('user:id,name');
                 }
-            ])->get();
+            ])
+            ->get();
 
         $relatedProducts = relatedProductService::relatedProductQuery($product[0]->category_id);
         return response(compact('product', 'relatedProducts'), 200);

@@ -1,31 +1,32 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute } from "vue-router";
-import axios_C from '../services/axios';
+import useAxios from '../services/axios';
 import Paginate from "../components/Paginate.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
+import useAlert from "../services/Sweetalert";
 
 const route = useRoute();
 const responseData = ref();
 
-axios_C.get(route.path)
+useAxios.get(route.path)
     .then(response => {
         responseData.value = response.data;
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 
 watch( () => route.path,
     () => {
-        axios_C.get(route.path)
+        useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data;
             })
             .catch(error => {
-                console.log(error);
+                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
             });
     }
 )

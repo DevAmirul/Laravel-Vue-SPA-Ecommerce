@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CategoryController extends Controller {
+
     /**
      * Handle the incoming request.
      */
     public function __invoke(Request $request): Response{
-        $products = SearchProductService::searchProductQuery($request);
+        $products = SearchProductService::searchProductQuery($request, 'categories');
         return response(compact('products'), 200);
     }
 }

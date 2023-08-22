@@ -1,6 +1,7 @@
 <script setup>
 import { reactive,ref,toRaw,watch } from 'vue'
-import axios_C from '../../services/axios';
+import useAxios from '../../services/axios';
+import useAlert from "../../services/Sweetalert";
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
 
@@ -10,7 +11,7 @@ let subtotal;
 let total;
 let couponCode = ref();
 let responseCoupon = ref(0);
-
+let responseData = ref();
 const formData = reactive({
     phone: '',
     address: '',
@@ -25,15 +26,12 @@ const formData = reactive({
     coupon: responseCoupon,
 });
 
-
-let responseData = ref();
-
-axios_C.get('/users/checkout/' + 2)
+useAxios.get('/users/checkout/' + 2)
     .then(response => {
         responseData.value = response.data;
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 
@@ -47,7 +45,7 @@ subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
 })
 
 function save() {
-    axios_C.post('/users/checkout/', {
+    useAxios.post('/users/checkout/', {
         data: {
             "billingDetails": {
                 "city": formData.city,
@@ -68,10 +66,10 @@ function save() {
         }
     })
         .then(response => {
-            console.log(response);
+            useAlert().topAlert('success', 'Successfully added to order')
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
@@ -80,13 +78,12 @@ function save() {
 
 function getCoupon(code) {
     if (code) {
-        axios_C.get('/users/cart/coupon/' + code)
+        useAxios.get('/users/cart/coupon/' + code)
             .then(response => {
                 responseCoupon.value = response.data;
-                console.log(responseCoupon.value.coupon);
             })
             .catch(error => {
-                console.log(error);
+                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
             });
     }
 }

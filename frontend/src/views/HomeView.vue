@@ -1,40 +1,38 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { RouterLink } from "vue-router";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
-import axios_C from '../services/axios';
+import useAxios from '../services/axios';
+import useAlert from '../services/Sweetalert';
 import ProductsCard from '../components/ProductsCard.vue';
 import HomeNavbar from '../components/layouts/HomeNavbar.vue';
 
-import pro1 from '../assets/img/vendor-1.jpg'
-
 let responseData = ref();
+let responseCateData = ref();
+let responseOfferData = ref();
 
-axios_C.get('/home')
+useAxios.get('/home')
     .then(response => {
         responseData.value = response.data
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
-let responseCateData = ref();
-let responseOfferData = ref();
-
-axios_C.get('home/categories')
+useAxios.get('home/categories')
     .then(response => {
         responseCateData.value = response.data
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
-axios_C.get('/home/offers')
+useAxios.get('/home/offers')
     .then(response => {
         responseOfferData.value = response.data
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 </script>
@@ -89,7 +87,7 @@ axios_C.get('/home/offers')
         <Carousel :items-to-show="5" :wrap-around="true">
         <Slide v-for="(data, key) in responseCateData.categories" :key="key">
             <div class="card" style="width: 10rem;">
-                <img :src="pro1" class="card-img-top" alt="image">
+                <img :src="data.image" class="card-img-top" alt="image">
                 <div class="card-body">
                     <RouterLink :to="{ name: 'category', params: { slug: data.slug } }">
                         <h6 class="card-text text-primary" style="cursor: pointer;">{{ data.name }}</h6>

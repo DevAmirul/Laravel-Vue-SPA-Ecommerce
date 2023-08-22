@@ -64,7 +64,7 @@ trait ProductsService {
 
             (gettype($this->image) == 'object') ? $rulesForUpdate['image']                                = 'required|mimes:jpeg,png,jpg' : null;
             (gettype($this->gallery) == 'array' && !empty($this->gallery)) ? $rulesForUpdate['gallery.*'] = 'required|mimes:jpeg,png,jpg' : null;
-            
+
             return $rulesForUpdate;
         } else {
             return [
@@ -103,12 +103,12 @@ trait ProductsService {
 
     public function beforeProductSaveFunc(): array{
         $validate                = $this->validate();
-
         $validate['category_id'] = $validate['selectedCategory'];
 
-        $validate['tags'] = Tag::when(count($validate['selectedTags']) > 1, function (Builder $builder) use ($validate) {
-            $builder->whereBetween('id', Arr::sort($validate['selectedTags']));
-        })
+        $validate['tags'] = Tag::
+            when(count($validate['selectedTags']) > 1, function (Builder $builder) use ($validate) {
+                $builder->whereBetween('id', Arr::sort($validate['selectedTags']));
+            })
             ->when(count($validate['selectedTags']) == 1, function (Builder $builder) use ($validate) {
                 $builder->where('id', $validate['selectedTags'][0]);
             })

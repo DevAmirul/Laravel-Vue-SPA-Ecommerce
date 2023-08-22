@@ -1,17 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from "vue-router";
-import axios_C from '../../services/axios';
+import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
+import useAlert from "../../services/Sweetalert";
 
 let responseData = ref();
 
-axios_C.get('/users/orders/'+'2')
+useAxios.get('/users/orders/'+'2')
     .then(response => {
         responseData.value = response.data
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 </script>
@@ -44,18 +45,30 @@ axios_C.get('/users/orders/'+'2')
                                     <td class="align-middle">{{ data.quantity }}</td>
                                     <td class="align-middle">{{ data.total }}</td>
                                     <!-- check order status start -->
-                                    <td v-if="data.orderStatus == 'Approved'" class="align-middle"> <button class="btn btn-sm btn-info"> Approved </button>
+                                    <td v-if="data.orderStatus == 'Approved'" class="align-middle">
+                                        <span class="badge badge-pill badge-info rounded">Approved</span>
                                     </td>
-                                    <td v-else-if="data.orderStatus == 'Delivered'" class="align-middle"><button class="btn btn-sm btn-success">Delivered </button></td>
-                                    <td v-else-if="data.orderStatus == 'Shipped'" class="align-middle"><button class="btn btn-sm btn-primary">Shipped </button></td>
-                                    <td v-else-if="data.orderStatus == 'Pending'" class="align-middle"><button class="btn btn-sm btn-info">Pending </button></td>
-                                    <td v-else-if="data.orderStatus == 'Canceled'" class="align-middle"><button class="btn btn-sm btn-danger">Canceled </button></td>
-                                    <td v-else class="align-middle"><button class="btn btn-sm btn-dark">Returned </button></td>
+                                    <td v-else-if="data.orderStatus == 'Delivered'" class="align-middle">
+                                        <span class="badge badge-pill badge-success rounded">Delivered</span>
+                                    </td>
+                                    <td v-else-if="data.orderStatus == 'Shipped'" class="align-middle">
+                                        <span class="badge badge-pill badge-primary rounded">Shipped</span>
+                                    </td>
+                                    <td v-else-if="data.orderStatus == 'Pending'" class="align-middle">
+                                        <span class="badge badge-pill badge-info rounded">Pending</span>
+                                    </td>
+                                    <td v-else-if="data.orderStatus == 'Canceled'" class="align-middle">
+                                        <span class="badge badge-pill badge-danger rounded">Canceled</span>
+                                    </td>
+                                    <td v-else class="align-middle">
+                                    <span class="badge badge-pill badge-dark rounded">Returned</span>
+                                    </td>
                                     <!-- check order status end -->
                                     <!-- check payment status start -->
-                                    <td v-if="data.paymentStatus == 0" class="align-middle"> <button class="btn btn-sm btn-danger"> UnPaid </button>
+                                    <td v-if="data.paymentStatus == 0" class="align-middle">
+                                        <span class="badge badge-pill badge-danger rounded">Unpaid</span>
                                     </td>
-                                    <td v-else class="align-middle"><button class="btn btn-sm btn-success">Paid </button></td>
+                                    <td v-else class="align-middle"><span class="badge badge-pill badge-success rounded">Paid</span></td>
                                     <!-- check payment status end -->
                                     <td class="align-middle">
                                         <RouterLink :to="{ name: 'orderItems', params:{id: data.id} }" style="text-decoration: none; color: inherit">

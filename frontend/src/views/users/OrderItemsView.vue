@@ -1,24 +1,24 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { RouterLink, useRoute } from "vue-router";
-import axios_C from '../../services/axios';
+import useAxios from '../../services/axios';
+import useAlert from "../../services/Sweetalert";
 import PageHeader from "../../components/layouts/PageHeader.vue";
 
 const router = useRoute();
 const paramsId = router.params.id;
 let discount = ref(0);
 let responseData = ref();
-
 let confirmed;
 let Shipped;
 let Delivered;
 
-axios_C.get('/users/orders/'+ paramsId +'/items')
+useAxios.get('/users/orders/'+ paramsId +'/items')
     .then(response => {
         responseData.value = response.data
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 

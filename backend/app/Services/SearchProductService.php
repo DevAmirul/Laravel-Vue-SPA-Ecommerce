@@ -4,41 +4,62 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 
-class SearchProductService {
-    public string $priceAcce     = '';
-    public string $searchStr     = '';
-    public string $latest        = '';
-    public string $filterByPrice = '';
-    public string $category      = '';
-    public string $subcategory   = '';
-    public string $section       = '';
+class SearchProductService
+{
 
-    public static function searchProductQuery(): object {
+    public static function searchProductQuery($request, ?string $optionalRequest = null): object
+    {
         return DB::table('products')
+            ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'discount_prices.discount')
             ->join('discount_prices', 'products.id', '=', 'discount_prices.product_id')
-            ->when(false, function ($query) {
-                $query->join('brands', 'products.brand_id', '=', 'brands.id');
+            // ->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
+            ->when($optionalRequest === 'categories', function ($query) use ($request) {
+                $query->join('categories', 'products.category_id', '=', 'categories.id')
+                    ->where('categories.slug', $request->slug);
             })
-            ->when(false, function ($query) {
-                $query->join('categories', 'products.category_id', '=', 'categories.id');
+            ->when($optionalRequest === 'subCategories', function ($query) use ($request) {
+                $query->join('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id')
+                    ->where('sub_categories.slug', $request->slug);
             })
-            ->when(false, function ($query) {
-                $query->join('sub_categories', 'products.sub_category_id', '=', 'sub_categories.id');
+            ->when($optionalRequest === 'brands', function ($query) use ($request) {
+                $query->join('brands', 'products.brand_id', '=', 'brands.id')
+                    ->where('brands.slug', $request->slug);
             })
-            ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'discount_prices.discount')
-            ->when(false, function ($query) {
-                $query->whereBetween('products.sale_price', [1, 100]);
+            ->when($request->minPrice && $request->maxPrice, function ($query) use ($request) {
+                $query->whereBetween('products.sale_price', [$request->minPrice, $request->maxPrice]);
             })
-            ->when(false, function ($query) {$query->where('brands.slug', 'slug');})
-            ->when(false, function ($query) {$query->where('categories.slug', 'slug');})
-            ->when(false, function ($query) {$query->where('sub_categories.slug', 'slug');})
-            ->when(false, function ($query) {
-                $query->where('products.name', 'LIKE', '%' . $this->searchStr . '%')
-                    ->orWhere('products.tags', 'LIKE', '%' . $this->searchStr . '%')
-                    ->orWhere('products.sku', 'LIKE', '%' . $this->searchStr . '%')
-                    ->orWhere('products.sale_price', 'LIKE', '%' . $this->searchStr . '%');
+
+            // ->when($request->color, function ($query) use ($request) {
+            // $query->whereIn('product_attribute.attribute_values', ['red', 'green']);
+            // explode(',', $request->color)
+            // })
+            // ->when($request->size, function ($query) use ($request) {
+            // $query->whereIn('product_attribute.attribute_values', ['red', 'green']);
+            // explode(',', $request->color)
+            // })
+            
+            ->when($request->search, function ($query) use ($request) {
+                $query->where('products.name', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('products.tags', 'LIKE', '%' . $request->search . '%');
             })
-            ->when(false, function ($query) { $query->orderByDesc('products.sale_price'); })
-            ->when(false, function ($query) { $query->latest(); })->paginate(20);
+            ->when(!$request->sort, function ($query) {
+                $query->latest();
+            })
+            ->when($request->sort, function ($query) use ($request) {
+                if ($request->sort === 'oldest') {
+                    $query->oldest();
+                } elseif ($request->sort === 'p_low_to_high') {
+                    $query->orderBy('products.sale_price');
+                } elseif ($request->sort === 'p_high_to_low') {
+                    $query->orderByDesc('products.sale_price');
+                } elseif ($request->sort === 'asc') {
+                    $query->orderBy('products.name');
+                } elseif ($request->sort === 'des') {
+                    $query->orderByDesc('products.name');
+                } elseif ($request->sort === 'latest') {
+                    $query->latest();
+                }
+            })
+            ->paginate($request->limit ?? 20);
     }
 }

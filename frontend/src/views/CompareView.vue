@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
-import axios_C from '../services/axios';
+import { ref } from 'vue'
+import useAxios from '../services/axios';
+import useAlert from '../services/Sweetalert';
 import PageHeader from "../components/layouts/PageHeader.vue";
 import useRefresh from '../stores/Refresh';
 import { storeToRefs } from "pinia";
@@ -12,17 +13,16 @@ const compareList = ref();
 compareList.value = JSON.parse(localStorage.getItem('compare'));
 
 if (compareList.value) {
-    axios_C.post('/compare', {
+    useAxios.post('/compare', {
         data: {
             productIdArray: compareList.value
         }
     })
         .then(response => {
             responseData.value = response.data;
-            console.log(responseData.value);
         })
         .catch(error => {
-            console.log(error);
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
@@ -30,6 +30,7 @@ function clearCompareList(){
     localStorage.removeItem('compare')
     responseData.value = null
     refreshCompareItemsNumber.value = !refreshCompareItemsNumber.value
+    useAlert().topAlert('info', 'The comparison list is empty')
 }
 </script>
 <template>

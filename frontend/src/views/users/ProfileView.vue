@@ -1,9 +1,10 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import axios_C from '../../services/axios';
+import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
+import useAlert from "../../services/Sweetalert";
 
-let responseData = reactive({
+const responseData = reactive({
     name: '',
     email: '',
     phone: '',
@@ -15,10 +16,9 @@ let responseData = reactive({
     password: '',
     confirm_password: '',
 });
+const isChangedPass = ref(false);
 
-
-let isChangedPass = ref(false);
-axios_C.get('/users/profiles/4')
+useAxios.get('/users/profiles/4')
     .then(response => {
         responseData.id = response.data.user.id
         responseData.name = response.data.user.name
@@ -33,11 +33,11 @@ axios_C.get('/users/profiles/4')
         responseData.review = response.data.user.review_count
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 
 function save(){
-    axios_C.put('/users/profiles/' + responseData.id, {
+    useAxios.put('/users/profiles/' + responseData.id, {
         data: {
             "name": responseData.name,
             "email": responseData.email,
@@ -52,10 +52,10 @@ function save(){
         }
     })
     .then(response => {
-        console.log(response);
+        useAlert().topAlert('success', 'Successfully updated profile')
     })
     .catch(error => {
-        console.log(error);
+        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
     });
 }
 

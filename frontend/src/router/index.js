@@ -19,8 +19,8 @@ const router = createRouter({
       component: () => import('../views/ProductsView.vue')
     },
     {
-      path: '/contacts',
-      name: 'contacts',
+      path: '/contact-us',
+      name: 'contactUs',
       component: () => import('../views/ContactsView.vue')
     },
     {
@@ -40,12 +40,17 @@ const router = createRouter({
     },
     {
       path: '/categories/:slug',
-      name: 'category',
+      name: 'categories',
       component: () => import('../views/CategoriesView.vue')
     },
     {
       path: '/sub-categories/:slug',
-      name: 'subCategory',
+      name: 'subCategories',
+      component: () => import('../views/SubCategoriesView.vue')
+    },
+    {
+      path: '/brands/:slug',
+      name: 'brands',
       component: () => import('../views/SubCategoriesView.vue')
     },
     {
@@ -54,17 +59,12 @@ const router = createRouter({
       component: () => import('../views/SaleView.vue')
     },
     {
-      path: '/new-arrivals',
-      name: 'newArrivals',
-      component: () => import('../views/NewArrivalsView.vue')
-    },
-    {
       path: '/users/orders',
       name: 'orders',
       component: () => import('../views/users/OrdersView.vue'),
     },
     {
-      path: '/users/order/:id(\\d+)/items',
+      path: '/users/orders/:id(\\d+)/items',
       name: 'orderItems',
       component: () => import('../views/users/OrderItemsView.vue')
     },

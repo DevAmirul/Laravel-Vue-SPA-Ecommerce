@@ -16,6 +16,6 @@ class ShopController extends Controller {
         $products = SearchProductService::searchProductQuery($request);
         return response(compact('products'), 200);
 
-        // return response($request->input());
+        // return response(explode(',', $request->color) , 200);
     }
 }

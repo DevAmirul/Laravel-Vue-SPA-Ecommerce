@@ -39,8 +39,7 @@ const { settings } = defineProps(['settings'])
                                     Shop</a>
                                 </RouterLink>
                                 <RouterLink :to="{ name: 'cart' }">
-                                    <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping
-                                    Cart</a>
+                                    <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Cart</a>
                                 </RouterLink>
                                 <RouterLink :to="{ name: 'checkout' }">
                                     <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
@@ -52,11 +51,11 @@ const { settings } = defineProps(['settings'])
                             Quick Links
                         </h5>
                         <div class="d-flex flex-column justify-content-start">
-                            <RouterLink :to="{ name: 'contacts' }">
-                                        <a class="text-dark" href="contacts.html"><i class="fa fa-angle-right mr-2"></i>Contact
+                            <RouterLink :to="{ name: 'contactUs' }">
+                                        <a class="text-dark"><i class="fa fa-angle-right mr-2"></i>Contact Us
                                         Us</a>
                                     </RouterLink>
-                            
+
                         </div>
                     </div>
 

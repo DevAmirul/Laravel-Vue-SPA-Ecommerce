@@ -8,7 +8,8 @@ import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import axios_C from "../services/axios";
+import useAxios from "../services/axios";
+import useAlert from "../services/Sweetalert";
 
 const { responseData } = storeToRefs(useSearch());
 const route = useRoute();
@@ -16,25 +17,26 @@ const route = useRoute();
 onMounted(() => {
     const queryFromLink = new URLSearchParams(route.query).toString();
     if (queryFromLink == '') {
-        axios_C.get(route.path)
+        useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data
                 console.log(responseData.value, 'mounted');
             })
             .catch(error => {
-                console.log(error);
+                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
             });
     }
 })
+
 watch(() => route.path,
     () => {
-        axios_C.get(route.path)
+        useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data;
-                console.log('ok');
+                console.log(responseData.value);
             })
             .catch(error => {
-                console.log(error);
+                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
             });
     }
 )
