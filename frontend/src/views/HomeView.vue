@@ -1,9 +1,8 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink } from "vue-router";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import useAxios from '../services/axios';
-import useAlert from '../services/Sweetalert';
 import ProductsCard from '../components/ProductsCard.vue';
 import HomeNavbar from '../components/layouts/HomeNavbar.vue';
 
@@ -11,29 +10,31 @@ let responseData = ref();
 let responseCateData = ref();
 let responseOfferData = ref();
 
-useAxios.get('/home')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/home')
+        .then(response => {
+            responseData.value = response.data
+        })
+        .catch(error => {
+            // console.log(error);
+        });
 
-useAxios.get('home/categories')
-    .then(response => {
-        responseCateData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+    useAxios.get('home/categories')
+        .then(response => {
+            responseCateData.value = response.data
+        })
+        .catch(error => {
+            // console.log(error);
+        });
 
-useAxios.get('/home/offers')
-    .then(response => {
-        responseOfferData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+    useAxios.get('/home/offers')
+        .then(response => {
+            responseOfferData.value = response.data
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 </script>
 <template>
@@ -89,7 +90,7 @@ useAxios.get('/home/offers')
             <div class="card" style="width: 10rem;">
                 <img :src="data.image" class="card-img-top" alt="image">
                 <div class="card-body">
-                    <RouterLink :to="{ name: 'category', params: { slug: data.slug } }">
+                    <RouterLink :to="{ name: 'categories', params: { slug: data.slug } }">
                         <h6 class="card-text text-primary" style="cursor: pointer;">{{ data.name }}</h6>
                     </RouterLink>
 

@@ -1,9 +1,10 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
 import useAlert from "../../services/Sweetalert";
 
+const isChangedPass = ref(false);
 const responseData = reactive({
     name: '',
     email: '',
@@ -16,25 +17,26 @@ const responseData = reactive({
     password: '',
     confirm_password: '',
 });
-const isChangedPass = ref(false);
 
-useAxios.get('/users/profiles/4')
-    .then(response => {
-        responseData.id = response.data.user.id
-        responseData.name = response.data.user.name
-        responseData.email = response.data.user.email
-        responseData.phone = response.data.user.billing_detail.phone
-        responseData.city = response.data.user.billing_detail.city
-        responseData.state = response.data.user.billing_detail.state
-        responseData.address = response.data.user.billing_detail.address
-        responseData.address_2 = response.data.user.billing_detail.address_2
-        responseData.zip_code = response.data.user.billing_detail.zip_code
-        responseData.orders = response.data.user.order_count
-        responseData.review = response.data.user.review_count
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/users/profiles/4')
+        .then(response => {
+            responseData.id = response.data.user.id
+            responseData.name = response.data.user.name
+            responseData.email = response.data.user.email
+            responseData.phone = response.data.user.billing_detail.phone
+            responseData.city = response.data.user.billing_detail.city
+            responseData.state = response.data.user.billing_detail.state
+            responseData.address = response.data.user.billing_detail.address
+            responseData.address_2 = response.data.user.billing_detail.address_2
+            responseData.zip_code = response.data.user.billing_detail.zip_code
+            responseData.orders = response.data.user.order_count
+            responseData.review = response.data.user.review_count
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 function save(){
     useAxios.put('/users/profiles/' + responseData.id, {
@@ -52,7 +54,7 @@ function save(){
         }
     })
     .then(response => {
-        useAlert().topAlert('success', 'Successfully updated profile')
+        useAlert().centerMessageAlert('success', 'Successfully updated profile')
     })
     .catch(error => {
         useAlert().topAlert('error', error.response.data.message, 'bottom-end')

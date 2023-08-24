@@ -20,12 +20,10 @@ onMounted(() => {
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data
-                console.log(responseData.value, 'mounted');
+                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Shop is empty')
             })
             .catch(error => {
-                // useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-                console.log(error, 'watch');
-
+                // console.log(error);
             });
     }
 })

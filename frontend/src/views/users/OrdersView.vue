@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterLink } from "vue-router";
 import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
@@ -7,13 +7,16 @@ import useAlert from "../../services/Sweetalert";
 
 let responseData = ref();
 
-useAxios.get('/users/orders/'+'2')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/users/orders/' + '2')
+        .then(response => {
+            responseData.value = response.data
+            if (responseData.value.orders.length == 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 </script>
 <template>

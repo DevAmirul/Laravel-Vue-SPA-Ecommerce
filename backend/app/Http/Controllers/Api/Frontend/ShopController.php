@@ -15,7 +15,5 @@ class ShopController extends Controller {
     public function __invoke(Request $request): Response{
         $products = SearchProductService::searchProductQuery($request);
         return response(compact('products'), 200);
-
-        // return response(explode(',', $request->color) , 200);
     }
 }

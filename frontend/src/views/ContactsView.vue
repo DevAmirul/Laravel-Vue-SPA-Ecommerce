@@ -1,36 +1,42 @@
 <script setup>
-import { ref,reactive } from 'vue';
+import { ref,reactive, onMounted } from 'vue';
 import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
 import PageHeader from '../components/layouts/PageHeader.vue'
 
+let responseData = ref();
 const formData = reactive({
     name: '',
     email: '',
     subject: '',
     message: '',
 });
-let responseData = ref();
 
 function sendMessage(){
     useAxios.post('/contacts',{
         formData
     })
         .then(response => {
-            useAlert().topAlert('success', 'Successfully send message')
+            formData.name = ''
+            formData.email = ''
+            formData.subject = ''
+            formData.message = ''
+            useAlert().centerMessageAlert('success', response.data.message)
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
-useAxios.get('/site-settings')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/site-settings')
+        .then(response => {
+            responseData.value = response.data
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 </script>
 <template>

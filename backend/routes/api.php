@@ -75,8 +75,6 @@ Route::name('api.')->group(function () {
 
         Route::post('checkout', [CheckoutController::class, 'create'])->name('.checkout');
         Route::get('checkout/{id}', [CheckoutController::class, 'inbox'])->name('.checkout.inbox');
-
-
         Route::post('login', [ProfileController::class, 'signIn'])->name('.signIn');
         Route::post('register', [ProfileController::class, 'register'])->name('.register');
         Route::post('reset', [ProfileController::class, 'reset'])->name('.reset');
@@ -86,7 +84,6 @@ Route::name('api.')->group(function () {
             Route::post('/', [OrderController::class, 'create'])->name('create')->where('id', '[0-9]+');
             Route::get('{id}/items', [OrderItemController::class, 'index'])->name('.items')->where('id', '[0-9]+');
         });
-
         Route::prefix('profiles')->name('.profiles')->group(function () {
             Route::get('{id}', [ProfileController::class, 'index'])->where('id', '[0-9]+');
             Route::put('{id}', [ProfileController::class, 'update'])->name('.update')->where('id', '[0-9]+');

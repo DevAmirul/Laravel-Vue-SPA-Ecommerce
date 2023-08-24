@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from "vue-router";
 import useAxios from '../../services/axios';
 import useAlert from "../../services/Sweetalert";
@@ -13,13 +13,16 @@ let confirmed;
 let Shipped;
 let Delivered;
 
-useAxios.get('/users/orders/'+ paramsId +'/items')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/users/orders/' + paramsId + '/items')
+        .then(response => {
+            responseData.value = response.data
+            if (responseData.value.orderItems.length == 0) useAlert().centerDialogAlert('info', 'Order item list is empty')
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 
 watch(responseData, () => {

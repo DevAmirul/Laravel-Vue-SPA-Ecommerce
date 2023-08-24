@@ -16,7 +16,6 @@ const max = ref(maxPrice.value);
 useAxios.get('/sidebar')
     .then(response => {
         responseData.value = response.data
-        console.log(responseData.value);
     })
     .catch(error => {
         useAlert().topAlert('error', error.response.data.message, 'bottom-end')
@@ -27,10 +26,10 @@ function setAttributeValueToColor(attributeValue){
         color.value = attributeValue
     } else{
         if (color.value.search(attributeValue) == -1) {
-            color.value += ',' + attributeValue
+            color.value += '|' + attributeValue
         }
         else{
-            const newArr = color.value.split(',');
+            const newArr = color.value.split('|');
             const index = newArr.indexOf(attributeValue)
             newArr.splice(index, 1);
             color.value = newArr.toString()
@@ -43,10 +42,10 @@ function setAttributeValueToSize(attributeValue){
         size.value = attributeValue
     } else{
         if (size.value.search(attributeValue) == -1) {
-            size.value += ',' + attributeValue
+            size.value += '|' + attributeValue
         }
         else{
-            const newArr = size.value.split(',');
+            const newArr = size.value.split('|');
             const index = newArr.indexOf(attributeValue)
             newArr.splice(index, 1);
             size.value = newArr.toString()

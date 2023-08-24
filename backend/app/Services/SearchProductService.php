@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\DB;
 class SearchProductService
 {
 
-    public static function searchProductQuery($request, ?string $optionalRequest = null): object
+    public static function searchProductQuery($request, ?string $optionalRequest = null)
     {
         return DB::table('products')
             ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'discount_prices.discount')
             ->join('discount_prices', 'products.id', '=', 'discount_prices.product_id')
-            // ->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
             ->when($optionalRequest === 'categories', function ($query) use ($request) {
                 $query->join('categories', 'products.category_id', '=', 'categories.id')
                     ->where('categories.slug', $request->slug);
@@ -25,41 +24,33 @@ class SearchProductService
                 $query->join('brands', 'products.brand_id', '=', 'brands.id')
                     ->where('brands.slug', $request->slug);
             })
+            ->when($optionalRequest === 'sales', function ($query) {
+                $query->where('discount_prices.discount', '>', 0)->where('expire_date', '>', now());
+            })
             ->when($request->minPrice && $request->maxPrice, function ($query) use ($request) {
                 $query->whereBetween('products.sale_price', [$request->minPrice, $request->maxPrice]);
             })
-
-            // ->when($request->color, function ($query) use ($request) {
-            // $query->whereIn('product_attribute.attribute_values', ['red', 'green']);
-            // explode(',', $request->color)
-            // })
-            // ->when($request->size, function ($query) use ($request) {
-            // $query->whereIn('product_attribute.attribute_values', ['red', 'green']);
-            // explode(',', $request->color)
-            // })
-            
-            ->when($request->search, function ($query) use ($request) {
-                $query->where('products.name', 'LIKE', '%' . $request->search . '%')
-                    ->orWhere('products.tags', 'LIKE', '%' . $request->search . '%');
+            ->when($request->color || $request->size, function ($query) use ($request) {
+                $query->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
+                ->where(function($query) use ($request){
+                    if ($request->color) $query->where('product_attributes.color_attribute_values', 'REGEXP', $request->color);
+                    if ($request->size) $query->orWhere('product_attributes.size_attribute_values', 'REGEXP', $request->size);
+                });
             })
-            ->when(!$request->sort, function ($query) {
-                $query->latest();
+            ->when($request->search, function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('products.name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('products.tags', 'LIKE', '%' . $request->search . '%');
+                });
             })
             ->when($request->sort, function ($query) use ($request) {
-                if ($request->sort === 'oldest') {
-                    $query->oldest();
-                } elseif ($request->sort === 'p_low_to_high') {
-                    $query->orderBy('products.sale_price');
-                } elseif ($request->sort === 'p_high_to_low') {
-                    $query->orderByDesc('products.sale_price');
-                } elseif ($request->sort === 'asc') {
-                    $query->orderBy('products.name');
-                } elseif ($request->sort === 'des') {
-                    $query->orderByDesc('products.name');
-                } elseif ($request->sort === 'latest') {
-                    $query->latest();
-                }
-            })
+                if ($request->sort === 'oldest') $query->oldest();
+                elseif ($request->sort === 'p_low_to_high') $query->orderBy('products.sale_price');
+                elseif ($request->sort === 'p_high_to_low') $query->orderByDesc('products.sale_price');
+                elseif ($request->sort === 'asc') $query->orderBy('products.name');
+                elseif ($request->sort === 'des') $query->orderByDesc('products.name');
+                elseif ($request->sort === 'latest') $query->latest();
+            }, fn($query) => $query->latest() )
             ->paginate($request->limit ?? 20);
     }
 }

@@ -51,11 +51,11 @@ const router = createRouter({
     {
       path: '/brands/:slug',
       name: 'brands',
-      component: () => import('../views/SubCategoriesView.vue')
+      component: () => import('../views/BrandsView.vue')
     },
     {
-      path: '/sale',
-      name: 'sale',
+      path: '/sales',
+      name: 'sales',
       component: () => import('../views/SaleView.vue')
     },
     {

@@ -1,8 +1,8 @@
 <script setup>
 import { watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import useSearch from '../stores/Search'
 import { storeToRefs } from "pinia";
+import useSearch from '../stores/Search'
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
@@ -20,10 +20,10 @@ onMounted(() => {
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data
-                console.log(responseData.value, 'mounted');
+                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Your category is empty')
             })
             .catch(error => {
-                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+                // console.log(error);
             });
     }
 })
@@ -33,10 +33,10 @@ watch(() => route.path,
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data;
-                console.log(responseData.value);
+                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Your category is empty')
             })
             .catch(error => {
-                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+                // console.log(error);
             });
     }
 )
@@ -44,7 +44,7 @@ watch(() => route.path,
 <template>
     <!-- Page Header Start -->
     <PageHeader pageName="OUR SHOP"></PageHeader>
-    <!-- Page Header End -->w
+    <!-- Page Header End -->
     <!-- Shop Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">

@@ -1,5 +1,5 @@
 <script setup>
-import { reactive,ref,toRaw,watch } from 'vue'
+import { onMounted, reactive,ref,toRaw,watch } from 'vue'
 import useAxios from '../../services/axios';
 import useAlert from "../../services/Sweetalert";
 import PageHeader from '../../components/layouts/PageHeader.vue'
@@ -26,13 +26,15 @@ const formData = reactive({
     coupon: responseCoupon,
 });
 
-useAxios.get('/users/checkout/' + 2)
-    .then(response => {
-        responseData.value = response.data;
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/users/checkout/' + 2)
+        .then(response => {
+            responseData.value = response.data;
+        })
+        .catch(error => {
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+        });
+} )
 
 
 watch(responseData, () => {
@@ -44,7 +46,7 @@ subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
 }, 0)
 })
 
-function save() {
+function saveOrder() {
     useAxios.post('/users/checkout/', {
         data: {
             "billingDetails": {
@@ -66,24 +68,22 @@ function save() {
         }
     })
         .then(response => {
-            useAlert().topAlert('success', 'Successfully added to order')
+            useAlert().centerMessageAlert('success', 'Successfully added to order')
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
-
-
-
 function getCoupon(code) {
     if (code) {
         useAxios.get('/users/cart/coupon/' + code)
             .then(response => {
                 responseCoupon.value = response.data;
+                if (responseCoupon.value.coupon == null) useAlert().centerDialogAlert('info', 'Code not valid')
             })
             .catch(error => {
-                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+                console.log(error);
             });
     }
 }
@@ -296,7 +296,7 @@ function getCoupon(code) {
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <button @click="save()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                        <button @click="saveOrder()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
                     </div>
                 </div>
             </div>

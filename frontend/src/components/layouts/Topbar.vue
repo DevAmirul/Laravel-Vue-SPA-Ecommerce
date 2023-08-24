@@ -115,8 +115,8 @@ watch(refreshCartItemsNumber, () => {
                         <i class="fas fa-shopping-cart text-primary"></i>
                         <template v-if="cartItemsNumber">
                             <template v-if="cartItemsNumber.cartItemNumber !== null">
-                                <template v-if="cartItemsNumber.cartItemNumber.cart_item_sum_qty > 0">
-                                    <span class="badge">{{ cartItemsNumber.cartItemNumber.cart_item_sum_qty }}</span>
+                                <template v-if="cartItemsNumber.cartItemNumber.cart_item_count > 0">
+                                    <span class="badge">{{ cartItemsNumber.cartItemNumber.cart_item_count }}</span>
                                 </template>
                                 <template v-else>
                                     <span class="badge">0</span>

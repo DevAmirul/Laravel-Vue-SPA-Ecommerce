@@ -47,16 +47,13 @@ const useSearch = defineStore('search', () => {
             size: size.value,
         }).toString()
 
-
         axios_C.get( `${route.path}?${searchParams}` )
             .then(response => {
                 responseData.value = response.data
-                console.log(responseData.value, 'watch');
+                console.log(responseData.value);
             })
             .catch(error => {
-                    // useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-                console.log( error, 'watch');
-
+                // console.log( error);
             });
 
     })
@@ -70,11 +67,11 @@ const useSearch = defineStore('search', () => {
             if (route.query.minPrice) minPrice.value = route.query.minPrice
             if (route.query.maxPrice) maxPrice.value = route.query.maxPrice
             if (route.query.color) {
-                prevQueryColor.value = route.query.color.split(',');
+                prevQueryColor.value = route.query.color.split('|');
                 color.value = route.query.color;
             }
             if (route.query.size) {
-                prevQuerySize.value = route.query.size.split(',');
+                prevQuerySize.value = route.query.size.split('|');
                 size.value = route.query.size;
             }
         }

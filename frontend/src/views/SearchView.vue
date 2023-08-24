@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from "vue-router";
 import useAxios from '../services/axios';
 import Paginate from "../components/Paginate.vue";
@@ -10,23 +10,26 @@ import useAlert from "../services/Sweetalert";
 const route = useRoute();
 const responseData = ref();
 
-useAxios.get(route.path)
-    .then(response => {
-        responseData.value = response.data;
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
-
+onMounted(() => {
+    useAxios.get(route.path)
+        .then(response => {
+            responseData.value = response.data;
+            if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Shop is empty')
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 watch( () => route.path,
     () => {
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data;
+                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Shop is empty')
             })
             .catch(error => {
-                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+                // console.log(error);
             });
     }
 )

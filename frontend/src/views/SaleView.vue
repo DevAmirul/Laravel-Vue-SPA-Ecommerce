@@ -1,35 +1,33 @@
 <script setup>
-import { watch, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import useSearch from '../stores/Search'
 import { storeToRefs } from "pinia";
+import useSearch from '../stores/Search'
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
 import useAxios from "../services/axios";
-import useAlert from "../services/Sweetalert";
 
-const { responseData, query } = storeToRefs(useSearch());
+const { centerDialogAlert } = storeToRefs(useAlert());
+
+const { responseData } = storeToRefs(useSearch());
 const route = useRoute();
 
 onMounted(() => {
-    query.value = {}
-    console.log(query.value);
     const queryFromLink = new URLSearchParams(route.query).toString();
     if (queryFromLink == '') {
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data
-                console.log(responseData.value, 'mounted');
+                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Your brand is empty')
             })
             .catch(error => {
-                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+                // console.log(error);
             });
     }
 })
-
 </script>
 <template>
     <!-- Page Header Start -->

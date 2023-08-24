@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
 import PageHeader from "../components/layouts/PageHeader.vue";
@@ -10,21 +10,24 @@ const { refreshCompareItemsNumber, refreshComparePage } = storeToRefs(useRefresh
 const responseData = ref();
 const compareList = ref();
 
-compareList.value = JSON.parse(localStorage.getItem('compare'));
-
-if (compareList.value) {
-    useAxios.post('/compare', {
-        data: {
-            productIdArray: compareList.value
-        }
-    })
-        .then(response => {
-            responseData.value = response.data;
+onMounted(() => {
+    compareList.value = JSON.parse(localStorage.getItem('compare'));
+    if (compareList.value) {
+        useAxios.post('/compare', {
+            data: {
+                productIdArray: compareList.value
+            }
         })
-        .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-        });
-}
+            .then(response => {
+                responseData.value = response.data;
+            })
+            .catch(error => {
+                // console.log(error);
+            });
+    }else{
+        useAlert().centerDialogAlert('info', 'Your compare list is empty')
+    }
+} )
 
 function clearCompareList(){
     localStorage.removeItem('compare')

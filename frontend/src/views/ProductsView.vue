@@ -3,9 +3,9 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
+import { storeToRefs } from "pinia";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import PageHeader from "../components/layouts/PageHeader.vue";
-
 
 const route = useRoute();
 let responseData = ref();
@@ -16,7 +16,7 @@ const formData = reactive({
     comment: '',
 });
 
-function create() {
+function addReview() {
     useAxios.post('/users/review', {
         data: {
             "product_id": responseData.value.product[0].id,
@@ -26,7 +26,7 @@ function create() {
         }
     })
         .then(response => {
-            useAlert().topAlert('success', 'Successfully added review')
+            useAlert().centerMessageAlert('info', response.data.message)
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
@@ -49,14 +49,14 @@ onMounted(() => {
             responseData.value = response.data;
         })
         .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+            // console.log(error);
         });
 } )
 
 function addToCart(productId) {
     useAxios.get('/users/cart/save/?productId=' + productId + '&user=2')
         .then(response => {
-            useAlert().topAlert('success', 'Successfully added to cart')
+            useAlert().centerMessageAlert('success', 'Successfully added to cart')
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
@@ -276,7 +276,7 @@ function addToCart(productId) {
                                         >Your email address will not be published.
                                         Required fields are marked *</small
                                     >
-                                    <form @submit.prevent="create()">
+                                    <form @submit.prevent="addReview()">
                                         <div class="d-flex my-3">
                                             <p class="mb-0 mr-2">Your Rating * :</p>
                                             <div class="form-group col-4">

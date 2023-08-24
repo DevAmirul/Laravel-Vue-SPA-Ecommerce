@@ -1,31 +1,36 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import useAxios from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
 import { storeToRefs } from "pinia";
 import useAlert  from "../../services/Sweetalert";
+
 const { refreshCartItemsNumber, refreshCartPage } = storeToRefs(useRefresh());
 
 const responseData = ref();
 let discount;
 let subtotal;
 
-useAxios.get('/users/cart/' + 2)
-    .then(response => {
-        responseData.value = response.data;
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/users/cart/' + 2)
+        .then(response => {
+            responseData.value = response.data;
+            if (responseData.value.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 watch(refreshCartPage, () => {
     useAxios.get('/users/cart/' + 2)
         .then(response => {
             responseData.value = response.data;
+            if (responseData.value.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
         })
         .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+            // console.log(error);
         });
 } )
 
@@ -35,7 +40,7 @@ function deleteCartItems(itemid){
             response.data;
             refreshCartPage.value = !refreshCartPage.value
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
-            useAlert().topAlert('success', 'Successfully deleted cart item')
+            useAlert().centerMessageAlert('success', 'Successfully deleted cart item')
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
