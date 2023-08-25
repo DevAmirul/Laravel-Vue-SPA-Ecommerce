@@ -5,15 +5,13 @@ import { RouterLink } from "vue-router";
 
 let responseData = ref();
 
-axios_C.get('/home/sidebar')
+axios_C.get('/home/navbar')
     .then(response => {
         responseData.value = response.data
-        // console.log(responseData.value);
     })
     .catch(error => {
-        console.log(error);
+        // console.log(error);
     });
-
 
 </script>
 <template>

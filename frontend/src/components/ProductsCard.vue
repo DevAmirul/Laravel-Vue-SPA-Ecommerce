@@ -59,7 +59,7 @@ function addToWishlist(productAttributes) {
 }
 
 function addToCart(productId) {
-    useAxios.get('/users/cart/save/?productId=' + productId + '&user=2')
+    useAxios.get('/users/cart/add/'+ 2 + '/' + productId)
         .then(response => {
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
             useAlert().topAlert('success', 'Successfully added to cart')

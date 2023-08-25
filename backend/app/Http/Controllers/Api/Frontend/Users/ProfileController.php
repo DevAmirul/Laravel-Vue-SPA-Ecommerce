@@ -65,7 +65,7 @@ class ProfileController extends Controller
         return response(true, 200);
     }
 
-    public function signIn(Request $request): Response
+    public function login(Request $request): Response
     {
         return response(true, 200);
     }

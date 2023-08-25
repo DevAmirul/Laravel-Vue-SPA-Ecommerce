@@ -22,7 +22,7 @@ class CartController extends Controller
         return response(compact('carts'), 200);
     }
 
-    public function deleteCartItems(Request $request): Response
+    public function destroy(Request $request): Response
     {
         CartItem::destroy($request->id);
         return response(true, 200);
@@ -31,26 +31,24 @@ class CartController extends Controller
     public function getCoupon(Request $request): Response
     {
         $coupon = Coupon::whereCode($request->code)->where('expire_date', '>', now())->where('status', 1)->first(['id','discount']);
-
         return response(compact('coupon'), 200);
     }
 
-    public function save(Request $request): Response
+    public function add(Request $request): Response
     {
-        $cart = Cart::updateOrCreate(['user_id' => $request->user]);
+        $cart = Cart::updateOrCreate(['user_id' => $request->userId]);
         $cart->cartItem()->updateOrCreate(['cart_id' => $cart->id, 'product_id' => $request->productId], ['qty' => DB::raw('qty')]);
-
         return response($cart->id, 200);
     }
 
-    public function updateCartItems(Request $request): Response
+    public function update(Request $request): Response
     {
         CartItem::whereCartId($request->cartId)->whereProductId($request->productId)->update(['qty' => $request->qty]);
 
         return response($request->cartId, 200);
     }
 
-    public function countCart(Request $request): Response
+    public function count(Request $request): Response
     {
         $cartItemNumber = Cart::select('id')->whereUserId($request->userId)
             ->withCount('cartItem')->first();

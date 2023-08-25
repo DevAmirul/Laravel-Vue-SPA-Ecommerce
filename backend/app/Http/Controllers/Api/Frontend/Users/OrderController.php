@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 
 class OrderController extends Controller {
 
-    public function showOrdersQuery(Request $request): Response{
+    public function index(Request $request): Response{
         $orders = Order::whereUserId($request->id)->withCount('orderItem')
         ->get(['id','user_id','order_status', 'total', 'payment_status','created_at']);
 
@@ -19,7 +19,7 @@ class OrderController extends Controller {
     }
 
     public function create(Request $request) : Response {
-        
+
 
         // return response(compact('orders'), 200);
         return response($request->input(), 200);
