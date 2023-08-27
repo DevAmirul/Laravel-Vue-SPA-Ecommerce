@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SearchedKeyword extends Model {
     use HasFactory;
 
+    public $timestamps = false;
 }

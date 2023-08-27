@@ -4,25 +4,28 @@ namespace App\Http\Livewire\Settings\Offers;
 
 use App\Http\ServiceTraits\OffersService;
 use App\Http\Traits\CreateSlugTrait;
+use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\DiscountPrice;
 use App\Models\Offer;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class OffersUpdateController extends Component {
-    use CreateSlugTrait, OffersService;
+    use CreateSlugTrait, OffersService, WithFileUploads, FileTrait;
 
     public string $pageUrl = 'update';
 
-    public function updated($propertyName): void{
-        $this->validateOnly($propertyName, $this->rules);
-    }
-
-    public function mount($id): void{
-        $this->offerId = $id;
+    public function mount($id): void {
+        $this->offerId     = $id;
         $offer             = Offer::find($id);
         $this->name        = $offer->name;
+        $this->title        = $offer->title;
+        $this->image       = $offer->image;
+        $this->oldImage    = $offer->image;
         $this->discount    = $offer->discount;
         $this->type        = $offer->type;
         $this->status      = $offer->status;
@@ -34,20 +37,11 @@ class OffersUpdateController extends Component {
         $this->brands        = Brand::all('id', 'name');
     }
 
-    public function save(): bool{
-        $validate = $this->validate();
-        Offer::whereId($this->offerId)->update($validate);
+    public function save(): bool {
+        $validate                                                = $this->validate();
+        (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'category') : null;
+        $offer = Offer::whereId($this->offerId)->update($validate);
 
-        if (!empty($this->selectedCategories)) {
-            Category::whereIn('id', $this->selectedCategories)->update(['offer_id' => $this->offerId]);
-        }
-        if (!empty($this->selectedSubCategories)) {
-            SubCategory::whereIn('id', $this->selectedSubCategories)->update(['offer_id' => $this->offerId]);
-        }
-        if (!empty($this->selectedBrands)) {
-            Brand::whereIn('id', $this->selectedBrands)->update(['offer_id' => $this->offerId]);
-        }
-        // return true;
         dd('ok');
     }
 

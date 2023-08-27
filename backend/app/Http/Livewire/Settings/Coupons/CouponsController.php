@@ -13,8 +13,8 @@ class CouponsController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Id', 'Name', 'Discount', 'Type', 'Code', 'Status', 'Start Date', 'Expire Date', 'Action'],
-            ['id', 'name', 'discount', 'type', 'code', 'status', 'start_date', 'expire_date']
+            ['Id', 'Name', 'Discount', 'Code', 'Status', 'Start Date', 'Expire Date', 'Action'],
+            ['id', 'name', 'discount', 'code', 'status', 'start_date', 'expire_date']
         );
         $this->booleanTrait(
             ['status'],

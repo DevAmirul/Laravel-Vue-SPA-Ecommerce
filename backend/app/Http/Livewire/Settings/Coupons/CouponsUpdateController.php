@@ -16,7 +16,6 @@ class CouponsUpdateController extends Component {
         $this->name        = $coupon->name;
         $this->code        = $coupon->code;
         $this->discount    = $coupon->discount;
-        $this->type        = $coupon->type;
         $this->status      = $coupon->status;
         $this->start_date  = $coupon->start_date;
         $this->expire_date = $coupon->expire_date;

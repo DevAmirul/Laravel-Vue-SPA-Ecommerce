@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
+class UserController extends Controller
 {
 
     public function index(Request $request): Response

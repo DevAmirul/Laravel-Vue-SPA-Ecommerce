@@ -12,6 +12,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class ProductAttribute extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'product_id',
+        'color_attribute_values',
+        'size_attribute_values',
+    ];
+
     public $timestamps = false;
 
     public function product(): HasMany {

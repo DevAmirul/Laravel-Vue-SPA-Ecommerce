@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Offer extends Model {
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'title',
         'image',
         'discount',
@@ -18,6 +20,10 @@ class Offer extends Model {
         'start_date',
         'expire_date',
     ];
+
+    public function discountPrice(): HasOne {
+        return $this->hasOne(DiscountPrice::class);
+    }
 
     public function category(): HasMany {
         return $this->hasMany(Category::class);

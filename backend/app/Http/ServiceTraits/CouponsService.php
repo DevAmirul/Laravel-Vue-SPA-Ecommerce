@@ -7,7 +7,6 @@ trait CouponsService {
     public string $name           = '';
     public string $code            = '';
     public string $discount        = '';
-    public string $type            = '';
     public ?int $status            = null;
     public string $start_date      = '';
     public string $expire_date     = '';
@@ -15,10 +14,9 @@ trait CouponsService {
     public array $statusOption     = ['Unpublish', 'Publish'];
 
     protected array $rules = [
-        'title'       => 'required|string|max:100',
+        'name'       => 'required|string|max:100',
         'code'        => 'required|string|max:100',
         'discount'    => 'required|string|max:255',
-        'type'        => 'required|in:percentage,decimal',
         'status'      => 'required|boolean',
         'start_date'  => 'required|date',
         'expire_date' => 'required|date',

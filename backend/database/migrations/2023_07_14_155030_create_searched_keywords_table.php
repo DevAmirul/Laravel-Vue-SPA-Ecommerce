@@ -13,7 +13,6 @@ return new class extends Migration {
             $table->id();
             $table->string('keyword')->unique();
             $table->integer('hits');
-            $table->timestamps();
         });
     }
 
@@ -21,6 +20,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void{
-        Schema::dropIfExists('searched_words');
+        Schema::dropIfExists('searched_keywords');
     }
 };

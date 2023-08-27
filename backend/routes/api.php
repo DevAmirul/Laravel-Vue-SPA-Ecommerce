@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\Frontend\Users\CartController;
 use App\Http\Controllers\Api\Frontend\Users\CheckoutController;
 use App\Http\Controllers\Api\Frontend\Users\OrderController;
 use App\Http\Controllers\Api\Frontend\Users\OrderItemController;
-use App\Http\Controllers\Api\Frontend\Users\ProfileController;
+use App\Http\Controllers\Api\Frontend\Users\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +43,7 @@ Route::name('api.')->group(function () {
         Route::get('/categories', [HomeController::class, 'getCategory'])->name('categories');
         Route::get('/navbar', [HomeController::class, 'getSidebar'])->name('navbar');
     });
+
     Route::get('/site-settings', SettingsController::class)->name('settings');
     Route::get('/sidebar', [SidebarController::class, 'index'])->name('sidebar');
     Route::post('/contacts', ContactController::class)->name('contacts');
@@ -79,9 +80,9 @@ Route::name('api.')->group(function () {
             Route::get('/{id}/items', [OrderItemController::class, 'index'])->name('items')->where('id', '[0-9]+');
         });
         Route::prefix('profiles')->name('profiles.')->group(function () {
-            Route::get('/{id}', [ProfileController::class, 'index'])->where('id', '[0-9]+');
-            Route::put('/{id}', [ProfileController::class, 'update'])->name('update')->where('id', '[0-9]+');
-            Route::post('/create', [ProfileController::class, 'create'])->name('create');
+            Route::get('/{id}', [UserController::class, 'index'])->where('id', '[0-9]+');
+            Route::put('/{id}', [UserController::class, 'update'])->name('update')->where('id', '[0-9]+');
+            Route::post('/create', [UserController::class, 'create'])->name('create');
         });
     });
 });

@@ -4,14 +4,18 @@ namespace App\Http\Livewire\Settings\Offers;
 
 use App\Http\ServiceTraits\OffersService;
 use App\Http\Traits\CreateSlugTrait;
+use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\DiscountPrice;
 use App\Models\Offer;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class OffersCreateController extends Component {
-    use CreateSlugTrait, OffersService;
+    use CreateSlugTrait, OffersService, WithFileUploads, FileTrait;
 
     public string $pageUrl = 'create';
 
@@ -21,18 +25,21 @@ class OffersCreateController extends Component {
 
     public function save(): bool{
         $validate = $this->validate();
+        $validate['image'] = $this->fileUpload($this->image, 'category');
         $offer    = Offer::create($validate);
 
         if (!empty($this->selectedCategories)) {
-            Category::whereIn('id', $this->selectedCategories)->update(['offer_id' => $offer->id]);
+            $productsByCategory = Product::whereIn('category_id', $this->selectedCategories)->get('id');
+            DiscountPrice::whereIn('product_id', $productsByCategory->pluck('id'))->update(['offer_id' => $offer->id]);
         }
         if (!empty($this->selectedSubCategories)) {
-            SubCategory::whereIn('id', $this->selectedSubCategories)->update(['offer_id' => $offer->id]);
+            $productsBySubCategory = Product::whereIn('sub_category_id', $this->selectedCategories)->get('id');
+            DiscountPrice::whereIn('product_id', $productsBySubCategory->pluck('id'))->update(['offer_id' => $offer->id]);
         }
         if (!empty($this->selectedBrands)) {
-            Brand::whereIn('id', $this->selectedBrands)->update(['offer_id' => $offer->id]);
+            $productsByBrand = Product::whereIn('brand_id', $this->selectedCategories)->get('id');
+            DiscountPrice::whereIn('product_id', $productsByBrand->pluck('id'))->update(['offer_id' => $offer->id]);
         }
-        // return true;
         dd('ok');
     }
 

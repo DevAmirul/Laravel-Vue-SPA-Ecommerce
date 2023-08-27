@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Offer;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +19,7 @@ class DiscountPriceFactory extends Factory {
     {
         return [
             'product_id'  => Product::class,
-            'start_date'  => \Carbon\Carbon::now()->toDateTimeString(),
-            'expire_date' => \Carbon\Carbon::now()->endOfMonth()->toDateTimeString(),
+            'offer_id'  => 1,
         ];
     }
 }

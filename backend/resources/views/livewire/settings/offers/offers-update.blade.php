@@ -19,7 +19,8 @@ Product Create
     <x-form pageTitle='Offers Create'>
         <x-form-input-field.general col="col-6" lable="Offers name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
-
+        <x-form-input-field.general col="col-6" lable="Offers title" name="title" type="text" wireModel='title'>
+                </x-form-input-field.general>
         <x-form-input-field.select-for-enum col='col-6' defaultOption='Select Offers type' :options='$offersTypeOption'
             wireModel='type' colName='name' name="type">
         </x-form-input-field.select-for-enum>
@@ -31,7 +32,8 @@ Product Create
         <x-form-input-field.select-for-array col='col-6' defaultOption='Select Status' :options='$statusOption'
             wireModel='status' colName='name' name="status">
         </x-form-input-field.select-for-array>
-
+        <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
+                </x-form-input-field.file>
         <div class="col-6"><input wire:model='start_date' class="form-control" id="start_date" type="text"
                 name="start_date" placeholder="Pick start Date" aria-label="Start Date">
             @error( 'start_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
@@ -39,32 +41,6 @@ Product Create
         <div class="col-6"><input wire:model='expire_date' class="form-control" id="expire_date" type="text"
                 name="expire_date" placeholder="Pick expire Date" aria-label="Start Date">
             @error( 'expire_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
-
-        <div wire:ignore>
-            <select id="select-cate" class="form-select" name="state[]" multiple
-                placeholder="Select categories...(optional)" autocomplete="off">
-                @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div wire:ignore>
-            <select id="select-subCate" class="form-select" name="state[]" multiple
-                placeholder="Select sub categories...(optional)" autocomplete="off">
-                @foreach ($subCategories as $subCategory)
-                <option value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div wire:ignore>
-            <select id="select-brand" class="form-select" name="state[]" multiple
-                placeholder="Select brands...(optional)" autocomplete="off">
-                @foreach ($brands as $brand)
-                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                @endforeach
-            </select>
-
-        </div>
 
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
     </x-form>
