@@ -30,19 +30,19 @@ onMounted(() => {
     useAxios.get('/users/checkout/' + 2)
         .then(response => {
             responseData.value = response.data;
+            // console.log(responseData.value.methods);
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 } )
 
-
 watch(responseData, () => {
 discount = responseData.value.carts.reduce((accumulator, currentValue) => {
-    return accumulator + Number(currentValue['discount']);
+    return accumulator + Number(currentValue['discount'] * currentValue['qty']);
 }, 0)
 subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
-    return accumulator + Number(currentValue['sale_price']);
+    return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
 }, 0)
 })
 
@@ -80,10 +80,11 @@ function getCoupon(code) {
         useAxios.get('/users/cart/coupon/' + code)
             .then(response => {
                 responseCoupon.value = response.data;
+                console.log(responseCoupon.value);
                 if (responseCoupon.value.coupon == null) useAlert().centerDialogAlert('info', 'Code not valid')
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
             });
     }
 }
@@ -123,65 +124,9 @@ function getCoupon(code) {
                             <label>Address Line 2</label>
                             <input class="form-control" v-model="formData.address_2" type="text" placeholder="123 Street">
                         </div>
-
-                        <div class="col-md-12 form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="shipto">
-                                <label class="custom-control-label" for="shipto" data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
-                            </div>
-                        </div>
                     </div>
                 </div>
-                <!-- <div class="collapse mb-4" id="shipping-address">
-                    <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>First Name</label>
-                            <input class="form-control" type="text" placeholder="John">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Last Name</label>
-                            <input class="form-control" type="text" placeholder="Doe">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>E-mail</label>
-                            <input class="form-control" type="text" placeholder="example@email.com">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Mobile No</label>
-                            <input class="form-control" type="text" placeholder="+123 456 789">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 1</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Address Line 2</label>
-                            <input class="form-control" type="text" placeholder="123 Street">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>Country</label>
-                            <select class="custom-select">
-                                <option selected>United States</option>
-                                <option>Afghanistan</option>
-                                <option>Albania</option>
-                                <option>Algeria</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>City</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>State</label>
-                            <input class="form-control" type="text" placeholder="New York">
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label>ZIP Code</label>
-                            <input class="form-control" type="text" placeholder="123">
-                        </div>
-                    </div>
-                </div> -->
+
             </div>
             <div v-if="responseData" class="col-lg-4">
                 <form @submit.prevent="getCoupon(couponCode)" class="mb-5" action="">
@@ -201,6 +146,7 @@ function getCoupon(code) {
                         <template v-for="(data, key) in responseData.carts" :key="key">
                             <div class="d-flex justify-content-between">
                                 <p>{{ data.name }}</p>
+                                <p>{{ data.qty }}</p>
                                 <p v-if="data.discount > 0"><del class="mx-2">${{ data.sale_price }}</del>${{ Number(data.sale_price) - Number(data.discount) }}</p>
                                 <p v-else>${{ Number(data.sale_price) }}</p>
                             </div>
@@ -212,18 +158,19 @@ function getCoupon(code) {
                             <h6 v-if="responseCoupon.coupon !== null" class="font-weight-medium">${{ Number(responseCoupon.coupon.discount) }}</h6>
                             <h6 v-else class="font-weight-medium">$0</h6>
                         </div>
-                        <div class="d-flex justify-content-between mb-3 pt-1">
+                        <div v-if="discount > 0" class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Discount</h6>
                             <h6  class="font-weight-medium">${{ discount }}</h6>
                         </div>
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">${{ subtotal }}</h6>
-                        </div>
+
 
                         <div v-if="shippingMethod !== null" class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
                             <h6  class="font-weight-medium">${{ shippingMethod }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">${{ subtotal }}</h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
@@ -235,12 +182,14 @@ function getCoupon(code) {
                                     </h5>
                                 </template>
                                 <template v-else>
-                                    <h5  class="font-weight-bold">${{total = Number(subtotal) - (Number(discount)  + Number(shippingMethod)) }}
+                                    <h5 v-if="shippingMethod" class="font-weight-bold">${{total = Number(subtotal) - (Number(discount) + Number(shippingMethod)) }}
+                                    </h5>
+                                    <h5 v-else class="font-weight-bold">${{total = Number(shippingMethod) }}
                                     </h5>
                                 </template>
                             </div>
 
-                            <div v-else class="d-flex justify-content-between mt-2">
+                            <!-- <div v-else class="d-flex justify-content-between mt-2">
                                 <h5 class="font-weight-bold">Total</h5>
                                 <template v-if="responseCoupon">
                                     <h5 v-if="responseCoupon.coupon !== null" class="font-weight-bold">${{ total = Number(subtotal) - (Number(responseCoupon.coupon.discount) + Number(discount)) }}</h5>
@@ -251,7 +200,7 @@ function getCoupon(code) {
                                     <h5  class="font-weight-bold">${{ total = Number(subtotal) - Number(discount) }}
                                     </h5>
                                 </template>
-                            </div>
+                            </div> -->
                     </div>
                 </div>
 
@@ -269,6 +218,7 @@ function getCoupon(code) {
                                 </div>
                             </div>
                         </template>
+
                     </div>
                 </div>
                 <div class="card border-secondary mb-5">

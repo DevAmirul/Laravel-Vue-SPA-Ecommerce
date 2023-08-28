@@ -9,7 +9,8 @@ use Illuminate\Support\Arr;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Offer>
  */
-class OfferFactory extends Factory {
+class OfferFactory extends Factory
+{
     /**
      * Define the model's default state.
      *
@@ -22,9 +23,9 @@ class OfferFactory extends Factory {
             'title'   => fake()->text(100),
             'type'   => Arr::random(['Percentage', 'Decimal']),
             'discount'   => 0,
-            'status'   => 1,
+            'status'   => true,
             'start_date'   => now(),
-            'expire_date'   => Carbon::now()->subYears(10),
+            'expire_date'   => Carbon::now()->year(2030),
         ];
     }
 }

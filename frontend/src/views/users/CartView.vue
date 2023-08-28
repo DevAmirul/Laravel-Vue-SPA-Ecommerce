@@ -17,6 +17,7 @@ onMounted(() => {
         .then(response => {
             responseData.value = response.data;
             if (responseData.value.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
+            console.log(responseData.value);
         })
         .catch(error => {
             // console.log(error);
@@ -49,10 +50,10 @@ function deleteCartItems(itemid){
 
 watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
-        return accumulator + Number(currentValue['discount']);
+        return accumulator + Number(currentValue['discount'] * currentValue['qty']);
     },0 )
     subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
-        return accumulator + Number(currentValue['sale_price']);
+        return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
     },0 )
 } )
 

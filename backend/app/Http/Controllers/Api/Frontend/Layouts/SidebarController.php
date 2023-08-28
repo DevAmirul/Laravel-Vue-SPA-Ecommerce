@@ -40,26 +40,3 @@ class SidebarController {
 
 
 }
-
-
-    // public function index(): Response
-    // {
-    //     $allCategory = $this->getSidebarCategories();
-    //     $sidebarFilter = $this->getSidebarFilter();
-    //     $sidebarBrand = $this->getSidebarFilter();
-    //     return response(compact('allCategory', 'sidebarFilter'), 200);
-    // }
-
-    // public function getSidebarFilter(): object
-    // {
-    //     return ModelsAttribute::with('attributeOption')->get(['id', 'name']);
-    // }
-
-    // public function getSidebarCategories(): object
-    // {
-    //     return Section::with([
-    //         'category:id,section_id,name,slug' => [
-    //             'subCategory:id,category_id,name,slug',
-    //         ]
-    //     ])->get(['id', 'name']);
-    // }

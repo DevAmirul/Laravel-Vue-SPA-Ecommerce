@@ -21,8 +21,8 @@ class Offer extends Model {
         'expire_date',
     ];
 
-    public function discountPrice(): HasOne {
-        return $this->hasOne(DiscountPrice::class);
+    public function product(): HasMany {
+        return $this->hasMany(Product::class);
     }
 
     public function category(): HasMany {

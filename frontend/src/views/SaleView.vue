@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import useSearch from '../stores/Search'
+import useAlert from "../services/Sweetalert";
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
@@ -21,7 +22,7 @@ onMounted(() => {
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data
-                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Your brand is empty')
+                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {
                 // console.log(error);

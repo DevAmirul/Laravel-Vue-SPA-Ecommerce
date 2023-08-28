@@ -11,11 +11,11 @@ use Livewire\Component;
 class SubCategoriesCreateController extends Component {
     use CreateSlugTrait, SubCategoriesService;
 
-    public function save(): bool{
+    public function save(): void{
         $validate = $this->validate();
         SubCategory::create($validate);
         $this->propertyResetExcept();
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

@@ -29,7 +29,7 @@ class SectionsUpdateController extends Component {
         $validate = $this->validate();
         (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'section') : null;
         Section::where('id', $this->sectionId)->update($validate);
-        return redirect()->route('sections');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

@@ -2,13 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Attribute;
 use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ShippingMethod>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttributeOption>
  */
-class ShippingMethodFactory extends Factory {
+class AttributeOptionFactory extends Factory
+{
     /**
      * Define the model's default state.
      *
@@ -17,8 +19,8 @@ class ShippingMethodFactory extends Factory {
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'cost' => Arr::random([0, 50, 100]),
+            'value'=> fake()->name(),
+            'attribute_id'=> Attribute::class
         ];
     }
 }

@@ -14,7 +14,7 @@ class CouponsCreateController extends Component {
         $validate = $this->validate();
         Coupon::create($validate);
         $this->propertyResetExcept();
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

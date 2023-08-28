@@ -14,12 +14,12 @@ class SectionsCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function save(): bool{
+    public function save(): void{
         $validate          = $this->validate();
         $validate['image'] = $this->fileUpload($this->image, 'section');
         Section::create($validate);
         $this->propertyResetExcept();
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

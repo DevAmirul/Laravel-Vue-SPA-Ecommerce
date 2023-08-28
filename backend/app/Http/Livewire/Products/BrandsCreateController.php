@@ -19,7 +19,7 @@ class BrandsCreateController extends Component {
         $validate['image'] = $this->fileUpload($this->image, 'section');
         Brand::create($validate);
         $this->propertyResetExcept();
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

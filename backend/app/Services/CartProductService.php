@@ -16,14 +16,14 @@ class CartProductService
                 'products.name',
                 'products.image',
                 'products.sale_price',
-                'discount_prices.discount',
-                'discount_prices.type',
-                'discount_prices.start_date',
-                'discount_prices.expire_date'
+                'offers.discount',
+                'offers.type',
+                'offers.start_date',
+                'offers.expire_date'
             )
             ->join('cart_items', 'carts.id', '=', 'cart_items.cart_id')
             ->join('products', 'cart_items.product_id', '=', 'products.id')
-            ->join('discount_prices', 'products.id', '=', 'discount_prices.product_id')
+            ->join('offers', 'products.offer_id', '=', 'offers.id')
             ->where('carts.user_id', $request->id)->get();
     }
 }

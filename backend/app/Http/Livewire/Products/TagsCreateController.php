@@ -20,7 +20,7 @@ class TagsCreateController extends Component {
         $validate          = $this->validate();
         Tag::create($validate);
         $this->reset();
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

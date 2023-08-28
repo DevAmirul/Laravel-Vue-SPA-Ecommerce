@@ -13,7 +13,7 @@ class OrdersUpdateController extends Component {
     public string $name;
     public string $city;
     public string $state;
-    public int $phone;
+    public string $phone;
     public string $address;
     public string $created_at;
     public int $coupon;
@@ -26,26 +26,28 @@ class OrdersUpdateController extends Component {
     public bool $paymentStatus;
     public array $items            = [];
     public array $soldProductArray = [];
+    public int $shippingCost;
 
     protected array $rules = [
         'changedStatus' => 'required|in:approved,delivered,pending,canceled,returned',
     ];
 
-    public function updated($propertyName): void{
+    public function updated($propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function mount($id): void{
+    public function mount($id): void {
         $this->orderId = $id;
         $this->order   = DB::table('orders')->where('orders.id', '=', $id)
             ->join('users', 'orders.user_id', '=', 'users.id')
+            ->join('shipping_methods', 'orders.shipping_method_id', '=', 'shipping_methods.id')
             ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->join('billing_details', 'users.id', '=', 'billing_details.user_id')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('products', 'order_items.product_id', '=', 'products.id')
             ->select(
-                'orders.id', 'orders.order_status', 'orders.payment_status', 'orders.discount', 'orders.subtotal', 'orders.total', 'orders.created_at', 'coupons.discount as c_discount', 'coupons.type',
-                'users.name', 'users.email',
+                'orders.id', 'orders.order_status', 'orders.payment_status', 'orders.discount', 'orders.subtotal', 'orders.total', 'orders.created_at', 'coupons.discount as c_discount',
+                'users.name', 'users.email', 'shipping_methods.cost',
                 'billing_details.phone', 'billing_details.city', 'billing_details.state', 'billing_details.zip_code', 'billing_details.address', 'order_items.qty', 'order_items.discount_price', 'products.id as p_id', 'products.name', 'products.sale_price', 'products.original_price',
             )->get();
 
@@ -67,13 +69,13 @@ class OrdersUpdateController extends Component {
         $this->created_at    = $this->order[0]->created_at;
         $this->discount      = $this->order[0]->discount;
         $this->coupon        = $this->order[0]->c_discount;
-        $this->couponType    = $this->order[0]->type;
         $this->subtotal      = $this->order[0]->subtotal;
         $this->total         = $this->order[0]->total;
         $this->changedStatus = $this->order[0]->order_status;
+        $this->shippingCost  = $this->order[0]->cost;
     }
 
-    public function save(): int{
+    public function save(): void {
         Order::where('id', $this->orderId)->update(['order_status' => $this->changedStatus]);
         if ($this->changedStatus == 'Delivered') {
             foreach ($this->soldProductArray as $product) {
@@ -87,7 +89,7 @@ class OrdersUpdateController extends Component {
                     );
             }
         }
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

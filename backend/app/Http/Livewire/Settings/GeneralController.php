@@ -82,6 +82,7 @@ class GeneralController extends Component {
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
         }
         GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

@@ -87,7 +87,6 @@ Route::prefix('brands')->name('brands')->group(function () {
 
 Route::prefix('tags')->name('tags')->group(function () {
     Route::get('/', TagsController::class);
-
     Route::get('/create', TagsCreateController::class)->name('.create');
 });
 
@@ -179,14 +178,6 @@ Route::prefix('settings')->name('settings')->group(function () {
 });
 
 Route::get('/users', UsersController::class)->name('users');
-
-Route::get('/404', function () {
-    return view('errors.404');
-})->name('404');
-
-Route::get('/500', function () {
-    return view('errors.500');
-})->name('500');
 
 Route::get('/invoice', function () {
     return view('adminPages.invoice');

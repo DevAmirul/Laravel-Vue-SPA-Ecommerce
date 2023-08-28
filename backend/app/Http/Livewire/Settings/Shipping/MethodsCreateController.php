@@ -10,11 +10,11 @@ use Livewire\Component;
 class MethodsCreateController extends Component {
     use CreateSlugTrait, MethodsService;
 
-    public function save(): bool{
+    public function save(): Void{
         $validate = $this->validate();
         $offer    = ShippingMethod::create($validate);
         $this->propertyResetExcept();
-        dd('ok');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

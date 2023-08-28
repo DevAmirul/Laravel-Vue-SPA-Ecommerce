@@ -15,12 +15,12 @@ class CategoriesCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function save(): bool{
+    public function save(): void{
         $validate          = $this->validate();
         $validate['image'] = $this->fileUpload($this->image, 'category');
         Category::create($validate);
         $this->propertyResetExcept();
-        return true;
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
     public function render() {
         $allSections = Section::all(['id', 'name']);

@@ -38,7 +38,7 @@ export default function useAlert() {
             icon: icon,
             title: 'Oops...',
             text: text,
-            confirmButtonText: 'Back',
+            confirmButtonText: 'Ok',
         })
         .then((result) => {
             if (result.isConfirmed) {

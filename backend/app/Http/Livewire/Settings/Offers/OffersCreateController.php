@@ -40,7 +40,7 @@ class OffersCreateController extends Component {
             $productsByBrand = Product::whereIn('brand_id', $this->selectedCategories)->get('id');
             DiscountPrice::whereIn('product_id', $productsByBrand->pluck('id'))->update(['offer_id' => $offer->id]);
         }
-        dd('ok');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

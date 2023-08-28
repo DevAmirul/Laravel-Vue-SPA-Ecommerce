@@ -11,11 +11,7 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Tags Table' tableName="Tags Table" :columnNamesArr='$columnNamesArr' :tableData='$tags'
-        :tableDataColumnNames='$tableDataColumnNames' :relation='false' relationName='' :hideBtn='true'
-        :isBoolean='false' booleanColName='status' booleanAttributes='' booleanColNames=''>
-    </x-table>
-    <x-table pageTitle='Tags Table' tableName="Tags Table" :$columnNamesArr :tableData='$tags' :$tableDataColumnNames>
+    <x-table pageTitle='Tags Table' tableName="Tags Table" :$columnNamesArr :tableData='$tags' :$tableDataColumnNames :showBtnEdit='false' >
     </x-table>
 
     <!-- End #main -->

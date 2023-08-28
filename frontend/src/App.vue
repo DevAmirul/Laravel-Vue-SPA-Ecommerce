@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from "vue-router";
 import axios_C from './services/axios';
 import Navbar from "./components/layouts/Navbar.vue";
@@ -10,13 +10,15 @@ const router = useRouter();
 
 let responseData = ref();
 
-axios_C.get('/site-settings')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        console.log(error);
-    });
+onMounted(() => {
+    axios_C.get('/site-settings')
+        .then(response => {
+            responseData.value = response.data
+        })
+        .catch(error => {
+            // console.log(error);
+        });
+} )
 
 
 </script>

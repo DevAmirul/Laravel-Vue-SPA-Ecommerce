@@ -17,10 +17,10 @@ class MethodsUpdateController extends Component {
         $this->cost = $method->cost;
     }
 
-    public function save(): bool{
+    public function save(): void{
         $validate = $this->validate();
         $offer    = ShippingMethod::whereId($this->methodId)->update($validate);
-        dd('ok');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

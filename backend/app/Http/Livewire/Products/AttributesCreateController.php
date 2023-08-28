@@ -38,7 +38,7 @@ class AttributesCreateController extends Component {
         });
         $attribute = Attribute::create(['name' => $validate['name']]);
         $attribute->attributeOption()->createMany($a);
-        dd($attribute->id);
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {

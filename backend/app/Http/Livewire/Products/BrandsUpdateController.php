@@ -29,7 +29,7 @@ class BrandsUpdateController extends Component {
         $validate = $this->validate();
         (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'category') : null;
         Brand::where('id', $this->brandId)->update($validate);
-        return redirect()->route('brands');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

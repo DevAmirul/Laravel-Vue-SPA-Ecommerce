@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('logo');
-            $table->string('slides');
+            $table->string('banner');
             $table->string('slogan');
             $table->string('email');
             $table->string('address');

@@ -22,10 +22,10 @@ class SubCategoriesUpdateController extends Component {
         $this->category_id = $subCategory->category_id;
     }
 
-    public function save() {
+    public function save(): void {
         $validate = $this->validate();
         SubCategory::where('id', $this->subCategoryId)->update($validate);
-        return redirect()->route('subCategories');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

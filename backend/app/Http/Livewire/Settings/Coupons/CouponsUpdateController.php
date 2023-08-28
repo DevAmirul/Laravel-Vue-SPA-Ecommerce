@@ -24,7 +24,7 @@ class CouponsUpdateController extends Component {
     public function save() {
         $validate = $this->validate();
         Coupon::where('id', $this->couponId)->update($validate);
-        return redirect()->route('settings.coupons');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

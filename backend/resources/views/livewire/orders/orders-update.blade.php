@@ -148,40 +148,35 @@ Order Details
                                         </div>
                                         <div class="col-xl-3">
                                             <ul class="list-unstyled">
+                                                <li class="text-muted ms-3 mt-2"><span class="fw-bold me-4">Shiping</span>${{ number_format($shippingCost, 2) }}
+                                                </li>
                                                 @if ($coupon !== null)
                                                 <li class="text-muted ms-3 mt-2"><span
-                                                        class="fw-bold me-4">Coupon</span>@if ($couponType ==
-                                                    'Percentage'){{ $coupon }}%
-                                                    @else ${{ $coupon }}
-                                                    @endif
-
+                                                    class="fw-bold me-4">Coupon</span>${{ number_format($coupon, 2) }}
                                                 </li>
                                                 @endif
                                                 @if ($discount > 0)
-                                                <li class="text-muted ms-3 mt-2"><span @if ($couponType=='Percentage' )
-                                                        @php $totalDiscount=$discount + ($total / 100) * $coupon;
-                                                        @endphp
-                                                        class="fw-bold me-4">Discount</span>${{ $totalDiscount }}
-                                                    @else
+                                                <li class="text-muted ms-3 mt-2"><span
                                                     class="fw-bold
-                                                    me-4">Discount</span>${{ number_format($discount + $coupon,2) }}
-                                                    @endif
+                                                    me-4">Discount</span>${{ number_format($discount, 2) }}
                                                 </li>
                                                 @endif
 
                                                 <li class="text-muted ms-3"><span
-                                                        class="fw-bold me-4">SubTotal</span>${{ number_format($subtotal,2) }}
+                                                        class="fw-bold me-4">SubTotal</span>${{ number_format($subtotal, 2) }}
                                                 </li>
 
                                             </ul>
                                             <p class="text-black float-start mx-3"><span class="fw-bold me-4">Total :
                                                 </span><span style="font-size: 25px;">
-                                                    @if ($totalDiscount ?? false)
-                                                    ${{ number_format(ceil($total - $totalDiscount),2) }}
-                                                    @elseif ($couponType=='Percentage')
-                                                    ${{ number_format(ceil($total - (($total / 100) * $coupon)),2) }}
+                                                    @if ($discount > 0 && $coupon !== null)
+                                                        ${{ number_format(ceil(($subtotal + $shippingCost) - ($discount + $coupon)), 2) }}
+                                                    @elseif ($discount > 0)
+                                                        ${{ number_format(ceil(($subtotal + $shippingCost) - $discount), 2) }}
+                                                    @elseif ($coupon !== null)
+                                                        ${{ number_format(ceil(($subtotal + $shippingCost) - $coupon), 2) }}
                                                     @else
-                                                    ${{ number_format(ceil($total - $coupon),2) }}
+                                                        ${{ number_format(ceil($subtotal + $shippingCost), 2) }}
                                                     @endif
                                                 </span></p>
                                         </div>

@@ -6,12 +6,11 @@ use Illuminate\Support\Facades\DB;
 
 class SearchProductService
 {
-
     public static function searchProductQuery($request, ?string $optionalRequest = null)
     {
         return DB::table('products')
-            ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'discount_prices.discount')
-            ->join('discount_prices', 'products.id', '=', 'discount_prices.product_id')
+            ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
+            ->join('offers', 'products.offer_id', '=', 'offers.id')
             ->when($optionalRequest === 'categories', function ($query) use ($request) {
                 $query->join('categories', 'products.category_id', '=', 'categories.id')
                     ->where('categories.slug', $request->slug);
@@ -25,7 +24,7 @@ class SearchProductService
                     ->where('brands.slug', $request->slug);
             })
             ->when($optionalRequest === 'sales', function ($query) {
-                $query->where('discount_prices.discount', '>', 0)->where('expire_date', '>', now());
+                $query->where('offers.discount', '>', 0)->where('expire_date', '>', now());
             })
             ->when($request->minPrice && $request->maxPrice, function ($query) use ($request) {
                 $query->whereBetween('products.sale_price', [$request->minPrice, $request->maxPrice]);

@@ -17,10 +17,6 @@ class TagsController extends Component {
         );
     }
 
-    public function update($tagId) {
-        return redirect()->route('brands.update', $tagId);
-    }
-
     public function destroy($id): int {
         return Tag::destroy($id);
     }

@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Offer;
-use App\Models\Product;
+use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DiscountPrice>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attribute>
  */
-class DiscountPriceFactory extends Factory {
+class AttributeFactory extends Factory {
     /**
      * Define the model's default state.
      *
@@ -18,8 +17,7 @@ class DiscountPriceFactory extends Factory {
     public function definition(): array
     {
         return [
-            'product_id'  => Product::class,
-            'offer_id'  => 1,
+            'name' =>fake()->name(),
         ];
     }
 }

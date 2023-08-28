@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Frontend\CategoryController;
 use App\Http\Controllers\Api\Frontend\CompareController;
 use App\Http\Controllers\Api\Frontend\ContactController;
 use App\Http\Controllers\Api\Frontend\HomeController;
+use App\Http\Controllers\Api\Frontend\Layout\TopbarKeywordController;
 use App\Http\Controllers\Api\Frontend\Layouts\SettingsController;
 use App\Http\Controllers\Api\Frontend\Layouts\SidebarController;
 use App\Http\Controllers\Api\Frontend\ProductController;
@@ -48,8 +49,7 @@ Route::name('api.')->group(function () {
     Route::get('/sidebar', [SidebarController::class, 'index'])->name('sidebar');
     Route::post('/contacts', ContactController::class)->name('contacts');
     Route::post('/compare', CompareController::class)->name('compare');
-    Route::get('/search', SearchController::class)->name('search');
-    Route::get('/offers', SearchController::class)->name('offers');
+    Route::get('/search/{keyword}', [SearchController::class, 'index'])->name('search');
     Route::get('/shop', ShopController::class)->name('shop');
     Route::get('/categories/{slug}', CategoryController::class)->name('categories');
     Route::get('/sub-categories/{slug}', SubCategoryController::class)->name('subCategories');
@@ -70,6 +70,7 @@ Route::name('api.')->group(function () {
             Route::get('/coupon/{code}', [CartController::class, 'getCoupon'])->name('coupon');
             Route::get('/add/{userId}/{productId}', [CartController::class, 'add'])->name('add');
         });
+
         Route::post('/review', [ReviewController::class, 'create'])->name('review');
         Route::get('/checkout/{id}', [CheckoutController::class, 'inbox'])->name('checkout.inbox');
         Route::post('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');
@@ -79,6 +80,7 @@ Route::name('api.')->group(function () {
             Route::post('/', [OrderController::class, 'create'])->name('create')->where('id', '[0-9]+');
             Route::get('/{id}/items', [OrderItemController::class, 'index'])->name('items')->where('id', '[0-9]+');
         });
+
         Route::prefix('profiles')->name('profiles.')->group(function () {
             Route::get('/{id}', [UserController::class, 'index'])->where('id', '[0-9]+');
             Route::put('/{id}', [UserController::class, 'update'])->name('update')->where('id', '[0-9]+');

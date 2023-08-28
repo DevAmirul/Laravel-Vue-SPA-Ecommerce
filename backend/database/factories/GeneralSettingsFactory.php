@@ -14,14 +14,11 @@ class GeneralSettingsFactory extends Factory {
      * @return array<string, mixed>
      */
     public function definition(): array {
-        $imagesStr = '';
-        for ($i = 0; $i < 3; $i++) {
-            $imagesStr .= 'digital_' . random_int(1, 22) . '.jpg' . ',';
-        }
+
         return [
             'name'      => fake()->company(),
             'logo'      => 'logo.jpg',
-            'slides'    => $imagesStr,
+            'banner'    => 'banner.jpg',
             'slogan'    => fake()->title(),
             'email'     => fake()->companyEmail(),
             'phone'     => '01834513106',

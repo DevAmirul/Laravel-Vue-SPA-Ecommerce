@@ -37,12 +37,12 @@ class OffersUpdateController extends Component {
         $this->brands        = Brand::all('id', 'name');
     }
 
-    public function save(): bool {
+    public function save(): void {
         $validate                                                = $this->validate();
         (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'category') : null;
         $offer = Offer::whereId($this->offerId)->update($validate);
 
-        dd('ok');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

@@ -15,15 +15,15 @@ class CouponsReportController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Name', 'Code', 'Discount', 'Type', 'Orders', 'Total', 'Date'],
-            ['name', 'code', 'discount', 'type', 'orders', 'total', 'time']
+            ['Name', 'Code', 'Discount', 'Orders', 'Total', 'Date'],
+            ['name', 'code', 'discount', 'orders', 'total', 'time']
         );
     }
 
     public function render() {
         $couponsReports = DB::table('orders')
             ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
-            ->selectRaw('coupons.name as name, coupons.code as code, coupons.discount as discount, coupons.type as type, count(orders.coupon_id) as orders, sum(orders.total) as total, ' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
+            ->selectRaw('coupons.name as name, coupons.code as code, coupons.discount as discount, count(orders.coupon_id) as orders, sum(orders.total) as total, ' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
             ->when($this->searchStr, function (Builder $query) {
                 $query->where('coupons.name', 'LIKE', '%' . $this->searchStr . '%')
                     ->orWhere('coupons.code', 'LIKE', '%' . $this->searchStr . '%');

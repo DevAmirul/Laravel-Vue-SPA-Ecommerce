@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class SearchedKeyword extends Model {
     use HasFactory;
 
+    protected $fillable = [
+        'keyword',
+        'hits',
+    ];
+
     public $timestamps = false;
 }

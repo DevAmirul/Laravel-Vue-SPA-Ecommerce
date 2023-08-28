@@ -2,6 +2,8 @@
 
 namespace App\Http\ServiceTraits;
 
+use Illuminate\Validation\Rule;
+
 trait CategoriesService {
     public string $name        = '';
     public string $slug        = '';
@@ -24,7 +26,8 @@ trait CategoriesService {
 
             (gettype($this->image) == 'object') ? $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg' : null;
             return $rulesForUpdate;
-        } else {
+        }
+        else {
             return [
                 'name'       => 'required|string|max:255',
                 'slug'       => 'required|string|max:255',

@@ -21,7 +21,6 @@ class ReviewFactory extends Factory {
             'user_id'      => fake()->numberBetween(1, 5),
             'rating_value' => random_int(1, 5),
             'comment'      => fake()->text(200),
-            'status'       => 0,
         ];
     }
 }

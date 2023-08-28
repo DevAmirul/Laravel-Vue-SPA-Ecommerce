@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { RouterLink,useRouter } from "vue-router";
 import axios_C from '../../services/axios';
 import useRefresh from '../../stores/Refresh';
@@ -14,8 +14,10 @@ const cartItemsNumber = ref();
 const compareList = ref();
 const wishlist = ref();
 
-wishlist.value = JSON.parse(localStorage.getItem('productAttributes'));
-compareList.value = JSON.parse(localStorage.getItem('compare'));
+onMounted(() => {
+    wishlist.value = JSON.parse(localStorage.getItem('productAttributes'));
+    compareList.value = JSON.parse(localStorage.getItem('compare'));
+} )
 
 axios_C.get('/users/cart/count/' + 2)
     .then(response => {

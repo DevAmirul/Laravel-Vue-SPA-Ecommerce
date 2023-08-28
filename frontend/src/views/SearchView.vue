@@ -14,11 +14,13 @@ onMounted(() => {
     useAxios.get(route.path)
         .then(response => {
             responseData.value = response.data;
-            if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Shop is empty')
+            console.log(responseData.value);
+            if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
         })
         .catch(error => {
             // console.log(error);
         });
+
 } )
 
 watch( () => route.path,
@@ -26,7 +28,7 @@ watch( () => route.path,
         useAxios.get(route.path)
             .then(response => {
                 responseData.value = response.data;
-                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Shop is empty')
+                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {
                 // console.log(error);
@@ -41,7 +43,7 @@ watch( () => route.path,
     <!-- Shop Start -->
         <div class="container-fluid pt-5">
             <template v-if="responseData">
-            <ProductsCard :products="responseData.topSales"></ProductsCard>
+            <ProductsCard :products="responseData.products"></ProductsCard>
             </template>
         </div>
     <!-- Shop End -->

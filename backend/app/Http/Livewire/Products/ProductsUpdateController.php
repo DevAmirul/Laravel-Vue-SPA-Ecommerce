@@ -47,7 +47,7 @@ class ProductsUpdateController extends Component {
 
     public function save(): void{
         Product::whereId($this->productId)->update($this->beforeProductSaveFunc());
-        dd('ok');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render(Request $request) {

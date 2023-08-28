@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import { onMounted, onBeforeMount, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import axios_C from "../services/axios";
+import useAxios from "../services/axios";
+import useAlert from "../services/Sweetalert";
 
 const useSearch = defineStore('search', () => {
     const router = useRouter();
@@ -47,10 +48,10 @@ const useSearch = defineStore('search', () => {
             size: size.value,
         }).toString()
 
-        axios_C.get( `${route.path}?${searchParams}` )
+        useAxios.get( `${route.path}?${searchParams}` )
             .then(response => {
                 responseData.value = response.data
-                console.log(responseData.value);
+                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {
                 // console.log( error);
@@ -76,7 +77,6 @@ const useSearch = defineStore('search', () => {
             }
         }
     })
-
     return { topBarSearch, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData, query }
 })
 

@@ -32,7 +32,7 @@ class EditorsUpdateController extends Component {
         isset($this->selectedStatus) ? $validate['status'] = $this->selectedStatus : null;
         !empty($this->password) ? $validate['password']    = Hash::make($this->password) : null;
         Editor::where('id', $this->editorsId)->update($validate);
-        return redirect()->route('editors');
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
     public function render() {

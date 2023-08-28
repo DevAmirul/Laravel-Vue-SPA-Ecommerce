@@ -20,11 +20,7 @@ class ProductAttribute extends Model {
 
     public $timestamps = false;
 
-    public function product(): HasMany {
-        return $this->hasMany(Product::class);
-    }
-
-    public function attribute(): HasMany {
-        return $this->hasMany(Attribute::class);
+    public function product(): BelongsTo {
+        return $this->belongsTo(Product::class);
     }
 }

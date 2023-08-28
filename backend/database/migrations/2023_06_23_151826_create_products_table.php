@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->integer('qty_in_stock');
             $table->decimal('sale_price');
             $table->decimal('original_price');
+            $table->foreignId('offer_id')->constrained()->onDelete('cascade');
             $table->string('image');
             $table->text('gallery');
             $table->text('specification')->nullable();
