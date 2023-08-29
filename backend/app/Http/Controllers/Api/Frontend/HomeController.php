@@ -12,7 +12,7 @@ use App\Services\TopSaleServices;
 use Illuminate\Http\Response;
 
 class HomeController extends Controller {
-    
+
     public function index(): Response {
         return response([
             'topSales'    => TopSaleServices::topSalesQuery(),
@@ -22,7 +22,7 @@ class HomeController extends Controller {
     }
 
     public function getOffer(): Response{
-        $offers = Offer::whereStatus(true)->where('expire_date', '>', now())
+        $offers = Offer::where('id', '!==', 1)->whereStatus(true)->where('expire_date', '>', now())
             ->latest('created_at')->take(3)
             ->get(['id', 'name', 'image', 'type', 'title', 'discount', 'status', 'expire_date']);
         return response(compact('offers'), 200);

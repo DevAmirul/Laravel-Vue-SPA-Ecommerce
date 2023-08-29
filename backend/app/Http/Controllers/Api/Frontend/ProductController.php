@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Api\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductView;
 use App\Services\relatedProductService;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ProductController extends Controller {
 
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request): Response{
+    public function index(Request $request): Response{
         $product = Product::select('id', 'name', 'image', 'slug', 'description', 'sale_price', 'category_id', 'gallery', 'offer_id')
             ->where('slug', $request->slug)
             ->withCount('review')->withAvg('review', 'rating_value')
@@ -25,5 +24,9 @@ class ProductController extends Controller {
         $relatedProducts = relatedProductService::relatedProductQuery($product->category_id);
 
         return response(compact('product', 'relatedProducts'), 200);
+    }
+
+    public function productViewCount(Request $request)  {
+        ProductView::updateOrCreate(['product_id'=> $request->id],['view_count'=> DB::raw('view_count+' . 1)]);
     }
 }

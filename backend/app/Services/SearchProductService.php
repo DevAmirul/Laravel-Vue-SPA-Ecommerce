@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class SearchProductService
 {
-    public static function searchProductQuery($request, ?string $optionalRequest = null)
+    public static function searchProductQuery($request, ?string $optionalRequest = null) : object
     {
         return DB::table('products')
             ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
@@ -49,7 +49,7 @@ class SearchProductService
                 elseif ($request->sort === 'asc') $query->orderBy('products.name');
                 elseif ($request->sort === 'des') $query->orderByDesc('products.name');
                 elseif ($request->sort === 'latest') $query->latest();
-            }, fn($query) => $query->latest() )
+            }, fn($query) => $query->latest())
             ->paginate($request->limit ?? 20);
     }
 }

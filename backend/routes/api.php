@@ -55,7 +55,8 @@ Route::name('api.')->group(function () {
     Route::get('/sub-categories/{slug}', SubCategoryController::class)->name('subCategories');
     Route::get('/brands/{slug}', BrandController::class)->name('brands');
     Route::get('/sales', TopSaleController::class)->name('sales');
-    Route::get('/products/{slug}', ProductController::class)->name('products.show');
+    Route::get('/products/{slug}', [ProductController::class, 'index'])->name('products.show');
+    Route::get('/products/view-count/{id}', [ProductController::class, 'productViewCount'])->name('products.viewCount');
 
     Route::post('/login', [ProfileController::class, 'login'])->name('login');
     Route::post('/register', [ProfileController::class, 'register'])->name('register');
