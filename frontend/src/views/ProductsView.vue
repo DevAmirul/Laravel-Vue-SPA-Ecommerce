@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
@@ -20,7 +20,7 @@ onMounted(() => {
     useAxios.get('/products/' + route.params.slug)
         .then(response => {
             responseData.value = response.data;
-            console.log(responseData.value);
+            useAxios.get('/products/view-count/' + responseData.value.product.id)
         })
         .catch(error => {
             // console.log(error);
@@ -131,7 +131,6 @@ function addToCart(productId) {
                         <p class="mb-4">
                             {{ responseData.product.description.substring(0, 300) }}....
                         </p>
-
                             <div class="d-flex mb-3 mt-3">
                                 <p class="text-dark font-weight-medium mb-0 mr-3">Color</p>
                                 <form>
@@ -150,10 +149,10 @@ function addToCart(productId) {
                                     </template>
                                 </form>
                             </div>
-                            <!-- <div class="d-flex mb-3 mt-3">
+                            <div class="d-flex mb-3 mt-3">
                                 <p class="text-dark font-weight-medium mb-0 mr-3">Size</p>
                                 <form>
-                                    <template v-for="(data, key) in responseData.product.product_attribute.attribute_values.split(',')" :key="key">
+                                    <template v-for="(data, key) in responseData.product.product_attribute.size_attribute_values.split(',')" :key="key">
                                         <div class="custom-control custom-radio custom-control-inline">
                                             <input
                                                 type="radio"
@@ -167,7 +166,7 @@ function addToCart(productId) {
                                         </div>
                                     </template>
                                 </form>
-                            </div> -->
+                            </div>
 
                         <div class="d-flex align-items-center mb-4 pt-2 ex-m">
                             <div class="input-group quantity mr-3" style="width: 130px">

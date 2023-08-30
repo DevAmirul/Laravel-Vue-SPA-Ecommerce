@@ -8,26 +8,14 @@ import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import useAxios from "../services/axios";
-import useAlert from "../services/Sweetalert";
 
-const { responseData } = storeToRefs(useSearch());
+const { responseData, isRefreshPage } = storeToRefs(useSearch());
+
 const route = useRoute();
 
 onMounted(() => {
-    const queryFromLink = new URLSearchParams(route.query).toString();
-    if (queryFromLink == '') {
-        useAxios.get(route.path)
-            .then(response => {
-                responseData.value = response.data
-                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
-            })
-            .catch(error => {
-                // console.log(error);
-            });
-    }
+    useSearch().getDataByQuery('form mounted');
 })
-
 </script>
 <template>
     <!-- Page Header Start -->
@@ -49,8 +37,8 @@ onMounted(() => {
                     </div>
                     <template v-if="responseData">
                         <ProductsCard :products="responseData.products"></ProductsCard>
+                        <Paginate :links="responseData.products.links"></Paginate>
                     </template>
-                    <Paginate></Paginate>
                 </div>
             </div>
             <!-- Shop Product End -->

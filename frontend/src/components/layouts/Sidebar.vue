@@ -1,10 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 import useAxios from '../../services/axios';
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 import useSearch from '../../stores/Search'
 import { storeToRefs } from "pinia";
 import useAlert from "../../services/Sweetalert";
+const route = useRoute();
 
 const { prevQuerySize, size, prevQueryColor, color, maxPrice, minPrice } = storeToRefs(useSearch());
 const { topAlert } = storeToRefs(useAlert());
@@ -79,7 +80,8 @@ function addPriceFilter(min, max){
                                 <template v-for="(cateData, cateKey) in data.category" :key='cateKey' >
                                         <li>
                                             <RouterLink :to="{ name: 'categories', params: { slug: cateData.slug }}" style="text-decoration: none; color: inherit">
-                                                <a >
+
+                                                <a>
                                                     {{ cateData.name }}
                                                 </a >
                                             </RouterLink>

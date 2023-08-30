@@ -1,9 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import axios_C from '../../services/axios';
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 
 let responseData = ref();
+const route = useRoute();
 
 axios_C.get('/home/navbar')
     .then(response => {
@@ -80,116 +81,118 @@ axios_C.get('/home/navbar')
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                             <div
-                                class="collapse navbar-collapse justify-content-between"
-                                id="navbarCollapse"
-                            >
-                                <div class="navbar-nav mr-auto py-0">
-                                    <RouterLink
-                                        style="text-decoration: none; color: inherit"
-                                        :to="{ name: 'home' }"
-                                        ><a class="nav-item nav-link"
-                                            >Home</a
-                                        ></RouterLink
-                                    >
-                                    <RouterLink
-                                        style="text-decoration: none; color: inherit"
-                                        :to="{ name: 'shop' }"
-                                        ><a class="nav-item nav-link"
-                                            >Shop</a
-                                        ></RouterLink
-                                    >
-                                    <RouterLink
-                                        style="text-decoration: none; color: inherit"
-                                        :to="{ name: 'sales' }"
-                                        ><a class="nav-item nav-link active"
-                                            >Sales</a
-                                        ></RouterLink
-                                    >
-                                    <RouterLink
-                                        style="text-decoration: none; color: inherit"
-                                        :to="{ name: 'contactUs' }"
-                                        ><a class="nav-item nav-link active"
-                                            >Contact Us</a
-                                        ></RouterLink
-                                    >
-                                </div>
-                                <div class="navbar-nav ml-auto py-0">
-                                    <div class="nav-item dropdown">
-                                        <a style="cursor: pointer;"
-                                            class="nav-link dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            >User</a
-                                        >
-                                        <div class="dropdown-menu rounded-0 m-0">
-                                            <RouterLink
-                                                style="
-                                        text-decoration: none;
-                                        color: inherit;
-                                    "
-                                                :to="{ name: 'profile' }"
-                                                ><a class="nav-item nav-link"
-                                                    >My Profile</a
-                                                ></RouterLink
-                                            >
-                                            <RouterLink
-                                                style="
-                                        text-decoration: none;
-                                        color: inherit;
-                                    "
-                                                :to="{ name: 'orders' }"
-                                                ><a class="nav-item nav-link"
-                                                    >My Orders</a
-                                                ></RouterLink
-                                            >
+                            class="collapse navbar-collapse justify-content-between"
+                            id="navbarCollapse"
+                        >
+                            <div class="navbar-nav mr-auto py-0">
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'home' }"
+                                    ><a :class="[route.name == 'home' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Home</a
+                                    ></RouterLink
+                                >
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'shop' }"
+                                    ><a :class="[route.name == 'shop' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Shop</a
+                                    ></RouterLink
+                                >
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'sales' }"
+                                    ><a :class="[route.name == 'sales' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Sale</a
+                                    ></RouterLink
+                                >
 
-                                            <RouterLink
-                                                style="
-                                        text-decoration: none;
-                                        color: inherit;
-                                    "
-                                                :to="{ name: 'wishList' }"
-                                                ><a class="nav-item nav-link"
-                                                    >Wishlist</a
-                                                ></RouterLink
-                                            >
-                                            <RouterLink
-                                                style="
-                                        text-decoration: none;
-                                        color: inherit;
-                                    "
-                                                :to="{ name: 'cart' }"
-                                                ><a class="nav-item nav-link"
-                                                    >Cart</a
-                                                ></RouterLink
-                                            >
-                                            <RouterLink
-                                                style="
-                                        text-decoration: none;
-                                        color: inherit;
-                                    "
-                                                :to="{ name: 'checkout' }"
-                                                ><a class="nav-item nav-link"
-                                                    >Checkout</a
-                                                ></RouterLink
-                                            >
-                                        </div>
-                                    </div>
-                                    <RouterLink
-                                        style="text-decoration: none; color: inherit"
-                                        :to="{ name: 'login' }"
-                                        ><a class="nav-item nav-link"
-                                            >Login</a
-                                        ></RouterLink
-                                    >
-                                    <RouterLink
-                                        style="text-decoration: none; color: inherit"
-                                        :to="{ name: 'register' }"
-                                        ><a class="nav-item nav-link"
-                                            >Register</a
-                                        ></RouterLink
-                                    >
-                                </div>
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'contactUs' }"
+                                    ><a :class="[route.name == 'contactUs' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Contact Us
+                                        </a
+                                    ></RouterLink
+                                >
                             </div>
+                            <div class="navbar-nav ml-auto py-0">
+                                <div class="nav-item dropdown">
+                                    <a
+                                        class="nav-link dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        >User</a
+                                    >
+                                    <div class="dropdown-menu rounded-0 m-0">
+                                        <RouterLink
+                                            style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                            :to="{ name: 'profile' }"
+                                            ><a :class="[route.name == 'profile' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >My Profile</a
+                                            ></RouterLink
+                                        >
+                                        <RouterLink
+                                            style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                            :to="{ name: 'orders' }"
+                                            ><a :class="[route.name == 'orders' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >My Orders</a
+                                            ></RouterLink
+                                        >
+
+                                        <RouterLink
+                                            style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                            :to="{ name: 'wishList' }"
+                                            ><a :class="[route.name == 'wishList' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Wishlist</a
+                                            ></RouterLink
+                                        >
+                                        <RouterLink
+                                            style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                            :to="{ name: 'cart' }"
+                                            ><a :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Cart</a
+                                            ></RouterLink
+                                        >
+                                        <RouterLink
+                                            style="
+                                            text-decoration: none;
+                                            color: inherit;
+                                        "
+                                            :to="{ name: 'checkout' }"
+                                            ><a :class="[route.name == 'checkout' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Checkout</a
+                                            ></RouterLink
+                                        >
+                                    </div>
+                                </div>
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'login' }"
+                                    ><a :class="[route.name == 'login' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Login</a
+                                    ></RouterLink
+                                >
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'register' }"
+                                    ><a :class="[route.name == 'register' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Register</a
+                                    ></RouterLink
+                                >
+                            </div>
+                        </div>
                         </nav>
                         <div
                             id="header-carousel"

@@ -37,10 +37,6 @@ const useSearch = defineStore('search', () => {
             size.value ? query.value['size'] = size.value : delete query.value['size'];
             limit.value !== '20' ? query.value['limit'] = limit.value : delete query.value['limit'];
             sort.value !== 'latest' ? query.value['sort'] = sort.value : delete query.value['sort'];
-
-            router.push({
-                query: query.value
-            })
         } else {
             search.value ? (query.value['search'] = search.value, query.value['page'] = '1') : delete query.value['search'];
             minPrice.value ? (query.value['minPrice'] = minPrice.value, query.value['page'] = '1') : delete query.value['minPrice'];
@@ -49,12 +45,11 @@ const useSearch = defineStore('search', () => {
             size.value ? (query.value['size'] = size.value, query.value['page'] = '1') : delete query.value['size'];
             limit.value !== '20' ? (query.value['limit'] = limit.value, query.value['page'] = '1') : delete query.value['limit'];
             sort.value !== 'latest' ? (query.value['sort'] = sort.value, query.value['page'] = '1') : delete query.value['sort'];
-
-            router.push({
-                query: query.value
-            })
         }
-
+        router.push({
+            query: query.value
+        })
+        getDataByQuery('watch main watch');
     })
 
     watch(pageNumber, () => {
@@ -62,7 +57,12 @@ const useSearch = defineStore('search', () => {
         router.push({
             query: query.value
         })
+        getDataByQuery('watch pageNumber');
     })
+
+    function changePage(url) {
+        pageNumber.value = url.split('=')[1]
+    }
 
     watch(() => route.query, () => {
         getDataByQuery('watch route.query');
@@ -104,7 +104,7 @@ const useSearch = defineStore('search', () => {
             });
     }
 
-    return { topBarSearch, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData, isRefreshPage, getDataByQuery, pageNumber }
+    return { topBarSearch, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData, changePage, isRefreshPage }
 })
 
 export default useSearch;

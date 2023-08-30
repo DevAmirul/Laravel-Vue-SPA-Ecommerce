@@ -62,6 +62,7 @@ watch(() => route.path,
                     </div>
                     <template v-if="responseData">
                         <ProductsCard :products="responseData.products"></ProductsCard>
+                        <Paginate :links="responseData.products.links"></Paginate>
                     </template>
                     <Paginate></Paginate>
                 </div>
