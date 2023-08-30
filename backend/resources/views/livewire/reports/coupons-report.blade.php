@@ -1,5 +1,5 @@
 @push('title')
-Categories
+Coupon Report
 @endpush
 <div>
     <!-- ======= Header ======= -->

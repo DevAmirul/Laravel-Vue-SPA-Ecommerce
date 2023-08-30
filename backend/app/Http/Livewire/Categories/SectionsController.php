@@ -6,9 +6,10 @@ use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Section;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class SectionsController extends Component {
-    use TableColumnTrait, BooleanTableTrait;
+    use TableColumnTrait, BooleanTableTrait, WithPagination;
 
     public function mount(): void{
         $this->tableColumnTrait(
@@ -26,7 +27,7 @@ class SectionsController extends Component {
         return redirect()->route('sections.update', $sectionId);
     }
 
-    public function destroy($id): int{
+    public function destroy($id): void{
         $section = Section::find($id);
         $this->fileDestroy($section->image, 'products');
         $section->delete();

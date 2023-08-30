@@ -1,5 +1,5 @@
 @push('title')
-Sub Categories
+Contacts
 @endpush
 <div>
     <!-- ======= Header ======= -->

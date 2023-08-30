@@ -1,5 +1,5 @@
 @push('title')
-Order Details
+Orders Details
 @endpush
 <div>
     <!-- ======= Header ======= -->

@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Traits\EnumTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\User;
 use Livewire\Component;
@@ -11,7 +10,7 @@ use Livewire\WithPagination;
 class UsersController extends Component {
     use WithPagination, TableColumnTrait;
 
-    public function mount(): void{
+    public function mount(): void {
 
         $this->tableColumnTrait(
             ['Id', 'Name', 'Email'],

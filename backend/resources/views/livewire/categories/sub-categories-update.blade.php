@@ -1,5 +1,5 @@
 @push('title')
-Category Create
+Sub Categories Create
 @endpush
 
 <div>

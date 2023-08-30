@@ -1,5 +1,5 @@
 @push('title')
-Dashboard
+Products
 @endpush
 <div>
     <!-- ======= Header ======= -->

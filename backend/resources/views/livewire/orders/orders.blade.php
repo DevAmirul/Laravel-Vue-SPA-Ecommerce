@@ -1,5 +1,5 @@
 @push('title')
-Sub Categories
+Orders
 @endpush
 <div>
     <!-- ======= Header ======= -->

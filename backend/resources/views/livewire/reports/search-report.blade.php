@@ -1,5 +1,5 @@
 @push('title')
-Categories
+Search Report
 @endpush
 <div>
     <!-- ======= Header ======= -->

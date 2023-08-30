@@ -16,7 +16,7 @@
                                     <option value="50">50</option>
                                 </select>
                             </form>
-                            
+
                             {{ $slot }}
 
                             <nav class="navbar bg-light">
@@ -125,22 +125,9 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <nav aria-label="Page navigation example">
-                            <div class="d-flex flex-column">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                                <h6 class="text-center">Showing 1 to 5 of 5 entries</h6>
-                            </div>
-                        </nav>
+
+                        {{ $tableData->links('livewire.paginator.bootstrap') }}
+                        {{-- {{ $tableData->links('pagination::bootstrap-5') }} --}}
                         @endif
                         <!-- End Table with stripped rows -->
                     </div>

@@ -1,5 +1,5 @@
 @push('title')
-Product Create
+Products Create
 @endpush
 @push('css')
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">

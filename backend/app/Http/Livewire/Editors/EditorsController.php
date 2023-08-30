@@ -6,11 +6,12 @@ use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Editor;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class EditorsController extends Component {
-    use TableColumnTrait, BooleanTableTrait;
+    use TableColumnTrait, BooleanTableTrait, WithPagination;
 
-    public function mount(): void{
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Id', 'Name', 'Email', 'Phone', 'City', 'Role', 'Status', 'Action'],
             ['id', 'name', 'email', 'phone', 'city', 'role', 'status']

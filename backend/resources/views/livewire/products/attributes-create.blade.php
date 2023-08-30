@@ -1,5 +1,5 @@
 @push('title')
-Brands Create
+Attributes Create
 @endpush
 
 <div>

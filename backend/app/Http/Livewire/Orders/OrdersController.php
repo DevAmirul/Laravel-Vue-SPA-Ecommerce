@@ -6,9 +6,10 @@ use App\Http\Traits\EnumTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Order;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class OrdersController extends Component {
-    use TableColumnTrait, EnumTableTrait;
+    use TableColumnTrait, EnumTableTrait, WithPagination;
 
     public function mount(): void{
         $this->tableColumnTrait(
@@ -32,7 +33,6 @@ class OrdersController extends Component {
     public function render() {
         $orders = Order::where('id', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
-
         return view('livewire.orders.orders', [
             'orders' => $orders,
         ]);

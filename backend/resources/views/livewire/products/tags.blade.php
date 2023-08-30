@@ -1,5 +1,5 @@
 @push('title')
-Categories
+Tags
 @endpush
 <div>
     <!-- ======= Header ======= -->

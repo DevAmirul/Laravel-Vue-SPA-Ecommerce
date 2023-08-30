@@ -1,5 +1,5 @@
 @push('title')
-Categories
+Shippng Report
 @endpush
 <div>
     <!-- ======= Header ======= -->

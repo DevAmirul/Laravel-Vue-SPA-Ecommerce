@@ -11,10 +11,10 @@ use Livewire\WithFileUploads;
 
 class BrandsCreateController extends Component {
     use WithFileUploads, CreateSlugTrait, FileTrait, BrandsService;
-
+    
     public string $pageUrl = 'create';
 
-    public function save(): bool{
+    public function save(): void{
         $validate          = $this->validate();
         $validate['image'] = $this->fileUpload($this->image, 'section');
         Brand::create($validate);

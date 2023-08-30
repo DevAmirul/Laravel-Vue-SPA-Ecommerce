@@ -38,12 +38,8 @@ class CustomersOrderReportController extends Component {
             ->groupByRaw($this->getTimeSql($this->groupBy, 'orders.created_at') . ', users.id')
             ->paginate($this->showDataPerPage);
 
-        // dd($usersReports);
         return view('livewire.reports.customers-order-report', [
             'usersReports' => $usersReports,
         ]);
     }
 }
-// ->when(true, function (Builder $query) {
-//     $query->groupBy('users.id', 'orders.created_at');
-// })

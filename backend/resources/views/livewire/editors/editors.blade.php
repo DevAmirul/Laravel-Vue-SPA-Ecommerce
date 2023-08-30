@@ -1,5 +1,5 @@
 @push('title')
-Sub Categories
+Editors
 @endpush
 <div>
     <!-- ======= Header ======= -->

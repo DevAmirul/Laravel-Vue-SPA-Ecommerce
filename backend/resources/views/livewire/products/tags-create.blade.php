@@ -1,5 +1,5 @@
 @push('title')
-Brands Create
+Tags Create
 @endpush
 
 <div>

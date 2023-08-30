@@ -15,7 +15,7 @@ trait BrandsService {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'   => 'required|string|max:255',
-                'slug'   => 'required|string|max:255',
+                'slug'   => 'required|string|max:255|unique:brands,slug',
                 'status' => 'required|boolean',
             ];
             (gettype($this->image) == 'object') ? $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg' : null;
@@ -23,7 +23,7 @@ trait BrandsService {
         } else {
             return [
                 'name'   => 'required|string|max:255',
-                'slug'   => 'required|string|max:255',
+                'slug'   => 'required|string|max:255|unique:brands,slug',
                 'status' => 'required|boolean',
                 'image'  => 'required|mimes:jpeg,png,jpg',
             ];

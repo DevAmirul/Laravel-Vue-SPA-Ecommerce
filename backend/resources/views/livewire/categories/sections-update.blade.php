@@ -1,5 +1,5 @@
 @push('title')
-Product Create
+Sections Create
 @endpush
 
 <div>

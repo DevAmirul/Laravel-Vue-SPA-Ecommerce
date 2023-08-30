@@ -9,9 +9,10 @@ use App\Http\Traits\TableColumnTrait;
 use App\Models\Category;
 use Illuminate\Http\FileHelpers;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CategoriesController extends Component {
-    use TableColumnTrait, FileTrait, BooleanTableTrait, RelationTableTrait;
+    use TableColumnTrait, FileTrait, BooleanTableTrait, RelationTableTrait, WithPagination;
 
     public function mount(): void{
         $this->tableColumnTrait(

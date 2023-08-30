@@ -7,9 +7,10 @@ use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\SubCategory;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class SubCategoriesController extends Component {
-    use TableColumnTrait, BooleanTableTrait, RelationTableTrait;
+    use TableColumnTrait, BooleanTableTrait, RelationTableTrait, WithPagination;
 
     public function mount(): void{
         $this->tableColumnTrait(

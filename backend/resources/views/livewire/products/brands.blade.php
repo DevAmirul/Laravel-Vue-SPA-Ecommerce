@@ -1,5 +1,5 @@
 @push('title')
-Categories
+Brands
 @endpush
 <div>
     <!-- ======= Header ======= -->

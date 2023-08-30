@@ -1,5 +1,5 @@
 @push('title')
-Brand Create
+Brands Update
 @endpush
 
 <div>
