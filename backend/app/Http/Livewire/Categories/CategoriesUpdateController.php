@@ -31,8 +31,7 @@ class CategoriesUpdateController extends Component {
     public function save() {
         $validate = $this->validate();
 
-        (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'category') : null;
-
+        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'categories');
         Category::where('id', $this->categoryId)->update($validate);
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record']);
     }

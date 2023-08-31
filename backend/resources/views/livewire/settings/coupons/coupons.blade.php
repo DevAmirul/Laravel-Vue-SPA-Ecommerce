@@ -13,7 +13,7 @@ Coupons
 
     <!-- End Page Title -->
 
-    <x-table pageTitle='Coupons Table' tableName="Coupons Table" :$columnNamesArr :tableData='$coupons'
+    <x-table addNewRoute='settings.coupons.create' pageTitle='Coupons Table' tableName="Coupons Table" :$columnNamesArr :tableData='$coupons'
         :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 

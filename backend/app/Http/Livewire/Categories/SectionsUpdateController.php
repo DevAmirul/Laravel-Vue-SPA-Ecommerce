@@ -14,7 +14,7 @@ class SectionsUpdateController extends Component {
 
     public string $pageUrl = 'update';
 
-    public function mount($id): void{
+    public function mount($id): void {
         $this->statusOption = ['Unpublish', 'Publish'];
         $this->sectionId    = $id;
 
@@ -27,7 +27,8 @@ class SectionsUpdateController extends Component {
 
     public function save() {
         $validate = $this->validate();
-        (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'section') : null;
+        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'sections');
+
         Section::where('id', $this->sectionId)->update($validate);
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }

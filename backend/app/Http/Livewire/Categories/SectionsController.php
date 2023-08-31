@@ -29,7 +29,7 @@ class SectionsController extends Component {
 
     public function destroy($id): void{
         $section = Section::find($id);
-        $this->fileDestroy($section->image, 'products');
+        $this->fileDestroy($section->image, 'sections');
         $section->delete();
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }

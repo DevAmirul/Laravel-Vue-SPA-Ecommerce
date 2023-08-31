@@ -11,8 +11,8 @@ Brands
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Brands Table' tableName="Brands Table" :$columnNamesArr :tableData='$brands' :$tableDataColumnNames
-        :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
+    <x-table addNewRoute='brands.create' pageTitle='Brands Table' tableName="Brands Table" :$columnNamesArr :tableData='$brands' :$tableDataColumnNames
+        :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses imageFolder='brands'>
     </x-table>
 
     <!-- End #main -->

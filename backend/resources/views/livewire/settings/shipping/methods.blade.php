@@ -11,7 +11,7 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Shipping methods Table' tableName="Shipping methods Table" :$columnNamesArr :tableData='$methods' :$tableDataColumnNames>
+    <x-table addNewRoute='settings.shippingMethods.create' pageTitle='Shipping methods Table' tableName="Shipping methods Table" :$columnNamesArr :tableData='$methods' :$tableDataColumnNames>
     </x-table>
 
     <!-- End #main -->

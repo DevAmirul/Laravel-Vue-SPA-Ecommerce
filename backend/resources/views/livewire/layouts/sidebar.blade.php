@@ -18,44 +18,20 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('products.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Products</span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="{{ route('attributes') }}">
                         <i class="bi bi-circle"></i><span>Attributes</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('attributes.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Attributes</span>
-                    </a>
-                </li>
-
                 <li>
                     <a href="{{ route('brands') }}">
                         <i class="bi bi-circle"></i><span>Brands</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('brands.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Brands</span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="{{ route('tags') }}">
                         <i class="bi bi-circle"></i><span>Tags</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('tags.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Tags</span>
-                    </a>
-                </li>
-
             </ul>
         </li><!-- End Components Nav -->
 
@@ -73,18 +49,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('sections.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Section</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('categories') }}">
                         <i class="bi bi-circle"></i><span>Categories Table</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('categories.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Categories</span>
                     </a>
                 </li>
                 <li>
@@ -92,14 +58,6 @@
                         <i class="bi bi-circle"></i><span>SubCategories Table</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('subCategories.create') }}">
-                        <i class="bi bi-circle"></i><span>Add SubCategories</span>
-                    </a>
-                </li>
-
-
-
             </ul>
         </li><!-- End Tables Nav -->
 
@@ -187,12 +145,6 @@
                         <i class="bi bi-circle"></i><span>Editors Table</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('editors.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Editors</span>
-                    </a>
-                </li>
-
             </ul>
         </li>
 
@@ -219,28 +171,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('settings.coupons.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Coupons</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('settings.offers') }}">
                         <i class="bi bi-circle"></i><span>Offers</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('settings.offers.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Offers</span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{ route('settings.shippingMethods') }}">
                         <i class="bi bi-circle"></i><span>Shipping Methods</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('settings.shippingMethods.create') }}">
-                        <i class="bi bi-circle"></i><span>Add Shipping Methods</span>
                     </a>
                 </li>
             </ul>

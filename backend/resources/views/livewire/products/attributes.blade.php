@@ -12,7 +12,13 @@ Attributes
     <!-- End Sidebar-->
 
     <main id="main" class="main">
-        @livewire('layouts.page-title',['pageTitle'=> 'Attributes'])
+        <div class="pagetitle">
+            <div class="d-flex justify-content-between">
+                <h1>Attributes</h1>
+                <a class="btn btn-primary" href="{{ route('attributes.create') }}"> <i class="bi bi-plus-circle"></i> Add
+                </a>
+            </div>
+        </div>
         <!-- End Page Title -->
         @if ($attributes->count() == null)
         @livewire('layouts.empty-page',['tableName'=> 'Attributes Table'])
@@ -60,10 +66,6 @@ Attributes
             </div>
         </section>
         @endif
-
-
-
-
     </main>
 
     <!-- End #main -->

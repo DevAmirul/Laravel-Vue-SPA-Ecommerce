@@ -62,7 +62,7 @@ trait ProductsService {
 
             ];
 
-            (gettype($this->image) == 'object') ? $rulesForUpdate['image']                                = 'required|mimes:jpeg,png,jpg' : null;
+            (gettype($this->image) == 'object') ? $rulesForUpdate['image']                              = 'required|mimes:jpeg,png,jpg' : null;
             (gettype($this->gallery) == 'array' && !empty($this->gallery)) ? $rulesForUpdate['gallery'] = 'required|array' : null;
 
             return $rulesForUpdate;
@@ -111,8 +111,8 @@ trait ProductsService {
         $attribute['size_attribute_values']  = implode(',', $validate['selectedSize']);
         unset($validate['selectedCategory'], $validate['selectedTags'], $validate['selectedColor'], $validate['selectedSize']);
 
-        (gettype($this->image) == 'object') ? $validate['image']                              = $this->fileUpload($this->image, 'products') : null;
-        (gettype($this->gallery) == 'array' && !empty($this->gallery)) ? $validate['gallery'] = $this->fileUpload($this->gallery, 'products') : null;
+        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'products');
+        if (gettype($this->gallery == 'array') && !empty($this->gallery)) $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
 
         return ['validate' => $validate, 'attribute' => $attribute];
     }

@@ -90,12 +90,10 @@ const useSearch = defineStore('search', () => {
     })
 
     function getDataByQuery(form) {
-        console.log(form);
         const searchParams = new URLSearchParams(route.query).toString()
         useAxios.get(`${route.path}?${searchParams}`)
             .then(response => {
                 responseData.value = response.data
-                // console.log('getDataByQuery');
                 isRefreshPage.value = false;
                 if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })

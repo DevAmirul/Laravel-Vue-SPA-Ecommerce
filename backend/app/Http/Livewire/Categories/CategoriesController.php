@@ -32,7 +32,7 @@ class CategoriesController extends Component {
 
     public function destroy($id): void {
         $category = Category::find($id);
-        $this->fileDestroy($category->image, 'products');
+        $this->fileDestroy($category->image, 'categories');
         $category->delete();
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }

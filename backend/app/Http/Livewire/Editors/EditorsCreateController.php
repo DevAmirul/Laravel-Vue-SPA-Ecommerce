@@ -13,7 +13,7 @@ class EditorsCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function save(): bool{
+    public function save(): void{
         $validate             = $this->validate();
         $validate['password'] = Hash::make($validate['password']);
         Editor::create($validate);

@@ -16,7 +16,7 @@ class SectionsCreateController extends Component {
 
     public function save(): void{
         $validate          = $this->validate();
-        $validate['image'] = $this->fileUpload($this->image, 'section');
+        $validate['image'] = $this->fileUpload($this->image, 'sections');
         Section::create($validate);
         $this->propertyResetExcept();
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);

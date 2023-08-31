@@ -11,7 +11,7 @@ Categories
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Offers Table' tableName="Offers Table" :$columnNamesArr :tableData='$offers'
+    <x-table addNewRoute='settings.offers.create' pageTitle='Offers Table' tableName="Offers Table" :$columnNamesArr :tableData='$offers'
         :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 

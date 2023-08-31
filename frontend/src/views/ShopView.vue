@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import useSearch from '../stores/Search'
 import { storeToRefs } from "pinia";
+import useSearch from '../stores/Search'
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";

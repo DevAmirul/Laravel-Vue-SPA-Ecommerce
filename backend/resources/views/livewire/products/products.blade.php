@@ -11,7 +11,7 @@ Products
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Products Table' tableName="Products Table" :$columnNamesArr :tableData='$products'
+    <x-table addNewRoute='products.create' pageTitle='Products Table' tableName="Products Table" :$columnNamesArr :tableData='$products'
         :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 

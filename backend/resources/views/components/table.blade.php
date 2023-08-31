@@ -1,5 +1,13 @@
 <main id="main" class="main">
-    @livewire('layouts.page-title',['pageTitle'=> $pageTitle])
+    <div class="pagetitle">
+        <div class="d-flex justify-content-between">
+            <h1>{{ $pageTitle }}</h1>
+            @if ($addNewRoute ?? false)
+                <a class="btn btn-primary" href="{{ route($addNewRoute) }}"> <i class="bi bi-plus-circle"></i> Add
+                </a>
+            @endif
+        </div>
+    </div>
     <!-- End Page Title -->
     <section class="section">
         <div class="row">
@@ -49,7 +57,7 @@
 
                                     {{-- check image column --}}
                                     @if ($tableDataColumnName === 'image')
-                                    <td><img src="{{ $data->image }}" alt="{{ $data->image }}" width="50px"
+                                    <td><img src="{{ asset('storage/' . $imageFolder . '/' . $data->image) }}" alt="{{ $data->image }}" width="50px"
                                             height="50px">
                                     </td>
                                     @continue
@@ -127,7 +135,6 @@
                         </table>
 
                         {{ $tableData->links('livewire.paginator.bootstrap') }}
-                        {{-- {{ $tableData->links('pagination::bootstrap-5') }} --}}
                         @endif
                         <!-- End Table with stripped rows -->
                     </div>

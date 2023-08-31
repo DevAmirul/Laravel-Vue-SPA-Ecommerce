@@ -12,7 +12,7 @@ Tags Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Brands Create'>
+    <x-form pageTitle='Tags Create'>
         <x-form-input-field.general col="col-12" lable="Tag keyword" name="keyword" type="text" wireModel='keyword'>
         </x-form-input-field.general>
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>

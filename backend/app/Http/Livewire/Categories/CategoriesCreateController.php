@@ -17,7 +17,7 @@ class CategoriesCreateController extends Component {
 
     public function save(): void{
         $validate          = $this->validate();
-        $validate['image'] = $this->fileUpload($this->image, 'category');
+        $validate['image'] = $this->fileUpload($this->image, 'categories');
         Category::create($validate);
         $this->propertyResetExcept();
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);

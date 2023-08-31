@@ -11,7 +11,7 @@ Tags
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table pageTitle='Tags Table' tableName="Tags Table" :$columnNamesArr :tableData='$tags' :$tableDataColumnNames :showBtnEdit='false' >
+    <x-table addNewRoute='tags.create' pageTitle='Tags Table' tableName="Tags Table" :$columnNamesArr :tableData='$tags' :$tableDataColumnNames :showBtnEdit='false' >
     </x-table>
 
     <!-- End #main -->
