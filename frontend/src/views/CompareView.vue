@@ -20,9 +20,10 @@ onMounted(() => {
         })
             .then(response => {
                 responseData.value = response.data;
+                console.log(responseData.value);
             })
             .catch(error => {
-                // console.log(error);
+                console.log(error);
             });
     }else{
         useAlert().centerDialogAlert('info', 'Your compare list is empty')
@@ -78,10 +79,10 @@ function clearCompareList(){
                             </div>
                             <small class="pt-1">({{ data.review_count }})</small>
                         </div>
-                        <template v-if="data.discount_price.discount > 0" >
+                        <template v-if="data.offer.discount > 0" >
                             <h5 class="font-weight-semi-bold mb-4">
                                 <del><small>${{ data.sale_price }}</small></del>
-                                ${{ data.sale_price - data.discount_price.discount }}.00
+                                ${{ data.sale_price - data.offer.discount }}.00
                             </h5>
                         </template>
                         <template v-else>
@@ -91,7 +92,7 @@ function clearCompareList(){
                         </template>
                             <h4 class="mb-3">Description</h4>
                                 <p>
-                                    {{ data.description }}
+                                    {{ data.description.substring(0, 250) }}...
                                 </p>
                             <h4 class="mb-3">Additional Information</h4>
                                 <p>

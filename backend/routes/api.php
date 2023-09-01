@@ -66,10 +66,10 @@ Route::name('api.')->group(function () {
         Route::prefix('/cart')->name('cart.')->group(function () {
             Route::get('/{id}', [CartController::class, 'inbox'])->where('id', '[0-9]+');
             Route::delete('/{id}', [CartController::class, 'destroy'])->name('destroy')->where('id', '[0-9]+');
-            Route::put('/{cartId}/{productId}/{qty}', [CartController::class, 'update'])->name('update');
-            Route::get('/count/{userId}', [CartController::class, 'count'])->name('count');
+            Route::get('/{cartId}/{productId}/{qty}', [CartController::class, 'update'])->name('update')->where(['cartId' => '[0-9]+', 'productId' => '[0-9]+', 'qty' => '[0-9]+']);
+            Route::get('/count/{userId}', [CartController::class, 'count'])->name('count')->where('user_id', '[0-9]+');
             Route::get('/coupon/{code}', [CartController::class, 'getCoupon'])->name('coupon');
-            Route::get('/add/{userId}/{productId}', [CartController::class, 'add'])->name('add');
+            Route::get('/add/{userId}/{productId}', [CartController::class, 'add'])->name('add')->where(['userId' => '[0-9]+', 'productId' => '[0-9]+']);
         });
 
         Route::post('/review', [ReviewController::class, 'create'])->name('review');

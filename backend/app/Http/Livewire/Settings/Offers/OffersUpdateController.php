@@ -14,12 +14,14 @@ use App\Models\SubCategory;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class OffersUpdateController extends Component {
+class OffersUpdateController extends Component
+{
     use CreateSlugTrait, OffersService, WithFileUploads, FileTrait;
 
     public string $pageUrl = 'update';
 
-    public function mount($id): void {
+    public function mount($id): void
+    {
         $this->offerId     = $id;
         $offer             = Offer::find($id);
         $this->name        = $offer->name;
@@ -37,15 +39,18 @@ class OffersUpdateController extends Component {
         $this->brands        = Brand::all('id', 'name');
     }
 
-    public function save(): void {
-        $validate                                                = $this->validate();
-        (gettype($this->image) == 'object') ? $validate['image'] = $this->fileUpload($this->image, 'category') : null;
+    public function save(): void
+    {
+        $validate = $this->validate();
+        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'offers');
+
         $offer = Offer::whereId($this->offerId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.settings.offers.offers-update');
     }
 }

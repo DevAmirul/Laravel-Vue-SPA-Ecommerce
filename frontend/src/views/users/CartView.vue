@@ -17,7 +17,6 @@ onMounted(() => {
         .then(response => {
             responseData.value = response.data;
             if (responseData.value.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
-            console.log(responseData.value);
         })
         .catch(error => {
             // console.log(error);
@@ -25,20 +24,12 @@ onMounted(() => {
 } )
 
 watch(refreshCartPage, () => {
-    useAxios.get('/users/cart/' + 2)
-        .then(response => {
-            responseData.value = response.data;
-            if (responseData.value.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
-        })
-        .catch(error => {
-            // console.log(error);
-        });
+    
 } )
 
 function deleteCartItems(itemid){
     useAxios.delete('/users/cart/' + itemid)
         .then(response => {
-            response.data;
             refreshCartPage.value = !refreshCartPage.value
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
             useAlert().centerMessageAlert('success', 'Successfully deleted cart item')
@@ -58,22 +49,22 @@ watch(responseData, () => {
 } )
 
 function productQuantityIncrement(cartId, productId, qty) {
-    useAxios.put('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
+    useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
         .then(response => {
-            console.log(response.data);
-            refreshCartPage.value = !refreshCartPage.value
-            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
+            refreshCartPage.value = !refreshCartPage.value;
+            console.log(refreshCartPage.value);
+            // refreshCartItemsNumber.value = !refreshCartItemsNumber.value
         })
         .catch(error => {
+            console.log(error);
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
 
 function productQuantityDecrement(cartId, productId, qty) {
     if (qty > 1) {
-        useAxios.put('/users/cart/' + cartId + '/' + productId + '/' + --qty)
+        useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + --qty)
             .then(response => {
-                console.log(response.data);
                 refreshCartPage.value = !refreshCartPage.value
                 refreshCartItemsNumber.value = !refreshCartItemsNumber.value
             })
@@ -114,7 +105,7 @@ function productQuantityDecrement(cartId, productId, qty) {
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button @click="productQuantityDecrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
+                                            <button @click="productQuantityDecrement(data.id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
                                                 <i class="fa fa-minus"></i>
                                             </button>
 
@@ -122,7 +113,7 @@ function productQuantityDecrement(cartId, productId, qty) {
                                         <input type="text" class="form-control form-control-sm bg-secondary text-center" :value="data.qty">
 
                                         <div class="input-group-btn">
-                                            <button @click="productQuantityIncrement(data.cart_id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
+                                            <button @click="productQuantityIncrement(data.id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>

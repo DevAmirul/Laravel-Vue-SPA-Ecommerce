@@ -95,10 +95,12 @@ const useSearch = defineStore('search', () => {
             .then(response => {
                 responseData.value = response.data
                 isRefreshPage.value = false;
-                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
+                // console.log(responseData.value);
+
+                if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {
-                // console.log( error);
+                console.log( error);
             });
     }
 

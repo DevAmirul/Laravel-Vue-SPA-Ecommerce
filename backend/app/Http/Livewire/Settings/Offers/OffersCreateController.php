@@ -23,9 +23,9 @@ class OffersCreateController extends Component {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function save(): bool{
+    public function save(): void{
         $validate = $this->validate();
-        $validate['image'] = $this->fileUpload($this->image, 'category');
+        $validate['image'] = $this->fileUpload($this->image, 'offers');
         $offer    = Offer::create($validate);
 
         if (!empty($this->selectedCategories)) {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Frontend\CategoryResource;
+use App\Http\Resources\Api\Frontend\OfferResource;
 use App\Models\Category;
 use App\Models\Offer;
 use App\Models\Section;
@@ -24,13 +26,13 @@ class HomeController extends Controller {
     public function getOffer(): Response{
         $offers = Offer::where('id', '!==', 1)->whereStatus(true)->where('expire_date', '>', now())
             ->latest('created_at')->take(3)
-            ->get(['id', 'name', 'image', 'type', 'title', 'discount', 'status', 'expire_date']);
-        return response(compact('offers'), 200);
+            ->get(['name', 'image', 'type', 'title', 'discount', 'status', 'expire_date']);
+        return response(['offers' => OfferResource::collection($offers)], 200);
     }
 
     public function getCategory(): Response{
-        $categories = Category::all(['id', 'name', 'slug']);
-        return response(compact('categories'), 200);
+        $categories = Category::all(['name', 'image', 'slug']);
+        return response(['categories' => CategoryResource::collection($categories)], 200);
     }
 
     public function getSidebar(): Response{

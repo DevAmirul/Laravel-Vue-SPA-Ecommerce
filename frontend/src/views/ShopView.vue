@@ -9,9 +9,8 @@ import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
 
-const { responseData, isRefreshPage } = storeToRefs(useSearch());
-
 const route = useRoute();
+const { responseData, isRefreshPage } = storeToRefs(useSearch());
 
 onMounted(() => {
     useSearch().getDataByQuery('form mounted');
@@ -37,7 +36,7 @@ onMounted(() => {
                     </div>
                     <template v-if="responseData">
                         <ProductsCard :products="responseData.products"></ProductsCard>
-                        <Paginate :links="responseData.products.links"></Paginate>
+                        <Paginate :links="responseData.meta.links"></Paginate>
                     </template>
                 </div>
             </div>

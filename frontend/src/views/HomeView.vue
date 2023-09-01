@@ -14,6 +14,7 @@ onMounted(() => {
     useAxios.get('/home')
         .then(response => {
             responseData.value = response.data
+            console.log(responseData.value);
         })
         .catch(error => {
             // console.log(error);

@@ -59,12 +59,15 @@ function addToWishlist(productAttributes) {
 }
 
 function addToCart(productId) {
+    console.log(productId);
     useAxios.get('/users/cart/add/'+ 2 + '/' + productId)
         .then(response => {
+            console.log(response);
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
             useAlert().topAlert('success', 'Successfully added to cart')
         })
         .catch(error => {
+            console.log(error);
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
         });
 }
@@ -72,8 +75,8 @@ function addToCart(productId) {
 </script>
 <template>
     <div class="row px-xl-5  pb-3">
-        <template v-for="(data, key) in products.data" :key="key">
-            <div :class="[((products.data.length == 1) ? 'col-lg-12' : ((products.data.length == 2) ? 'col-lg-6' : ((products.data.length == 3) ? 'col-lg-4' : 'col-lg-3'))), 'col-md-6', 'col-sm-12', 'pb-1']">
+        <template v-for="(data, key) in products" :key="key">
+            <div :class="[((products.length == 1) ? 'col-lg-12' : ((products.length == 2) ? 'col-lg-6' : ((products.length == 3) ? 'col-lg-4' : 'col-lg-3'))), 'col-md-6', 'col-sm-12', 'pb-1']">
                 <div class="card product-item border-0 mb-4">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <img class="img-fluid w-100" :src="data.image" alt="image" />

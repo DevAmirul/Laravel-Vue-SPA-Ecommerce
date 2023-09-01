@@ -13,8 +13,7 @@ class TopSaleController extends Controller {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response{
-        $products = SearchProductService::searchProductQuery($request, 'sales');
-        return response(compact('products'), 200);
+    public function __invoke(Request $request): Object{
+        return SearchProductService::searchProductQuery($request, 'sales');
     }
 }

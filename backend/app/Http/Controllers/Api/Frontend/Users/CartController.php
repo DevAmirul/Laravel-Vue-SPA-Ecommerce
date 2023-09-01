@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-
     public function inbox(Request $request): Response
     {
         $carts = CartProductService::getCartProduct($request);
@@ -34,7 +33,7 @@ class CartController extends Controller
         return response(compact('coupon'), 200);
     }
 
-    public function add(Request $request): Response
+    public function add(Request $request)
     {
         $cart = Cart::updateOrCreate(['user_id' => $request->userId]);
         $cart->cartItem()->updateOrCreate(['cart_id' => $cart->id, 'product_id' => $request->productId], ['qty' => DB::raw('qty')]);
@@ -44,7 +43,6 @@ class CartController extends Controller
     public function update(Request $request): Response
     {
         CartItem::whereCartId($request->cartId)->whereProductId($request->productId)->update(['qty' => $request->qty]);
-
         return response($request->cartId, 200);
     }
 

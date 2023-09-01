@@ -4,8 +4,9 @@ namespace App\Http\Resources\Api\Frontend;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
-class ShopResource extends JsonResource
+class CategoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +15,10 @@ class ShopResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->name,
+            'image' => asset(Storage::url('categories/' . $this->image)),
+            'slug' => $this->slug,
+        ];
     }
 }

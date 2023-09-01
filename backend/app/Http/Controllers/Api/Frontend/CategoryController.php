@@ -12,8 +12,7 @@ class CategoryController extends Controller {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response{
-        $products = SearchProductService::searchProductQuery($request, 'categories');
-        return response(compact('products'), 200);
+    public function __invoke(Request $request): Object{
+        return SearchProductService::searchProductQuery($request, 'categories');
     }
 }
