@@ -21,7 +21,7 @@ class CategoryFactory extends Factory {
         $slug = Str::slug($name);
         return [
             'name'       => $name,
-            'image'      => 'kkkkkk',
+            'image'      => 'category.png',
             'slug'       => $slug,
             'section_id' => Section::class,
         ];

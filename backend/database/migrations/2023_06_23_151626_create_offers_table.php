@@ -12,11 +12,11 @@ return new class extends Migration {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image')->nullable();
+            $table->string('image');
             $table->string('title');
             $table->enum('type', ['Percentage', 'Decimal']);
             $table->decimal('discount');
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->default(false);
             $table->dateTime('start_date');
             $table->dateTime('expire_date');
             $table->timestamps();

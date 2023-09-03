@@ -11,15 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mail_settings', function (Blueprint $table) {
+        Schema::create('comment_replies', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('address');
-            $table->string('username');
-            $table->string('host');
-            $table->char('port',6);
-            $table->string('password');
-            $table->string('encryption');
+            $table->foreignId('comment_id')->constrained()->onDelete('cascade');
+            $table->text('reply');
             $table->timestamps();
         });
     }
@@ -29,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mail_settings');
+        Schema::dropIfExists('comment_replies');
     }
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Frontend\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\BillingDetails;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,29 +18,28 @@ class UserController extends Controller
         $user = User::with('billingDetail:user_id,phone,address,address_2,city,state,zip_code')
             ->withCount('order')
             ->withCount('review')
-            ->find($request->id, ['id', 'name', 'email', 'gender']);
+            ->find($request->id, ['id', 'name', 'email']);
         return response(compact('user'), 200);
     }
 
-    public function update(Request $request): Response
+    public function update(UserRequest $request): Response
     {
         $user = User::find($request->id);
-        $user->name = $request->data['name'];
-        $user->email = $request->data['email'];
-        // $request->data['password'] ? 'return validitaion' : null;
+        $user->name = $request->validated('name');
+        $user->email = $request->validated('email');
+        if ($request->validated('password')) $user->password = $request->validated('password');
         $user->save();
-        $user->billingDetail()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'phone' => $request->data['phone'],
-                'address' => $request->data['address'],
-                'address_2' => $request->data['address_2'],
-                'city' => $request->data['city'],
-                'state' => $request->data['state'],
-                'zip_code' => $request->data['zip_code'],
+
+        BillingDetails::updateOrCreate( ['user_id'=> $request->id], [
+                'phone' => $request->validated('phone'),
+                'address' => $request->validated('address'),
+                'address_2' => $request->validated('address_2'),
+                'city' => $request->validated('city'),
+                'state' => $request->validated('state'),
+                'zip_code' => $request->validated('zip_code'),
             ]
         );
-        return response(true, 200);
+        return response($user, 200);
     }
 
     public function register(Request $request): Response

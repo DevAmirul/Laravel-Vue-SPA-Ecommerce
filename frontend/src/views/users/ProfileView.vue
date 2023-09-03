@@ -5,6 +5,7 @@ import PageHeader from "../../components/layouts/PageHeader.vue";
 import useAlert from "../../services/Sweetalert";
 
 const isChangedPass = ref(false);
+const errorData = ref();
 const responseData = reactive({
     name: '',
     email: '',
@@ -14,8 +15,8 @@ const responseData = reactive({
     address: '',
     address_2: '',
     zip_code: '',
-    password: '',
-    confirm_password: '',
+    password: null,
+    password_confirmation: null,
 });
 
 onMounted(() => {
@@ -38,9 +39,8 @@ onMounted(() => {
         });
 } )
 
-function save(){
+function update(){
     useAxios.put('/users/profiles/' + responseData.id, {
-        data: {
             "name": responseData.name,
             "email": responseData.email,
             "city": responseData.city,
@@ -50,15 +50,15 @@ function save(){
             "state": responseData.state,
             "zip_code": responseData.zip_code,
             "password": responseData.password,
-            "confirm_password": responseData.confirm_password
-        }
+            "password_confirmation": responseData.password_confirmation
     })
     .then(response => {
+        console.log(response);
         useAlert().centerMessageAlert('success', 'Successfully updated profile')
     })
     .catch(error => {
         errorData.value = error.response.data.errors
-        console.log(error.data);
+        console.log(error);
     });
 }
 
@@ -102,7 +102,7 @@ function save(){
                                 >
                                     <h6 class="mb-0">My Review:</h6>
                                     <span class="text-primary">{{ responseData.review }}</span>
-                                </li>   
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -197,6 +197,23 @@ function save(){
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-3">
+                                    <h6 class="mb-0">Zip Code</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        v-model="responseData.zip_code"
+                                    />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['zip_code']">
+                                            <small v-if="errorData['zip_code'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['zip_code'][0] }}</small>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
                                     <h6 class="mb-0">Address</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
@@ -234,7 +251,7 @@ function save(){
                                 <div class="col-sm-9 text-secondary d-flex justify-content-between">
                                     <button @click="isChangedPass = !isChangedPass" class="btn btn-small btn-outline-primary">Change Password <i class="fa fa-arrow-down" aria-hidden="true"></i></button>
 
-                                    <button v-show="!isChangedPass" @click="save()" class="btn btn-primary">Save Changes</button>
+                                    <button v-show="!isChangedPass" @click="update()" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </div>
                         </div>
@@ -247,7 +264,7 @@ function save(){
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input
-                                        type="text"
+                                        type="password"
                                         class="form-control"
                                         placeholder="********"
                                         v-model="responseData.password"
@@ -266,15 +283,15 @@ function save(){
                                 </div>
                                 <div class="col-sm-9 text-secondary">
                                     <input
-                                        type="text"
+                                        type="password"
                                         class="form-control"
                                         placeholder="********"
-                                        v-model="responseData.confirm_password"
-                                        name="confirm_password"
+                                        v-model="responseData.password_confirmation"
+                                        name="password_confirmation"
                                     />
                                     <template v-if="errorData">
-                                        <template v-if="errorData['confirm_password']">
-                                            <small v-if="errorData['confirm_password'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['confirm_password'][0] }}</small>
+                                        <template v-if="errorData['password_confirmation']">
+                                            <small v-if="errorData['password_confirmation'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['password_confirmation'][0] }}</small>
                                         </template>
                                     </template>
                                 </div>
@@ -282,7 +299,7 @@ function save(){
                             <div class="row mt-4">
                                 <div class="col-sm-3"></div>
                                 <div class="col-sm-9 text-secondary">
-                                    <button @click="save()" class="btn btn-primary">Save Changes</button>
+                                    <button @click="update()" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </div>
                         </div>

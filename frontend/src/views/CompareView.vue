@@ -79,15 +79,22 @@ function clearCompareList(){
                             </div>
                             <small class="pt-1">({{ data.review_count }})</small>
                         </div>
-                        <template v-if="data.offer.discount > 0" >
-                            <h5 class="font-weight-semi-bold mb-4">
-                                <del><small>${{ data.sale_price }}</small></del>
-                                ${{ data.sale_price - data.offer.discount }}.00
-                            </h5>
+                        <template v-if="data.offer !== null">
+                            <template v-if="data.offer.discount !== null && data.offer.status !== 0 && data.offer.expire_date > new Date().toISOString()" >
+                                <h5 class="font-weight-semi-bold mb-4">
+                                    <del><small>${{ Number(data.sale_price) }}</small></del>
+                                    ${{ Number(data.sale_price - data.offer.discount) }}
+                                </h5>
+                            </template>
+                            <template v-else>
+                                <h5  class="text-muted ml-2">
+                                    ${{ Number(data.sale_price) }}
+                                </h5>
+                            </template>
                         </template>
                         <template v-else>
                             <h5  class="text-muted ml-2">
-                                ${{ data.sale_price }}
+                                ${{ Number(data.sale_price) }}
                             </h5>
                         </template>
                             <h4 class="mb-3">Description</h4>

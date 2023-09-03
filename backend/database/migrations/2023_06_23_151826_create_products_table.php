@@ -19,15 +19,15 @@ return new class extends Migration {
             $table->integer('qty_in_stock');
             $table->decimal('sale_price');
             $table->decimal('original_price');
-            $table->foreignId('offer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('offer_id')->nullable()->constrained()->nullOnDelete();
             $table->string('image');
             $table->text('gallery');
             $table->text('specification')->nullable();
             $table->text('tags')->nullable();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('sub_category_id')->constrained()->onDelete('cascade');
-            $table->foreignId('brand_id')->constrained()->onDelete('cascade');
-            $table->boolean('status')->default(0);
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('sub_category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

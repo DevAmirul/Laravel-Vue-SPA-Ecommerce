@@ -11,7 +11,7 @@ class ReviewController extends Controller
 {
     public function create(Request $request) : Response {
         Review::create($request->data);
-
         return response(true, 200);
+        // TODO: validation
     }
 }

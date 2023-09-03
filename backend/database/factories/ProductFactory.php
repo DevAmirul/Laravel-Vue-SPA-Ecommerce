@@ -31,7 +31,6 @@ class ProductFactory extends Factory {
             'qty_in_stock'    => fake()->numberBetween(10, 100),
             'sale_price'      => fake()->numberBetween(200, 1000),
             'original_price'  => fake()->numberBetween(200, 500),
-            'offer_id'=>1,
             'image'           => 'digital_' . random_int(1, 35) . '.jpg',
             'gallery'         => $imagesStr,
             'category_id'     => fake()->numberBetween(1, 3),

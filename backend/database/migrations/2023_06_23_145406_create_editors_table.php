@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->string('address');
             $table->string('city');
             $table->string('state');
-            $table->boolean('role')->default(0);
-            $table->boolean('status')->default(0);
+            $table->boolean('role')->default(false);
+            $table->boolean('status')->default(false);
             $table->string('password');
             $table->timestamps();
         });

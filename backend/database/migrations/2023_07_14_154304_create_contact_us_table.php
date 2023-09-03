@@ -15,9 +15,9 @@ return new class extends Migration {
             $table->string('email');
             $table->string('subject');
             $table->text('message');
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->default(false);
             $table->bigInteger('reply_by')->unsigned()->nullable();
-            $table->foreign('reply_by')->references('id')->on('editors');
+            $table->foreign('reply_by')->references('id')->on('editors')->nullOnDelete();
             $table->timestamps();
         });
     }

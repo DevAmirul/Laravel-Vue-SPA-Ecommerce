@@ -1,9 +1,8 @@
 <script setup>
-import { ref, reactive, onMounted, watch } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
-import { storeToRefs } from "pinia";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import PageHeader from "../components/layouts/PageHeader.vue";
 
@@ -17,9 +16,11 @@ const formData = reactive({
 });
 
 onMounted(() => {
-    useAxios.get('/products/' + route.params.slug)
+    useAxios.get('/products/chelsey-feest')
+    // useAxios.get('/products/' + route.params.slug)
         .then(response => {
             responseData.value = response.data;
+            console.log(responseData.value);
             useAxios.get('/products/view-count/' + responseData.value.product.id)
         })
         .catch(error => {
@@ -119,15 +120,22 @@ function addToCart(productId) {
                             </div>
                             <small class="pt-1">({{ responseData.product.review_count }})</small>
                         </div>
-                        <template v-if="responseData.product.offer.discount > 0" >
-                            <h3 class="font-weight-semi-bold mb-4">${{ responseData.product.sale_price - responseData.product.offer.discount }}.00</h3>
-                            <h6 class="text-muted ml-2">
-                                <del>${{ responseData.product.sale_price }}</del>
-                            </h6>
+
+                        <template v-if="responseData.product.offer !== null">
+                            <template v-if="responseData.product.offer.discount !== null && responseData.product.offer.status !== 0 && responseData.product.offer.expire_date > new Date().toISOString()" >
+                                <h3 class="font-weight-semi-bold mb-4">${{ responseData.product.sale_price - responseData.product.offer.discount }}</h3>
+                                <h6 class="text-muted ml-2">
+                                    <del>${{ Number(responseData.product.sale_price) }}</del>
+                                </h6>
+                            </template>
+                            <template v-else>
+                                <h3 class="font-weight-semi-bold mb-4">${{ Number(responseData.product.sale_price) }}</h3>
+                            </template>
                         </template>
                         <template v-else>
-                            <h3 class="font-weight-semi-bold mb-4">${{ responseData.product.sale_price }}</h3>
+                            <h3 class="font-weight-semi-bold mb-4">${{ Number(responseData.product.sale_price) }}</h3>
                         </template>
+
                         <p class="mb-4">
                             {{ responseData.product.description.substring(0, 300) }}....
                         </p>
@@ -192,9 +200,6 @@ function addToCart(productId) {
                         </div>
                     </div>
                 </div>
-
-
-
 
             <div class="row px-xl-5 mb-5">
                 <div class="col">
@@ -329,15 +334,20 @@ function addToCart(productId) {
                                         <h6 class="text-truncate mb-3">
                                             {{ data.name }}
                                         </h6>
-                                        <div class="d-flex justify-content-center">
-                                            <template v-if="data.discount > 0">
-                                                <h6>${{ data.discount }}</h6>
-                                                <h6 class="text-muted ml-2"><del>${{ data.sale_price }}</del></h6>
+                                        <template v-if="data.offer !== null">
+                                            <template v-if="data.offer.discount !== null && data.offer.status !== 0 && data.offer.expire_date > new Date().toISOString()" >
+                                                <h6>${{ Number(data.offer.discount) }}</h6>
+                                                <h6 class="text-muted ml-2"><del>${{ Number(data.sale_price) }}</del></h6>
                                             </template>
                                             <template v-else>
-                                                <h6>${{ data.sale_price }}</h6>
+                                                <h6>${{ Number(data.sale_price) }}</h6>
                                             </template>
-                                        </div>
+                                        </template>
+                                        <template v-else>
+                                            <h6>${{ Number(data.sale_price) }}</h6>
+                                        </template>
+
+
                                     </div>
                                     <div class="card-footer d-flex justify-content-between bg-light border d-flex justify-content-around">
                                         <button @click="addToWishlist({ id: data.p_id, name: data.name, image: data.image, salePrice: data.sale_price })" class="btn btn-sm text-dark p-0"><i

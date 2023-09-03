@@ -13,7 +13,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('view_count');
-            $table->timestamps();
         });
     }
 

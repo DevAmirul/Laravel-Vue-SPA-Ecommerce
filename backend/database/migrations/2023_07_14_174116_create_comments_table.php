@@ -14,10 +14,6 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->text('comment');
-            $table->text('replay');
-            $table->bigInteger('reply_by')->unsigned();
-            $table->foreign('reply_by')->references('id')->on('editors');
-            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class ShippingMethodFactory extends Factory {
     {
         return [
             'name' => fake()->name(),
-            'cost' => Arr::random([0, 50, 100]),
+            'cost' => fake()->numberBetween(20, 50),
         ];
     }
 }

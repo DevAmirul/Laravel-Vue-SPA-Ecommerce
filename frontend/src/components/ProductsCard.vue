@@ -86,7 +86,7 @@ function addToCart(productId) {
                             {{ data.name }}
                         </h6>
                         <div class="d-flex justify-content-center">
-                            <template v-if="data.discount > 0">
+                            <template v-if="data.discount !== null && data.status !== false && data.expire_date > new Date().toISOString()">
                                 <h6>${{ data.discount }}</h6>
                                 <h6 class="text-muted ml-2"><del>${{ data.sale_price }}</del></h6>
                             </template>

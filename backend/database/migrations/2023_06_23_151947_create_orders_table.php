@@ -16,10 +16,9 @@ return new class extends Migration {
             $table->decimal('discount');
             $table->decimal('subtotal');
             $table->decimal('total');
-            $table->boolean('payment_status')->default(0);
-            $table->foreignId('shipping_method_id')->constrained();
-            $table->foreignId('coupon_id')->nullable()->constrained();
-            $table->boolean('ship_to_different_address')->default(0);
+            $table->boolean('payment_status')->default(false);
+            $table->foreignId('shipping_method_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('coupon_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('image');
             $table->string('slug')->unique();
-            $table->boolean('status')->default(0);
-            $table->foreignId('offer_id')->nullable()->constrained()->onDelete('cascade');
+            $table->boolean('status')->default(false);
+            $table->foreignId('offer_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
     }

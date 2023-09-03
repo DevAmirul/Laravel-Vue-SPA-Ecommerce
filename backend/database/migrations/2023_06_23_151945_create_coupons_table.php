@@ -13,8 +13,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->decimal('discount');
-            $table->char('code', 100);
-            $table->boolean('status')->default(0);
+            $table->char('code', 50);
+            $table->boolean('status')->default(false);
             $table->dateTime('start_date');
             $table->dateTime('expire_date');
             $table->timestamps();
