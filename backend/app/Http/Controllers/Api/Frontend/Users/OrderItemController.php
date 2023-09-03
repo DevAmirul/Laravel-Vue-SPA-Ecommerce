@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Frontend\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\Frontend\Users\OrderItemResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -13,8 +14,8 @@ class OrderItemController extends Controller
     public function index(Request $request): Response
     {
         $orderItems = DB::table('orders')->where('orders.id', '=', $request->id)
+            ->leftJoin('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->join('users', 'orders.user_id', '=', 'users.id')
-            ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->join('billing_details', 'users.id', '=', 'billing_details.user_id')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('products', 'order_items.product_id', '=', 'products.id')
@@ -27,7 +28,7 @@ class OrderItemController extends Controller
                 'orders.total',
                 'orders.created_at',
                 'coupons.discount as c_discount',
-                'users.name',
+                'users.name as user_name',
                 'users.email',
                 'billing_details.phone',
                 'billing_details.city',
@@ -42,6 +43,7 @@ class OrderItemController extends Controller
                 'products.sale_price',
                 'products.original_price',
             )->get();
-        return response(compact('orderItems'), 200);
+
+        return response(['orderItems'=> OrderItemResource::collection($orderItems)], 200);
     }
 }

@@ -57,7 +57,8 @@ function save(){
         useAlert().centerMessageAlert('success', 'Successfully updated profile')
     })
     .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+        errorData.value = error.response.data.errors
+        console.log(error.data);
     });
 }
 
@@ -101,8 +102,7 @@ function save(){
                                 >
                                     <h6 class="mb-0">My Review:</h6>
                                     <span class="text-primary">{{ responseData.review }}</span>
-                                </li>
-
+                                </li>   
                             </ul>
                         </div>
                     </div>
@@ -120,6 +120,11 @@ function save(){
                                         class="form-control"
                                         v-model="responseData.name"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['name']">
+                                            <small v-if="errorData['name'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['name'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -132,6 +137,11 @@ function save(){
                                         class="form-control"
                                         v-model="responseData.email"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['email']">
+                                            <small v-if="errorData['email'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['email'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -144,6 +154,11 @@ function save(){
                                         class="form-control"
                                         v-model="responseData.phone"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['phone']">
+                                            <small v-if="errorData['phone'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['phone'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -156,6 +171,11 @@ function save(){
                                         class="form-control"
                                         v-model="responseData.state"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['state']">
+                                            <small v-if="errorData['state'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['state'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -168,6 +188,11 @@ function save(){
                                         class="form-control"
                                         v-model="responseData.city"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['city']">
+                                            <small v-if="errorData['city'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['city'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -180,6 +205,11 @@ function save(){
                                         class="form-control"
                                         v-model="responseData.address"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['address']">
+                                            <small v-if="errorData['address'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['address'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -193,6 +223,11 @@ function save(){
                                         v-model="responseData.address_2"
                                     />
                                 </div>
+                                <template v-if="errorData">
+                                    <template v-if="errorData['address_2']">
+                                        <small v-if="errorData['address_2'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['address_2'][0] }}</small>
+                                    </template>
+                                </template>
                             </div>
                             <div class="row mt-4">
                                 <div class="col-sm-3"></div>
@@ -218,6 +253,11 @@ function save(){
                                         v-model="responseData.password"
                                         name="password"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['password']">
+                                            <small v-if="errorData['password'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['password'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -232,6 +272,11 @@ function save(){
                                         v-model="responseData.confirm_password"
                                         name="confirm_password"
                                     />
+                                    <template v-if="errorData">
+                                        <template v-if="errorData['confirm_password']">
+                                            <small v-if="errorData['confirm_password'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['confirm_password'][0] }}</small>
+                                        </template>
+                                    </template>
                                 </div>
                             </div>
                             <div class="row mt-4">

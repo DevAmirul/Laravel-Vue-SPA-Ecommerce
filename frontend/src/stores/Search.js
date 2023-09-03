@@ -96,7 +96,6 @@ const useSearch = defineStore('search', () => {
                 responseData.value = response.data
                 isRefreshPage.value = false;
                 // console.log(responseData.value);
-
                 if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {

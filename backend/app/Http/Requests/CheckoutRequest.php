@@ -11,7 +11,7 @@ class CheckoutRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required|numeric',
+            'phone' => 'required|max:11',
+            'address' => 'required|max:255',
+            'address_2' => 'required|max:255',
+            'city' => 'required|max:100',
+            'state' => 'required|max:100',
+            'zip_code' => 'required|max:6',
+            'discount' => 'required|decimal:2',
+            'subtotal' => 'required|decimal:2',
+            'total' => 'required|decimal:2',
+            'shipping_method_id' => 'required|numeric',
+            'coupon_id' => 'required_if:numeric,nullable',
         ];
     }
 }

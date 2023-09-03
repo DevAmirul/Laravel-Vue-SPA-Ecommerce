@@ -167,16 +167,7 @@ axios_C.get('/home/navbar')
                                             >Cart</a
                                         ></RouterLink
                                     >
-                                    <RouterLink
-                                        style="
-                                            text-decoration: none;
-                                            color: inherit;
-                                        "
-                                        :to="{ name: 'checkout' }"
-                                        ><a :class="[route.name == 'checkout' ? 'active' : '', 'nav-item', 'nav-link']"
-                                            >Checkout</a
-                                        ></RouterLink
-                                    >
+                                    
                                 </div>
                             </div>
                             <RouterLink

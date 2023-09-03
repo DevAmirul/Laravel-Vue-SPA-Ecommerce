@@ -2,8 +2,8 @@ import Swal from 'sweetalert2'
 import { useRouter } from "vue-router";
 
 
+const router = useRouter();
 export default function useAlert() {
-    const router = useRouter();
 
     function topAlert(icon, title, position = 'top-end') {
         const Toast = Swal.mixin({
@@ -40,15 +40,6 @@ export default function useAlert() {
             text: text,
             confirmButtonText: 'Ok',
         })
-        .then((result) => {
-            if (result.isConfirmed) {
-                router.back()
-            } else if (!result.isConfirmed) {
-                router.back()
-            }
-        })
     }
-
-
     return { topAlert, centerMessageAlert, centerDialogAlert };
 }

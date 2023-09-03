@@ -4,7 +4,8 @@ import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
 import PageHeader from '../components/layouts/PageHeader.vue'
 
-let responseData = ref();
+const responseData = ref();
+const errorData = ref();
 const formData = reactive({
     name: '',
     email: '',
@@ -14,17 +15,22 @@ const formData = reactive({
 
 function sendMessage(){
     useAxios.post('/contacts',{
-        formData
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
     })
         .then(response => {
             formData.name = ''
             formData.email = ''
             formData.subject = ''
             formData.message = ''
+            errorData.value = null
             useAlert().centerMessageAlert('success', response.data.message)
+            // console.log(response);
         })
         .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+            errorData.value = error.response.data.errors
         });
 }
 
@@ -62,10 +68,14 @@ onMounted(() => {
                                 class="form-control"
                                 id="name"
                                 placeholder="Your Name"
-                                required="required"
                                 v-model="formData.name"
                             />
-                            <p class="help-block text-danger"></p>
+                            <!-- required="required" -->
+                            <template v-if="errorData">
+                                <template v-if="errorData['name']">
+                                    <small v-if="errorData['name'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['name'][0] }}</small>
+                                </template>
+                            </template>
                         </div>
                         <div class="control-group">
                             <input
@@ -73,10 +83,14 @@ onMounted(() => {
                                 class="form-control"
                                 id="email"
                                 placeholder="Your Email"
-                                required="required"
                                 v-model="formData.email"
                             />
-                            <p class="help-block text-danger"></p>
+                                <!-- required="required" -->
+                            <template v-if="errorData">
+                                <template v-if="errorData['email']">
+                                    <small v-if="errorData['email'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['email'][0] }}</small>
+                                </template>
+                            </template>
                         </div>
                         <div class="control-group">
                             <input
@@ -84,10 +98,15 @@ onMounted(() => {
                                 class="form-control"
                                 id="subject"
                                 placeholder="Subject"
-                                required="required"
                                 v-model="formData.subject"
-                            />
-                            <p class="help-block text-danger"></p>
+                                required="required"
+                                />
+                            <template v-if="errorData">
+                                <template v-if="errorData['subject']">
+                                    <small v-if="errorData['subject'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['subject'][0] }}</small>
+                                </template>
+                            </template>
+
                         </div>
                         <div class="control-group">
                             <textarea
@@ -95,14 +114,18 @@ onMounted(() => {
                                 rows="6"
                                 id="message"
                                 placeholder="Message"
-                                required="required"
                                 v-model="formData.message"
-                            ></textarea>
-                            <p class="help-block text-danger"></p>
+                                required="required"
+                                ></textarea>
+                            <template v-if="errorData">
+                                <template v-if="errorData['message']">
+                                    <small v-if="errorData['message'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['message'][0] }}</small>
+                                </template>
+                            </template>
                         </div>
                         <div>
                             <button
-                                class="btn btn-primary py-2 px-4"
+                                class="btn btn-primary py-2 px-4 mt-3"
                                 type="submit"
                                 id="sendMessageButton"
                             >

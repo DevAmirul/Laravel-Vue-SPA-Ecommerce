@@ -11,6 +11,7 @@ class GeneralSettings extends Model {
     protected $fillable = [
         'name',
         'logo',
+        'banner',
         'slogan',
         'email',
         'phone',

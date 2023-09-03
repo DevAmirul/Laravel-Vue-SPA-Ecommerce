@@ -8,7 +8,8 @@ use App\Models\GeneralSettings;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class GeneralController extends Component {
+class GeneralController extends Component
+{
     use WithFileUploads, FileTrait, CreateSlugTrait;
 
     public int $settingsId;
@@ -23,10 +24,13 @@ class GeneralController extends Component {
     public string $youtube;
     public string $twitter;
     public string $instagram;
-    public string $oldSiteLogoName;
+    public string $oldLogoName;
+    public string $oldBannerName;
     public $logo;
+    public $banner;
 
-    protected function rules() {
+    protected function rules()
+    {
         $rules = [
             'name'      => 'required|string|max:255',
             'slogan'    => 'required|string',
@@ -40,25 +44,30 @@ class GeneralController extends Component {
             'twitter'   => 'required|string|max:255',
             'instagram' => 'required|string|max:255',
         ];
-        if (gettype($this->logo) == 'object') {
-            $rules['logo'] = 'required|mimes:jpeg,png,jpg';
-        } elseif (empty($this->logo)) {
-            $rules['logo'] = 'required|mimes:jpeg,png,jpg';
-        }
+        if (gettype($this->logo) == 'object') $rules['logo'] = 'required|mimes:jpeg,png,jpg';
+        elseif (empty($this->logo)) $rules['logo'] = 'required|mimes:jpeg,png,jpg';
+
+        if (gettype($this->banner) == 'object') $rules['banner'] = 'required|mimes:jpeg,png,jpg';
+        elseif (empty($this->banner)) $rules['banner'] = 'required|mimes:jpeg,png,jpg';
+
         return $rules;
     }
 
-    public function updated($propertyName): void{
+    public function updated($propertyName): void
+    {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function mount(): void{
+    public function mount(): void
+    {
         $settings = GeneralSettings::first();
 
         $this->settingsId      = $settings->id ?? 1;
         $this->name            = $settings->name ?? '';
         $this->logo            = $settings->logo ?? '';
-        $this->oldSiteLogoName = $settings->logo ?? '';
+        $this->oldLogoName     = $settings->logo ?? '';
+        $this->banner          = $settings->banner ?? '';
+        $this->oldBannerName   = $settings->banner ?? '';
         $this->slogan          = $settings->slogan ?? '';
         $this->email           = $settings->email ?? '';
         $this->phone           = $settings->phone ?? '';
@@ -69,23 +78,32 @@ class GeneralController extends Component {
         $this->youtube         = $settings->youtube ?? '';
         $this->twitter         = $settings->twitter ?? '';
         $this->instagram       = $settings->instagram ?? '';
-
     }
 
-    public function save(): void{
+    public function save(): void
+    {
         $validate = $this->validate();
 
-        if (!empty($this->oldSiteLogoName) && (gettype($this->logo) == 'object')) {
-            $this->fileDestroy($this->oldSiteLogoName, 'img');
+        if (!empty($this->oldLogoName) && (gettype($this->logo) == 'object')) {
+            $this->fileDestroy($this->oldLogoName, 'img');
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
         } elseif (gettype($this->logo) == 'object') {
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
         }
-        GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
+
+        if (!empty($this->oldBannerName) && (gettype($this->banner) == 'object')) {
+            $this->fileDestroy($this->oldBannerName, 'img');
+            $validate['banner'] = $this->fileUpload($this->banner, 'img');
+        } elseif (gettype($this->banner) == 'object') {
+            $validate['banner'] = $this->fileUpload($this->banner, 'img');
+        }
+        $a = GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
+        dd($a);
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render()
+    {
         return view('livewire.settings.general');
     }
 }

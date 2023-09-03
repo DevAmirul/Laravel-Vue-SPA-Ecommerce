@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { RouterLink, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import useAxios from '../../services/axios';
 import useAlert from "../../services/Sweetalert";
 import PageHeader from "../../components/layouts/PageHeader.vue";
 
-const router = useRoute();
-const paramsId = router.params.id;
+const route = useRoute();
+const paramsId = route.params.id;
 let discount = ref(0);
 let responseData = ref();
 let confirmed;
@@ -17,6 +17,7 @@ onMounted(() => {
     useAxios.get('/users/orders/' + paramsId + '/items')
         .then(response => {
             responseData.value = response.data
+            console.log(responseData.value);
             if (responseData.value.orderItems.length == 0) useAlert().centerDialogAlert('info', 'Order item list is empty')
         })
         .catch(error => {
@@ -55,20 +56,6 @@ watch(responseData, () => {
                     </div>
                     <article class="card">
                         <div class="card-body row">
-                            <!-- <div class="col">
-                                <strong style="color: #1c1c1c !important"
-                                    >Estimated Delivery time:</strong
-                                >
-                                <br />29 nov 2019
-                            </div> -->
-                            <!-- <div class="col">
-                                <strong style="color: #1c1c1c !important"
-                                    >Shipping BY:</strong
-                                >
-                                <br />
-                                BLUEDART, | <i class="fa fa-phone"></i> +1598675986
-                            </div> -->
-
                             <div class="col-lg">
                                 <strong style="color: #1c1c1c !important"
                                     >Phone:</strong
@@ -107,23 +94,22 @@ watch(responseData, () => {
                                 </div>
                         </div>
                     </article>
-                        <!-- <template v-if="responseData.orderItems[0].order_status !== 'Returned'"> -->
-                            <div class="track">
-                                <div :class="[confirmed ? 'active' : '', 'step']">
-                                    <span class="icon"> <i class="fa fa-check"></i> </span>
-                                    <span class="text">Order confirmed</span>
-                                </div>
-                                <div  :class="[Shipped ? 'active' : '', 'step']">
-                                    <span class="icon"> <i class="fa fa-truck"></i> </span>
-                                    <span class="text">Picked by courier</span>
-                                </div>
-                                <div :class="[Delivered ? 'active' : '', 'step']">
-                                    <span class="icon"> <i class="fa fa-box"></i> </span>
-                                    <span class="text">Delivered</span>
-                                </div>
+                    <!-- <template v-if="responseData.orderItems[0].order_status !== 'Returned'"> -->
+                        <div class="track">
+                            <div :class="[confirmed ? 'active' : '', 'step']">
+                                <span class="icon"> <i class="fa fa-check"></i> </span>
+                                <span class="text">Order confirmed</span>
                             </div>
-                        <!-- </template> -->
-
+                            <div  :class="[Shipped ? 'active' : '', 'step']">
+                                <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                <span class="text">Picked by courier</span>
+                            </div>
+                            <div :class="[Delivered ? 'active' : '', 'step']">
+                                <span class="icon"> <i class="fa fa-box"></i> </span>
+                                <span class="text">Delivered</span>
+                            </div>
+                        </div>
+                    <!-- </template> -->
                     <hr/>
 
                     <ul  class="row">
@@ -151,20 +137,6 @@ watch(responseData, () => {
                     <hr />
                     <article class="card">
                             <div class="card-body row">
-                                <!-- <div class="col">
-                                <strong style="color: #1c1c1c !important"
-                                    >Estimated Delivery time:</strong
-                                >
-                                <br />29 nov 2019
-                            </div> -->
-                                <!-- <div class="col">
-                                <strong style="color: #1c1c1c !important"
-                                    >Shipping BY:</strong
-                                >
-                                <br />
-                                BLUEDART, | <i class="fa fa-phone"></i> +1598675986
-                            </div> -->
-
                                 <div v-if="responseData.orderItems[0].c_discount" class="col-lg">
                                     <strong style="color: #1c1c1c !important"
                                         >Coupon:</strong

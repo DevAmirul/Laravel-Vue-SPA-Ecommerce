@@ -38,12 +38,9 @@ function deleteWishlist(productId) {
 }
 
 function addToCart(productId) {
-    let query;
-    query = encodeURIComponent([productId]);
-    deleteWishlist(productId)
-    useAxios.get('/users/cart/save/?productId=' + query + '&user=2')
-        .then(response => {
-            console.log(response.data)
+    useAxios.get('/users/cart/add/' + 2 + '/' + productId)
+    .then(response => {
+            deleteWishlist(productId)
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
             useAlert().centerMessageAlert('success', 'Successfully added to cart')
         })

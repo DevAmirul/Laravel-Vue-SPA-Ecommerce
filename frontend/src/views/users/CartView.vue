@@ -24,7 +24,13 @@ onMounted(() => {
 } )
 
 watch(refreshCartPage, () => {
-    
+    useAxios.get('/users/cart/' + 2)
+    .then(response => {
+            responseData.value = response.data;
+        })
+        .catch(error => {
+            // console.log(error);
+        });
 } )
 
 function deleteCartItems(itemid){
@@ -52,8 +58,7 @@ function productQuantityIncrement(cartId, productId, qty) {
     useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
         .then(response => {
             refreshCartPage.value = !refreshCartPage.value;
-            console.log(refreshCartPage.value);
-            // refreshCartItemsNumber.value = !refreshCartItemsNumber.value
+            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
         })
         .catch(error => {
             console.log(error);

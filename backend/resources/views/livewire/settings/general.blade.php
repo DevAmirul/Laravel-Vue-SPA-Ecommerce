@@ -38,10 +38,10 @@ Editors Create
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Instagram" name="instagram" type="text" wireModel='instagram'>
         </x-form-input-field.general>
-
         <x-form-input-field.file col="col-6" label="Upload site logo" name="logo" wireModel='logo'>
         </x-form-input-field.file>
-
+        <x-form-input-field.file col="col-6" label="Upload site banner" name="banner" wireModel='banner'>
+        </x-form-input-field.file>
         <x-form-input-field.submit color='primary' buttonName="Save Settings"></x-form-input-field.submit>
     </x-form>
 

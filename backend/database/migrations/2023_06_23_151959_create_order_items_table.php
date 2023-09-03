@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained();
             $table->integer('qty');
-            $table->decimal('discount_price')->nullable();
+            $table->decimal('discount_price')->default(0.00);
         });
     }
 
