@@ -14,7 +14,7 @@ trait SubCategoriesService {
     protected function rules() {
         return [
             'name'        => 'required|string|max:255',
-            'slug'        => 'required|string|max:255',
+            'slug'        => 'required|string|max:255|unique:brands,slug,' . $this->subCategoryId,
             'status'      => 'required|boolean',
             'category_id' => 'required|numeric',
         ];

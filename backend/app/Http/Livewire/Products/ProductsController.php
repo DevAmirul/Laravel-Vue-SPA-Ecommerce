@@ -14,7 +14,7 @@ class ProductsController extends Component {
 
     public function mount(): void{
         $this->tableColumnTrait(
-            ['Image', 'Name', 'SKU', 'Qty', 'Sub Category', 'Sale Price', 'Original Price', 'Stock Status', 'Status', 'Action'],
+            ['Image', 'Name', 'SKU', 'Qty', 'Sub Category', 'Sale', 'Original', 'Stock', 'Status', 'Action'],
             ['image', 'name', 'sku', 'qty_in_stock', 'sub_category_id', 'sale_price', 'original_price', 'stock_status', 'status']
         );
         $this->booleanTrait(

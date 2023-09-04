@@ -19,12 +19,12 @@ class CartProductService
                 'products.sale_price',
                 'offers.discount',
                 'offers.type',
-                'offers.start_date',
+                'offers.status',
                 'offers.expire_date'
             )
             ->join('cart_items', 'carts.id', '=', 'cart_items.cart_id')
             ->join('products', 'cart_items.product_id', '=', 'products.id')
-            ->join('offers', 'products.offer_id', '=', 'offers.id')
+            ->leftJoin('offers', 'products.offer_id', '=', 'offers.id')
             ->where('carts.user_id', $request->id)->get();
 
         return CartResource::collection($cartItems);

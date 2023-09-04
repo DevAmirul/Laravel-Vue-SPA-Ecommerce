@@ -27,7 +27,7 @@ class CartResource extends JsonResource
             'qty'=> $this->qty,
             'item_id'=> $this->item_id,
             'p_id'=> $this->p_id,
-            'start_date'=> $this->start_date,
+            'status'=> $this->status,
             'expire_date'=> $this->expire_date,
         ];
     }

@@ -4,8 +4,10 @@ namespace App\Http\ServiceTraits;
 
 use App\Models\Category;
 use App\Models\SubCategory;
+use Illuminate\Validation\Rule;
 
-trait ProductsService {
+trait ProductsService
+{
 
     public string $name;
     public string $slug;
@@ -18,35 +20,32 @@ trait ProductsService {
     public array $stockStatusOption = ['Out of Stock', 'In Stock'];
     public array $statusOption      = ['Unpublish', 'Publish'];
     public int $qty_in_stock;
-    public array $attributeValuesId = [];
+    // public array $attributeValuesId = [];
+    // public string $product_tag;
     public ?string $specification   = 'ok';
-    public string $product_tag;
 
     public int $selectedSection;
-    public ?object $categories = null;
     public int $selectedCategory;
+    public ?object $categories = null;
     public ?object $subCategories = null;
     public int $sub_category_id;
     public int $brand_id;
-    public  ? array $selectedTags;
-    public ?string $tags;
-    public  ? array $selectedColor = [];
-    public  ? array $selectedSize  = [];
-
-    // public int $category_id;
-    // public int $selectedAttributes;
-    // public ?object $attributeValues = null;
+    public  ?array $selectedTags = [];
+    public  string $tags;
+    public  ?array $selectedColor = [];
+    public  ?array $selectedSize  = [];
 
     public $image;
     public string $oldImage;
     public $gallery = [];
     public string $oldGallery;
 
-    protected function rules() {
+    protected function rules()
+    {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'             => 'required|string|max:255',
-                'slug'             => 'required|string|max:255',
+                'slug'             => 'required|string|max:255|unique:brands,slug,' . $this->productId,
                 'sku'              => 'required|max:10',
                 'sale_price'       => 'required|numeric',
                 'original_price'   => 'nullable|numeric',
@@ -56,14 +55,14 @@ trait ProductsService {
                 'selectedCategory' => 'required|numeric',
                 'sub_category_id'  => 'required|numeric',
                 'brand_id'         => 'required|numeric',
-                'selectedTags'     => 'required|array',
                 'description'      => 'required|string',
                 'specification'    => 'required|string',
-
             ];
-
-            (gettype($this->image) == 'object') ? $rulesForUpdate['image']                              = 'required|mimes:jpeg,png,jpg' : null;
-            (gettype($this->gallery) == 'array' && !empty($this->gallery)) ? $rulesForUpdate['gallery'] = 'required|array' : null;
+            if ($this->selectedColor) $rulesForUpdate['selectedColor'] = 'required|array';
+            if ($this->selectedSize) $rulesForUpdate['selectedSize'] = 'required|array';
+            if ($this->selectedTags) $rulesForUpdate['selectedTags'] = 'required|array';
+            if (gettype($this->image) == 'object')  $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+            if (gettype($this->gallery) == 'array' && !empty($this->gallery)) $rulesForUpdate['gallery'] = 'required|array';
 
             return $rulesForUpdate;
         } else {
@@ -90,26 +89,40 @@ trait ProductsService {
         }
     }
 
-    public function updated($propertyName) : void {
+    public function updated($propertyName): void
+    {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function updatedSelectedSection() : void {
+    public function updatedSelectedSection(): void
+    {
         $this->categories = Category::where('section_id', $this->selectedSection)
             ->get(['id', 'name']);
     }
 
-    public function updatedSelectedCategory() : void {
+    public function updatedSelectedCategory(): void
+    {
         $this->subCategories = SubCategory::where('category_id', $this->selectedCategory)->get(['id', 'name']);
     }
 
-    public function beforeProductSaveFunc(): array{
+    public function beforeProductSaveFunc(): array
+    {
         $validate                            = $this->validate();
         $validate['category_id']             = $validate['selectedCategory'];
-        $validate['tags']                    = implode(',', $validate['selectedTags']);
-        $attribute['color_attribute_values'] = implode(',', $validate['selectedColor']);
-        $attribute['size_attribute_values']  = implode(',', $validate['selectedSize']);
-        unset($validate['selectedCategory'], $validate['selectedTags'], $validate['selectedColor'], $validate['selectedSize']);
+        unset($validate['selectedCategory']);
+
+        if ($this->selectedTags) {
+            $validate['tags']                    = implode(',', $validate['selectedTags']);
+            unset($validate['selectedTags']);
+        }
+        if ($this->selectedColor) {
+            $attribute['color_attribute_values'] = implode(',', $validate['selectedColor']);
+            unset($validate['selectedColor']);
+        }
+        if ($this->selectedSize) {
+            $attribute['size_attribute_values']  = implode(',', $validate['selectedSize']);
+            unset($validate['selectedSize']);
+        }
 
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'products');
         if (gettype($this->gallery == 'array') && !empty($this->gallery)) $validate['gallery'] = $this->fileUpload($this->gallery, 'products');

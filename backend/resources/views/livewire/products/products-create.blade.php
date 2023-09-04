@@ -52,7 +52,6 @@ Products Create
 
         <x-form-input-field.text-area col="" lable="Description" name="description" type="text" wireModel='description'>
         </x-form-input-field.text-area>
-
         <div wire:ignore>
             <select id="select-tag" class="form-select" name="state[]" multiple placeholder="Select tags...(optional)"
                 autocomplete="off">

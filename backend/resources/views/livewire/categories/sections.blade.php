@@ -11,7 +11,7 @@ Sections
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table addNewRoute='sections.create' pageTitle='Sections Table' tableName="Sections Table" :$columnNamesArr :tableData='$sections' :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
+    <x-table addNewRoute='sections.create' pageTitle='Sections Table' tableName="Sections Table" :$columnNamesArr :tableData='$sections' :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses imageFolder='sections'>
     </x-table>
 
     <!-- End #main -->

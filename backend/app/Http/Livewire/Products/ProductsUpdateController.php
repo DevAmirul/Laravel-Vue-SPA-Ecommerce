@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Products;
 
 use App\Http\ServiceTraits\ProductsService;
+use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Models\Section;
 use App\Models\SubCategory;
 use App\Models\Tag;
@@ -14,13 +17,15 @@ use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductsUpdateController extends Component {
-    use ProductsService, WithFileUploads, FileTrait;
+class ProductsUpdateController extends Component
+{
+    use ProductsService, WithFileUploads, FileTrait, CreateSlugTrait;
 
     public string $pageUrl = 'update';
     public int $productId;
 
-    public function mount($id): void{
+    public function mount($id): void
+    {
         $this->productId = $id;
         $products        = Product::where('id', $id)->get();
         foreach ($products as $product) {
@@ -45,19 +50,24 @@ class ProductsUpdateController extends Component {
         $this->subCategories = SubCategory::all('id', 'name');
     }
 
-    public function save(): void{
-        Product::whereId($this->productId)->update($this->beforeProductSaveFunc());
+    public function save(): void
+    {
+        $product = Product::whereId($this->productId)->update($this->beforeProductSaveFunc()['validate']);
+        ProductAttribute::where('product_id', $product)->update($this->beforeProductSaveFunc()['attribute']);
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render(Request $request) {
+    public function render(Request $request)
+    {
         $sections = Section::all('id', 'name');
         $brands   = Brand::all('id', 'name');
         $allTags  = Tag::all('id', 'keyword');
+        $attributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
         return view('livewire.products.products-update', [
             'sections' => $sections,
             'brands'   => $brands,
             'allTags'  => $allTags,
+            'attributes' => $attributes,
         ]);
     }
 }

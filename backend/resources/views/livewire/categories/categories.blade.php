@@ -14,7 +14,7 @@ Categories
     <x-table addNewRoute='categories.create' pageTitle='Categories Table' tableName="Categories Table"
         :$columnNamesArr :tableData='$categories' :$tableDataColumnNames
         :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses
-        :relation='true' :$relationTableDataColumnNames :$relationName >
+        :relation='true' :$relationTableDataColumnNames :$relationName imageFolder='categories'>
     </x-table>
 
     <!-- End #main -->

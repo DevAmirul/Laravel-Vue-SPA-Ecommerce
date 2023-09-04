@@ -131,9 +131,13 @@
                 <span>Orders</span>
             </a>
         </li>
-        <!-- End Icons Nav -->
-
         <li class="nav-item">
+            <a class="nav-link collapsed {{ (Request::routeIs('editors') || Request::routeIs('editors.create') || Request::routeIs('editors.update')) ? 'active' : '' }}"
+                href="{{ route('editors') }}">
+                <i class="bi bi-person"></i></i><span>Editors</span>
+            </a>
+        </li>
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed {{ (Request::routeIs('editors') || Request::routeIs('editors.create') || Request::routeIs('editors.update')) ? 'active' : '' }}"
                 data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-person"></i></i><span>Editors</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -146,11 +150,24 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
 
         <li class="nav-item">
+            <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
+                href="{{ route('contacts') }}">
+                <i class="bi bi-envelope-at"></i>
+                <span>Contacts</span>
+            </a>
+        </li><!-- End F.A.Q Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
+                <i class="bi bi-people-fill"></i>
+                <span>Users</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed {{
-                        (Request::routeIs('settings.general') || Request::routeIs('settings.mail') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.mail')|| Request::routeIs('settings.')) ? 'active' : '' }}"
+                                (Request::routeIs('settings.general') || Request::routeIs('settings.mail') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.mail')|| Request::routeIs('settings.')) ? 'active' : '' }}"
                 data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -182,20 +199,6 @@
                 </li>
             </ul>
         </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed {{ (Request::routeIs('contacts') || Request::routeIs('contacts.reply')) ? 'active' : '' }}"
-                href="{{ route('contacts') }}">
-                <i class="bi bi-envelope-at"></i>
-                <span>Contacts</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
-                <i class="bi bi-people-fill"></i>
-                <span>Users</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
 
 
     </ul>

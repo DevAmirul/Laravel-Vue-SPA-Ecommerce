@@ -19,7 +19,7 @@ trait CategoriesService {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'       => 'required|string|max:255',
-                'slug'       => 'required|string|max:255',
+                'slug'       => 'required|string|max:255|unique:brands,slug,' . $this->categoryId,
                 'section_id' => 'required|numeric',
                 'status'     => 'required|boolean',
             ];

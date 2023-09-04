@@ -19,7 +19,7 @@ class SearchController extends Controller
 
         $products = DB::table('products')
             ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
-            ->join('offers', 'products.offer_id', '=', 'offers.id')
+            ->leftJoin('offers', 'products.offer_id', '=', 'offers.id')
             ->where('products.name', 'LIKE', '%' . $request->keyword . '%')
             ->orWhere('products.sku', 'LIKE', '%' . $request->keyword . '%')
             ->orWhere('products.tags', 'LIKE', '%' . $request->keyword . '%')

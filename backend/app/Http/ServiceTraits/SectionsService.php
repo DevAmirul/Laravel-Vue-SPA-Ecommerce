@@ -15,7 +15,7 @@ trait SectionsService {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'   => 'required|string|max:255',
-                'slug'   => 'required|string|max:255',
+                'slug'   => 'required|string|max:255|unique:brands,slug,' . $this->sectionId,
                 'status' => 'required|boolean',
             ];
             (gettype($this->image) == 'object') ? $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg' : null;

@@ -57,12 +57,36 @@ Products Create
             <select id="select-tag" class="form-select" name="state[]" multiple placeholder="Select tags...(optional)"
                 autocomplete="off">
                 @foreach ($allTags as $tag)
-                <option value="{{ $tag->id }}">{{ $tag->keyword }}</option>
+                <option value="{{ $tag->keyword }}">{{ $tag->keyword }}</option>
                 @endforeach
             </select>
         </div>
+
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
         </x-form-input-field.file>
+
+        <div class="d-flex">
+            <h6 class="mx-3">{{ $attributes[0]->name }} :- </h6>
+            @foreach ($attributes[0]->attributeOption as $key => $option)
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="{{ $option->value }}"  wire:model='selectedColor.{{ $key }}' value="{{ $option->value }}">
+                    <label class="form-check-label" for="{{ $option->value }}">{{ $option->value }}</label>
+                </div>
+            @endforeach
+            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="d-flex">
+            <h6 class="mx-3">{{ $attributes[1]->name }} :- </h6>
+            @foreach ($attributes[1]->attributeOption as $key => $option)
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="{{ $option->value }}" wire:model='selectedSize.{{ $key }}'
+                        value="{{ $option->value }}">
+                    <label class="form-check-label" for="{{ $option->value }}">{{ $option->value }}</label>
+                </div>
+            @endforeach
+            @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+        </div>
 
         <x-form-input-field.file col="col-6" name='gallery.*' label="Upload Gallery" wireModel='gallery'
             multiple="multiple">

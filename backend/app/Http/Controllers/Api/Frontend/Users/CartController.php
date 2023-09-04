@@ -17,7 +17,9 @@ class CartController extends Controller
 {
     public function inbox(Request $request): Response
     {
+        // return response([123], 200);
         $carts = CartProductService::getCartProduct($request);
+
         return response(compact('carts'), 200);
     }
 

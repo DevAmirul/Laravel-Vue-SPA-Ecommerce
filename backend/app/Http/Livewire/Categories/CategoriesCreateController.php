@@ -24,7 +24,6 @@ class CategoriesCreateController extends Component {
     }
     public function render() {
         $allSections = Section::all(['id', 'name']);
-
         return view('livewire.categories.categories-create', [
             'allSections' => $allSections,
         ]);
