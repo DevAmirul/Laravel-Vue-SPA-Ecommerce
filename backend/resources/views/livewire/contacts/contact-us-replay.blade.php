@@ -11,7 +11,7 @@ Contacts Replay
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-    <x-form pageTitle='Contacts message'>
+    <x-form pageTitle='Contacts reply' pageUrl='Contacts / Replay' action='reply'>
         <x-form-input-field.general col="col-6" lable="To" name="to" type="email" wireModel='email' disabled='disabled'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Name" name="name" type="name" wireModel='name' disabled='disabled'>
@@ -20,9 +20,8 @@ Contacts Replay
         </x-form-input-field.general>
         <x-form-input-field.text-area col="col-6" lable="Message" name="message"  wireModel='message' disabled='disabled'>
         </x-form-input-field.text-area>
-    </x-form>
 
-    <x-form pageTitle='Contacts Replay' pageUrl='Contacts / Replay'>
+        <h4>Reply Message</h4>
         <x-form-input-field.general col="col-6" lable="Subject" name="repliedSubject" type="text" wireModel='repliedSubject' >
         </x-form-input-field.general>
         <x-form-input-field.text-area col="col-6" lable="Message" name="repliedMessage" wireModel='repliedMessage' >

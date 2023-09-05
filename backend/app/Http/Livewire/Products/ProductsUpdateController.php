@@ -53,7 +53,11 @@ class ProductsUpdateController extends Component
     public function save(): void
     {
         $product = Product::whereId($this->productId)->update($this->beforeProductSaveFunc()['validate']);
-        ProductAttribute::where('product_id', $product)->update($this->beforeProductSaveFunc()['attribute']);
+        if (!empty($this->beforeProductSaveFunc()['attribute'])) {
+            if ($this->beforeProductSaveFunc()['attribute']['color_attribute_values'] !== '') {
+                ProductAttribute::where('product_id', $product)->update($this->beforeProductSaveFunc()['attribute']);
+            }
+        }
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

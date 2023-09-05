@@ -20,9 +20,10 @@ trait ProductsService
     public array $stockStatusOption = ['Out of Stock', 'In Stock'];
     public array $statusOption      = ['Unpublish', 'Publish'];
     public int $qty_in_stock;
+    public string $specification;
+
     // public array $attributeValuesId = [];
     // public string $product_tag;
-    public ?string $specification   = 'ok';
 
     public int $selectedSection;
     public int $selectedCategory;
@@ -30,10 +31,10 @@ trait ProductsService
     public ?object $subCategories = null;
     public int $sub_category_id;
     public int $brand_id;
-    public  ?array $selectedTags = [];
-    public  string $tags;
-    public  ?array $selectedColor = [];
-    public  ?array $selectedSize  = [];
+    public ?string $tags;
+    public array $selectedTags = [];
+    public array $selectedColor = [];
+    public array $selectedSize  = [];
 
     public $image;
     public string $oldImage;
@@ -110,7 +111,6 @@ trait ProductsService
         $validate                            = $this->validate();
         $validate['category_id']             = $validate['selectedCategory'];
         unset($validate['selectedCategory']);
-
         if ($this->selectedTags) {
             $validate['tags']                    = implode(',', $validate['selectedTags']);
             unset($validate['selectedTags']);
@@ -127,6 +127,7 @@ trait ProductsService
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'products');
         if (gettype($this->gallery == 'array') && !empty($this->gallery)) $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
 
-        return ['validate' => $validate, 'attribute' => $attribute];
+        return ['validate' => $validate, 'attribute' => $attribute ?? null];
+
     }
 }

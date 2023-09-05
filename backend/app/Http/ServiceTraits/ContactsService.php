@@ -13,7 +13,7 @@ trait ContactsService {
 
     protected $rules = [
         'repliedSubject' => 'required|string|max:255',
-        'repliedMessage' => 'required|string',
+        'repliedMessage' => 'required|string|max:65000',
     ];
 
     public function updated($propertyName): void{

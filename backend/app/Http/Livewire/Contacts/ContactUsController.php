@@ -18,7 +18,7 @@ class ContactUsController extends Component {
         );
         $this->booleanTrait(
             ['status'],
-            [['No Reply', 'Reply']],
+            [['No Reply', 'Replied']],
             [['badge text-bg-info', 'badge text-bg-success']]
         );
     }

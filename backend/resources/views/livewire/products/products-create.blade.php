@@ -59,6 +59,7 @@ Products Create
                 <option value="{{ $tag->keyword }}">{{ $tag->keyword }}</option>
                 @endforeach
             </select>
+            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
         <div class="d-flex">
@@ -116,7 +117,6 @@ Products Create
 <script>
     ClassicEditor
         .create( document.querySelector( '#editor' ),{
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
         } )
         .then( editor => {
             editor.model.document.on('change:data', () => {

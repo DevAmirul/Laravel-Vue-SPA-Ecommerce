@@ -60,11 +60,8 @@ Products Create
                 <option value="{{ $tag->keyword }}">{{ $tag->keyword }}</option>
                 @endforeach
             </select>
+            @error( 'selectedTags' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
-
-        <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
-        </x-form-input-field.file>
-
         <div class="d-flex">
             <h6 class="mx-3">{{ $attributes[0]->name }} :- </h6>
             @foreach ($attributes[0]->attributeOption as $key => $option)
@@ -88,13 +85,17 @@ Products Create
             @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
+        <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
+        </x-form-input-field.file>
         <x-form-input-field.file col="col-6" name='gallery.*' label="Upload Gallery" wireModel='gallery'
             multiple="multiple">
         </x-form-input-field.file>
+
         <div class="form-group col-12" wire:ignore>
-            <textarea name="edit" class="form-control" id="editor" rows="2"></textarea>
-            @error( 'edit' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+            <textarea name="edit" class="form-control" id="editor" rows="3"></textarea>
+            @error( 'specification' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
+
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
 
     </x-form>
@@ -116,7 +117,7 @@ Products Create
 <script>
     ClassicEditor
             .create( document.querySelector( '#editor' ),{
-                toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+                
             } )
             .then( newEditor => {
                 let editor = newEditor;
@@ -125,8 +126,5 @@ Products Create
                     @this.set('specification', editor.getData());
                 });
             } )
-            .catch( error => {
-                console.error( error );
-            } );
 </script>
 @endpush
