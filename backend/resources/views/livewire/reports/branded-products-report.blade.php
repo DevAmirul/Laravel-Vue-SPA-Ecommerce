@@ -11,7 +11,7 @@ Branded Products Report
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <x-table pageTitle='Branded Products Report' tableName="Branded Products Report Table" :$columnNamesArr :showBtn='false'
-        :tableData='$brandReports' :$tableDataColumnNames>
+        :tableData='$brandReports' :$tableDataColumnNames imageFolder='brands'>
     </x-table>
 <!-- End #main -->
 <!-- ======= Footer ======= -->

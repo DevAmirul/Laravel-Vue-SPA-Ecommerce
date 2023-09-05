@@ -12,7 +12,7 @@ Categorized Products Report
     <!-- End Sidebar-->
     <x-table pageTitle='Categorized Products Report' tableName="Categorized Products Report Table"
         :$columnNamesArr :showBtn='false' :tableData='$categoriesReports'
-        :$tableDataColumnNames>
+        :$tableDataColumnNames imageFolder='categories'>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

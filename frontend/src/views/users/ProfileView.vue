@@ -53,12 +53,11 @@ function update(){
             "password_confirmation": responseData.password_confirmation
     })
     .then(response => {
-        console.log(response);
+        errorData.value = null
         useAlert().centerMessageAlert('success', 'Successfully updated profile')
     })
     .catch(error => {
         errorData.value = error.response.data.errors
-        console.log(error);
     });
 }
 

@@ -13,20 +13,12 @@ import useAxios from "../services/axios";
 
 const { centerDialogAlert } = storeToRefs(useAlert());
 
-const { responseData } = storeToRefs(useSearch());
+const { responseData, isRefreshPage } = storeToRefs(useSearch());
 const route = useRoute();
 
 onMounted(() => {
-    const queryFromLink = new URLSearchParams(route.query).toString();
-    if (queryFromLink == '') {
-        useAxios.get(route.path)
-            .then(response => {
-                responseData.value = response.data
-                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
-            })
-            .catch(error => {
-                // console.log(error);
-            });
+    if (isRefreshPage.value) {
+        useSearch().getDataByQuery();
     }
 })
 </script>

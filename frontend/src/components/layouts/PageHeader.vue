@@ -1,11 +1,8 @@
 <script setup>
-import { RouterLink, useRouter } from "vue-router";
-
-const router = useRouter();
-const routerName = router.currentRoute.value.path;
-const pathName = routerName.slice(1).toUpperCase();
+import { RouterLink, useRoute } from "vue-router";
 
 const {pageName} = defineProps(['pageName'])
+const route = useRoute();
 </script>
 <template>
     <div class="container-fluid bg-secondary mb-5">
@@ -20,7 +17,7 @@ const {pageName} = defineProps(['pageName'])
                 <RouterLink :to="{ name: 'home' }"
                     ><p class="m-0"><a class="li-color">HOME/</a></p></RouterLink
                 >
-                <p class="m-0">{{ pathName }}</p>
+                <p class="m-0">{{ route.name.toUpperCase() }}</p>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@ Products Stock Report
     <!-- End Sidebar-->
     <x-table pageTitle='Products Stock Report' tableName="Products Stock Report Table" :$columnNamesArr :showBtn='false'
         :tableData='$productStockReports' :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames
-        :$booleanClasses>
+        :$booleanClasses imageFolder='products'>
 
         <form class="mt-2 d-flex gap-2">
             <div class="col-4">

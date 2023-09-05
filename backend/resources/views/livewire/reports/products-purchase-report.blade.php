@@ -10,7 +10,7 @@ Products Purchase Report
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-    <x-table pageTitle='Products Purchase Report' tableName="Products Purchase Report Table" :$columnNamesArr :showBtn='false' :tableData='$revenueReports' :$tableDataColumnNames >
+    <x-table pageTitle='Products Purchase Report' tableName="Products Purchase Report Table" :$columnNamesArr :showBtn='false' :tableData='$revenueReports' :$tableDataColumnNames imageFolder='products'>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

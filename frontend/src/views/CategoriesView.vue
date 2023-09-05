@@ -11,35 +11,14 @@ import ProductsCard from '../components/ProductsCard.vue';
 import useAxios from "../services/axios";
 import useAlert from "../services/Sweetalert";
 
-const { responseData } = storeToRefs(useSearch());
+const { responseData, isRefreshPage } = storeToRefs(useSearch());
 const route = useRoute();
 
 onMounted(() => {
-    const queryFromLink = new URLSearchParams(route.query).toString();
-    if (queryFromLink == '') {
-        useAxios.get(route.path)
-            .then(response => {
-                responseData.value = response.data
-                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
-            })
-            .catch(error => {
-                // console.log(error);
-            });
+    if (isRefreshPage.value) {
+        useSearch().getDataByQuery();
     }
 })
-
-watch(() => route.path,
-    () => {
-        useAxios.get(route.path)
-            .then(response => {
-                responseData.value = response.data;
-                if (responseData.value.products.data.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
-            })
-            .catch(error => {
-                // console.log(error);
-            });
-    }
-)
 </script>
 <template>
     <!-- Page Header Start -->
@@ -61,7 +40,7 @@ watch(() => route.path,
                     </div>
                     <template v-if="responseData">
                         <ProductsCard :products="responseData.products"></ProductsCard>
-                        <Paginate :links="responseData.products.links"></Paginate>
+                        <Paginate :links="responseData.meta.links"></Paginate>
                     </template>
                     <Paginate></Paginate>
                 </div>

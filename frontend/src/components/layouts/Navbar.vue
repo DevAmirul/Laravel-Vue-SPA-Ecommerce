@@ -1,18 +1,20 @@
 <script setup>
 import { ref } from 'vue'
-import axios_C from '../../services/axios';
+import useAxios from '../../services/axios';
+import useSearch from '../../stores/Search'
 import { RouterLink, useRoute } from "vue-router";
 
 const responseData = ref();
 const route = useRoute();
 
-axios_C.get('/home/navbar')
+useAxios.get('/home/navbar')
     .then(response => {
         responseData.value = response.data
     })
     .catch(error => {
         // console.log(error);
     });
+
 
 </script>
 <template>
@@ -49,7 +51,7 @@ axios_C.get('/home/navbar')
                                             <RouterLink
                                                 style="text-decoration: none; color: inherit"
                                                 :to="{ name: 'categories', params: { slug: cateData.slug } }"
-                                                ><a class="dropdown-item"
+                                                ><a @click="useSearch().cleanRouteQuery()" class="dropdown-item"
                                                     >{{ cateData.name }}
                                                 </a >
                                             </RouterLink>
@@ -90,21 +92,21 @@ axios_C.get('/home/navbar')
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'home' }"
-                                ><a :class="[route.name == 'home' ? 'active' : '' , 'nav-item', 'nav-link']"
+                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'home' ? 'active' : '' , 'nav-item', 'nav-link']"
                                     >Home</a
                                 ></RouterLink
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'shop' }"
-                                ><a :class="[route.name == 'shop' ? 'active' : '', 'nav-item', 'nav-link']"
+                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'shop' ? 'active' : '', 'nav-item', 'nav-link']"
                                     >Shop</a
                                 ></RouterLink
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'sales' }"
-                                ><a :class="[route.name == 'sales' ? 'active' : '', 'nav-item', 'nav-link']"
+                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'sales' ? 'active' : '', 'nav-item', 'nav-link']"
                                     >Sale</a
                                 ></RouterLink
                             >
@@ -112,7 +114,7 @@ axios_C.get('/home/navbar')
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'contactUs' }"
-                                ><a :class="[route.name == 'contactUs' ? 'active' : '', 'nav-item', 'nav-link']"
+                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'contactUs' ? 'active' : '', 'nav-item', 'nav-link']"
                                     >Contact Us
                                     </a
                                 ></RouterLink
@@ -120,7 +122,7 @@ axios_C.get('/home/navbar')
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             <div class="nav-item dropdown">
-                                <a
+                                <a  @click="useSearch().cleanRouteQuery()"
                                     class="nav-link dropdown-toggle"
                                     data-toggle="dropdown"
                                     >User</a
@@ -132,7 +134,7 @@ axios_C.get('/home/navbar')
                                             color: inherit;
                                         "
                                         :to="{ name: 'profile' }"
-                                        ><a :class="[route.name == 'profile' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'profile' ? 'active' : '', 'nav-item', 'nav-link']"
                                             >My Profile</a
                                         ></RouterLink
                                     >
@@ -142,7 +144,7 @@ axios_C.get('/home/navbar')
                                             color: inherit;
                                         "
                                         :to="{ name: 'orders' }"
-                                        ><a :class="[route.name == 'orders' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'orders' ? 'active' : '', 'nav-item', 'nav-link']"
                                             >My Orders</a
                                         ></RouterLink
                                     >
@@ -153,7 +155,7 @@ axios_C.get('/home/navbar')
                                             color: inherit;
                                         "
                                         :to="{ name: 'wishList' }"
-                                        ><a :class="[route.name == 'wishList' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'wishList' ? 'active' : '', 'nav-item', 'nav-link']"
                                             >Wishlist</a
                                         ></RouterLink
                                     >
@@ -163,24 +165,24 @@ axios_C.get('/home/navbar')
                                             color: inherit;
                                         "
                                         :to="{ name: 'cart' }"
-                                        ><a :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
                                             >Cart</a
                                         ></RouterLink
                                     >
-                                    
+
                                 </div>
                             </div>
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'login' }"
-                                ><a :class="[route.name == 'login' ? 'active' : '', 'nav-item', 'nav-link']"
+                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'login' ? 'active' : '', 'nav-item', 'nav-link']"
                                     >Login</a
                                 ></RouterLink
                             >
                             <RouterLink
                                 style="text-decoration: none; color: inherit"
                                 :to="{ name: 'register' }"
-                                ><a :class="[route.name == 'register' ? 'active' : '', 'nav-item', 'nav-link']"
+                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'register' ? 'active' : '', 'nav-item', 'nav-link']"
                                     >Register</a
                                 ></RouterLink
                             >

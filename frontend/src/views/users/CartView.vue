@@ -38,7 +38,7 @@ function deleteCartItems(itemid){
         .then(response => {
             refreshCartPage.value = !refreshCartPage.value
             refreshCartItemsNumber.value = !refreshCartItemsNumber.value
-            useAlert().centerMessageAlert('success', 'Successfully deleted cart item')
+            useAlert().centerMessageAlert('success', response.data.message)
         })
         .catch(error => {
             useAlert().topAlert('error', error.response.data.message, 'bottom-end')
@@ -46,12 +46,22 @@ function deleteCartItems(itemid){
 }
 
 watch(responseData, () => {
+
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
-        return accumulator + Number(currentValue['discount'] * currentValue['qty']);
-    },0 )
+        if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {
+            if (currentValue['type'] == 'Percentage') {
+                return accumulator + ( (Number(currentValue['discount']) / Number(currentValue['sale_price'])) * 100 ) * Number(currentValue['qty']);
+            }
+            else {
+                return accumulator + Number(currentValue['discount'] * currentValue['qty']);
+            }
+        }
+        else return accumulator + 0
+    }, 0)
+
     subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
         return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
-    },0 )
+    }, 0)
 } )
 
 function productQuantityIncrement(cartId, productId, qty) {
@@ -78,11 +88,10 @@ function productQuantityDecrement(cartId, productId, qty) {
             });
     }
 }
-
 </script>
 <template>
     <!-- Page Header Start -->
-    <PageHeader pageName="SHOPPING CART"></PageHeader>
+    <PageHeader pageName="SHOPPING CART" ></PageHeader>
     <!-- Page Header End -->
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
@@ -94,6 +103,7 @@ function productQuantityDecrement(cartId, productId, qty) {
                             <th>Image</th>
                             <th>Products</th>
                             <th>Price</th>
+                            <th>Discount</th>
                             <th>Quantity</th>
                             <th>Remove</th>
                         </tr>
@@ -103,9 +113,20 @@ function productQuantityDecrement(cartId, productId, qty) {
                             <tr>
                                 <td class="align-middle"><img :src="data.image" alt="image" style="width: 50px;"></td>
                                 <td class="align-middle">{{ data.name }}</td>
-                                <td v-if="data.discount > 0" class="align-middle"><del>{{ Number(data.sale_price) }}</del> {{ Number(data.sale_price) - Number(data.discount) }}</td>
 
-                                <td v-else class="align-middle">{{ Number(data.sale_price) }}</td>
+                                <td class="align-middle">{{ Number(data.sale_price) }}</td>
+
+                                <td v-if="data.discount !== null && data.status !== 0 && data.expire_date > new Date().toISOString()" class="align-middle">
+                                    <template v-if="data.type == 'Percentage'">
+                                        {{ Number(data.discount) }}%
+                                    </template>
+                                    <template v-else>
+                                        ${{ Number(data.discount) }}
+                                    </template>
+                                </td>
+                                <td v-else>
+                                    0
+                                </td>
 
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">

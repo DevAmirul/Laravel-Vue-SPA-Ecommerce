@@ -3,10 +3,14 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import useAxios from '../services/axios';
 import useAlert from '../services/Sweetalert';
+import useAddToCart from '../services/addToCart';
+import useAddToWishlist from '../services/addToWishlist';
+import useAddToCompare from '../services/addToCompare';
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import PageHeader from "../components/layouts/PageHeader.vue";
 
 const route = useRoute();
+const errorData = ref();
 const responseData = ref();
 const attribute = ref({ color:{},size:{} });
 const productQuantity = ref(1)
@@ -16,11 +20,10 @@ const formData = reactive({
 });
 
 onMounted(() => {
-    useAxios.get('/products/chelsey-feest')
-    // useAxios.get('/products/' + route.params.slug)
+    // useAxios.get('/products/chelsey-feest')
+    useAxios.get('/products/' + route.params.slug)
         .then(response => {
             responseData.value = response.data;
-            console.log(responseData.value);
             useAxios.get('/products/view-count/' + responseData.value.product.id)
         })
         .catch(error => {
@@ -30,19 +33,20 @@ onMounted(() => {
 
 function addReview() {
     useAxios.post('/users/review', {
-        data: {
-            "product_id": responseData.value.product.id,
-            "user_id": 2,
-            "rating_value": formData.rating,
-            "comment": formData.comment
-        }
+            user_id: 2,
+            product_id: responseData.value.product.id,
+            rating_value: formData.rating,
+            comment: formData.comment
     })
         .then(response => {
-            useAlert().centerMessageAlert('info', response.data.message)
+            formData.rating = '',
+            formData.comment = '',
+            errorData.value = null
+            useAlert().centerMessageAlert('success', response.data.message)
         })
         .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-        });
+            errorData.value = error.response.data.errors
+        })
 }
 
 function productQuantityDecrement(){
@@ -51,16 +55,6 @@ function productQuantityDecrement(){
 
 function productQuantityIncrement(){
     productQuantity.value++
-}
-
-function addToCart(productId) {
-    useAxios.get('/users/cart/save/?productId=' + productId + '&user=2')
-        .then(response => {
-            useAlert().centerMessageAlert('success', 'Successfully added to cart')
-        })
-        .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-        });
 }
 
 </script>
@@ -194,7 +188,7 @@ function addToCart(productId) {
                                     </button>
                                 </div>
                             </div>
-                            <button @click="addToCart(responseData.product.id)" class="btn btn-primary px-3">
+                            <button @click="useAddToCart(responseData.product.id)" class="btn btn-primary px-3">
                                 <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
                             </button>
                         </div>
@@ -289,8 +283,15 @@ function addToCart(productId) {
                                                         id="name"
                                                         placeholder="Max 5, Min 0"
                                                         v-model="formData.rating"
+                                                        required
                                                     />
+
                                             </div>
+                                            <template v-if="errorData">
+                                                <template v-if="errorData['rating_value']">
+                                                    <small v-if="errorData['rating_value'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['rating_value'][0] }}</small>
+                                                </template>
+                                            </template>
                                         </div>
                                         <div class="form-group">
                                             <label for="message"
@@ -302,7 +303,14 @@ function addToCart(productId) {
                                                 rows="5"
                                                 class="form-control"
                                                 v-model="formData.comment"
+                                                required
+                                                name="comment"
                                             ></textarea>
+                                            <template v-if="errorData">
+                                                <template v-if="errorData['comment']">
+                                                    <small v-if="errorData['comment'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['comment'][0] }}</small>
+                                                </template>
+                                            </template>
                                         </div>
 
                                         <div class="form-group mb-0 mb-4">
@@ -315,6 +323,9 @@ function addToCart(productId) {
                     </div>
                 </div>
             </div>
+
+
+
         <!-- Related Product Start -->
             <div class="text-center mb-4">
                 <h2 class="section-title px-5">
@@ -336,8 +347,14 @@ function addToCart(productId) {
                                         </h6>
                                         <template v-if="data.offer !== null">
                                             <template v-if="data.offer.discount !== null && data.offer.status !== 0 && data.offer.expire_date > new Date().toISOString()" >
-                                                <h6>${{ Number(data.offer.discount) }}</h6>
-                                                <h6 class="text-muted ml-2"><del>${{ Number(data.sale_price) }}</del></h6>
+                                                <template v-if="data.offer.type == 'Percentage'">
+                                                    <h6 class="text-muted mr-4">{{ Number(data.offer.discount) }}% <small>off</small></h6>
+                                                    <h6 >${{ Number(data.sale_price) }}</h6>
+                                                </template>
+                                                <template v-else>
+                                                    <h6 class="mr-4">${{ Number(data.offer.discount) }}</h6>
+                                                    <h6 class="text-muted ml-2"><del>${{ Number(data.sale_price) }}</del></h6>
+                                                </template>
                                             </template>
                                             <template v-else>
                                                 <h6>${{ Number(data.sale_price) }}</h6>
@@ -346,17 +363,15 @@ function addToCart(productId) {
                                         <template v-else>
                                             <h6>${{ Number(data.sale_price) }}</h6>
                                         </template>
-
-
                                     </div>
                                     <div class="card-footer d-flex justify-content-between bg-light border d-flex justify-content-around">
-                                        <button @click="addToWishlist({ id: data.p_id, name: data.name, image: data.image, salePrice: data.sale_price })" class="btn btn-sm text-dark p-0"><i
+                                        <button @click="useAddToWishlist({ id: data.id, name: data.name, image: data.image, salePrice: data.sale_price })" class="btn btn-sm text-dark p-0"><i
                                                     class="fas fa-heart text-primary mr-1"></i></button>
-                                        <button @click="addToCart()" class="btn btn-sm text-dark p-0">
+                                        <button @click="useAddToCart()" class="btn btn-sm text-dark p-0">
                                             <i
                                                     class="fas fa-shopping-cart text-primary mr-1"></i>
                                         </button>
-                                        <button @click="addToCompare(data.p_id)" class="btn btn-sm text-dark p-0">
+                                        <button @click="useAddToCompare(data.id)" class="btn btn-sm text-dark p-0">
                                                         <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>
                                         </button>
                                         <RouterLink
@@ -375,7 +390,7 @@ function addToCart(productId) {
                     </template>
                 </Carousel>
             </div>
-        <!-- Related Product End -->
+            <!-- Related Product End -->
         </div>
     <!-- Shop Detail End -->
 </template>

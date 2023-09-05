@@ -13,7 +13,9 @@ const route = useRoute();
 const { responseData, isRefreshPage } = storeToRefs(useSearch());
 
 onMounted(() => {
-    useSearch().getDataByQuery('form mounted');
+    if (isRefreshPage.value) {
+        useSearch().getDataByQuery();
+    }
 })
 </script>
 <template>

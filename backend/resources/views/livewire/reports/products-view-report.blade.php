@@ -11,7 +11,7 @@ Products View Report
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
     <x-table pageTitle='Products Stock Report' tableName="Products Stock Report Table" :$columnNamesArr :showBtn='false'
-        :tableData='$productViewReports' :$tableDataColumnNames>
+        :tableData='$productViewReports' :$tableDataColumnNames imageFolder='products'>
     </x-table>
     <!-- End #main -->
     <!-- ======= Footer ======= -->

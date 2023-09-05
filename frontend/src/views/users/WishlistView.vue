@@ -12,7 +12,8 @@ const wishlist = ref();
 
 onMounted(() => {
     wishlist.value =  JSON.parse(localStorage.getItem('productAttributes'));
-    if (wishlist.value.length == 0) useAlert().centerDialogAlert('info', 'Your wishlist is empty')
+    console.log(wishlist.value);
+    if (wishlist.value == null || wishlist.value.length == 0) useAlert().centerDialogAlert('info', 'Your wishlist is empty')
 } )
 
 watch(refreshWishlistPage, () => {

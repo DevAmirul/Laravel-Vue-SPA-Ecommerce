@@ -133,7 +133,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                         {{ $tableData->links('livewire.paginator.bootstrap') }}
                         @endif
                         <!-- End Table with stripped rows -->

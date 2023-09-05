@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { onMounted, onBeforeMount, ref, watch } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import useAxios from "../services/axios";
 import useAlert from "../services/Sweetalert";
@@ -23,9 +23,7 @@ const useSearch = defineStore('search', () => {
     const pageNumber = ref('');
 
     const isRefreshPage = ref(false);
-
     const responseData = ref();
-
     const query = ref({});
 
     watch([search, sort, limit, minPrice, maxPrice, color, size], () => {
@@ -54,7 +52,6 @@ const useSearch = defineStore('search', () => {
                 query: query.value
             })
         }
-
     })
 
     watch(pageNumber, () => {
@@ -65,8 +62,17 @@ const useSearch = defineStore('search', () => {
     })
 
     watch(() => route.query, () => {
-        getDataByQuery('watch route.query');
+        const hasRouteName = ["shop", "sale", "categories", "subCategories", "brands"];
+
+        if (hasRouteName.includes(route.name)) {
+            console.log(query.value, 'form watch ');
+            getDataByQuery('watch route.query');
+        }
     })
+
+    function cleanRouteQuery() {
+        query.value = {}
+    }
 
     // Convert the query received from the router into an array.
     onBeforeMount(() => {
@@ -89,21 +95,20 @@ const useSearch = defineStore('search', () => {
         }
     })
 
-    function getDataByQuery(form) {
+    function getDataByQuery() {
         const searchParams = new URLSearchParams(route.query).toString()
         useAxios.get(`${route.path}?${searchParams}`)
             .then(response => {
                 responseData.value = response.data
                 isRefreshPage.value = false;
-                // console.log(responseData.value);
                 if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {
-                console.log( error);
+                console.log(error);
             });
     }
 
-    return { topBarSearch, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData, isRefreshPage, getDataByQuery, pageNumber }
+    return { topBarSearch, sort, limit, search, prevQueryColor, color, prevQuerySize, size, maxPrice, minPrice, responseData, isRefreshPage, getDataByQuery, pageNumber, cleanRouteQuery }
 })
 
 export default useSearch;
