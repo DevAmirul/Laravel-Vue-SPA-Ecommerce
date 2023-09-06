@@ -74,7 +74,7 @@ Route::name('api.')->group(function () {
 
         Route::post('/review', [ReviewController::class, 'create'])->name('review');
         Route::get('/checkout/{id}', [CheckoutController::class, 'inbox'])->name('checkout.inbox');
-        Route::post('/checkout', [CheckoutController::class, 'create'])->name('checkout.create');
+        Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
 
         Route::prefix('orders')->name('orders.')->group(function () {
             Route::get('/{id}', [OrderController::class, 'index'])->where('id', '[0-9]+');

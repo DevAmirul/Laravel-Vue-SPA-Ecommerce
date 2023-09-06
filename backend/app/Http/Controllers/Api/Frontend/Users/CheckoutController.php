@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Frontend\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
+use App\Mail\SendInvoice;
 use App\Models\BillingDetails;
 use App\Models\Cart;
 use App\Models\Coupon;
@@ -15,6 +16,7 @@ use App\Services\CartProductService;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -26,7 +28,7 @@ class CheckoutController extends Controller
         return response(compact('carts', 'methods', 'billingDetails'), 200);
     }
 
-    public function create(CheckoutRequest $request): Response
+    public function placeOrder(CheckoutRequest $request): Response
     {
         $cartItems = DB::table('carts')
             ->join('cart_items','carts.id', '=', 'cart_items.cart_id')
@@ -61,8 +63,20 @@ class CheckoutController extends Controller
             'coupon_id' => $request->validated('coupon_id') ,
         ]);
         $order->orderItem()->createMany($cartItemArray);
-        Cart::whereUserId($request->validated('user_id'))->delete();
+        // Cart::whereUserId($request->validated('user_id'))->delete();
 
+        Mail::to('mailbox.amirul@gmail.com')->send(new SendInvoice($cartItemArray, $user));
+
+        // $this->sendOrderInvoice($order->id);
         return response(true, 200);
+    }
+
+    public function sendOrderInvoice() : void {
+        // $order = Order::where('orders.id', 2)->with([
+        //     'user:id,name,email' => ['billingDetail:user_id,phone,address,city,state,zip_code'],
+        //     'orderItem' => ['product:id,name']
+        // ])->first();
+
+        // Mail::to($order->user->email)->send(new SendInvoice($order));
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire\Orders;
 
+use App\Mail\OrderStatusInformation;
+use App\Mail\OrderUpdateInformation;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class OrdersUpdateController extends Component {
@@ -11,6 +14,7 @@ class OrdersUpdateController extends Component {
     public object $orderItems;
     public int $orderId;
     public string $name;
+    public string $email;
     public string $city;
     public string $state;
     public string $phone;
@@ -60,6 +64,7 @@ class OrdersUpdateController extends Component {
 
         $this->orderId       = $id;
         $this->name          = $this->order[0]->name;
+        $this->email          = $this->order[0]->email;
         $this->orderStatus   = $this->order[0]->order_status;
         $this->paymentStatus = $this->order[0]->payment_status;
         $this->city          = $this->order[0]->city;
@@ -75,7 +80,7 @@ class OrdersUpdateController extends Component {
         $this->shippingCost  = $this->order[0]->cost;
     }
 
-    public function save(): void {
+    public function update(): void {
         Order::where('id', $this->orderId)->update(['order_status' => $this->changedStatus]);
         if ($this->changedStatus == 'Delivered') {
             foreach ($this->soldProductArray as $product) {
@@ -89,6 +94,8 @@ class OrdersUpdateController extends Component {
                     );
             }
         }
+        Mail::to($this->email)->send(new OrderStatusInformation($this->changedStatus, $this->name, $this->orderId, $this->paymentStatus));
+        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

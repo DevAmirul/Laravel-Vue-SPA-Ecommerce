@@ -130,7 +130,7 @@ Orders Details
                                     <div class="row">
                                         <div class="col-xl-8">
                                             <div class="col-6 mt-3">
-                                                <form wire:submit.prevent='save'>
+                                                <form wire:submit.prevent='update'>
                                                     <select wire:model='changedStatus' class="form-select"
                                                         aria-label="Default select example">
                                                         <option value="Approved">Approved</option>
@@ -140,8 +140,8 @@ Orders Details
                                                         <option value="Returned">Returned</option>
                                                     </select>
                                                     <br>
-                                                    <x-form-input-field.submit color='primary' buttonName="Save">
-                                                    </x-form-input-field.submit>
+                                                        <x-form-input-field.submit color='primary' buttonName="Save">
+                                                        </x-form-input-field.submit>
                                                 </form>
                                             </div>
 

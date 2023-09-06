@@ -1,4 +1,3 @@
-
 :root {
   scroll-behavior: smooth;
 }
@@ -1239,6 +1238,6 @@ hr {
   top: 0;
 }
 
-.active{
+.active {
   background: #aecaff !important;
 }
