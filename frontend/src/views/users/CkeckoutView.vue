@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive,ref,toRaw,watch } from 'vue'
+import { onMounted, reactive,ref, watch } from 'vue'
 import useAxios from '../../services/axios';
 import useAlert from "../../services/Sweetalert";
 import PageHeader from '../../components/layouts/PageHeader.vue'
@@ -27,6 +27,7 @@ onMounted(() => {
     useAxios.get('/users/checkout/' + 2)
         .then(response => {
             responseData.value = response.data;
+            console.log(responseData.value);
             if (responseData.value.billingDetails !== null) {
                 formData.phone = responseData.value.billingDetails.phone
                 formData.address = responseData.value.billingDetails.address
@@ -43,15 +44,24 @@ onMounted(() => {
 } )
 
 watch(responseData, () => {
-discount = responseData.value.carts.reduce((accumulator, currentValue) => {
-    return accumulator + Number(currentValue['discount'] * currentValue['qty']);
-}, 0)
-subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
-    return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
-}, 0)
+    discount = responseData.value.carts.reduce((accumulator, currentValue) => {
+        if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {
+            if (currentValue['type'] == 'Percentage') {
+                return accumulator + ((Number(currentValue['discount']) / Number(currentValue['sale_price'])) * 100) * Number(currentValue['qty']);
+            }
+            else {
+                return accumulator + Number(currentValue['discount'] * currentValue['qty']);
+            }
+        }
+        else return accumulator + 0
+    }, 0)
+
+    subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
+        return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
+    }, 0)
 })
 
-function saveOrder() {
+function placeOrder() {
     useAxios.post('/users/checkout/', {
             "user_id":2,
             "city": formData.city,
@@ -68,10 +78,12 @@ function saveOrder() {
 
     })
         .then(response => {
+            console.log(response.data);
             errorData.value = null
             useAlert().centerMessageAlert('success', 'Successfully added to order')
         })
         .catch(error => {
+            console.log(error.response);
             errorData.value = error.response.data.errors
         });
 }
@@ -273,7 +285,7 @@ function getCoupon(code) {
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
-                        <button @click="saveOrder()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
+                        <button @click="placeOrder()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>
                     </div>
                 </div>
             </div>

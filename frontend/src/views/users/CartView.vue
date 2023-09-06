@@ -46,7 +46,6 @@ function deleteCartItems(itemid){
 }
 
 watch(responseData, () => {
-
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
         if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {
             if (currentValue['type'] == 'Percentage') {
