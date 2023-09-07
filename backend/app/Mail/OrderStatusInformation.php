@@ -16,7 +16,7 @@ class OrderStatusInformation extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public string $OrderStatus, public string $name, public string $orderId, public string $paymentStatus) { }
+    public function __construct(public string $OrderStatus, public object $order) {}
 
     /**
      * Get the message envelope.

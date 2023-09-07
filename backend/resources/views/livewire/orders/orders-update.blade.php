@@ -25,7 +25,7 @@ Orders Details
                                 <div class="row d-flex align-items-baseline">
                                     <div class="col-xl-9">
                                         <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID:
-                                                #{{ $orderId }}</strong>
+                                                #{{ $order->id }}</strong>
                                         </p>
                                     </div>
                                     <div class="col-xl-3 float-end d-print-none">
@@ -49,17 +49,17 @@ Orders Details
                                         <div class="col-xl-8">
                                             <ul class="list-unstyled">
                                                 <li class="text-muted"><span class="fw-bold">To : </span><span
-                                                        style="color:#5d9fc5 ;">{{ $name }}</span>
+                                                        style="color:#5d9fc5 ;">{{ $order->user->name }}</span>
                                                 </li>
                                                 <li class="text-muted"><i class="fas fa-phone"></i><span
                                                         class="fw-bold">Phone : </span>
-                                                    {{ $phone }}</li>
-                                                <li class="text-muted"><span class="fw-bold">City: </span>{{ $city }}
+                                                    {{ $order->user->billingDetail->phone }}</li>
+                                                <li class="text-muted"><span class="fw-bold">City: </span>{{ $order->user->billingDetail->city }}
                                                 </li>
-                                                <li class="text-muted"><span class="fw-bold">State : </span>{{ $state }}
+                                                <li class="text-muted"><span class="fw-bold">State : </span>{{ $order->user->billingDetail->state }}
                                                 </li>
                                                 <li class="text-muted"><span class="fw-bold">Address :
-                                                    </span>{{ $address }}</li>
+                                                    </span>{{ $order->user->billingDetail->address }}</li>
                                             </ul>
                                         </div>
                                         <div class="col-xl-4">
@@ -67,24 +67,24 @@ Orders Details
                                             <ul class="list-unstyled">
                                                 <li class="text-muted"><i class="fas fa-circle"
                                                         style="color:#84B0CA ;"></i>
-                                                    <span class="fw-bold">ID:</span>#{{ $orderId }}
+                                                    <span class="fw-bold">ID:</span>#{{ $order->id }}
                                                 </li>
                                                 <li class="text-muted"><i class="fas fa-circle"
                                                         style="color:#84B0CA ;"></i>
                                                     <span class="fw-bold">Creation Date:
-                                                    </span>{{ $created_at }}
+                                                    </span>{{ $order->created_at->toFormattedDateString() }}
                                                 </li>
                                                 <li class="text-muted"><i class="fas fa-circle"
                                                         style="color:#84B0CA ;"></i>
                                                     <span class="me-1 fw-bold">Order Status:</span><span
-                                                        class="badge bg-warning text-black fw-bold">
-                                                        <td>{{ $orderStatus }}
+                                                        class="badge bg-info text-black fw-bold">
+                                                        <td>{{ $order->order_status }}
                                                         </td>
                                                     </span>
                                                 </li>
                                                 <li class="text-muted"><i class="fas fa-circle"
                                                         style="color:#84B0CA ;"></i>
-                                                    @if ($paymentStatus == 0)
+                                                    @if ($order->payment_status == 0)
                                                     <span class="me-1 fw-bold">Payment Status:</span><span
                                                         class="badge bg-warning text-black fw-bold">
                                                         <td>UnPaid
@@ -92,7 +92,7 @@ Orders Details
                                                     </span>
                                                     @elseif ($paymentStatus == 1)
                                                     <span class="me-1 fw-bold">Payment Status:</span><span
-                                                        class="badge bg-primary text-black fw-bold">
+                                                        class="badge bg-success text-black fw-bold">
                                                         <td>Paid
                                                         </td>
                                                     </span>
@@ -109,18 +109,18 @@ Orders Details
                                                     <th scope="col">#Id</th>
                                                     <th scope="col">Title</th>
                                                     <th scope="col">Quantity</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">Discount</th>
+                                                    <th scope="col">Unit Discount</th>
+                                                    <th scope="col">Unit Price</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($items as $key => $item)
+                                                @foreach ($order->orderItem as $key => $item)
                                                 <tr>
-                                                    <th scope="row">{{ $key+1 }}</th>
-                                                    <td>{{ $item[0] }}</td>
-                                                    <td>{{ $item[1] }}</td>
-                                                    <td>{{ $item[2] }}</td>
-                                                    <td>{{ $item[3] }}</td>
+                                                    <th scope="row">{{ ++$key }}</th>
+                                                    <td>{{ $item->product->name }}</td>
+                                                    <td>{{ $item->qty }}</td>
+                                                    <td>${{ number_format($item->discount_price) }}</td>
+                                                    <td>${{ number_format($item->product->sale_price) }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -148,36 +148,28 @@ Orders Details
                                         </div>
                                         <div class="col-xl-3">
                                             <ul class="list-unstyled">
-                                                <li class="text-muted ms-3 mt-2"><span class="fw-bold me-4">Shiping</span>${{ number_format($shippingCost, 2) }}
+                                                <li class="text-muted ms-3 mt-2"><span class="fw-bold me-4">Shiping</span>${{ number_format($order->shippingMethod->cost, 2) }}
                                                 </li>
-                                                @if ($coupon !== null)
+                                                @if ($order->coupon)
                                                 <li class="text-muted ms-3 mt-2"><span
-                                                    class="fw-bold me-4">Coupon</span>${{ number_format($coupon, 2) }}
+                                                    class="fw-bold me-4">Coupon</span>${{ number_format($order->coupon->discount, 2) }}
                                                 </li>
                                                 @endif
-                                                @if ($discount > 0)
+                                                @if ($order->discount > 0)
                                                 <li class="text-muted ms-3 mt-2"><span
                                                     class="fw-bold
-                                                    me-4">Discount</span>${{ number_format($discount, 2) }}
+                                                    me-4">Total Discount</span>${{ number_format($order->discount, 2) }}
                                                 </li>
                                                 @endif
 
                                                 <li class="text-muted ms-3"><span
-                                                        class="fw-bold me-4">SubTotal</span>${{ number_format($subtotal, 2) }}
+                                                        class="fw-bold me-4">SubTotal</span>${{ number_format($order->subtotal, 2) }}
                                                 </li>
 
                                             </ul>
                                             <p class="text-black float-start mx-3"><span class="fw-bold me-4">Total :
                                                 </span><span style="font-size: 25px;">
-                                                    @if ($discount > 0 && $coupon !== null)
-                                                        ${{ number_format(ceil(($subtotal + $shippingCost) - ($discount + $coupon)), 2) }}
-                                                    @elseif ($discount > 0)
-                                                        ${{ number_format(ceil(($subtotal + $shippingCost) - $discount), 2) }}
-                                                    @elseif ($coupon !== null)
-                                                        ${{ number_format(ceil(($subtotal + $shippingCost) - $coupon), 2) }}
-                                                    @else
-                                                        ${{ number_format(ceil($subtotal + $shippingCost), 2) }}
-                                                    @endif
+                                                    ${{ $order->total }}
                                                 </span></p>
                                         </div>
                                     </div>

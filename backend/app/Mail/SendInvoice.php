@@ -2,6 +2,10 @@
 
 namespace App\Mail;
 
+use App\Models\BillingDetails;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,7 +21,7 @@ class SendInvoice extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public array $cartItemArray, public $user) {}
+    public function __construct(public Object $cartItems, public User $user, public Order $order, public array $request) {}
 
     /**
      * Get the message envelope.

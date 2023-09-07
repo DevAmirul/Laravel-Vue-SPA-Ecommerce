@@ -47,15 +47,14 @@ watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
         if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {
             if (currentValue['type'] == 'Percentage') {
-                return accumulator + ((Number(currentValue['discount']) / Number(currentValue['sale_price'])) * 100) * Number(currentValue['qty']);
+                return accumulator + Math.floor(((Number(currentValue['discount']) / 100) * Number(currentValue['sale_price'])) * Number(currentValue['qty']));
             }
             else {
-                return accumulator + Number(currentValue['discount'] * currentValue['qty']);
+                return accumulator + Math.floor(Number(currentValue['discount'] * currentValue['qty']));
             }
         }
         else return accumulator + 0
     }, 0)
-
     subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
         return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
     }, 0)
@@ -70,10 +69,12 @@ function placeOrder() {
             "address_2": formData.address_2,
             "state": formData.state,
             "zip_code": formData.zip_code,
-            "discount": discount.toFixed(2),
-            "subtotal": subtotal.toFixed(2),
+            "discount": discount,
+            "subtotal": subtotal,
             "total": total,
             "shipping_method_id": shippingMethod.value,
+            "shipping": shippingMethodCost.value,
+            "coupon": (responseCoupon.value) ? ((responseCoupon.value.coupon) ? responseCoupon.value.coupon.discount : null) : null,
             "coupon_id": (responseCoupon.value) ? ((responseCoupon.value.coupon) ? responseCoupon.value.coupon.id : null) : null,
 
     })
@@ -93,7 +94,7 @@ function getCoupon(code) {
         useAxios.get('/users/cart/coupon/' + code)
             .then(response => {
                 responseCoupon.value = response.data;
-                // console.log(responseCoupon.value.coupon.id);
+                // console.log(responseCoupon.value.coupon.discount);
                 if (responseCoupon.value.coupon == null) useAlert().centerDialogAlert('info', 'Code not valid')
             })
             .catch(error => {
@@ -197,12 +198,12 @@ function getCoupon(code) {
 
                         <hr class="mt-0">
                         <div v-if="responseCoupon" class="d-flex justify-content-between mb-3 pt-1">
-                            <template v-if="responseCoupon.coupon !== null">
+                            <template v-if="responseCoupon.coupon !== null ">
                                 <h6 class="font-weight-medium">Coupon</h6>
                                 <h6 class="font-weight-medium">${{ responseCoupon.coupon.discount }}</h6>
                             </template>
                         </div>
-                        <div v-if="discount > 0" class="d-flex justify-content-between mb-3 pt-1">
+                        <div v-if="discount > 0 " class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Discount</h6>
                             <h6  class="font-weight-medium">${{ discount }}</h6>
                         </div>

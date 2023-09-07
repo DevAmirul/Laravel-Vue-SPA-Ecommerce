@@ -49,19 +49,18 @@ watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
         if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {
             if (currentValue['type'] == 'Percentage') {
-                return accumulator + ( (Number(currentValue['discount']) / Number(currentValue['sale_price'])) * 100 ) * Number(currentValue['qty']);
+                return accumulator + Math.floor(((Number(currentValue['discount']) / 100) * Number(currentValue['sale_price'])) * Number(currentValue['qty']));
             }
             else {
-                return accumulator + Number(currentValue['discount'] * currentValue['qty']);
+                return accumulator + Math.floor(Number(currentValue['discount'] * currentValue['qty']));
             }
         }
         else return accumulator + 0
     }, 0)
-
     subtotal = responseData.value.carts.reduce((accumulator, currentValue) => {
         return accumulator + Number(currentValue['sale_price'] * currentValue['qty']);
     }, 0)
-} )
+})
 
 function productQuantityIncrement(cartId, productId, qty) {
     useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + ++qty)

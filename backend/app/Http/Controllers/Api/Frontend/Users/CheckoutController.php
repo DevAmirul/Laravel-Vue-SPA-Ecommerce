@@ -6,10 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
 use App\Mail\SendInvoice;
 use App\Models\BillingDetails;
-use App\Models\Cart;
-use App\Models\Coupon;
-use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\ShippingMethod;
 use App\Models\User;
 use App\Services\CartProductService;
@@ -33,20 +29,24 @@ class CheckoutController extends Controller
         $cartItems = DB::table('carts')
             ->join('cart_items','carts.id', '=', 'cart_items.cart_id')
             ->join('products', 'cart_items.product_id','=', 'products.id')
-            ->join('offers', 'products.offer_id','=', 'offers.id')
-            ->select('cart_items.product_id', 'cart_items.qty', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
+            ->leftJoin('offers', 'products.offer_id','=', 'offers.id')
+            ->select('cart_items.product_id', 'cart_items.qty', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date', 'products.name', 'products.sale_price')
             ->where('carts.user_id', $request->validated('user_id'))->get();
 
         $cartItemArray = [];
         foreach ($cartItems as $value) {
-            if ($value->status == true && $value->expire_date) {
-                array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty, 'discount_price' => $value->discount]);
+            if ($value->status == true && $value->expire_date > now()) {
+                if ($value->type === 'Percentage') {
+                    $discount = number_format(($value->discount / 100) * $value->sale_price);
+                }
+                array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty, 'discount_price' => $discount ?? $value->discount]);
             }else{
                 array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty]);
             }
         }
 
-        $user = User::find($request->validated('user_id'), 'id');
+        $user = User::find($request->validated('user_id'), ['id', 'name', 'email']);
+
         $user->billingDetail()->updateOrCreate(['user_id' => $request->validated('user_id')], [
             'phone'=> $request->validated('phone'),
             'city'=> $request->validated('city'),
@@ -63,20 +63,11 @@ class CheckoutController extends Controller
             'coupon_id' => $request->validated('coupon_id') ,
         ]);
         $order->orderItem()->createMany($cartItemArray);
+
         // Cart::whereUserId($request->validated('user_id'))->delete();
 
-        Mail::to('mailbox.amirul@gmail.com')->send(new SendInvoice($cartItemArray, $user));
+        Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
 
-        // $this->sendOrderInvoice($order->id);
-        return response(true, 200);
-    }
-
-    public function sendOrderInvoice() : void {
-        // $order = Order::where('orders.id', 2)->with([
-        //     'user:id,name,email' => ['billingDetail:user_id,phone,address,city,state,zip_code'],
-        //     'orderItem' => ['product:id,name']
-        // ])->first();
-
-        // Mail::to($order->user->email)->send(new SendInvoice($order));
+        return response($request->validated(), 200);
     }
 }

@@ -19,9 +19,9 @@ class Order extends Model {
         'coupon_id',
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d',
-    ];
+    // protected $casts = [
+    //     'created_at' => 'datetime:d-m-Y',
+    // ];
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);

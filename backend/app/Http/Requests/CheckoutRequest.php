@@ -29,11 +29,13 @@ class CheckoutRequest extends FormRequest
             'city' => 'required|max:100',
             'state' => 'required|max:100',
             'zip_code' => 'required|max:6',
-            'discount' => 'required|decimal:2',
-            'subtotal' => 'required|decimal:2',
-            'total' => 'required|decimal:2',
+            'discount' => 'required|numeric',
+            'subtotal' => 'required|numeric',
+            'total' => 'required|numeric',
             'shipping_method_id' => 'required|numeric',
+            'shipping' => 'required|numeric',
             'coupon_id' => 'required_if:numeric,nullable',
+            'coupon' => 'required_if:numeric,nullable',
         ];
     }
 }
