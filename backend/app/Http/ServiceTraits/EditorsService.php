@@ -2,31 +2,41 @@
 
 namespace App\Http\ServiceTraits;
 
-trait EditorsService {
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
+
+trait EditorsService
+{
+    public int $editorId;
     public string $name     = '';
     public string $email    = '';
-    public string $phone    = '';
-    public string $city     = '';
-    public string $address  = '';
-    public string $state    = '';
+    public string $prevEmail = '';
+    public ?string $phone    = '';
+    public bool $role;
+    public ?string $city     = '';
+    public ?string $address  = '';
+    public ?string $state    = '';
     public string $password = '';
+    public string $password_confirmation = '';
     public $roleOption      = ['Editor', 'Admin'];
     public $statusOption    = ['pending', 'Allow'];
     public int $editorsId;
     public int $selectedRole;
     public int $selectedStatus;
 
-    protected function rules() {
+    protected function rules()
+    {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'    => 'required|string|max:255',
-                'email'   => 'required|email|max:255',
+                'email'   => 'required|email|max:255|unique:editors,email,' . Auth::user()->id,
                 'phone'   => 'required|string|max:11',
                 'city'    => 'required|string|max:255',
                 'address' => 'required|string|max:255',
                 'state'   => 'required|string|max:255',
             ];
-            !empty($this->password) ? $rulesForUpdate['password'] = 'required|string|min:8' : null;
+            !empty($this->password) ? $rulesForUpdate['password'] = ['required','confirmed', Password::min(8) ->letters() ->mixedCase() ->numbers() ->symbols()->uncompromised() ] : null;
+
             return $rulesForUpdate;
         } else {
             return [
@@ -36,16 +46,18 @@ trait EditorsService {
                 'city'     => 'required|string|max:255',
                 'address'  => 'required|string|max:255',
                 'state'    => 'required|string|max:255',
-                'password' => 'required|string|min:8',
+                'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
             ];
         }
     }
 
-    public function updated($propertyName): void{
+    public function updated($propertyName): void
+    {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function propertyResetExcept(): void{
+    public function propertyResetExcept(): void
+    {
         $this->resetExcept(['editorsId', 'selectedRole', 'selectedStatus']);
     }
 }

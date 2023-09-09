@@ -11,7 +11,7 @@ Forgot Password
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                         <div class="d-flex justify-content-center py-4">
-                            <a href="index.html" class="logo d-flex align-items-center w-auto">
+                            <a href="" class="logo d-flex align-items-center w-auto">
                                 <img src="assets/img/logo.png" alt="">
                                 <span class="d-none d-lg-block">E-commerce</span>
                             </a>
@@ -20,17 +20,19 @@ Forgot Password
                             <div class="card-body">
                                 <div class="pt-4 pb-2">
                                     <h5 class="card-title text-center pb-0 fs-4">Request New Password</h5>
-                                    <p class="text-center small">You forgot your password? Here you can easily retrieve a new password.</p>
                                 </div>
-                                <form class="row g-3 needs-validation" novalidate>
+                                <form class="row g-3 needs-validation" action="{{ route('password.email') }}" method="POST">
+                                    @csrf
                                     <div class="col-12">
                                         <label for="yourUsername" class="form-label">Enter Your Email</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="username" class="form-control" id="yourUsername"
+                                            <input type="email" name="email" class="form-control" id="yourUsername"
                                                 required>
-                                            <div class="invalid-feedback">Please enter your username.</div>
                                         </div>
+                                        @error('email')
+                                        <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
+                                        @enderror
                                     </div>
 
                                     <div class="col-12">
@@ -45,7 +47,7 @@ Forgot Password
                         </div>
                         <div class="credits">
 
-                            Developed By <a href="https://bootstrapmade.com/">Amirul Islam</a>
+                            Developed By <a href="">Amirul Islam</a>
                         </div>
                     </div>
                 </div>

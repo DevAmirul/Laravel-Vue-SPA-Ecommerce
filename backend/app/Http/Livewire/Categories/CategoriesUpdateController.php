@@ -28,7 +28,7 @@ class CategoriesUpdateController extends Component {
         $this->section_id = $category->section_id;
     }
 
-    public function save() {
+    public function update() {
         $validate = $this->validate();
 
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'categories');

@@ -12,6 +12,7 @@ use App\Http\Livewire\Categories\SubCategoriesUpdateController;
 use App\Http\Livewire\Contacts\ContactUsController;
 use App\Http\Livewire\Contacts\ContactUsReplyController;
 use App\Http\Livewire\DashboardController;
+use App\Http\Livewire\EditorProfile;
 use App\Http\Livewire\Editors\EditorsController;
 use App\Http\Livewire\Editors\EditorsCreateController;
 use App\Http\Livewire\Editors\EditorsUpdateController;
@@ -27,6 +28,8 @@ use App\Http\Livewire\Products\ProductsCreateController;
 use App\Http\Livewire\Products\ProductsUpdateController;
 use App\Http\Livewire\Products\TagsController;
 use App\Http\Livewire\Products\TagsCreateController;
+// use App\Http\Livewire\ProfileController;
+use App\Http\Livewire\ProfileController;
 use App\Http\Livewire\Reports\BrandedProductsReportController;
 use App\Http\Livewire\Reports\CategorizedProductsReportController;
 use App\Http\Livewire\Reports\CouponsReportController;
@@ -163,5 +166,6 @@ Route::prefix('settings')->name('settings')->group(function () {
 });
 
 Route::get('/users', UsersController::class)->name('users');
+Route::get('/profile/{id}', ProfileController::class)->name('profile');
 
 require __DIR__ . '/auth.php';

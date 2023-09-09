@@ -1241,3 +1241,7 @@ hr {
 .active {
   background: #aecaff !important;
 }
+
+.active-color-overright {
+  background-color: white !important;
+}

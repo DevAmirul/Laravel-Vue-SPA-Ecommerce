@@ -97,7 +97,7 @@ return [
     'passwords' => [
         'editors' => [
             'provider' => 'editors',
-            // 'table' => 'password_reset_tokens',
+            'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],

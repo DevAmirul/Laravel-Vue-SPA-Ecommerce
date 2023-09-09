@@ -4,7 +4,7 @@ Branded Products Report
 <div>
     <!-- ======= Header ======= -->
     <div wire:ignore>
-            @livewire('layouts.header')
+        @livewire('layouts.header')
     </div>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
