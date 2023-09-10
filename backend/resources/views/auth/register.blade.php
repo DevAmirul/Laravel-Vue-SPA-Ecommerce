@@ -23,23 +23,20 @@ SignUp
                                 <form class="row g-3 needs-validation" action="{{ route('register') }}" method="POST">
                                     @csrf
                                     <div class="col-12">
-                                        <label for="yourName" class="form-label">Your Name</label>
-                                        <input type="text" name="name" class="form-control" id="yourName" required>
+                                        <input type="text" name="name" class="form-control" id="yourName"  placeholder="Your Name" required value="{{ old('name') }}">
                                         @error('name')
                                         <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="yourEmail" class="form-label">Your Email</label>
-                                        <input type="email" name="email" class="form-control" id="yourEmail" required>
+                                        <input type="email" name="email" class="form-control" id="yourEmail"  placeholder="Your Email" required value="{{ old('email') }}">
                                         @error('email')
                                         <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
                                         @enderror
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control" id="yourPassword" placeholder="********"
+                                        <input type="password" name="password" class="form-control" id="yourPassword" placeholder="Password****"
                                             required>
                                         @error('password')
                                         <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
@@ -47,8 +44,7 @@ SignUp
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="yourPassword2" class="form-label">Password</label>
-                                        <input type="password" name="password_confirmation" class="form-control" id="yourPassword2" placeholder="********"
+                                        <input type="password" name="password_confirmation" class="form-control" id="yourPassword2" placeholder="Confirm Password****"
                                             required>
                                         @error('password_confirmation')
                                         <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>

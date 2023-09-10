@@ -19,21 +19,18 @@
                             <div class="card-body">
                                 <div class="pt-4 pb-2">
                                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                    <p class="text-center small">Enter your username & password to login</p>
                                 </div>
                                 <form action="{{ route('login') }}" method="POST" class="row g-3 needs-validation">
                                     @csrf
                                     <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Email</label>
-                                        <input type="email" value="{{ old('email') }}" name="email" class="form-control" id="yourUsername"
+                                        <input type="email" value="{{ old('email') }}" name="email" class="form-control" id="yourUsername" placeholder="Your Email"
                                             required>
                                         @error('email')
                                         <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
                                         @enderror
                                     </div>
                                     <div class="col-12">
-                                        <label for="yourPassword" class="form-label">Password</label>
-                                        <input type="password" value="{{ old('password') }}" name="password" class="form-control" id="yourPassword" placeholder="********"
+                                        <input type="password" value="{{ old('password') }}" name="password" class="form-control" id="yourPassword" placeholder="Password****"
                                             required>
                                         @error('password')
                                         <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>

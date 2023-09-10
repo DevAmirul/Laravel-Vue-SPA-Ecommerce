@@ -23,11 +23,13 @@ Forgot Password
                                 </div>
                                 <form class="row g-3 needs-validation" action="{{ route('password.email') }}" method="POST">
                                     @csrf
+                                    @if (Session::has('status'))
+                                        <p class="text-success text-center">{{ Session::get('status') }}</p>
+                                    @endif
                                     <div class="col-12">
-                                        <label for="yourUsername" class="form-label">Enter Your Email</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="email" name="email" class="form-control" id="yourUsername"
+                                            <input type="email" name="email" class="form-control" value="{{ old('email') }}"id="yourUsername" placeholder="Enter Your Email"
                                                 required>
                                         </div>
                                         @error('email')
