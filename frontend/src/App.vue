@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { RouterView, useRouter } from "vue-router";
-import axios_C from './services/axios';
+import useAxios from './services/axios';
 import Navbar from "./components/layouts/Navbar.vue";
 import Footer from "./components/layouts/Footer.vue";
 import Topbar from "./components/layouts/Topbar.vue";
@@ -11,7 +11,7 @@ const router = useRouter();
 let responseData = ref();
 
 onMounted(() => {
-    axios_C.get('/site-settings')
+    useAxios.get('/site-settings')
         .then(response => {
             responseData.value = response.data
         })

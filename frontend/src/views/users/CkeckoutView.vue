@@ -5,15 +5,15 @@ import useAlert from "../../services/Sweetalert";
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
 
-let shippingMethodCost = ref(null);
-let shippingMethod = ref();
+const shippingMethodCost = ref(null);
+const shippingMethod = ref();
+const couponCode = ref();
+const responseCoupon = ref();
+const responseData = ref();
+const errorData = ref();
 let discount;
 let subtotal;
 let total;
-let couponCode = ref();
-let responseCoupon = ref();
-let responseData = ref();
-let errorData = ref();
 const formData = reactive({
     phone: '',
     address: '',

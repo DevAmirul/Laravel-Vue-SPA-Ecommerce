@@ -79,24 +79,29 @@ const router = createRouter({
       component: () => import('../views/CompareView.vue')
     },
     {
+      path: '/users/profile',
+      name: 'profile',
+      component: () => import('../views/users/ProfileView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
-      component: () => import('../views/guests/SignInView.vue')
+      component: () => import('../views/auth/LoginView.vue')
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('../views/guests/SignUpView.vue')
+      component: () => import('../views/auth/RegisterView.vue')
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgotPassword',
+      component: () => import('../views/auth/ForgotPasswordView.vue')
     },
     {
       path: '/reset-password',
       name: 'resetPassword',
-      component: () => import('../views/guests/ResetPasswordView.vue')
-    },
-    {
-      path: '/users/profile',
-      name: 'profile',
-      component: () => import('../views/users/ProfileView.vue')
+      component: () => import('../views/auth/ResetPasswordView.vue')
     },
     {
       path: '/500',

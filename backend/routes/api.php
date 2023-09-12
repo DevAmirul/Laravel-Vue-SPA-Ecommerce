@@ -1,24 +1,23 @@
 <?php
 
-use App\Http\Controllers\Api\Frontend\BrandController;
-use App\Http\Controllers\Api\Frontend\CategoryController;
-use App\Http\Controllers\Api\Frontend\CompareController;
-use App\Http\Controllers\Api\Frontend\ContactController;
-use App\Http\Controllers\Api\Frontend\HomeController;
-use App\Http\Controllers\Api\Frontend\Layout\TopbarKeywordController;
-use App\Http\Controllers\Api\Frontend\Layouts\SettingsController;
-use App\Http\Controllers\Api\Frontend\Layouts\SidebarController;
-use App\Http\Controllers\Api\Frontend\ProductController;
-use App\Http\Controllers\Api\Frontend\ReviewController;
-use App\Http\Controllers\Api\Frontend\SearchController;
-use App\Http\Controllers\Api\Frontend\ShopController;
-use App\Http\Controllers\Api\Frontend\SubCategoryController;
-use App\Http\Controllers\Api\Frontend\TopSaleController;
-use App\Http\Controllers\Api\Frontend\Users\CartController;
-use App\Http\Controllers\Api\Frontend\Users\CheckoutController;
-use App\Http\Controllers\Api\Frontend\Users\OrderController;
-use App\Http\Controllers\Api\Frontend\Users\OrderItemController;
-use App\Http\Controllers\Api\Frontend\Users\UserController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CompareController;
+use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\Layouts\SettingsController;
+use App\Http\Controllers\Api\Layouts\SidebarController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\ShopController;
+use App\Http\Controllers\Api\SubCategoryController;
+use App\Http\Controllers\Api\TopSaleController;
+use App\Http\Controllers\Api\Users\CartController;
+use App\Http\Controllers\Api\Users\CheckoutController;
+use App\Http\Controllers\Api\Users\OrderController;
+use App\Http\Controllers\Api\Users\OrderItemController;
+use App\Http\Controllers\Api\Users\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,9 +57,6 @@ Route::name('api.')->group(function () {
     Route::get('/products/{slug}', [ProductController::class, 'index'])->name('products.show');
     Route::get('/products/view-count/{id}', [ProductController::class, 'productViewCount'])->name('products.viewCount');
 
-    Route::post('/login', [ProfileController::class, 'login'])->name('login');
-    Route::post('/register', [ProfileController::class, 'register'])->name('register');
-    Route::post('/reset', [ProfileController::class, 'reset'])->name('reset');
 
     Route::prefix('/users')->name('users.')->group(function () {
         Route::prefix('/cart')->name('cart.')->group(function () {
