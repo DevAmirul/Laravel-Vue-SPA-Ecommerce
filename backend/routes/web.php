@@ -50,10 +50,12 @@ use App\Http\Livewire\Settings\Shipping\MethodsController;
 use App\Http\Livewire\Settings\Shipping\MethodsCreateController;
 use App\Http\Livewire\Settings\Shipping\MethodsUpdateController;
 use App\Http\Livewire\UsersController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware('auth:editor')->group(function(){
+
 Route::get('/', DashboardController::class)->name('home');
-Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
 Route::prefix('products')->name('products')->group(function () {
     Route::get('/', ProductsController::class);
@@ -166,5 +168,11 @@ Route::prefix('settings')->name('settings')->group(function () {
 Route::get('/users', UsersController::class)->name('users');
 Route::get('/profile/{id}', ProfileController::class)->name('profile');
 
+});
+
 require __DIR__ . '/backendAuth.php';
-require __DIR__ . '/frontendAuth.php';
+// require __DIR__ . '/frontendAuth.php';
+
+Route::post('/yyy', function (Request $request) {
+    return $request->input();
+});

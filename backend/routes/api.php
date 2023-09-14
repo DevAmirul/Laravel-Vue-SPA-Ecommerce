@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\Users\CheckoutController;
 use App\Http\Controllers\Api\Users\OrderController;
 use App\Http\Controllers\Api\Users\OrderItemController;
 use App\Http\Controllers\Api\Users\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
 
 Route::name('api.')->group(function () {
     Route::prefix('/home')->name('home.')->group(function () {

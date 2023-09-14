@@ -10,7 +10,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class Editor extends Authenticatable {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
+
+    protected $guard = 'editor';
 
     protected $fillable = [
         'name',
@@ -37,7 +39,7 @@ class Editor extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'password'          => 'hashed',
+        'password' => 'hashed',
     ];
 
     public function contactUs(): HasMany {

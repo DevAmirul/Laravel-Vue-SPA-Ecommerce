@@ -15,7 +15,7 @@ class CategoriesCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function save(): void{
+    public function create(): void{
         $validate          = $this->validate();
         $validate['image'] = $this->fileUpload($this->image, 'categories');
         Category::create($validate);

@@ -33,7 +33,7 @@ class PasswordResetLinkController extends Controller
                 'email' => [__($status)],
             ]);
         }
-
+        
         return response()->json(['status' => __($status)]);
     }
 }
