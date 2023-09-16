@@ -1,18 +1,21 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import useAxios from '../../services/axios';
+import axios from 'axios';
+import { RouterLink, useRouter } from "vue-router";
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
+const router = useRouter();
 const errorData = ref();
 const formData = reactive({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: ''
+    name: 'mailbox',
+    email: 'mailbox.amirul@gmail.com',
+    password: '12345678',
+    password_confirmation: '12345678'
 });
 
 function register() {
-    useAxios.post('/frontend/register', {
+    axios.post('http://127.0.0.1:8000/api/register', {
         'name': formData.name,
         'email': formData.email,
         'password': formData.password,
@@ -20,11 +23,11 @@ function register() {
     })
         .then(response => {
             errorData.value = null
-            console.log(response);
+            router.push({ name: 'login' })
         })
         .catch(error => {
             errorData.value = error.response.data.errors
-            console.log(error);
+            console.log(error.response);
         });
 }
 </script>
@@ -98,8 +101,9 @@ function register() {
                                 Create Account
                             </button>
                             <div class="text-center pt-4 text-muted">
-                                Have an account? <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'login' }"
-                                                    ><a>Sign up</a>
+                                Have an account?
+                                <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'login' }"
+                                                    ><a>Login</a>
                                         </RouterLink>
                             </div>
                         </form>

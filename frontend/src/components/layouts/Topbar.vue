@@ -4,29 +4,40 @@ import { RouterLink,useRouter } from "vue-router";
 import axios_C from '../../services/axios';
 import useRefresh from '../../stores/Refresh';
 import { storeToRefs } from "pinia";
+import useAuth from '../../stores/Auth';
+
+const { user } = storeToRefs(useAuth());
 
 const { refreshCartItemsNumber, refreshWishlistItemsNumber, refreshCompareItemsNumber } = storeToRefs(useRefresh());
 
 const { settings } = defineProps(['settings'])
+
 const router = useRouter();
 const topBarSearch = ref();
 const cartItemsNumber = ref();
 const compareList = ref();
 const wishlist = ref();
 
+function cartCount() {
+    if (user.value) {
+        // axios_C.get('/users/cart/count/' + user.id, {
+        //     headers: {
+        //         Authorization: 'Bearer ' + useSaveToken().getToken('auth_token')
+        //     }
+        // })
+        //     .then(response => {
+        //         cartItemsNumber.value = response.data;
+        //     })
+    }
+    console.log(user.value);
+}
+
 onMounted(() => {
     wishlist.value = JSON.parse(localStorage.getItem('productAttributes'));
     compareList.value = JSON.parse(localStorage.getItem('compare'));
+
+    cartCount();
 } )
-
-axios_C.get('/users/cart/count/' + 2)
-    .then(response => {
-        cartItemsNumber.value = response.data;
-    })
-    .catch(error => {
-        console.log(error);
-    });
-
 
 watch(topBarSearch, () => {
     router.push({ name: 'search', params: { search: topBarSearch.value } })
@@ -41,13 +52,7 @@ watch(refreshWishlistItemsNumber, () => {
 })
 
 watch(refreshCartItemsNumber, () => {
-    axios_C.get('/users/cart/count/' + 2)
-        .then(response => {
-            cartItemsNumber.value = response.data;
-        })
-        .catch(error => {
-            console.log(error);
-        });
+    cartCount();
 })
 
 

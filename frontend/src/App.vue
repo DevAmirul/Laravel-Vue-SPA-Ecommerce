@@ -5,6 +5,9 @@ import useAxios from './services/axios';
 import Navbar from "./components/layouts/Navbar.vue";
 import Footer from "./components/layouts/Footer.vue";
 import Topbar from "./components/layouts/Topbar.vue";
+import useAuth from './stores/Auth';
+
+useAuth();
 
 const router = useRouter();
 
@@ -18,6 +21,7 @@ onMounted(() => {
         .catch(error => {
             // console.log(error);
         });
+        
 } )
 
 

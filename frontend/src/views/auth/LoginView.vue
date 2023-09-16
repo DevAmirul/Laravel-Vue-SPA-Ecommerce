@@ -1,39 +1,25 @@
 <script setup>
-import { reactive, ref } from 'vue'
-import { RouterLink } from 'vue-router'
-import useAxios from '../../services/axios';
+import { onMounted, reactive } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
 import PageHeader from '../../components/layouts/PageHeader.vue'
+import useAuth from '../../stores/Auth';
+import useAlert from '../../services/Sweetalert';
+import useAuth from '../../stores/Auth';
 
-const errorData = ref();
+const useAuth = useAuth();
+// TODO: setup login fun store method
+
+const route = useRoute();
 const formData = reactive({
-    email: '',
-    password: '',
+    email: 'user@gmail.com',
+    password: '12345678',
     remember: false
 });
 
-function login() {
-    useAxios.get('/sanctum/csrf-cookie')
-        .then(response => {
-            console.log(response);
+onMounted(() => {
+    if (route.query?.status) useAlert().topAlert('success', route.query.status)
+})
 
-            useAxios.post('/frontend/login',{
-                'email': formData.email,
-                'password': formData.password,
-                'remember': formData.remember,
-            })
-                .then(response => {
-                    errorData.value = null
-                    console.log(response);
-                })
-                .catch(error => {
-                    errorData.value = error.response.data.errors
-                    console.log(error);
-                });
-        })
-        .catch(error => {
-            console.log(error);
-        });
-}
 </script>
 <template>
     <!-- Page Header Start -->
@@ -55,7 +41,7 @@ function login() {
                                     <input v-model="formData.email"
                                         type="email"
                                         placeholder="Enter your Email"
-                                        required
+
                                     />
                                 </div>
                                 <template v-if="errorData">
@@ -70,7 +56,7 @@ function login() {
                                     <input v-model="formData.password"
                                         type="password"
                                         placeholder="Enter your Password"
-                                        required
+
                                     />
                                     <button disabled class="btn bg-white text-muted">
                                         <span class="far fa-eye-slash"></span>
@@ -94,12 +80,11 @@ function login() {
                                     >
                                 </div>
 
-                                <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'resetPassword' }"
+                                <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'forgotPassword' }"
                                         ><a id="forgot" class="font-weight-bold "
                                             >Forgot password?</a
                                         >
                                 </RouterLink>
-
                             </div>
                             <button class="btn btn-primary btn-block mt-3" type="submit">
                                 Login
@@ -107,7 +92,7 @@ function login() {
                             <div class="text-center pt-4 text-muted">
                                 Don't have an account?
                                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'register' }"
-                                            ><a href="#">Sign up</a>
+                                            ><a>Register</a>
                                 </RouterLink>
                             </div>
                         </form>
@@ -164,7 +149,7 @@ a:hover {
 }
 
 .panel {
-    min-height: 380px;
+    /* min-height: 380px; */
     box-shadow: 10px 10px 20px rgb(218, 218, 218) !important;
     border-radius: 12px;
     box-shadow: 11px 12px 54px -10px rgba(0,0,0,0.84);

@@ -1,21 +1,23 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import useAxios from '../../services/axios';
+import useAlert from '../../services/Sweetalert';
+import axios from 'axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
 const errorData = ref();
 const formData = reactive({
-    email: ''
+    email: 'mailbox.amirul@gmail.com'
 });
 
 function sendResetLink() {
-    console.log(formData.email);
-    useAxios.post('/frontend/forgot-password',{
+    axios.post('http://127.0.0.1:8000/api/forgot-password', {
         'email': formData.email
     })
         .then(response => {
             errorData.value = null
-            console.log(response);
+            formData.email = ''
+            useAlert().topAlert('success', response.data.status)
         })
         .catch(error => {
             errorData.value = error.response.data.errors
@@ -52,7 +54,7 @@ function sendResetLink() {
                                     </template>
                                 </template>
                             </div>
-                            <button class="btn btn-primary btn-block mt-3" type="submit"> Login
+                            <button class="btn btn-primary btn-block mt-3" type="submit"> Send
                                 </button>
                         </form>
                     </div>
@@ -108,7 +110,6 @@ a:hover {
 }
 
 .panel {
-    /* min-height: 380px; */
     box-shadow: 20px 20px 80px rgb(218, 218, 218);
     border-radius: 12px;
     box-shadow: 11px 12px 54px -10px rgba(0,0,0,0.84);

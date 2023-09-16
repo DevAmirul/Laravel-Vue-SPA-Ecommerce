@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 import useAxios from '../../services/axios';
+import useAuth from '../../stores/Auth'
 import useSearch from '../../stores/Search'
 import { RouterLink, useRoute } from "vue-router";
 
 let responseData = ref();
 const route = useRoute();
+const auth = useAuth();
 
 useAxios.get('/home/navbar')
     .then(response => {
@@ -120,7 +122,7 @@ useAxios.get('/home/navbar')
                             <div class="navbar-nav ml-auto py-0">
                                 <div class="nav-item dropdown">
                                     <a @click="useSearch().cleanRouteQuery()"
-                                        class="nav-link dropdown-toggle"
+                                        class="nav-link dropdown-toggle" style="cursor: pointer;"
                                         data-toggle="dropdown"
                                         >User</a
                                     >
@@ -166,6 +168,9 @@ useAxios.get('/home/navbar')
                                                 >Cart</a
                                             ></RouterLink
                                         >
+                                        <a style=" text-decoration: none; color: inherit; cursor: pointer;"
+                                            @click="useSearch().cleanRouteQuery(), auth.logout()" :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Logout</a>
                                     </div>
                                 </div>
                                 <RouterLink

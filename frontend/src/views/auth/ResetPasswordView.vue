@@ -1,24 +1,27 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import useAxios from '../../services/axios';
+import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 
+const router = useRouter();
+const route = useRoute();
 const errorData = ref();
 const formData = reactive({
-    email: '',
-    password: '',
-    password_confirmation: ''
+    password: 'route.query.email',
+    password_confirmation: 'route.query.email'
 });
 
 function resetPassword() {
-    useAxios.post('/frontend/reset-password', {
-        'email': formData.email,
+    axios.post( 'http://127.0.0.1:8000/api/reset-password', {
+        'email': route.query.email,
+        'token': route.params.token,
         'password': formData.password,
         'password_confirmation': formData.password_confirmation,
     })
         .then(response => {
-            errorData.value = null
-            console.log(response);
+            router.push({ name: 'login', query: {status: response.data.status } })
         })
         .catch(error => {
             errorData.value = error.response.data.errors
@@ -46,7 +49,7 @@ function resetPassword() {
                             <div class="form-group py-2">
                                 <div class="input-field">
                                     <span class="far fa-envelope p-2"></span>
-                                    <input type="email" v-model="formData.email" placeholder="Enter your Email" required />
+                                    <input type="email" :value="route.query.email" placeholder="Enter your Email" required disabled/>
                                 </div>
                                 <template v-if="errorData">
                                     <template v-if="errorData['email']">
@@ -83,7 +86,7 @@ function resetPassword() {
                                 </template>
                             </div>
                             <button class="btn btn-primary btn-block mt-3" type="submit">
-                                Create Account
+                                Change Password
                             </button>
                         </form>
                     </div>
