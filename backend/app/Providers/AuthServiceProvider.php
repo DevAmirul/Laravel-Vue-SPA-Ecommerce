@@ -24,9 +24,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // if (request()->hasHeader('Authorization')) {
-            // ResetPassword::createUrlUsing(function (User $user, string $token) {
-            //     return 'http://localhost:3000/reset-password/' . $token . '?email';
-            // });
+            ResetPassword::createUrlUsing(function (User $user, string $token) {
+                return 'http://localhost:3000/reset-password/' . $token . '?email=' . $user->email;
+            });
         // }
     }
 }

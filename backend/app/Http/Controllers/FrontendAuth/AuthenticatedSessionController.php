@@ -20,7 +20,8 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): Response
     {
         return response([
-            'access_token' => $request->authenticate(),
+            'user' => $request->authenticate()['user'],
+            'access_token' => $request->authenticate()['token'],
             'token_type' => 'bearer',
         ], 200);
 

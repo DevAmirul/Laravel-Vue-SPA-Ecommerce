@@ -23,7 +23,7 @@ Route::name('api.')->group(function(){
         ->middleware('guest')
         ->name('password.email');
 
-    Route::post('/reset-password/{token}', [NewPasswordController::class, 'store'])
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
         ->middleware('guest')
         ->name('password.store');
 

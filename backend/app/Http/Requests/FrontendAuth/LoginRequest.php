@@ -41,7 +41,7 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): string
+    public function authenticate(): array
     {
         $this->ensureIsNotRateLimited();
 
@@ -49,7 +49,7 @@ class LoginRequest extends FormRequest
 
         if (!$user || !Hash::check($this->password, $user->password)) {
             RateLimiter::hit($this->throttleKey());
-            
+
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
@@ -59,7 +59,7 @@ class LoginRequest extends FormRequest
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return $token;
+        return compact('user', 'token');
     }
 
     /**

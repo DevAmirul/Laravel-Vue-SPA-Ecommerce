@@ -21,10 +21,11 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $request->validate([
+        $a = $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed'],
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -49,5 +50,6 @@ class NewPasswordController extends Controller
         }
 
         return response()->json(['status' => __($status)]);
+        // return response()->json($a);
     }
 }
