@@ -62,7 +62,7 @@ Route::name('api.')->group(function () {
     Route::get('/products/view-count/{id}', [ProductController::class, 'productViewCount'])->name('products.viewCount');
 
 
-    Route::prefix('/users')->name('users.')->group(function () {
+    Route::middleware('auth:sanctum')->prefix('/users')->name('users.')->group(function () {
         Route::prefix('/cart')->name('cart.')->group(function () {
             Route::get('/{id}', [CartController::class, 'inbox'])->where('id', '[0-9]+');
             Route::delete('/{id}', [CartController::class, 'destroy'])->name('destroy')->where('id', '[0-9]+');

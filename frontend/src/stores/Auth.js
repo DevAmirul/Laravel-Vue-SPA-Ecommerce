@@ -1,8 +1,8 @@
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import useToken from '../services/token';
-import useAlert from '../services/Sweetalert';
+import useAlert from '../services/alert';
 import { useRouter } from 'vue-router'
 
 const useAuth = defineStore('auth', () => {
@@ -13,9 +13,7 @@ const useAuth = defineStore('auth', () => {
     const errorData = ref();
 
     onMounted(() => {
-        if (useToken().getToken() !== null) {
-            getAuthUser();
-        }
+        if (useToken().getToken() !== null) getAuthUser();
     })
 
     function getAuthUser() {
@@ -25,12 +23,10 @@ const useAuth = defineStore('auth', () => {
             .then(response => {
                 isAuthenticated.value = true
                 user.value = response.data;
-                // console.log(response.data);
             })
     }
 
     function logout() {
-
         axios.get('http://127.0.0.1:8000/api/logout', {
             headers: {
                 Authorization: 'Bearer ' + useToken().getToken()
@@ -45,20 +41,19 @@ const useAuth = defineStore('auth', () => {
             });
     }
 
-    function login() {
-        // axios.post('http://127.0.0.1:8000/api/login', {
-        //     'email': formData.email,
-        //     'password': formData.password,
-        //     'remember': formData.remember,
-        // })
-        //     .then(response => {
-        //         setAuthUser(response);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.response);
-        //         errorData.value = error.response.data.errors
-        //     });
-        console.log('in');
+    function login(email, password, remember) {
+        axios.post('http://127.0.0.1:8000/api/login', {
+            'email': email,
+            'password': password,
+            'remember': remember,
+        })
+            .then(response => {
+                setAuthUser(response, remember);
+                router.push({ name: 'shop' })
+            })
+            .catch(error => {
+                errorData.value = error.response.data.errors
+            });
     }
 
     function removeAuthUser(){
@@ -67,12 +62,18 @@ const useAuth = defineStore('auth', () => {
         useToken().deleteToken();
     }
 
-    function setAuthUser(){
+    function setAuthUser(response, remember){
         errorData.value = null
-        useToken().setToken(response.data.access_token, formData.remember)
+        isAuthenticated.value = true
         user.value = response.data.user
-        router.push({ name: 'home' })
+        useToken().setToken(response.data.access_token, remember)
     }
+
+    watch(isAuthenticated, () => {
+        if (!isAuthenticated.value) {
+            router.push({ name: 'login' })
+        }
+    } )
 
     return { isAuthenticated, user, errorData, logout, login }
 })

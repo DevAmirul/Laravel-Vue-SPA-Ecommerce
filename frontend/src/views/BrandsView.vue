@@ -9,7 +9,7 @@ import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
 import useAxios from "../services/axios";
-import useAlert from "../services/Sweetalert";
+import useAlert from "../services/alert";
 
 const { responseData, isRefreshPage } = storeToRefs(useSearch());
 const route = useRoute();

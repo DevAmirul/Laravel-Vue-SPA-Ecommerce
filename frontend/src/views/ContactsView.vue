@@ -1,7 +1,7 @@
 <script setup>
 import { ref,reactive, onMounted } from 'vue';
 import useAxios from '../services/axios';
-import useAlert from '../services/Sweetalert';
+import useAlert from '../services/alert';
 import PageHeader from '../components/layouts/PageHeader.vue'
 
 const responseData = ref();
@@ -27,7 +27,6 @@ function sendMessage(){
             formData.message = ''
             errorData.value = null
             useAlert().centerMessageAlert('success', response.data.message)
-            // console.log(response);
         })
         .catch(error => {
             errorData.value = error.response.data.errors
@@ -62,7 +61,7 @@ onMounted(() => {
                     <div id="success"></div>
                     <form @submit.prevent="sendMessage()" id="contactForm"
                     >
-                        <div class="control-group">
+                        <div class="control-group mb-2">
                             <input
                                 type="text"
                                 class="form-control"
@@ -77,7 +76,7 @@ onMounted(() => {
                                 </template>
                             </template>
                         </div>
-                        <div class="control-group">
+                        <div class="control-group mb-2">
                             <input
                                 type="email"
                                 class="form-control"
@@ -92,7 +91,7 @@ onMounted(() => {
                                 </template>
                             </template>
                         </div>
-                        <div class="control-group">
+                        <div class="control-group mb-2">
                             <input
                                 type="text"
                                 class="form-control"
@@ -108,7 +107,7 @@ onMounted(() => {
                             </template>
 
                         </div>
-                        <div class="control-group">
+                        <div class="control-group mb-2">
                             <textarea
                                 class="form-control"
                                 rows="6"

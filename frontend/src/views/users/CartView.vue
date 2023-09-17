@@ -1,49 +1,28 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import useAxios from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
+import useCart from '../../services/cart';
+import useAuth from '../../stores/Auth';
 import { storeToRefs } from "pinia";
-import useAlert  from "../../services/Sweetalert";
 
-const { refreshCartItemsNumber, refreshCartPage } = storeToRefs(useRefresh());
+const { refreshCartPage } = storeToRefs(useRefresh());
 
 const responseData = ref();
 let discount;
 let subtotal;
 
 onMounted(() => {
-    useAxios.get('/users/cart/' + 2)
-        .then(response => {
-            responseData.value = response.data;
-            if (responseData.value.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
-        })
-        .catch(error => {
-            // console.log(error);
-        });
+    useCart().getCartItems().then((response) => {
+        responseData.value = response
+    } );
 } )
 
 watch(refreshCartPage, () => {
-    useAxios.get('/users/cart/' + 2)
-    .then(response => {
-            responseData.value = response.data;
-        })
-        .catch(error => {
-            // console.log(error);
-        });
+    useCart().getCartItems().then((response) => {
+        responseData.value = response
+    });
 } )
-
-function deleteCartItems(itemid){
-    useAxios.delete('/users/cart/' + itemid)
-        .then(response => {
-            refreshCartPage.value = !refreshCartPage.value
-            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
-            useAlert().centerMessageAlert('success', response.data.message)
-        })
-        .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-        });
-}
 
 watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
@@ -62,33 +41,9 @@ watch(responseData, () => {
     }, 0)
 })
 
-function productQuantityIncrement(cartId, productId, qty) {
-    useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + ++qty)
-        .then(response => {
-            refreshCartPage.value = !refreshCartPage.value;
-            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
-        })
-        .catch(error => {
-            console.log(error);
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-        });
-}
-
-function productQuantityDecrement(cartId, productId, qty) {
-    if (qty > 1) {
-        useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + --qty)
-            .then(response => {
-                refreshCartPage.value = !refreshCartPage.value
-                refreshCartItemsNumber.value = !refreshCartItemsNumber.value
-            })
-            .catch(error => {
-                useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-            });
-    }
-}
 </script>
 <template>
-    <!-- Page Header Start -->
+<!-- Page Header Start -->
     <PageHeader pageName="SHOPPING CART" ></PageHeader>
     <!-- Page Header End -->
     <!-- Cart Start -->
@@ -129,7 +84,7 @@ function productQuantityDecrement(cartId, productId, qty) {
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button @click="productQuantityDecrement(data.id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
+                                            <button @click="useCart().productQuantityDecrement(data.id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-minus">
                                                 <i class="fa fa-minus"></i>
                                             </button>
 
@@ -137,13 +92,13 @@ function productQuantityDecrement(cartId, productId, qty) {
                                         <input type="text" class="form-control form-control-sm bg-secondary text-center" :value="data.qty">
 
                                         <div class="input-group-btn">
-                                            <button @click="productQuantityIncrement(data.id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
+                                            <button @click="useCart().productQuantityIncrement(data.id, data.p_id, data.qty )" class="btn btn-sm btn-primary btn-plus">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="align-middle"><button @click="deleteCartItems(data.item_id)" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
+                                <td class="align-middle"><button @click="useCart().deleteCartItems(data.item_id)" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                             </tr>
                         </template>
                     </tbody>

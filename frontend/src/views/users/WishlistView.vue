@@ -1,18 +1,19 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import useAxios from '../../services/axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
 import { storeToRefs } from "pinia";
-import useAlert from "../../services/Sweetalert";
+import useAlert from "../../services/alert";
+import useCart from '../../services/cart';
+import useWishlist from '../../services/wishlist';
 
-const { refreshCartItemsNumber, refreshWishlistPage, refreshWishlistItemsNumber } = storeToRefs(useRefresh());
+const { refreshWishlistPage } = storeToRefs(useRefresh());
 
 const wishlist = ref();
 
 onMounted(() => {
     wishlist.value =  JSON.parse(localStorage.getItem('productAttributes'));
-    console.log(wishlist.value);
+
     if (wishlist.value == null || wishlist.value.length == 0) useAlert().centerDialogAlert('info', 'Your wishlist is empty')
 } )
 
@@ -21,34 +22,6 @@ watch(refreshWishlistPage, () => {
     if (wishlist.value.length  == 0 ) useAlert().centerDialogAlert('info', 'Your wishlist is empty')
 })
 
-function deleteWishlist(productId) {
-    let ifExistLocalStorageData = localStorage.getItem('productAttributes');
-    if (ifExistLocalStorageData) {
-        ifExistLocalStorageData = JSON.parse(localStorage.getItem('productAttributes'))
-        for (let i = 0; i < ifExistLocalStorageData.length; i++) {
-            if (ifExistLocalStorageData[i].id == productId) {
-                ifExistLocalStorageData.splice(i, 1);
-                localStorage.setItem("productAttributes", JSON.stringify(ifExistLocalStorageData))
-                refreshWishlistPage.value = !refreshWishlistPage.value
-                refreshWishlistItemsNumber.value = !refreshWishlistItemsNumber.value
-                useAlert().centerMessageAlert('success', 'Successfully deleted item to wishlist')
-                break;
-            }
-        }
-    }
-}
-
-function addToCart(productId) {
-    useAxios.get('/users/cart/add/' + 2 + '/' + productId)
-    .then(response => {
-            deleteWishlist(productId)
-            refreshCartItemsNumber.value = !refreshCartItemsNumber.value
-            useAlert().centerMessageAlert('success', 'Successfully added to cart')
-        })
-        .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-        });
-}
 </script>
 <template>
     <!-- Page Header Start -->
@@ -74,8 +47,8 @@ function addToCart(productId) {
                                     <td class="align-middle"><img :src="data.image" alt="image" style="width: 50px;"></td>
                                     <td class="align-middle">{{ data.name }}</td>
                                     <td class="align-middle">{{ data.salePrice }}</td>
-                                    <td class="align-middle"><button @click="deleteWishlist(data.id)" class="btn btn-sm btn-primary mx-2"><i class="fa fa-times"></i></button>
-                                        <button @click="addToCart(data.id)" class="btn btn-sm btn-primary mx-2">Add to card <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                    <td class="align-middle"><button @click="useWishlist().deleteWishlist(data.id)" class="btn btn-sm btn-primary mx-2"><i class="fa fa-times"></i></button>
+                                        <button @click="useCart().addCart(data.id)" class="btn btn-sm btn-primary mx-2">Add to card <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
                                     </td>
                                 </tr>
                             </template>

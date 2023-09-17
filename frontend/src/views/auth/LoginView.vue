@@ -1,15 +1,13 @@
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useAuth from '../../stores/Auth';
-import useAlert from '../../services/Sweetalert';
-import useAuth from '../../stores/Auth';
+import useAlert from '../../services/alert';
 
-const useAuth = useAuth();
-// TODO: setup login fun store method
-
+const auth = useAuth();
 const route = useRoute();
+
 const formData = reactive({
     email: 'user@gmail.com',
     password: '12345678',
@@ -19,7 +17,6 @@ const formData = reactive({
 onMounted(() => {
     if (route.query?.status) useAlert().topAlert('success', route.query.status)
 })
-
 </script>
 <template>
     <!-- Page Header Start -->
@@ -34,7 +31,7 @@ onMounted(() => {
                         <h3 class="pt-3 font-weight-bold">Login</h3>
                     </div>
                     <div class="panel-body p-3">
-                        <form method="POST" @submit.prevent="login()">
+                        <form method="POST" @submit.prevent="auth.login(formData.email, formData.password, formData.remember)">
                             <div class="form-group py-2">
                                 <div class="input-field">
                                     <span class="far fa-user p-2"></span>
@@ -44,9 +41,9 @@ onMounted(() => {
 
                                     />
                                 </div>
-                                <template v-if="errorData">
-                                    <template v-if="errorData['email']">
-                                        <small v-if="errorData['email'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['email'][0] }}</small>
+                                <template v-if="auth.errorData">
+                                    <template v-if="auth.errorData['email']">
+                                        <small v-if="auth.errorData['email'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ auth.errorData['email'][0] }}</small>
                                     </template>
                                 </template>
                             </div>
@@ -62,9 +59,9 @@ onMounted(() => {
                                         <span class="far fa-eye-slash"></span>
                                     </button>
                                 </div>
-                                <template v-if="errorData">
-                                    <template v-if="errorData['password']">
-                                        <small v-if="errorData['password'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['password'][0] }}</small>
+                                <template v-if="auth.errorData">
+                                    <template v-if="auth.errorData['password']">
+                                        <small v-if="auth.errorData['password'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ auth.errorData['password'][0] }}</small>
                                     </template>
                                 </template>
                             </div>

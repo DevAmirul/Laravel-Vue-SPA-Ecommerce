@@ -3,19 +3,26 @@ import { onMounted, ref } from 'vue'
 import { RouterLink } from "vue-router";
 import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
-import useAlert from "../../services/Sweetalert";
+import useAlert from "../../services/alert";
+import { storeToRefs } from "pinia";
+import useAuth from '../../stores/Auth';
+import useToken from "../../services/token";
+
+
+const { user, isAuthenticated } = storeToRefs(useAuth());
 
 let responseData = ref();
 
 onMounted(() => {
-    useAxios.get('/users/orders/' + '2')
-        .then(response => {
-            responseData.value = response.data
-            if (responseData.value.orders.length == 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
+    if (isAuthenticated.value) {
+        useAxios.get('/users/orders/' + user.value.id, {
+            headers: { Authorization: 'Bearer ' + useToken().getToken() }
         })
-        .catch(error => {
-            // console.log(error);
-        });
+            .then(response => {
+                responseData.value = response.data
+                if (responseData.value.orders.length == 0) useAlert().centerDialogAlert('info', response.data.message)
+            })
+    }
 } )
 
 </script>

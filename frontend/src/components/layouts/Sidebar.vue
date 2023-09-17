@@ -4,7 +4,7 @@ import useAxios from '../../services/axios';
 import { RouterLink, useRoute } from "vue-router";
 import useSearch from '../../stores/Search'
 import { storeToRefs } from "pinia";
-import useAlert from "../../services/Sweetalert";
+import useAlert from "../../services/alert";
 const route = useRoute();
 
 const { prevQuerySize, size, prevQueryColor, color, maxPrice, minPrice } = storeToRefs(useSearch());

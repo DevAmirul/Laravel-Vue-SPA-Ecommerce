@@ -2,10 +2,10 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import useAxios from '../services/axios';
-import useAlert from '../services/Sweetalert';
-import useAddToCart from '../services/addToCart';
-import useAddToWishlist from '../services/addToWishlist';
-import useAddToCompare from '../services/addToCompare';
+import useAlert from '../services/alert';
+import useAddToCart from '../services/cart';
+import useAddToWishlist from '../services/wishlist';
+import useAddToCompare from '../services/compare';
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import PageHeader from "../components/layouts/PageHeader.vue";
 

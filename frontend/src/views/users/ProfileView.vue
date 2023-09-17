@@ -2,7 +2,12 @@
 import { onMounted, reactive, ref } from 'vue'
 import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
-import useAlert from "../../services/Sweetalert";
+import useAlert from "../../services/alert";
+import useAuth from '../../stores/Auth'
+import { storeToRefs } from "pinia";
+import useToken from '../../services/token';
+
+const { user, isAuthenticated } = storeToRefs(useAuth());
 
 const isChangedPass = ref(false);
 const errorData = ref();
@@ -20,23 +25,27 @@ const responseData = reactive({
 });
 
 onMounted(() => {
-    useAxios.get('/users/profiles/4')
-        .then(response => {
-            responseData.id = response.data.user.id
-            responseData.name = response.data.user.name
-            responseData.email = response.data.user.email
-            responseData.phone = response.data.user.billing_detail.phone
-            responseData.city = response.data.user.billing_detail.city
-            responseData.state = response.data.user.billing_detail.state
-            responseData.address = response.data.user.billing_detail.address
-            responseData.address_2 = response.data.user.billing_detail.address_2
-            responseData.zip_code = response.data.user.billing_detail.zip_code
-            responseData.orders = response.data.user.order_count
-            responseData.review = response.data.user.review_count
+    if (isAuthenticated.value) {
+        useAxios.get('/users/profiles/' + user.value.id,{
+            headers: { Authorization: 'Bearer ' + useToken().getToken() }
         })
-        .catch(error => {
-            // console.log(error);
-        });
+            .then(response => {
+                responseData.id = response.data.user.id
+                responseData.name = response.data.user.name
+                responseData.email = response.data.user.email
+                responseData.phone = response.data.user.billing_detail.phone
+                responseData.city = response.data.user.billing_detail.city
+                responseData.state = response.data.user.billing_detail.state
+                responseData.address = response.data.user.billing_detail.address
+                responseData.address_2 = response.data.user.billing_detail.address_2
+                responseData.zip_code = response.data.user.billing_detail.zip_code
+                responseData.orders = response.data.user.order_count
+                responseData.review = response.data.user.review_count
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 } )
 
 function update(){
@@ -51,6 +60,8 @@ function update(){
             "zip_code": responseData.zip_code,
             "password": responseData.password,
             "password_confirmation": responseData.password_confirmation
+    }, {
+        headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })
     .then(response => {
         errorData.value = null

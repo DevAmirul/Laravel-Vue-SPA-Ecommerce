@@ -1,10 +1,9 @@
-import useAlert from './Sweetalert';
+import useAlert from './alert';
 import useRefresh from '../stores/Refresh';
 
 let productCompareArray = []
 
-export default function addToCompare(productId) {
-    console.log(productId);
+export default function useCompare(productId) {
     let ifExistLocalStorageData = JSON.parse(localStorage.getItem('compare'));
     if (ifExistLocalStorageData) {
         if (ifExistLocalStorageData.length < 3) {

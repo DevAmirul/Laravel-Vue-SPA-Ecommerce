@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import useAxios from '../../services/axios';
-import useAlert from '../../services/Sweetalert';
+import useAlert from '../../services/alert';
 import axios from 'axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
 

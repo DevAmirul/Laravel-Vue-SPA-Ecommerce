@@ -1,8 +1,8 @@
 <script setup>
 import { RouterLink } from "vue-router";
-import useAddToCart from '../services/addToCart';
-import useAddToCompare from '../services/addToCompare';
-import useAddToWishlist from '../services/addToWishlist';
+import useCart from '../services/cart';
+import useCompare from '../services/compare';
+import useWishlist from '../services/wishlist';
 
 const { products } = defineProps(['products'])
 
@@ -37,13 +37,13 @@ const { products } = defineProps(['products'])
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border d-flex justify-content-around">
                         <button
-                            @click="useAddToWishlist({ id: data.p_id, name: data.name, image: data.image, salePrice: data.sale_price })"
+                            @click="useWishlist().addWishlist({ id: data.p_id, name: data.name, image: data.image, salePrice: data.sale_price })"
                             class="btn btn-sm text-dark p-0"><i class="fas fa-heart text-primary mr-1"></i></button>
 
-                        <button @click="useAddToCart(data.p_id)" class="btn btn-sm text-dark p-0">
+                        <button @click="useCart().addCart(data.p_id)" class="btn btn-sm text-dark p-0">
                             <i class="fas fa-shopping-cart text-primary mr-1"></i>
                         </button>
-                        <button @click="useAddToCompare(data.p_id)" class="btn btn-sm text-dark p-0">
+                        <button @click="useCompare(data.p_id)" class="btn btn-sm text-dark p-0">
                             <i class="fas fa-balance-scale text-primary" aria-hidden="true"></i>
                         </button>
                         <RouterLink style="text-decoration: none; color: inherit"

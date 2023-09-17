@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import useAxios from '../services/axios';
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import useAlert from "../services/Sweetalert";
+import useAlert from "../services/alert";
 
 const route = useRoute();
 const responseData = ref();

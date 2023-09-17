@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { onBeforeMount, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import useAxios from "../services/axios";
-import useAlert from "../services/Sweetalert";
+import useAlert from "../services/alert";
 
 const useSearch = defineStore('search', () => {
     const router = useRouter();

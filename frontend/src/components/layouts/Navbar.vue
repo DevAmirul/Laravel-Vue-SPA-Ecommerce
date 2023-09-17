@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import useAxios from '../../services/axios';
 import useSearch from '../../stores/Search'
 import useAuth from '../../stores/Auth'
@@ -124,74 +124,80 @@ useAxios.get('/home/navbar')
                             >
                         </div>
                         <div class="navbar-nav ml-auto py-0">
-                            <div class="nav-item dropdown">
-                                <a  @click="useSearch().cleanRouteQuery()"
-                                    class="nav-link dropdown-toggle " style="cursor: pointer;"
-                                    data-toggle="dropdown"
-                                    >User</a
-                                >
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <RouterLink
-                                        style="
-                                            text-decoration: none;
-                                            color: inherit;
-                                        "
-                                        :to="{ name: 'profile' }"
-                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'profile' ? 'active' : '', 'nav-item', 'nav-link']"
-                                            >My Profile</a
-                                        ></RouterLink
-                                    >
-                                    <RouterLink
-                                        style="
-                                            text-decoration: none;
-                                            color: inherit;
-                                        "
-                                        :to="{ name: 'orders' }"
-                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'orders' ? 'active' : '', 'nav-item', 'nav-link']"
-                                            >My Orders</a
-                                        ></RouterLink
-                                    >
+                            <template v-if="auth.isAuthenticated">
+                                <div class="nav-item dropdown">
+                                        <a  @click="useSearch().cleanRouteQuery()"
+                                            class="nav-link dropdown-toggle " style="cursor: pointer;"
+                                            data-toggle="dropdown"
+                                            >{{ auth.user.name }}</a
+                                        >
 
-                                    <RouterLink
-                                        style="
-                                            text-decoration: none;
-                                            color: inherit;
-                                        "
-                                        :to="{ name: 'wishList' }"
-                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'wishList' ? 'active' : '', 'nav-item', 'nav-link']"
-                                            >Wishlist</a
-                                        ></RouterLink
-                                    >
-                                    <RouterLink
-                                        style="
-                                            text-decoration: none;
-                                            color: inherit;
-                                        "
-                                        :to="{ name: 'cart' }"
-                                        ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
-                                            >Cart</a
-                                        ></RouterLink
-                                    >
-                                    <a style=" text-decoration: none; color: inherit; cursor: pointer;"
-                                        @click="useSearch().cleanRouteQuery(), auth.logout()" :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
-                                            >Logout</a>
+                                    <div class="dropdown-menu rounded-0 m-0">
+                                        <RouterLink
+                                            style="
+                                                text-decoration: none;
+                                                color: inherit;
+                                            "
+                                            :to="{ name: 'profile' }"
+                                            ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'profile' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >My Profile</a
+                                            ></RouterLink
+                                        >
+                                        <RouterLink
+                                            style="
+                                                text-decoration: none;
+                                                color: inherit;
+                                            "
+                                            :to="{ name: 'orders' }"
+                                            ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'orders' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >My Orders</a
+                                            ></RouterLink
+                                        >
 
+                                        <RouterLink
+                                            style="
+                                                text-decoration: none;
+                                                color: inherit;
+                                            "
+                                            :to="{ name: 'wishList' }"
+                                            ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'wishList' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Wishlist</a
+                                            ></RouterLink
+                                        >
+                                        <RouterLink
+                                            style="
+                                                text-decoration: none;
+                                                color: inherit;
+                                            "
+                                            :to="{ name: 'cart' }"
+                                            ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Cart</a
+                                            ></RouterLink
+                                        >
+                                        <a style=" text-decoration: none; color: inherit; cursor: pointer;"
+                                            @click="useSearch().cleanRouteQuery(), auth.logout()" :class="[route.name == 'cart' ? 'active' : '', 'nav-item', 'nav-link']"
+                                                >Logout</a>
+
+                                    </div>
                                 </div>
-                            </div>
-                            <RouterLink
-                                style="text-decoration: none; color: inherit"
-                                :to="{ name: 'login' }"
-                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'login' ? 'active' : '', 'nav-item', 'nav-link']"
-                                    >Login</a
-                                ></RouterLink
-                            >
-                            <RouterLink
-                                style="text-decoration: none; color: inherit"
-                                :to="{ name: 'register' }"
-                                ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'register' ? 'active' : '', 'nav-item', 'nav-link']"
-                                    >Register</a
-                                ></RouterLink
-                            >
+                            </template>
+
+                            <template v-else>
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'login' }"
+                                    ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'login' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Login</a
+                                    ></RouterLink
+                                >
+                                <RouterLink
+                                    style="text-decoration: none; color: inherit"
+                                    :to="{ name: 'register' }"
+                                    ><a @click="useSearch().cleanRouteQuery()" :class="[route.name == 'register' ? 'active' : '', 'nav-item', 'nav-link']"
+                                        >Register</a
+                                    ></RouterLink
+                                >
+                            </template>
                         </div>
                     </div>
                 </nav>

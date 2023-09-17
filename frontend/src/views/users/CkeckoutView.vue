@@ -1,9 +1,14 @@
 <script setup>
 import { onMounted, reactive,ref, watch } from 'vue'
 import useAxios from '../../services/axios';
-import useAlert from "../../services/Sweetalert";
+import useAlert from "../../services/alert";
 import PageHeader from '../../components/layouts/PageHeader.vue'
+import { storeToRefs } from "pinia";
+import useAuth from '../../stores/Auth';
+import useToken from "../../services/token";
 
+
+const { user } = storeToRefs(useAuth());
 
 const shippingMethodCost = ref(null);
 const shippingMethod = ref();
@@ -24,10 +29,11 @@ const formData = reactive({
 });
 
 onMounted(() => {
-    useAxios.get('/users/checkout/' + 2)
+    useAxios.get('/users/checkout/' + user.value.id, {
+        headers: { Authorization: 'Bearer ' + useToken().getToken() }
+    })
         .then(response => {
             responseData.value = response.data;
-            console.log(responseData.value);
             if (responseData.value.billingDetails !== null) {
                 formData.phone = responseData.value.billingDetails.phone
                 formData.address = responseData.value.billingDetails.address
@@ -62,7 +68,7 @@ watch(responseData, () => {
 
 function placeOrder() {
     useAxios.post('/users/checkout/', {
-            "user_id":2,
+            "user_id": user.value.id,
             "city": formData.city,
             "phone": formData.phone,
             "address": formData.address,
@@ -77,6 +83,8 @@ function placeOrder() {
             "coupon": (responseCoupon.value) ? ((responseCoupon.value.coupon) ? responseCoupon.value.coupon.discount : null) : null,
             "coupon_id": (responseCoupon.value) ? ((responseCoupon.value.coupon) ? responseCoupon.value.coupon.id : null) : null,
 
+    }, {
+        headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })
         .then(response => {
             console.log(response.data);
@@ -91,7 +99,9 @@ function placeOrder() {
 
 function getCoupon(code) {
     if (code) {
-        useAxios.get('/users/cart/coupon/' + code)
+        useAxios.get('/users/cart/coupon/' + code, {
+            headers: { Authorization: 'Bearer ' + useToken().getToken() }
+        })
             .then(response => {
                 responseCoupon.value = response.data;
                 // console.log(responseCoupon.value.coupon.discount);

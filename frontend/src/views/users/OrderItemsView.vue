@@ -2,8 +2,14 @@
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from "vue-router";
 import useAxios from '../../services/axios';
-import useAlert from "../../services/Sweetalert";
+import useAlert from "../../services/alert";
 import PageHeader from "../../components/layouts/PageHeader.vue";
+import { storeToRefs } from "pinia";
+import useAuth from '../../stores/Auth';
+import useToken from "../../services/token";
+
+
+const { user } = storeToRefs(useAuth());
 
 const route = useRoute();
 const paramsId = route.params.id;
@@ -14,7 +20,9 @@ let Shipped;
 let Delivered;
 
 onMounted(() => {
-    useAxios.get('/users/orders/' + paramsId + '/items')
+    useAxios.get('/users/orders/' + paramsId + '/items', {
+        headers: { Authorization: 'Bearer ' + useToken().getToken() }
+    })
         .then(response => {
             responseData.value = response.data
             console.log(responseData.value);
@@ -56,6 +64,12 @@ watch(responseData, () => {
                     </div>
                     <article class="card">
                         <div class="card-body row">
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >Name:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].user_name }}
+                            </div>
                             <div class="col-lg">
                                 <strong style="color: #1c1c1c !important"
                                     >Phone:</strong
