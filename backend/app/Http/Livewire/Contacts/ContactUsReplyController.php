@@ -13,7 +13,9 @@ class ContactUsReplyController extends Component {
 
     public function mount($id): void{
         $this->contactId = $id;
-        $contact       = ContactUs::find($id, ['name', 'email', 'subject', 'message']);
+
+        $contact       = ContactUs::findOrFail($id, ['name', 'email', 'subject', 'message']);
+
         $this->name    = $contact->name;
         $this->email   = $contact->email;
         $this->subject = $contact->subject;
@@ -22,8 +24,11 @@ class ContactUsReplyController extends Component {
 
     public function reply() {
         $validate = $this->validate();
+
         ContactUs::whereId($this->contactId)->update(['status' => true]);
+
         Mail::to($this->email)->send(new Replay($validate));
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 

@@ -13,8 +13,10 @@ class EditorsUpdateController extends Component {
     public string $pageUrl  = 'update';
 
     public function mount($id): void{
-        $this->editorsId    = $id;
-        $editors              = Editor::find($this->editorsId, ['id', 'name', 'email', 'phone', 'city', 'address', 'state', 'role', 'status']);
+        $this->editorId    = $id;
+
+        $editors              = Editor::findOrFail($this->editorId, ['id', 'name', 'email', 'phone', 'city', 'address', 'state', 'role', 'status']);
+
         $this->name           = $editors->name;
         $this->email          = $editors->email;
         $this->phone          = $editors->phone;
@@ -28,10 +30,12 @@ class EditorsUpdateController extends Component {
     public function save() {
         $validate = $this->validate();
 
-        isset($this->selectedRole) ? $validate['role']     = $this->selectedRole : null;
-        isset($this->selectedStatus) ? $validate['status'] = $this->selectedStatus : null;
-        !empty($this->password) ? $validate['password']    = Hash::make($this->password) : null;
-        Editor::where('id', $this->editorsId)->update($validate);
+        if (isset($this->selectedRole)) $validate['role']     = $this->selectedRole;
+        if (isset($this->selectedStatus)) $validate['status'] = $this->selectedStatus;
+        if (!empty($this->password)) $validate['password']    = Hash::make($this->password) ;
+
+        Editor::whereId($this->editorsId)->update($validate);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

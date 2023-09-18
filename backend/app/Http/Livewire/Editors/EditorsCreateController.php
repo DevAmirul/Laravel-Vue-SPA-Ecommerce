@@ -15,9 +15,13 @@ class EditorsCreateController extends Component {
 
     public function save(): void{
         $validate             = $this->validate();
+
         $validate['password'] = Hash::make($validate['password']);
+
         Editor::create($validate);
+
         $this->propertyResetExcept();
+        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 

@@ -21,6 +21,7 @@ class CouponsReportController extends Component {
     }
 
     public function render() {
+        
         $couponsReports = DB::table('orders')
             ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->selectRaw('coupons.name as name, coupons.code as code, coupons.discount as discount, count(orders.coupon_id) as orders, sum(orders.total) as total, ' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')

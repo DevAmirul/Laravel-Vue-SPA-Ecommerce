@@ -9,7 +9,9 @@ trait BooleanTableTrait {
 
     public function booleanTrait(array $booleanColNames = [], array $booleanAttributes = [], array $booleanClasses = []): void{
         $this->booleanColNames   = $booleanColNames;
+
         $this->booleanAttributes = $booleanAttributes;
+
         $this->booleanClasses    = $booleanClasses;
     }
 }

@@ -34,7 +34,8 @@ trait OffersService {
                 'expire_date' => 'required|date',
             ];
 
-            (gettype($this->image) == 'object') ? $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg' : null;
+            if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+
             return $rulesForUpdate;
         } else {
             return [

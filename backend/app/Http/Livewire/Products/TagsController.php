@@ -24,6 +24,7 @@ class TagsController extends Component {
     public function render() {
         $tags = Tag::where('keyword', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
+            
         return view('livewire.products.tags', [
             'tags' => $tags,
         ]);

@@ -33,6 +33,7 @@ class OrdersController extends Component {
     public function render() {
         $orders = Order::where('id', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+            
         return view('livewire.orders.orders', [
             'orders' => $orders,
         ]);

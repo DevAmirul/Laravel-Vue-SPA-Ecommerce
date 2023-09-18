@@ -12,14 +12,18 @@ class MethodsUpdateController extends Component {
 
     public function mount($id): void{
         $this->methodId = $id;
+
         $method     = ShippingMethod::find($id);
+
         $this->name = $method->name;
         $this->cost = $method->cost;
     }
 
     public function save(): void{
         $validate = $this->validate();
-        $offer    = ShippingMethod::whereId($this->methodId)->update($validate);
+
+        ShippingMethod::whereId($this->methodId)->update($validate);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

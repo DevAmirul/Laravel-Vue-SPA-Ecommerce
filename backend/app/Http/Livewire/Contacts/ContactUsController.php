@@ -33,6 +33,7 @@ class ContactUsController extends Component {
     public function render() {
         $contacts = ContactUs::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+            
         return view('livewire.contacts.contact-us', [
             'contacts' => $contacts,
         ]);

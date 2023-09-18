@@ -30,9 +30,9 @@ class ProductsStockReportController extends Component {
 
     public function render() {
         $productStockReports = Product::where(function (Builder $builder) {
-            $builder->where('name', 'LIKE', '%' . $this->searchStr . '%')
-                ->orWhere('sku', 'LIKE', '%' . $this->searchStr . '%');
-        })
+                $builder->where('name', 'LIKE', '%' . $this->searchStr . '%')
+                    ->orWhere('sku', 'LIKE', '%' . $this->searchStr . '%');
+            })
             ->when($this->quantityAbove, function (Builder $builder) {
                 $builder->where('qty_in_stock', '>', $this->quantityAbove);
             })

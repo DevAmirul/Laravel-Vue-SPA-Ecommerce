@@ -1,4 +1,4 @@
-import { onMounted, ref, watch } from "vue";
+import { onBeforeMount, ref, watch } from "vue";
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import useToken from '../services/token';
@@ -12,7 +12,7 @@ const useAuth = defineStore('auth', () => {
     const router = useRouter();
     const errorData = ref();
 
-    onMounted(() => {
+    onBeforeMount(() => {
         if (useToken().getToken() !== null) getAuthUser();
     })
 
@@ -24,6 +24,21 @@ const useAuth = defineStore('auth', () => {
                 isAuthenticated.value = true
                 user.value = response.data;
             })
+    }
+
+    function login(email, password, remember) {
+        axios.post('http://127.0.0.1:8000/api/login', {
+            'email': email,
+            'password': password,
+            'remember': remember,
+        })
+            .then(response => {
+                setAuthUser(response, remember);
+                router.push({ name: 'home' })
+            })
+            .catch(error => {
+                errorData.value = error.response.data.errors
+            });
     }
 
     function logout() {
@@ -38,21 +53,6 @@ const useAuth = defineStore('auth', () => {
             })
             .catch(error => {
                 console.log(error.response);
-            });
-    }
-
-    function login(email, password, remember) {
-        axios.post('http://127.0.0.1:8000/api/login', {
-            'email': email,
-            'password': password,
-            'remember': remember,
-        })
-            .then(response => {
-                setAuthUser(response, remember);
-                router.push({ name: 'shop' })
-            })
-            .catch(error => {
-                errorData.value = error.response.data.errors
             });
     }
 

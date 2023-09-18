@@ -38,11 +38,13 @@ class DashboardController extends Component {
 
     public function mount(): void{
         $this->setStrTime('Today');
+
         $this->AllCalculationsAreBasedOnDayMonthYearQuery('Today');
     }
 
     public function AllCalculationsAreBasedOnDayMonthYear($timeStr): void{
         $this->setStrTime($timeStr);
+        
         $this->AllCalculationsAreBasedOnDayMonthYearQuery($timeStr);
     }
 

@@ -29,15 +29,19 @@ class BrandsController extends Component {
     }
 
     public function destroy($id): void {
-        $brand = Brand::find($id);
+        $brand = Brand::findOrFail($id);
+
         $this->fileDestroy($brand->image, 'brands');
+
         $brand->delete();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
     public function render() {
         $brands = Brand::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+            
         return view('livewire.products.brands', [
             'brands' => $brands,
         ]);

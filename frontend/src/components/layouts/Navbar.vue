@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import useAxios from '../../services/axios';
 import useSearch from '../../stores/Search'
 import useAuth from '../../stores/Auth'
@@ -10,14 +10,12 @@ const auth = useAuth();
 const responseData = ref();
 const route = useRoute();
 
-useAxios.get('/home/navbar')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        // console.log(error);
-    });
-
+onMounted(() => {
+    useAxios.get('/home/navbar')
+        .then(response => {
+            responseData.value = response.data
+        })
+})
 
 </script>
 <template>

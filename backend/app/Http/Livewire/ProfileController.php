@@ -34,7 +34,7 @@ class ProfileController extends Component
     {
         $validate = $this->validate();
 
-        Editor::where('id', $this->editorId)->update($validate);
+        Editor::whereId($this->editorId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }

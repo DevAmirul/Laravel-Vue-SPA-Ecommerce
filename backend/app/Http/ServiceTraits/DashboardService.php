@@ -24,7 +24,6 @@ trait DashboardService {
     public object $newArrivalProducts;
     public object $topRevenueProducts;
     public array $newRecentSaleProducts = [];
-
     public string $strTimeOfSale;
     public string $strTimeOfRevenue;
     public string $strTimeOfUsers;
@@ -40,6 +39,7 @@ trait DashboardService {
 
     public function showOrdersQuery($timeStr): void{
         $this->strTimeOfOrders = $timeStr;
+
         $this->totalOrders     = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->where(function (Builder $builder) {
                 $builder->where('order_status', 'Approved')
@@ -49,12 +49,15 @@ trait DashboardService {
 
     public function showRevenueQuery($timeStr): void{
         $this->strTimeOfRevenue = $timeStr;
+
         $this->revenue          = Order::where('order_status', 'Delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->sum('total');
     }
 
     public function showRecentSaleQuery($timeStr): void{
         $this->strTimeOfRecentSale   = $timeStr;
+
         $this->newRecentSaleProducts = [];
+
         $newRecentSaleProducts       = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('products', 'order_items.product_id', '=', 'products.id')
@@ -72,16 +75,18 @@ trait DashboardService {
 
     public function newArrivalProductsQuery($timeStr): void{
         $this->strTimeOfArrivals  = $timeStr;
+        
         $this->newArrivalProducts = Product::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->latest()->take(8)->get(['id', 'name', 'sale_price', 'sku', 'qty_in_stock', 'image']);
     }
 
-    public function showTopRevenueProductsQuery($timeStr): void{
+    public function showTopRevenueProductsQuery(): void{
         $this->topRevenueProducts = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
     }
 
     public function showUsersQuery($timeStr): void{
         $this->strTimeOfUsers = $timeStr;
+
         $this->users          = User::where('updated_at', '>', $this->getTimeCarbon($timeStr))->count();
     }
 
@@ -104,14 +109,17 @@ trait DashboardService {
     }
 
     public function mountTimeOrderQuery($timeStr) {
-        $orders = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))->where(function (Builder $builder) {
-            $builder->where('order_status', 'Approved')
-                ->orWhere('order_status', 'Delivered')
-                ->orWhere('order_status', 'Pending');
-        })->get(['total', 'order_status', 'updated_at']);
+        $orders = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
+            ->where(function (Builder $builder) {
+                $builder->where('order_status', 'Approved')
+                    ->orWhere('order_status', 'Delivered')
+                    ->orWhere('order_status', 'Pending');
+            })->get(['total', 'order_status', 'updated_at']);
 
         $this->sale        = $orders->where('order_status', 'Delivered')->count();
+
         $this->revenue     = $orders->where('order_status', 'Delivered')->sum('total');
+
         $this->totalOrders = $orders->whereIn('order_status', ['Approved', 'Pending'])->count();
     }
 

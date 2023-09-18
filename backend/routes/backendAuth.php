@@ -28,7 +28,6 @@ Route::middleware('guest:editor')->group(function () {
                 ->name('password.store');
 });
 
-
 Route::middleware('auth:editor')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
     ->name('register');

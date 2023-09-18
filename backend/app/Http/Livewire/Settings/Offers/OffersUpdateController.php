@@ -23,7 +23,9 @@ class OffersUpdateController extends Component
     public function mount($id): void
     {
         $this->offerId     = $id;
+
         $offer             = Offer::find($id);
+
         $this->name        = $offer->name;
         $this->title        = $offer->title;
         $this->image       = $offer->image;
@@ -35,16 +37,19 @@ class OffersUpdateController extends Component
         $this->expire_date = $offer->expire_date;
 
         $this->categories    = Category::all('id', 'name');
+
         $this->subCategories = SubCategory::all('id', 'name');
+
         $this->brands        = Brand::all('id', 'name');
     }
 
     public function save(): void
     {
         $validate = $this->validate();
+
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'offers');
 
-        $offer = Offer::whereId($this->offerId)->update($validate);
+        Offer::whereId($this->offerId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }

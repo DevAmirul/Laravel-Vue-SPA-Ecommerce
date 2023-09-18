@@ -12,7 +12,9 @@ class CouponsUpdateController extends Component {
 
     public function mount($id): void{
         $this->couponId    = $id;
+
         $coupon            = Coupon::find($id);
+
         $this->name        = $coupon->name;
         $this->code        = $coupon->code;
         $this->discount    = $coupon->discount;
@@ -23,7 +25,9 @@ class CouponsUpdateController extends Component {
 
     public function save() {
         $validate = $this->validate();
-        Coupon::where('id', $this->couponId)->update($validate);
+
+        Coupon::whereId($this->couponId)->update($validate);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

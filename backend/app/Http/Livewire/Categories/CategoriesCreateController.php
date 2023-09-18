@@ -17,13 +17,19 @@ class CategoriesCreateController extends Component {
 
     public function create(): void{
         $validate          = $this->validate();
+
         $validate['image'] = $this->fileUpload($this->image, 'categories');
+
         Category::create($validate);
+
         $this->propertyResetExcept();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
+
     public function render() {
         $allSections = Section::all(['id', 'name']);
+
         return view('livewire.categories.categories-create', [
             'allSections' => $allSections,
         ]);

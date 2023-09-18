@@ -4,7 +4,6 @@ namespace App\Http\ServiceTraits;
 
 use App\Models\Category;
 use App\Models\SubCategory;
-use Illuminate\Validation\Rule;
 
 trait ProductsService
 {
@@ -21,10 +20,6 @@ trait ProductsService
     public array $statusOption      = ['Unpublish', 'Publish'];
     public int $qty_in_stock;
     public string $specification;
-
-    // public array $attributeValuesId = [];
-    // public string $product_tag;
-
     public int $selectedSection;
     public int $selectedCategory;
     public ?object $categories = null;
@@ -35,7 +30,6 @@ trait ProductsService
     public array $selectedTags = [];
     public array $selectedColor = [];
     public array $selectedSize  = [];
-
     public $image;
     public string $oldImage;
     public $gallery = [];
@@ -59,6 +53,7 @@ trait ProductsService
                 'description'      => 'required|string',
                 'specification'    => 'required|string',
             ];
+
             if ($this->selectedColor) $rulesForUpdate['selectedColor'] = 'required|array';
             if ($this->selectedSize) $rulesForUpdate['selectedSize'] = 'required|array';
             if ($this->selectedTags) $rulesForUpdate['selectedTags'] = 'required|array';
@@ -109,8 +104,11 @@ trait ProductsService
     public function beforeProductSaveFunc(): array
     {
         $validate                            = $this->validate();
+
         $validate['category_id']             = $validate['selectedCategory'];
+
         unset($validate['selectedCategory']);
+
         if ($this->selectedTags) {
             $validate['tags']                    = implode(',', $validate['selectedTags']);
             unset($validate['selectedTags']);
@@ -123,11 +121,9 @@ trait ProductsService
             $attribute['size_attribute_values']  = implode(',', $validate['selectedSize']);
             unset($validate['selectedSize']);
         }
-
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'products');
         if (gettype($this->gallery == 'array') && !empty($this->gallery)) $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
 
         return ['validate' => $validate, 'attribute' => $attribute ?? null];
-
     }
 }

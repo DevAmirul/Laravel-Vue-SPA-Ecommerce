@@ -13,6 +13,7 @@ class AttributesController extends Component {
 
     public function render() {
         $attributes = Attribute::with('attributeOption:id,value,attribute_id')->get();
+        
         return view('livewire.products.attributes', [
             'attributes' => $attributes,
         ]);

@@ -167,7 +167,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed {{
-                                (Request::routeIs('settings.general') || Request::routeIs('settings.mail') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.mail')|| Request::routeIs('settings.')) ? 'active' : '' }}"
+                                (Request::routeIs('settings.general') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.')) ? 'active' : '' }}"
                 data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -175,11 +175,6 @@
                 <li>
                     <a href="{{ route('settings.general') }}">
                         <i class="bi bi-circle"></i><span>General Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('settings.mail') }}">
-                        <i class="bi bi-circle"></i><span>Mail Settings</span>
                     </a>
                 </li>
                 <li>

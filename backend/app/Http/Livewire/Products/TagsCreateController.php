@@ -16,10 +16,13 @@ class TagsCreateController extends Component {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function save(): bool{
+    public function save(): void{
         $validate          = $this->validate();
+        
         Tag::create($validate);
+        
         $this->reset();
+        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 

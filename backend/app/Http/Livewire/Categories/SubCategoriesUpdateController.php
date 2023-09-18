@@ -15,7 +15,9 @@ class SubCategoriesUpdateController extends Component {
         $this->subCategoryId = $id;
 
         $this->categories  = Category::all('id', 'name');
-        $subCategory       = SubCategory::find($this->subCategoryId, ['name', 'slug', 'status', 'category_id']);
+
+        $subCategory       = SubCategory::findOrFail($this->subCategoryId, ['name', 'slug', 'status', 'category_id']);
+
         $this->name        = $subCategory->name;
         $this->slug        = $subCategory->slug;
         $this->status      = $subCategory->status;
@@ -24,7 +26,9 @@ class SubCategoriesUpdateController extends Component {
 
     public function save(): void {
         $validate = $this->validate();
+
         SubCategory::where('id', $this->subCategoryId)->update($validate);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

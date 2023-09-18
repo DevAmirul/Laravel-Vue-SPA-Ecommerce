@@ -20,6 +20,7 @@ class CategorizedProductsReportController extends Component {
     public function render() {
         $categoriesReports = Category::withCount('product')
             ->where('name', 'LIKE', '%' . $this->searchStr . '%')->paginate($this->showDataPerPage);
+            
         return view('livewire.reports.categorized-products-report', [
             'categoriesReports' => $categoriesReports,
         ]);

@@ -44,6 +44,7 @@ class GeneralController extends Component
             'twitter'   => 'required|string|max:255',
             'instagram' => 'required|string|max:255',
         ];
+
         if (gettype($this->logo) == 'object') $rules['logo'] = 'required|mimes:jpeg,png,jpg';
         elseif (empty($this->logo)) $rules['logo'] = 'required|mimes:jpeg,png,jpg';
 
@@ -60,7 +61,7 @@ class GeneralController extends Component
 
     public function mount(): void
     {
-        $settings = GeneralSettings::first();
+        $settings = GeneralSettings::firstOrFail();
 
         $this->settingsId      = $settings->id ?? 1;
         $this->name            = $settings->name ?? '';
@@ -86,19 +87,25 @@ class GeneralController extends Component
 
         if (!empty($this->oldLogoName) && (gettype($this->logo) == 'object')) {
             $this->fileDestroy($this->oldLogoName, 'img');
+
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
+
         } elseif (gettype($this->logo) == 'object') {
+
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
         }
 
         if (!empty($this->oldBannerName) && (gettype($this->banner) == 'object')) {
             $this->fileDestroy($this->oldBannerName, 'img');
+
             $validate['banner'] = $this->fileUpload($this->banner, 'img');
+
         } elseif (gettype($this->banner) == 'object') {
             $validate['banner'] = $this->fileUpload($this->banner, 'img');
         }
-        $a = GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
-        dd($a);
+
+        GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
+        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

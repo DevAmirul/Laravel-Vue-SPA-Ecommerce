@@ -26,19 +26,23 @@ class OrdersUpdateController extends Component {
 
     public function mount($id): void {
         $this->orderId = $id;
+
         $this->order = Order::where('id', $this->orderId)->with([
                             'shippingMethod:id,cost', 'coupon:id,discount',
                             'user:id,name,email' => ['billingDetail'],
                             'orderItem' => ['product:id,name,sale_price']
-                        ])->first();
+                        ])->firstOrFail();
+
         $this->changedStatus = $this->order->order_status;
     }
 
     public function update(): void {
+
         Order::where('id', $this->orderId)->update(['order_status' => $this->changedStatus]);
+
         if ($this->changedStatus == 'Delivered') {
             foreach ($this->order->orderItem as $item) {
-                $a = DB::table('revenue_from_purchase_and_sale_of_products')
+                DB::table('revenue_from_purchase_and_sale_of_products')
                     ->updateOrInsert(['product_id' => $item->product_id],
                         [
                             'revenue'  => DB::raw('revenue+' . $item->product->sale_price - $item->discount_price),
@@ -48,6 +52,7 @@ class OrdersUpdateController extends Component {
                     );
             }
         }
+
         Mail::to($this->order->user->email)->send(new OrderStatusInformation($this->changedStatus, $this->order));
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);

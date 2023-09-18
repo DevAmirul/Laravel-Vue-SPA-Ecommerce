@@ -32,17 +32,23 @@ class ProductsController extends Component {
     }
 
     public function destroy($id): void{
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
+
         $images  = explode(' ', $product->all_images);
+
         array_push($images, $product->image);
+
         $this->fileDestroy($images, 'products');
+
         $product->delete();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
     public function render() {
         $products = Product::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, ['id', ...$this->tableDataColumnNames]);
+            
         return view('livewire.products.products', [
             'products' => $products,
         ]);

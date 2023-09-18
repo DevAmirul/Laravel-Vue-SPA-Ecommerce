@@ -13,13 +13,17 @@ class SubCategoriesCreateController extends Component {
 
     public function save(): void{
         $validate = $this->validate();
+
         SubCategory::create($validate);
+
         $this->propertyResetExcept();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {
         $allCategories = Category::all('id', 'name');
+        
         return view('livewire.categories.sub-categories-create', [
             'allCategories' => $allCategories,
         ]);

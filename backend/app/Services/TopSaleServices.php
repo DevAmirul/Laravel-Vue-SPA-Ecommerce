@@ -17,6 +17,5 @@ class TopSaleServices {
             ->paginate(12);
 
         return ProductResource::collection($products);
-
     }
 }

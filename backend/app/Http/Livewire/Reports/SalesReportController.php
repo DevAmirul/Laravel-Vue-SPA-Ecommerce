@@ -21,7 +21,7 @@ class SalesReportController extends Component {
     }
 
     public function render() {
-        $saleReports = $products = DB::table('orders')
+        $saleReports = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('shipping_methods', 'orders.shipping_method_id', '=', 'shipping_methods.id')
             ->join('products', 'order_items.product_id', '=', 'products.id')

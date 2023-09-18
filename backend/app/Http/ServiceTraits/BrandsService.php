@@ -18,7 +18,9 @@ trait BrandsService {
                 'slug'   => 'required|string|max:255|unique:brands,slug,' . $this->brandId,
                 'status' => 'required|boolean',
             ];
-            (gettype($this->image) == 'object') ? $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg' : null;
+
+            if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+
             return $rulesForUpdate;
         } else {
             return [

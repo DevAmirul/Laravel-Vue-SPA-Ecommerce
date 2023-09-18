@@ -8,6 +8,7 @@ trait RelationTableTrait {
 
     public function RelationTrait(string $relationName, array $relationTableDataColumnNames): void{
         $this->relationName                 = $relationName;
+        
         $this->relationTableDataColumnNames = $relationTableDataColumnNames;
     }
 }

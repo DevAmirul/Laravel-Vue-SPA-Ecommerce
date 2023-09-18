@@ -24,7 +24,6 @@ class ShippingReportController extends Component {
         $shippingReports = DB::table('orders')
             ->join('shipping_methods', 'orders.shipping_method_id', '=', 'shipping_methods.id')
             ->selectRaw('count(orders.created_at) as orders, sum(orders.total) as total, shipping_methods.name ,'. $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
-
             ->where(function ($query) {
                 $query->where('shipping_methods.name', 'LIKE', '%' . $this->searchStr . '%')
                     ->orWhere('shipping_methods.cost', 'LIKE', '%' . $this->searchStr . '%');

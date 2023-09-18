@@ -12,8 +12,11 @@ class MethodsCreateController extends Component {
 
     public function save(): Void{
         $validate = $this->validate();
-        $offer    = ShippingMethod::create($validate);
+
+        ShippingMethod::create($validate);
+
         $this->propertyResetExcept();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 

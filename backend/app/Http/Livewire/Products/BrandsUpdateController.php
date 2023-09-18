@@ -17,9 +17,12 @@ class BrandsUpdateController extends Component
 
     public function mount($id): void
     {
-        $this->statusOption = ['Unpublish', 'Publish'];
         $this->brandId      = $id;
-        $category           = Brand::find($this->brandId, ['name', 'image', 'slug', 'status']);
+
+        $this->statusOption = ['Unpublish', 'Publish'];
+
+        $category           = Brand::findOrFail($this->brandId, ['name', 'image', 'slug', 'status']);
+
         $this->name         = $category->name;
         $this->image        = $category->image;
         $this->oldImage     = $category->image;
@@ -34,6 +37,7 @@ class BrandsUpdateController extends Component
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'brands');
 
         Brand::where('id', $this->brandId)->update($validate);
+        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

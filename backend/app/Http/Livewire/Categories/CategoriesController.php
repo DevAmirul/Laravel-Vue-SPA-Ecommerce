@@ -7,7 +7,6 @@ use App\Http\Traits\FileTrait;
 use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Category;
-use Illuminate\Http\FileHelpers;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -31,9 +30,12 @@ class CategoriesController extends Component {
     }
 
     public function destroy($id): void {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
+
         $this->fileDestroy($category->image, 'categories');
+
         $category->delete();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
@@ -41,6 +43,7 @@ class CategoriesController extends Component {
         $categories = Category::with('section:id,name')
             ->where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
+
         return view('livewire.categories.categories', [
             'categories' => $categories,
         ]);

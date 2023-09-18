@@ -25,28 +25,36 @@ class OffersCreateController extends Component {
 
     public function save(): void{
         $validate = $this->validate();
+
         $validate['image'] = $this->fileUpload($this->image, 'offers');
+
         $offer    = Offer::create($validate);
 
         if (!empty($this->selectedCategories)) {
             $productsByCategory = Product::whereIn('category_id', $this->selectedCategories)->get('id');
             DiscountPrice::whereIn('product_id', $productsByCategory->pluck('id'))->update(['offer_id' => $offer->id]);
         }
+
         if (!empty($this->selectedSubCategories)) {
             $productsBySubCategory = Product::whereIn('sub_category_id', $this->selectedCategories)->get('id');
             DiscountPrice::whereIn('product_id', $productsBySubCategory->pluck('id'))->update(['offer_id' => $offer->id]);
         }
+
         if (!empty($this->selectedBrands)) {
             $productsByBrand = Product::whereIn('brand_id', $this->selectedCategories)->get('id');
             DiscountPrice::whereIn('product_id', $productsByBrand->pluck('id'))->update(['offer_id' => $offer->id]);
         }
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {
         $allCategories    = Category::all('id', 'name');
+        
         $allSubCategories = SubCategory::all('id', 'name');
+        
         $allBrands        = Brand::all('id', 'name');
+        
         return view('livewire.settings.offers.offers-create', [
             'allCategories'    => $allCategories,
             'allSubCategories' => $allSubCategories,

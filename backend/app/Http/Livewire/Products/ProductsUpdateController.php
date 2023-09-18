@@ -27,7 +27,9 @@ class ProductsUpdateController extends Component
     public function mount($id): void
     {
         $this->productId = $id;
-        $products        = Product::where('id', $id)->get();
+
+        $products = Product::where('id', $id)->get();
+
         foreach ($products as $product) {
             $this->name             = $product->name;
             $this->slug             = $product->slug;
@@ -46,13 +48,16 @@ class ProductsUpdateController extends Component
             $this->oldImage         = $product->image;
             $this->oldGallery       = $product->gallery;
         }
+
         $this->categories    = Category::all('id', 'name');
+
         $this->subCategories = SubCategory::all('id', 'name');
     }
 
     public function save(): void
     {
         $product = Product::whereId($this->productId)->update($this->beforeProductSaveFunc()['validate']);
+
         if (!empty($this->beforeProductSaveFunc()['attribute'])) {
             if ($this->beforeProductSaveFunc()['attribute']['color_attribute_values'] !== '') {
                 ProductAttribute::where('product_id', $product)->update($this->beforeProductSaveFunc()['attribute']);
@@ -64,9 +69,13 @@ class ProductsUpdateController extends Component
     public function render(Request $request)
     {
         $sections = Section::all('id', 'name');
+
         $brands   = Brand::all('id', 'name');
+
         $allTags  = Tag::all('id', 'keyword');
+
         $attributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
+
         return view('livewire.products.products-update', [
             'sections' => $sections,
             'brands'   => $brands,

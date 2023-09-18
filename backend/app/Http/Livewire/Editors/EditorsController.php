@@ -36,6 +36,7 @@ class EditorsController extends Component {
     public function render() {
         $editors = Editor::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
+            
         return view('livewire.editors.editors', [
             'editors' => $editors,
         ]);

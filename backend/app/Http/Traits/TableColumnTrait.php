@@ -12,8 +12,8 @@ trait TableColumnTrait {
 
     public function tableColumnTrait(array $columnNamesArr, array $tableDataColumnNames): void{
         $this->columnNamesArr       = $columnNamesArr;
-        $this->tableDataColumnNames = $tableDataColumnNames;
 
+        $this->tableDataColumnNames = $tableDataColumnNames;
     }
 
 }

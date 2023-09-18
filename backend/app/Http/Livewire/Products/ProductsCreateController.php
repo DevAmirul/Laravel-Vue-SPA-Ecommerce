@@ -20,14 +20,19 @@ class ProductsCreateController extends Component {
 
     public function save(): void {
         $product = Product::create($this->beforeProductSaveFunc()['validate']);
+
         $product->productAttribute()->create($this->beforeProductSaveFunc()['attribute']);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {
         $sections   = Section::all(['id', 'name']);
+
         $brands     = Brand::all(['id', 'name']);
+
         $allTags    = Tag::all(['id', 'keyword']);
+
         $attributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
 
         return view('livewire.products.products-create', [

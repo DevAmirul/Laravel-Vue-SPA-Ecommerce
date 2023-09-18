@@ -10,10 +10,13 @@ use Livewire\Component;
 class CouponsCreateController extends Component {
     use CreateSlugTrait, CouponsService;
 
-    public function save(): bool{
+    public function save(): void{
         $validate = $this->validate();
+        
         Coupon::create($validate);
+        
         $this->propertyResetExcept();
+        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 

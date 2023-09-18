@@ -19,7 +19,9 @@ class CategoriesUpdateController extends Component {
         $this->categoryId = $id;
 
         $this->sections   = Section::all('id', 'name');
-        $category         = Category::find($this->categoryId, ['name', 'image', 'slug', 'status', 'section_id']);
+
+        $category         = Category::findOrFail($this->categoryId, ['name', 'image', 'slug', 'status', 'section_id']);
+
         $this->name       = $category->name;
         $this->image      = $category->image;
         $this->oldImage   = $category->image;
@@ -32,7 +34,9 @@ class CategoriesUpdateController extends Component {
         $validate = $this->validate();
 
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'categories');
+
         Category::where('id', $this->categoryId)->update($validate);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record']);
     }
 

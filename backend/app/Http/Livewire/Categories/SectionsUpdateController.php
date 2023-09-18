@@ -15,10 +15,11 @@ class SectionsUpdateController extends Component {
     public string $pageUrl = 'update';
 
     public function mount($id): void {
-        $this->statusOption = ['Unpublish', 'Publish'];
         $this->sectionId    = $id;
+        $this->statusOption = ['Unpublish', 'Publish'];
 
-        $sections       = Section::find($this->sectionId, ['name', 'image', 'slug', 'status']);
+        $sections       = Section::findOrFail($this->sectionId, ['name', 'image', 'slug', 'status']);
+
         $this->name     = $sections->name;
         $this->oldImage = $sections->image;
         $this->slug     = $sections->slug;
@@ -27,9 +28,11 @@ class SectionsUpdateController extends Component {
 
     public function save() {
         $validate = $this->validate();
+
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'sections');
 
         Section::where('id', $this->sectionId)->update($validate);
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 

@@ -20,7 +20,6 @@ trait EditorsService
     public string $password_confirmation = '';
     public $roleOption      = ['Editor', 'Admin'];
     public $statusOption    = ['pending', 'Allow'];
-    public int $editorsId;
     public int $selectedRole;
     public int $selectedStatus;
 
@@ -35,7 +34,8 @@ trait EditorsService
                 'address' => 'required|string|max:255',
                 'state'   => 'required|string|max:255',
             ];
-            !empty($this->password) ? $rulesForUpdate['password'] = ['required','confirmed', Password::min(8) ->letters() ->mixedCase() ->numbers() ->symbols()->uncompromised() ] : null;
+
+            if (!empty($this->password)) $rulesForUpdate['password'] = ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()];
 
             return $rulesForUpdate;
         } else {
@@ -46,7 +46,7 @@ trait EditorsService
                 'city'     => 'required|string|max:255',
                 'address'  => 'required|string|max:255',
                 'state'    => 'required|string|max:255',
-                'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->uncompromised()],
+                'password' => ['required', 'confirmed', Password::min(8)->letters()->mixedCase()->numbers()->symbols()],
             ];
         }
     }
