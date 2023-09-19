@@ -29,10 +29,6 @@ Forgot Password
             <div class="col-12">
                 <button class="btn btn-primary w-100" type="submit">Request New Password</button>
             </div>
-            <div class="col-12">
-                <p class="small mb-0">Don't have account? <a href="{{ route('register') }}">Create
-                        an account</a></p>
-            </div>
         </form>
     </div>
 </div>

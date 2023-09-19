@@ -11,7 +11,7 @@ Editors
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-table addNewRoute='editors.create' pageTitle='Editors Table' tableName="Editors Table" :$columnNamesArr :tableData='$editors'
+    <x-table addNewRoute='register' pageTitle='Editors Table' tableName="Editors Table" :$columnNamesArr :tableData='$editors'
         :$tableDataColumnNames :isBoolean='true' :$booleanAttributes :$booleanColNames :$booleanClasses>
     </x-table>
 

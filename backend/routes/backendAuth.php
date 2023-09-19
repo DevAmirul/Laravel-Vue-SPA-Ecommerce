@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\BackendAuth\AuthenticatedSessionController;
 use App\Http\Controllers\BackendAuth\NewPasswordController;
-use App\Http\Controllers\BackendAuth\PasswordController;
 use App\Http\Controllers\BackendAuth\PasswordResetLinkController;
 use App\Http\Controllers\BackendAuth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
@@ -29,12 +28,11 @@ Route::middleware('guest:editor')->group(function () {
 });
 
 Route::middleware('auth:editor')->group(function () {
+
     Route::get('register', [RegisteredUserController::class, 'create'])
-    ->name('register');
+    ->name('register')->middleware('can:isAdmin');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
-
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('register', [RegisteredUserController::class, 'store'])->middleware('can:isAdmin');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');

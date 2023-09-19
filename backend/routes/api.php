@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 Route::name('api.')->group(function () {
 
     Route::prefix('/home')->name('home.')->group(function () {
-        
+
         Route::get('/', [HomeController::class, 'index']);
 
         Route::get('/offers', [HomeController::class, 'getOffer'])->name('offers');
@@ -70,12 +70,11 @@ Route::name('api.')->group(function () {
 
     Route::get('/products/view-count/{id}', [ProductController::class, 'productViewCount'])->name('products.viewCount')->whereNumber('id');
 
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 
     Route::middleware('auth:sanctum')->prefix('/users')->name('users.')->group(function () {
-
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
 
         Route::prefix('/cart')->name('cart.')->group(function () {
 

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watchEffect } from 'vue'
 import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
 import useAlert from "../../services/alert";
@@ -24,9 +24,57 @@ const responseData = reactive({
     password_confirmation: null,
 });
 
-onMounted(() => {
+// onMounted(() => {
+//     if (isAuthenticated.value) {
+//         useAxios.get('/users/profiles/' + user.value.id,{
+//             headers: { Authorization: 'Bearer ' + useToken().getToken() }
+//         })
+//             .then(response => {
+//                 responseData.id = response.data.user.id
+//                 responseData.name = response.data.user.name
+//                 responseData.email = response.data.user.email
+//                 responseData.phone = response.data.user.billing_detail.phone
+//                 responseData.city = response.data.user.billing_detail.city
+//                 responseData.state = response.data.user.billing_detail.state
+//                 responseData.address = response.data.user.billing_detail.address
+//                 responseData.address_2 = response.data.user.billing_detail.address_2
+//                 responseData.zip_code = response.data.user.billing_detail.zip_code
+//                 responseData.orders = response.data.user.order_count
+//                 responseData.review = response.data.user.review_count
+//             })
+//             .catch(error => {
+//                 console.log(error);
+//             });
+//     }
+// } )
+
+function update(){
+    useAxios.put('/users/profiles/' + responseData.id, {
+            "name": responseData.name,
+            "email": responseData.email,
+            "city": responseData.city,
+            "phone": responseData.phone,
+            "address": responseData.address,
+            "address_2": responseData.address_2,
+            "state": responseData.state,
+            "zip_code": responseData.zip_code,
+            "password": responseData.password,
+            "password_confirmation": responseData.password_confirmation
+    }, {
+        headers: { Authorization: 'Bearer ' + useToken().getToken() }
+    })
+    .then(response => {
+        errorData.value = null
+        useAlert().centerMessageAlert('success', response.data.message)
+    })
+    .catch(error => {
+        errorData.value = error.response.data.errors
+    });
+}
+
+watchEffect(() => {
     if (isAuthenticated.value) {
-        useAxios.get('/users/profiles/' + user.value.id,{
+        useAxios.get('/users/profiles/' + user.value.id, {
             headers: { Authorization: 'Bearer ' + useToken().getToken() }
         })
             .then(response => {
@@ -47,31 +95,6 @@ onMounted(() => {
             });
     }
 } )
-
-function update(){
-    useAxios.put('/users/profiles/' + responseData.id, {
-            "name": responseData.name,
-            "email": responseData.email,
-            "city": responseData.city,
-            "phone": responseData.phone,
-            "address": responseData.address,
-            "address_2": responseData.address_2,
-            "state": responseData.state,
-            "zip_code": responseData.zip_code,
-            "password": responseData.password,
-            "password_confirmation": responseData.password_confirmation
-    }, {
-        headers: { Authorization: 'Bearer ' + useToken().getToken() }
-    })
-    .then(response => {
-        errorData.value = null
-        useAlert().centerMessageAlert('success', 'Successfully updated profile')
-    })
-    .catch(error => {
-        errorData.value = error.response.data.errors
-    });
-}
-
 </script>
 <template>
     <!-- Page Header Start -->

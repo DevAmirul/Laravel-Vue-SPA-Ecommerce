@@ -15,6 +15,7 @@ class ContactController extends Controller {
      */
     public function __invoke(ContactUsRequest $request): Response{
         ContactUs::create($request->validated());
-        return response(true, 200);
+        
+        return response(['message'=> 'We will respond you very soon'], 200);
     }
 }

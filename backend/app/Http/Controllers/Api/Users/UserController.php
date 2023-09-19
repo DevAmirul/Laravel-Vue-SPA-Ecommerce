@@ -39,39 +39,30 @@ class UserController extends Controller
                 'zip_code' => $request->validated('zip_code'),
             ]
         );
-        return response($user, 200);
+        return response(['message'=> 'Successfully updated profile'], 200);
     }
 
-    public function register(Request $request): Response
-    {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->gender = $request->gender;
-        $user->password = Hash::make($request->password);
-        $user->save();
+    // public function register(Request $request): Response
+    // {
+    //     $user = new User();
+    //     $user->name = $request->name;
+    //     $user->email = $request->email;
+    //     $user->gender = $request->gender;
+    //     $user->password = Hash::make($request->password);
+    //     $user->save();
 
-        // $user->billingDetail()->create(
-        //     [
-        //         'phone' => $request->phone,
-        //         'address' => $request->address,
-        //         'address_2' => $request->address_2,
-        //         'city' => $request->city,
-        //         'state' => $request->state,
-        //         'zip_code' => $request->zip_code,
-        //     ]
-        // );
+    //     // $user->billingDetail()->create(
+    //     //     [
+    //     //         'phone' => $request->phone,
+    //     //         'address' => $request->address,
+    //     //         'address_2' => $request->address_2,
+    //     //         'city' => $request->city,
+    //     //         'state' => $request->state,
+    //     //         'zip_code' => $request->zip_code,
+    //     //     ]
+    //     // );
 
-        return response(true, 200);
-    }
+    //     return response(true, 200);
+    // }
 
-    public function login(Request $request): Response
-    {
-        return response(true, 200);
-    }
-
-    public function reset(Request $request): Response
-    {
-        return response(true, 200);
-    }
 }

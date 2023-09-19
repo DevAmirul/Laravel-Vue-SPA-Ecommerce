@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Editor;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,9 +27,19 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // if (request()->hasHeader('Authorization')) {
+            // TODO: check request is api or web
             ResetPassword::createUrlUsing(function (User $user, string $token) {
                 return 'http://localhost:3000/reset-password/' . $token . '?email=' . $user->email;
             });
         // }
+
+        //Define all gate.
+        Gate::define('isAdmin', function(){
+            return Auth::guard('editor')->user()->role === 1;
+        });
+
+        Gate::define('isAuthenticateEditor', function( Editor $editor , $requestId){
+            return $editor->id === $requestId;
+        });
     }
 }

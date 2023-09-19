@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, watchEffect } from 'vue'
 import { useRoute } from "vue-router";
 import useAxios from '../../services/axios';
 import useAlert from "../../services/alert";
@@ -19,7 +19,7 @@ let confirmed;
 let Shipped;
 let Delivered;
 
-onMounted(() => {
+watchEffect(() => {
     useAxios.get('/users/orders/' + paramsId + '/items', {
         headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })

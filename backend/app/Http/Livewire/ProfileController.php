@@ -6,6 +6,7 @@ use App\Http\ServiceTraits\EditorsService;
 use App\Models\Editor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 
@@ -28,10 +29,14 @@ class ProfileController extends Component
         $this->role = $editor->role;
         $this->address = $editor->address;
         $this->state = $editor->state;
+
+        if (!Gate::allows('isAuthenticateEditor', $this->editorId)) abort(403);
     }
 
     public function update()
     {
+        if (!Gate::allows('isAuthenticateEditor', $this->editorId)) abort(403);
+
         $validate = $this->validate();
 
         Editor::whereId($this->editorId)->update($validate);

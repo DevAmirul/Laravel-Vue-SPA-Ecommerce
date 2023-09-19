@@ -55,9 +55,4 @@ trait EditorsService
     {
         $this->validateOnly($propertyName, $this->rules());
     }
-
-    public function propertyResetExcept(): void
-    {
-        $this->resetExcept(['editorsId', 'selectedRole', 'selectedStatus']);
-    }
 }

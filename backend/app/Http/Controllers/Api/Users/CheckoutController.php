@@ -19,13 +19,17 @@ class CheckoutController extends Controller
     public function inbox(Request $request): Response
     {
         $carts = CartProductService::getCartProduct($request);
+
         $methods = ShippingMethod::all('id', 'name', 'cost');
+
         $billingDetails = BillingDetails::firstWhere('user_id', $request->id);
+
         return response(compact('carts', 'methods', 'billingDetails'), 200);
     }
 
     public function placeOrder(CheckoutRequest $request): Response
     {
+        // TODO: here write transaction
         $cartItems = DB::table('carts')
             ->join('cart_items','carts.id', '=', 'cart_items.cart_id')
             ->join('products', 'cart_items.product_id','=', 'products.id')
@@ -34,6 +38,7 @@ class CheckoutController extends Controller
             ->where('carts.user_id', $request->validated('user_id'))->get();
 
         $cartItemArray = [];
+
         foreach ($cartItems as $value) {
             if ($value->status == true && $value->expire_date > now()) {
                 if ($value->type === 'Percentage') {

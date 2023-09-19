@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { RouterLink } from "vue-router";
 import useAxios from '../../services/axios';
 import PageHeader from "../../components/layouts/PageHeader.vue";
@@ -13,7 +13,7 @@ const { user, isAuthenticated } = storeToRefs(useAuth());
 
 let responseData = ref();
 
-onMounted(() => {
+watchEffect(() => {
     if (isAuthenticated.value) {
         useAxios.get('/users/orders/' + user.value.id, {
             headers: { Authorization: 'Bearer ' + useToken().getToken() }

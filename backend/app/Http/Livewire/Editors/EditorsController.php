@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Editors;
 use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Editor;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -36,7 +37,7 @@ class EditorsController extends Component {
     public function render() {
         $editors = Editor::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
-            
+
         return view('livewire.editors.editors', [
             'editors' => $editors,
         ]);

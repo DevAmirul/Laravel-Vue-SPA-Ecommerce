@@ -115,11 +115,9 @@ Route::middleware('auth:editor')->group(function(){
         Route::get('/{id}/edit', SubCategoriesUpdateController::class)->name('.update')->whereNumber('id');
     });
 
-    Route::prefix('editors')->name('editors')->group(function () {
+    Route::middleware('can:isAdmin')->prefix('editors')->name('editors')->group(function () {
 
         Route::get('/', EditorsController::class);
-
-        Route::get('/create', EditorsCreateController::class)->name('.create');
 
         Route::get('/{id}/edit', EditorsUpdateController::class)->name('.update')->whereNumber('id');
     });

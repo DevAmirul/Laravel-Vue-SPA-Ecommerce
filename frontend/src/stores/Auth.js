@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 
 const useAuth = defineStore('auth', () => {
 
-    const isAuthenticated = ref(false);
+    const isAuthenticated = ref(null);
     const user = ref(null);
     const router = useRouter();
     const errorData = ref();
@@ -23,6 +23,9 @@ const useAuth = defineStore('auth', () => {
             .then(response => {
                 isAuthenticated.value = true
                 user.value = response.data;
+            })
+            .catch(error => {
+                isAuthenticated.value = false;
             })
     }
 
@@ -51,9 +54,6 @@ const useAuth = defineStore('auth', () => {
                 removeAuthUser();
                 useAlert().centerMessageAlert('success', response.data.message)
             })
-            .catch(error => {
-                console.log(error.response);
-            });
     }
 
     function removeAuthUser(){
@@ -74,7 +74,6 @@ const useAuth = defineStore('auth', () => {
             router.push({ name: 'login' })
         }
     } )
-
     return { isAuthenticated, user, errorData, logout, login }
 })
 

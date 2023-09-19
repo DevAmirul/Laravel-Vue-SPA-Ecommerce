@@ -11,16 +11,44 @@ Register
         <form class="row g-3 needs-validation" action="{{ route('register') }}" method="POST">
             @csrf
             <div class="col-12">
-                <input type="text" name="name" class="form-control" id="yourName" placeholder="Your Name" required
+                <input type="text" name="name" class="form-control" id="yourName" placeholder="Name" required
                     value="{{ old('name') }}">
                 @error('name')
                 <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
                 @enderror
             </div>
             <div class="col-12">
-                <input type="email" name="email" class="form-control" id="yourEmail" placeholder="Your Email" required
+                <input type="email" name="email" class="form-control" id="yourEmail" placeholder="Email" required
                     value="{{ old('email') }}">
                 @error('email')
+                <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
+                @enderror
+            </div>
+            <div class="col-12">
+                <input type="text" name="phone" class="form-control" id="yourEmail" placeholder="Phone" required
+                    value="{{ old('phone') }}">
+                @error('phone')
+                <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
+                @enderror
+            </div>
+            <div class="col-12">
+                <input type="text" name="address" class="form-control" id="yourEmail" placeholder="Address" required
+                    value="{{ old('address') }}">
+                @error('address')
+                <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
+                @enderror
+            </div>
+            <div class="col-12">
+                <input type="text" name="city" class="form-control" id="yourEmail" placeholder="City" required
+                    value="{{ old('city') }}">
+                @error('city')
+                <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
+                @enderror
+            </div>
+            <div class="col-12">
+                <input type="text" name="state" class="form-control" id="yourEmail" placeholder="State" required
+                    value="{{ old('state') }}">
+                @error('state')
                 <small class=" error fw-lighter text-danger text-lg mx-3">*{{ $message }}*</small>
                 @enderror
             </div>
@@ -43,10 +71,6 @@ Register
 
             <div class="col-12">
                 <button class="btn btn-primary w-100" type="submit">Create Account</button>
-            </div>
-            <div class="col-12">
-                <p class="small mb-0">Already have an account? <a href="{{ route('login') }}">Log
-                        in</a></p>
             </div>
         </form>
     </div>

@@ -19,12 +19,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): Response
     {
+        $authUser = $request->authenticate();
+
         return response([
-            'user' => $request->authenticate()['user'],
-            'access_token' => $request->authenticate()['token'],
+            'user' => $authUser['user'],
+            'access_token' => $authUser['token'],
             'token_type' => 'bearer',
         ], 200);
-
     }
 
     /**

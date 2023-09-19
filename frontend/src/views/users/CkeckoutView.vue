@@ -1,12 +1,11 @@
 <script setup>
-import { onMounted, reactive,ref, watch } from 'vue'
+import { onMounted, reactive,ref, watch, watchEffect } from 'vue'
 import useAxios from '../../services/axios';
 import useAlert from "../../services/alert";
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import { storeToRefs } from "pinia";
 import useAuth from '../../stores/Auth';
 import useToken from "../../services/token";
-
 
 const { user } = storeToRefs(useAuth());
 
@@ -28,7 +27,7 @@ const formData = reactive({
     zip_code: '',
 });
 
-onMounted(() => {
+watchEffect(() => {
     useAxios.get('/users/checkout/' + user.value.id, {
         headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })

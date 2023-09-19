@@ -19,9 +19,11 @@ class ProductsCreateController extends Component {
     public string $pageUrl = 'create';
 
     public function save(): void {
-        $product = Product::create($this->beforeProductSaveFunc()['validate']);
+        $beforeProductSaveFunc = $this->beforeProductSaveFunc();
+        
+        $product = Product::create($beforeProductSaveFunc['validate']);
 
-        $product->productAttribute()->create($this->beforeProductSaveFunc()['attribute']);
+        $product->productAttribute()->create($beforeProductSaveFunc['attribute']);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }

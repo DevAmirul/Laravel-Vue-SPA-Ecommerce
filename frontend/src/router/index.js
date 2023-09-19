@@ -100,7 +100,9 @@ const router = createRouter({
             name: 'profile',
             component: () => import('../views/users/ProfileView.vue'),
             beforeEnter: (to, from) => {
+                
                 if (useToken().getToken() === null) return { name: 'login' }
+
                 watch(() => useAuth().isAuthenticated, () => {
                     if (!useAuth().isAuthenticated) return { name: 'login' }
                 })

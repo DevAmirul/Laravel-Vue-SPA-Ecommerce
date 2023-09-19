@@ -27,14 +27,14 @@ class EditorsUpdateController extends Component {
         $this->selectedStatus = $editors->status;
     }
 
-    public function save() {
+    public function update() {
         $validate = $this->validate();
 
         if (isset($this->selectedRole)) $validate['role']     = $this->selectedRole;
         if (isset($this->selectedStatus)) $validate['status'] = $this->selectedStatus;
         if (!empty($this->password)) $validate['password']    = Hash::make($this->password) ;
 
-        Editor::whereId($this->editorsId)->update($validate);
+        Editor::whereId($this->editorId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }

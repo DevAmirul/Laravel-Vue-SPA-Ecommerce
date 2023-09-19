@@ -12,7 +12,7 @@ Editors Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Editors Create'>
+    <x-form pageTitle='Update Editor' action='update'>
         <x-form-input-field.general col="col-6" lable="Editors name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Editors email" name="email" type="email" wireModel='email'>

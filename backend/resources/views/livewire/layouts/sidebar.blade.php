@@ -131,12 +131,20 @@
                 <span>Orders</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed {{ (Request::routeIs('editors') || Request::routeIs('editors.create') || Request::routeIs('editors.update')) ? 'active' : '' }}"
-                href="{{ route('editors') }}">
-                <i class="bi bi-person"></i></i><span>Editors</span>
-            </a>
-        </li>
+        @can('isAdmin')
+            <li class="nav-item">
+                <a class="nav-link collapsed {{ (Request::routeIs('editors') || Request::routeIs('editors.create') || Request::routeIs('editors.update')) ? 'active' : '' }}"
+                    href="{{ route('editors') }}">
+                    <i class="bi bi-pencil-square"></i><span>Editors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed {{ Request::routeIs('register') ? 'active' : '' }}"
+                    href="{{ route('register') }}">
+                    <i class="bi bi-person"></i></i><span>Register</span>
+                </a>
+            </li>
+        @endcan
         {{-- <li class="nav-item">
             <a class="nav-link collapsed {{ (Request::routeIs('editors') || Request::routeIs('editors.create') || Request::routeIs('editors.update')) ? 'active' : '' }}"
         data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
@@ -158,42 +166,45 @@
                 <i class="bi bi-envelope-at"></i>
                 <span>Contacts</span>
             </a>
-        </li><!-- End F.A.Q Page Nav -->
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed {{ (request()->is('users')) ? 'active' : '' }}" href="{{ route('users') }}">
                 <i class="bi bi-people-fill"></i>
                 <span>Users</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed {{
-                                (Request::routeIs('settings.general') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.')) ? 'active' : '' }}"
-                data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('settings.general') }}">
-                        <i class="bi bi-circle"></i><span>General Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('settings.coupons') }}">
-                        <i class="bi bi-circle"></i><span>Coupons</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('settings.offers') }}">
-                        <i class="bi bi-circle"></i><span>Offers</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('settings.shippingMethods') }}">
-                        <i class="bi bi-circle"></i><span>Shipping Methods</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+
+        @can('isAdmin')
+            <li class="nav-item">
+                <a class="nav-link collapsed {{
+                                            (Request::routeIs('settings.general') || Request::routeIs('settings.coupons.create')|| Request::routeIs('settings.coupons.update') || Request::routeIs('settings.coupons') || Request::routeIs('settings.offers.create') || Request::routeIs('settings.offers')|| Request::routeIs('settings.offers.update') || Request::routeIs('settings.shippingMethods.create') || Request::routeIs('settings.shippingMethods.update') || Request::routeIs('settings.shippingMethods')|| Request::routeIs('settings.')) ? 'active' : '' }}"
+                    data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="{{ route('settings.general') }}">
+                            <i class="bi bi-circle"></i><span>General Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('settings.coupons') }}">
+                            <i class="bi bi-circle"></i><span>Coupons</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('settings.offers') }}">
+                            <i class="bi bi-circle"></i><span>Offers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('settings.shippingMethods') }}">
+                            <i class="bi bi-circle"></i><span>Shipping Methods</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endcan
 
 
     </ul>
