@@ -24,11 +24,11 @@ class GeneralSettingsFactory extends Factory {
             'phone'     => '01834513106',
             'phone_2'   => '01521731612',
             'address'   => fake()->address(),
-            'zip_code'  => '1226',
+            'zip_code'  => '0000',
             'facebook'  => 'fb.com',
-            'youtube'   => 'ytub.com',
+            'youtube'   => 'youtube.com',
             'twitter'   => 'twitter.com',
-            'instagram' => 'insta.com',
+            'instagram' => 'instagram.com',
         ];
     }
 }

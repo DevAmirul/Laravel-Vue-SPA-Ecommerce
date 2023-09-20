@@ -30,8 +30,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            // 'password' => [Password::min(8)->symbols()->numbers()],
-            'password' => ['required'],
+            'password' => [Password::min(8)->symbols()->numbers()],
         ];
     }
 
@@ -45,7 +44,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if (!Auth::guard('editor')->attempt(['email' => $this->validated('email'), 'password' => $this->validated('password'), 'status' => 1], $this->boolean('remember'))) {
-            
+
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

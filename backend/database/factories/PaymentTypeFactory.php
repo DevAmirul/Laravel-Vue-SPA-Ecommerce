@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PaymentType>
  */
-class tagFactory extends Factory
+class PaymentTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +18,7 @@ class tagFactory extends Factory
     public function definition(): array
     {
         return [
-            'keyword'=> fake()->word(),
+            'types'=> fake()->unique()->randomElement(['Cash On Payment', 'Online Payment'])
         ];
     }
 }

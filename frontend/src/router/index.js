@@ -74,6 +74,19 @@ const router = createRouter({
             }
         },
         {
+            path: '/users/orders/success',
+            name: 'orderSuccess',
+            component: () => import('../views/users/SuccessView.vue'),
+            beforeEnter: (to, from) => {
+
+                if (useToken().getToken() === null) return { name: 'login' }
+
+                watch(() => useAuth().isAuthenticated, () => {
+                    if (!useAuth().isAuthenticated) return { name: 'login' }
+                })
+            }
+        },
+        {
             path: '/users/checkout',
             name: 'checkout',
             component: () => import('../views/users/CkeckoutView.vue'),
@@ -100,7 +113,7 @@ const router = createRouter({
             name: 'profile',
             component: () => import('../views/users/ProfileView.vue'),
             beforeEnter: (to, from) => {
-                
+
                 if (useToken().getToken() === null) return { name: 'login' }
 
                 watch(() => useAuth().isAuthenticated, () => {
@@ -143,6 +156,24 @@ const router = createRouter({
             name: '500',
             component: () => import('../views/errors/500View.vue')
         },
+
+
+
+
+
+        {
+            path: '/payment/success',
+            name: 'paymentSuccess',
+            component: () => import('../views/payment/SuccessView.vue')
+        },
+        {
+            path: '/payment/cancel',
+            name: 'paymentCancel',
+            component: () => import('../views/payment/CancelView.vue')
+        },
+
+
+
         {
             path: '/:pathMatch(.*)*',
             name: 'NotFound',

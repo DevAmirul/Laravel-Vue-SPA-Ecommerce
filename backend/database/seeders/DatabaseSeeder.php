@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use App\Models\AttributeOption;
 use App\Models\BillingDetails;
 use App\Models\Category;
-use App\Models\DiscountPrice;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ProductView;
@@ -50,6 +49,7 @@ class DatabaseSeeder extends Seeder {
             ->count(10)->create();
 
         \App\Models\Review::factory()->count(20)->create();
-
+        \App\Models\PaymentType::factory()->count(2)->create();
+        \App\Models\Tag::factory()->count(50)->create();
     }
 }

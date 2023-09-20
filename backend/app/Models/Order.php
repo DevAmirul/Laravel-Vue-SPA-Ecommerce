@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Order extends Model {
+class Order extends Model
+{
     use HasFactory;
 
     protected $fillable = [
@@ -23,19 +25,28 @@ class Order extends Model {
     //     'created_at' => 'datetime:d-m-Y',
     // ];
 
-    public function user(): BelongsTo {
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function coupon(): BelongsTo {
+    public function coupon(): BelongsTo
+    {
         return $this->belongsTo(Coupon::class);
     }
 
-    public function orderItem(): HasMany {
+    public function orderItem(): HasMany
+    {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function shippingMethod(): BelongsTo {
+    public function userPayment(): HasOne
+    {
+        return $this->hasOne(UserPayment::class);
+    }
+
+    public function shippingMethod(): BelongsTo
+    {
         return $this->belongsTo(ShippingMethod::class);
     }
 }

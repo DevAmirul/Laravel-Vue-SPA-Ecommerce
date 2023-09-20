@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
 use App\Mail\SendInvoice;
 use App\Models\BillingDetails;
+use App\Models\PaymentType;
 use App\Models\ShippingMethod;
 use App\Models\User;
 use App\Services\CartProductService;
@@ -20,15 +21,19 @@ class CheckoutController extends Controller
     {
         $carts = CartProductService::getCartProduct($request);
 
-        $methods = ShippingMethod::all('id', 'name', 'cost');
+        $shippingMethods = ShippingMethod::all('id', 'name', 'cost');
+
+        $paymentMethods = PaymentType::all('types');
 
         $billingDetails = BillingDetails::firstWhere('user_id', $request->id);
 
-        return response(compact('carts', 'methods', 'billingDetails'), 200);
+        return response(compact('carts', 'shippingMethods', 'paymentMethods', 'billingDetails'), 200);
     }
 
     public function placeOrder(CheckoutRequest $request): Response
     {
+        
+
         // TODO: here write transaction
         $cartItems = DB::table('carts')
             ->join('cart_items','carts.id', '=', 'cart_items.cart_id')

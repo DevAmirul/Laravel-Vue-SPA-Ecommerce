@@ -19,7 +19,7 @@ class ProductViewFactory extends Factory
     {
         return [
             'product_id' => Product::class,
-            'view_count'        => random_int(1, 30),
+            'view_count' => random_int(1, 30),
         ];
     }
 }

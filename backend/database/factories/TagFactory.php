@@ -2,13 +2,14 @@
 
 namespace Database\Factories;
 
-use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Validation\Rules\Unique;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attribute>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tag>
  */
-class AttributeFactory extends Factory {
+class TagFactory extends Factory
+{
     /**
      * Define the model's default state.
      *
@@ -17,7 +18,7 @@ class AttributeFactory extends Factory {
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->randomElement(['color', 'size']),
+            'keyword' => fake()->unique()->word(),
         ];
     }
 }

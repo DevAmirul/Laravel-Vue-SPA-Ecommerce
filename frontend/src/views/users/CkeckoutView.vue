@@ -9,15 +9,13 @@ import useToken from "../../services/token";
 
 const { user } = storeToRefs(useAuth());
 
+const paymentMethod = ref();
 const shippingMethodCost = ref(null);
 const shippingMethod = ref();
 const couponCode = ref();
 const responseCoupon = ref();
 const responseData = ref();
 const errorData = ref();
-let discount;
-let subtotal;
-let total;
 const formData = reactive({
     phone: '',
     address: '',
@@ -26,6 +24,9 @@ const formData = reactive({
     state: '',
     zip_code: '',
 });
+let discount;
+let subtotal;
+let total;
 
 watchEffect(() => {
     useAxios.get('/users/checkout/' + user.value.id, {
@@ -79,9 +80,9 @@ function placeOrder() {
             "total": total,
             "shipping_method_id": shippingMethod.value,
             "shipping": shippingMethodCost.value,
+            "payment": paymentMethod.value,
             "coupon": (responseCoupon.value) ? ((responseCoupon.value.coupon) ? responseCoupon.value.coupon.discount : null) : null,
             "coupon_id": (responseCoupon.value) ? ((responseCoupon.value.coupon) ? responseCoupon.value.coupon.id : null) : null,
-
     }, {
         headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })
@@ -253,12 +254,12 @@ function getCoupon(code) {
                     </div>
                 </div>
 
-                <div v-if="responseData" class="card border-secondary mb-5">
+                <div class="card border-secondary mb-5">
                     <div  class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Shipping method</h4>
                     </div>
                     <div  class="card-body">
-                        <template v-for="(data, key) in responseData.methods" :key="key">
+                        <template v-for="(data, key) in responseData.shippingMethods" :key="key">
                             <div class="form-group">
                                 <div class="custom-control custom-radio d-flex justify-content-between">
                                     <input type="radio" class="custom-control-input" :id="key" :value="data.cost" v-model="shippingMethodCost" @click="shippingMethod = data.id"
@@ -268,31 +269,31 @@ function getCoupon(code) {
                                 </div>
                             </div>
                         </template>
+                        <template v-if="errorData">
+                            <template v-if="errorData['shipping']">
+                                <small v-if="errorData['shipping'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['shipping'][0] }}</small>
+                            </template>
+                        </template>
                     </div>
                 </div>
-                <div class="card border-secondary mb-5">
+                <div  class="card border-secondary mb-5">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Payment</h4>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="paypal">
-                                <label class="custom-control-label" for="paypal">Paypal</label>
+                        <template v-for="(data, key) in responseData.paymentMethods" :key="key">
+                            <div class="form-group">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" :value="data.types" :id="data.types" v-model="paymentMethod">
+                                    <label class="custom-control-label" :for="data.types">{{ data.types }}</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="directcheck">
-                                <label class="custom-control-label" for="directcheck">Direct Check</label>
-                            </div>
-                        </div>
-                        <div class="">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                            </div>
-                        </div>
+                        </template>
+                        <template v-if="errorData">
+                            <template v-if="errorData['payment']">
+                                <small v-if="errorData['payment'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['payment'][0] }}</small>
+                            </template>
+                        </template>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <button @click="placeOrder()" class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">Place Order</button>

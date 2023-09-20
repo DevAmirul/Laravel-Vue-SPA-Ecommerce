@@ -18,12 +18,12 @@ class EditorFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->email(),
-            'phone' => '01834513106',
+            'email' => fake()->unique()->email(),
+            'phone' => '01834513' . fake()->numberBetween(100, 999),
             'address' => fake()->address(),
             'city' => fake()->city(),
             'state' => fake()->city(),
-            'password' => '12345678',
+            'password' => '12Aa@!b*',
         ];
     }
 }

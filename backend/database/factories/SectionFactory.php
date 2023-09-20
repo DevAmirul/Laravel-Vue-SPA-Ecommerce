@@ -21,7 +21,7 @@ class SectionFactory extends Factory {
         $slug = Str::slug($name);
         return [
             'name'       => $name,
-            'image'       => 'section.png',
+            'image'      => 'section.png',
             'slug'       => $slug,
         ];
     }

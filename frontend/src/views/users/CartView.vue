@@ -3,7 +3,6 @@ import { onMounted, ref, watch } from 'vue'
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
 import useCart from '../../services/cart';
-import useAuth from '../../stores/Auth';
 import { storeToRefs } from "pinia";
 
 const { refreshCartPage } = storeToRefs(useRefresh());

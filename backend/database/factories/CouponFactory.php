@@ -20,7 +20,7 @@ class CouponFactory extends Factory
     {
         return [
             'name'       => fake()->name(),
-            'discount'    => fake()->numberBetween(20, 30),
+            'discount'    => fake()->unique()->randomElement([20, 30, 40, 50]),
             'code'        => fake()->word(),
             'start_date'  => now(),
             'status' => true,

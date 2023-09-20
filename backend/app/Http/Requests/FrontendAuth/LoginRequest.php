@@ -31,8 +31,7 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            // 'password' => [Password::min(8)->symbols()->numbers()],
-            'password' => ['required'],
+            'password' => [Password::min(8)->symbols()->numbers()],
         ];
     }
 

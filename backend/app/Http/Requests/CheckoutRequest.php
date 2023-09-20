@@ -34,6 +34,7 @@ class CheckoutRequest extends FormRequest
             'total' => 'required|numeric',
             'shipping_method_id' => 'required|numeric',
             'shipping' => 'required|numeric',
+            'payment' => 'required',
             'coupon_id' => 'required_if:numeric,nullable',
             'coupon' => 'required_if:numeric,nullable',
         ];

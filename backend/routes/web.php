@@ -199,3 +199,8 @@ Route::middleware('auth:editor')->group(function(){
 });
 
 require __DIR__ . '/backendAuth.php';
+
+
+Route::get( 'xxx', function(){
+    return env('PAYMENT_SUCCESS_URL');
+} );

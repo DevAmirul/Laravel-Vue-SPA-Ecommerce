@@ -10,7 +10,7 @@ const route = useRoute();
 
 const formData = reactive({
     email: 'user@gmail.com',
-    password: '12345678',
+    password: '12Aa@!b*',
     remember: false
 });
 
