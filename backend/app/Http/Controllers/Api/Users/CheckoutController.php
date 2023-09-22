@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutRequest;
+use App\Interfaces\Payments;
 use App\Mail\SendInvoice;
 use App\Models\BillingDetails;
 use App\Models\PaymentType;
 use App\Models\ShippingMethod;
 use App\Models\User;
+use App\Repositories\Payments\StripeRepository;
 use App\Services\CartProductService;
 use DB;
 use Illuminate\Http\Request;
@@ -30,54 +32,55 @@ class CheckoutController extends Controller
         return response(compact('carts', 'shippingMethods', 'paymentMethods', 'billingDetails'), 200);
     }
 
-    public function placeOrder(CheckoutRequest $request): Response
+    public function placeOrder(CheckoutRequest $request, Payments $payment)
     {
-        
+        // $cartItems = DB::table('carts')
+        //     ->join('cart_items','carts.id', '=', 'cart_items.cart_id')
+        //     ->join('products', 'cart_items.product_id','=', 'products.id')
+        //     ->leftJoin('offers', 'products.offer_id','=', 'offers.id')
+        //     ->select('cart_items.product_id', 'cart_items.qty', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date', 'products.name', 'products.sale_price')
+        //     ->where('carts.user_id', $request->validated('user_id'))->get();
 
-        // TODO: here write transaction
-        $cartItems = DB::table('carts')
-            ->join('cart_items','carts.id', '=', 'cart_items.cart_id')
-            ->join('products', 'cart_items.product_id','=', 'products.id')
-            ->leftJoin('offers', 'products.offer_id','=', 'offers.id')
-            ->select('cart_items.product_id', 'cart_items.qty', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date', 'products.name', 'products.sale_price')
-            ->where('carts.user_id', $request->validated('user_id'))->get();
+        // $cartItemArray = [];
 
-        $cartItemArray = [];
+        // foreach ($cartItems as $value) {
+        //     if ($value->status == true && $value->expire_date > now()) {
+        //         if ($value->type === 'Percentage') {
+        //             $discount = number_format(($value->discount / 100) * $value->sale_price);
+        //         }
+        //         array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty, 'discount_price' => $discount ?? $value->discount]);
+        //     }else{
+        //         array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty]);
+        //     }
+        // }
 
-        foreach ($cartItems as $value) {
-            if ($value->status == true && $value->expire_date > now()) {
-                if ($value->type === 'Percentage') {
-                    $discount = number_format(($value->discount / 100) * $value->sale_price);
-                }
-                array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty, 'discount_price' => $discount ?? $value->discount]);
-            }else{
-                array_push($cartItemArray, ['product_id' => $value->product_id, 'qty' => $value->qty]);
-            }
-        }
+        // $user = User::find($request->validated('user_id'), ['id', 'name', 'email']);
 
-        $user = User::find($request->validated('user_id'), ['id', 'name', 'email']);
-
-        $user->billingDetail()->updateOrCreate(['user_id' => $request->validated('user_id')], [
-            'phone'=> $request->validated('phone'),
-            'city'=> $request->validated('city'),
-            'state'=> $request->validated('state'),
-            'zip_code'=> $request->validated('zip_code'),
-            'address'=> $request->validated('address'),
-            'address_2'=> $request->validated('address_2'),
-        ]);
-        $order = $user->order()->create([
-            'discount' => $request->validated('discount') ,
-            'subtotal' => $request->validated('subtotal') ,
-            'total' => $request->validated('total') ,
-            'shipping_method_id' => $request->validated('shipping_method_id') ,
-            'coupon_id' => $request->validated('coupon_id') ,
-        ]);
-        $order->orderItem()->createMany($cartItemArray);
+        // $user->billingDetail()->updateOrCreate(['user_id' => $request->validated('user_id')], [
+        //     'phone'=> $request->validated('phone'),
+        //     'city'=> $request->validated('city'),
+        //     'state'=> $request->validated('state'),
+        //     'zip_code'=> $request->validated('zip_code'),
+        //     'address'=> $request->validated('address'),
+        //     'address_2'=> $request->validated('address_2'),
+        // ]);
+        // $order = $user->order()->create([
+        //     'discount' => $request->validated('discount') ,
+        //     'subtotal' => $request->validated('subtotal') ,
+        //     'total' => $request->validated('total') ,
+        //     'shipping_method_id' => $request->validated('shipping_method_id') ,
+        //     'coupon_id' => $request->validated('coupon_id') ,
+        // ]);
+        // $order->orderItem()->createMany($cartItemArray);
 
         // Cart::whereUserId($request->validated('user_id'))->delete();
 
-        Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
+        // Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
 
-        return response($request->validated(), 200);
+        // if () {
+            // $payment->checkOut();
+        // }
+
+        return response($payment->checkOut(), 200);
     }
 }

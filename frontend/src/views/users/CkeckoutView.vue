@@ -89,7 +89,7 @@ function placeOrder() {
         .then(response => {
             console.log(response.data);
             errorData.value = null
-            useAlert().centerMessageAlert('success', 'Successfully added to order')
+            // useAlert().centerMessageAlert('success', 'Successfully added to order')
         })
         .catch(error => {
             console.log(error.response);

@@ -185,4 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    'stripeSecretKey' => env('STRIPE_SECRET_KEY'),
+
 ];

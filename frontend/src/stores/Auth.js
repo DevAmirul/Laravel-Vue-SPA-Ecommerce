@@ -26,6 +26,7 @@ const useAuth = defineStore('auth', () => {
             })
             .catch(error => {
                 isAuthenticated.value = false;
+                useToken().deleteToken();
             })
     }
 
@@ -70,9 +71,7 @@ const useAuth = defineStore('auth', () => {
     }
 
     watch(isAuthenticated, () => {
-        if (!isAuthenticated.value) {
-            router.push({ name: 'login' })
-        }
+        if (!isAuthenticated.value) router.push({ name: 'login' });
     } )
     return { isAuthenticated, user, errorData, logout, login }
 })

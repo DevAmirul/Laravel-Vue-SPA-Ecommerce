@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payment_type_id')->constrained();
             $table->foreignId('order_id')->constrained();
-            $table->integer('account_number');
+            $table->integer('cus_id');
+            $table->integer('payment_intent');
             $table->decimal('amount');
             $table->timestamps();
         });

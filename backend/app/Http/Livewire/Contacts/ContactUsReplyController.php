@@ -5,8 +5,11 @@ namespace App\Http\Livewire\Contacts;
 use App\Http\ServiceTraits\ContactsService;
 use App\Mail\Replay;
 use App\Models\ContactUs;
+use App\Repositories\Payments\StripeRepository;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use App\Interfaces\Payments;
+
 
 class ContactUsReplyController extends Component {
     use ContactsService;
@@ -22,14 +25,15 @@ class ContactUsReplyController extends Component {
         $this->message = $contact->message;
     }
 
-    public function reply() {
-        $validate = $this->validate();
+    public function reply(Payments $payment) {
+        // $validate = $this->validate();
 
-        ContactUs::whereId($this->contactId)->update(['status' => true]);
+        // ContactUs::whereId($this->contactId)->update(['status' => true]);
 
-        Mail::to($this->email)->send(new Replay($validate));
+        // Mail::to($this->email)->send(new Replay($validate));
 
-        $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
+        // $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
+        $payment->checkOut();
     }
 
     public function render() {

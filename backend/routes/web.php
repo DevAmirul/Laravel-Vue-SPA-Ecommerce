@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Users\CheckoutController;
 use App\Http\Livewire\Categories\CategoriesController;
 use App\Http\Livewire\Categories\CategoriesCreateController;
 use App\Http\Livewire\Categories\CategoriesUpdateController;
@@ -50,6 +51,7 @@ use App\Http\Livewire\Settings\Shipping\MethodsController;
 use App\Http\Livewire\Settings\Shipping\MethodsCreateController;
 use App\Http\Livewire\Settings\Shipping\MethodsUpdateController;
 use App\Http\Livewire\UsersController;
+use App\Repositories\Payments\StripeRepository;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:editor')->group(function(){
@@ -200,7 +202,5 @@ Route::middleware('auth:editor')->group(function(){
 
 require __DIR__ . '/backendAuth.php';
 
-
-Route::get( 'xxx', function(){
-    return env('PAYMENT_SUCCESS_URL');
-} );
+Route::get( 'payment/success', [StripeRepository::class, 'success'] )->name('payment.success');
+Route::get( 'payment/cancel', [StripeRepository::class, 'cancel'] )->name('payment.cancel');
