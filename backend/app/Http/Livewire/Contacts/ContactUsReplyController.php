@@ -25,15 +25,14 @@ class ContactUsReplyController extends Component {
         $this->message = $contact->message;
     }
 
-    public function reply(Payments $payment) {
-        // $validate = $this->validate();
+    public function reply() {
+        $validate = $this->validate();
 
-        // ContactUs::whereId($this->contactId)->update(['status' => true]);
+        ContactUs::whereId($this->contactId)->update(['status' => true]);
 
-        // Mail::to($this->email)->send(new Replay($validate));
+        Mail::to($this->email)->send(new Replay($validate));
 
-        // $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
-        $payment->checkOut();
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
     public function render() {

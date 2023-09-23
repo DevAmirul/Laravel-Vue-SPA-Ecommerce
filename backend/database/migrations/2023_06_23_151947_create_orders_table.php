@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->decimal('subtotal');
             $table->decimal('total');
             $table->boolean('payment_status')->default(false);
+            $table->string('session_id')->nullable();
             $table->foreignId('shipping_method_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('coupon_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();

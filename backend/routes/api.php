@@ -95,7 +95,7 @@ Route::name('api.')->group(function () {
 
         Route::get('/checkout/{id}', [CheckoutController::class, 'inbox'])->name('checkout.inbox')->whereNumber('id');
 
-        Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+        Route::post('/checkout/{id}', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder')->whereNumber('id');
 
         Route::prefix('orders')->name('orders.')->group(function () {
 

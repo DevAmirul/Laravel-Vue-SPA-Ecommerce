@@ -22,7 +22,6 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|numeric',
             'phone' => 'required|max:11',
             'address' => 'required|max:255',
             'address_2' => 'required|max:255',

@@ -67,8 +67,7 @@ watch(responseData, () => {
 })
 
 function placeOrder() {
-    useAxios.post('/users/checkout/', {
-            "user_id": user.value.id,
+    useAxios.post('/users/checkout/' + user.value.id, {
             "city": formData.city,
             "phone": formData.phone,
             "address": formData.address,
@@ -87,9 +86,13 @@ function placeOrder() {
         headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })
         .then(response => {
-            console.log(response.data);
             errorData.value = null
-            // useAlert().centerMessageAlert('success', 'Successfully added to order')
+            console.log(response.data);
+            // if (response.data.stripeUrl) {
+            //     window.location.href = response.data.stripeUrl;
+            // }else{
+            //     useAlert().centerMessageAlert('success', response.data.status);
+            // }
         })
         .catch(error => {
             console.log(error.response);
@@ -201,8 +204,7 @@ function getCoupon(code) {
                             <div class="d-flex justify-content-between">
                                 <p>{{ data.name }}</p>
                                 <p>{{ data.qty }}</p>
-                                <p v-if="data.discount > 0"><del class="mx-2">${{ data.sale_price }}</del>${{ Number(data.sale_price) - Number(data.discount) }}</p>
-                                <p v-else>${{ Number(data.sale_price) }}</p>
+                                <p >${{ data.sale_price }}</p>
                             </div>
                         </template>
 
@@ -284,8 +286,8 @@ function getCoupon(code) {
                         <template v-for="(data, key) in responseData.paymentMethods" :key="key">
                             <div class="form-group">
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" :value="data.types" :id="data.types" v-model="paymentMethod">
-                                    <label class="custom-control-label" :for="data.types">{{ data.types }}</label>
+                                    <input type="radio" class="custom-control-input" :value="data.type" :id="data.type" v-model="paymentMethod">
+                                    <label class="custom-control-label" :for="data.type">{{ data.type }}</label>
                                 </div>
                             </div>
                         </template>

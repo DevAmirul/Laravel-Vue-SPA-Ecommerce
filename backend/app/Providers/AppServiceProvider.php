@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Interfaces\Payments;
 use App\Repositories\Payments\StripeRepository;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(Payments::class,function(){
-            return new StripeRepository;
+        $this->app->bind(Payments::class,function(Application $app){
+            return new StripeRepository($app->make(Request::class));
         });
     }
 

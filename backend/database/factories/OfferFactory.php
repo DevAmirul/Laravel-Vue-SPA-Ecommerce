@@ -22,7 +22,7 @@ class OfferFactory extends Factory
             'name'   => fake()->name(),
             'title'   => fake()->text(100),
             'image'   => 'offer.jpg',
-            'type'   => Arr::random(['Percentage', 'Decimal']),
+            'type'   => fake()->randomElement(['Percentage', 'Decimal']),
             'discount'   => fake()->numberBetween(20, 40),
             'status'   => Arr::random([1, 0]),
             'start_date'   => now(),
