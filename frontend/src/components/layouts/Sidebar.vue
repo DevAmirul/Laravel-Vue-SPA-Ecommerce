@@ -144,14 +144,13 @@ function addPriceFilter(min, max){
                 <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
                 <form>
                     <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
-
                         <div
                             class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
                             <input
                                 type="checkbox"
                                 class="custom-control-input"
                                 :id="data.id"
-                                :checked="prevQueryColor.indexOf(data.value) !== -1"
+                                :checked="prevQuerySize.indexOf(data.value) !== -1"
                                 @click="setAttributeValueToSize(data.value)"
                                 />
                             <label class="custom-control-label" :for="data.id"
@@ -170,7 +169,7 @@ function addPriceFilter(min, max){
                                 type="checkbox"
                                 class="custom-control-input"
                                 :id="data.id"
-                                :checked="prevQuerySize.indexOf(data.value) !== -1"
+                                :checked="prevQueryColor.indexOf(data.value) !== -1"
                                 @click="setAttributeValueToColor(data.value)"
                             />
                             <label class="custom-control-label" :for="data.id"
