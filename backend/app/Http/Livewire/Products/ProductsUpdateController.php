@@ -28,7 +28,7 @@ class ProductsUpdateController extends Component
     {
         $this->productId = $id;
 
-        $products = Product::where('id', $id)->get();
+        $products = Product::where('id', $id)->with('productAttribute')->get();
 
         foreach ($products as $product) {
             $this->name             = $product->name;
@@ -43,29 +43,33 @@ class ProductsUpdateController extends Component
             $this->sub_category_id  = $product->sub_category_id;
             $this->brand_id         = $product->brand_id;
             $this->tags             = $product->tags;
+            $this->productAttribute = $product->productAttribute->color_attribute_values . $product->productAttribute->size_attribute_values;
+            // $this->selectedColor    = explode(',', $product->productAttribute->color_attribute_values);
+            // $this->selectedSize     = explode(',', $product->productAttribute->size_attribute_values);
             $this->description      = $product->description;
             $this->specification    = $product->specification;
             $this->oldImage         = $product->image;
             $this->oldGallery       = $product->gallery;
         }
-
         $this->categories    = Category::all('id', 'name');
 
         $this->subCategories = SubCategory::all('id', 'name');
     }
 
-    public function save(): void
+    public function update(): void
     {
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();
 
-        $product = Product::whereId($this->productId)->update($beforeProductSaveFunc['validate']);
+        Product::whereId($this->productId)->update($beforeProductSaveFunc['validate']);
 
         if (!empty($beforeProductSaveFunc['attribute'])) {
+            if ($beforeProductSaveFunc['attribute']['size_attribute_values'] !== '') {
+                ProductAttribute::updateOrCreate(['product_id' => $this->productId],$beforeProductSaveFunc['attribute']);
+            }
             if ($beforeProductSaveFunc['attribute']['color_attribute_values'] !== '') {
-                ProductAttribute::where('product_id', $product)->update($beforeProductSaveFunc['attribute']);
+                ProductAttribute::updateOrCreate(['product_id' => $this->productId],$beforeProductSaveFunc['attribute']);
             }
         }
-        
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
@@ -77,13 +81,13 @@ class ProductsUpdateController extends Component
 
         $allTags  = Tag::all('id', 'keyword');
 
-        $attributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
+        $allAttributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
 
         return view('livewire.products.products-update', [
             'sections' => $sections,
             'brands'   => $brands,
             'allTags'  => $allTags,
-            'attributes' => $attributes,
+            'allAttributes' => $allAttributes,
         ]);
     }
 }

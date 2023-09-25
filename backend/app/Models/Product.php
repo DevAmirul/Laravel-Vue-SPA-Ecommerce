@@ -33,6 +33,8 @@ class Product extends Model {
 
     protected $casts = [
         // 'review_avg_rating_value' => 'integer',
+        'sale_price' => 'integer',
+        'original_price' => 'integer',
     ];
 
     public function subCategory(): BelongsTo {

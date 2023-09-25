@@ -6,11 +6,6 @@
     Order Id: #{{ $order->id }}<br>
     Order Status: {{ ($order->payment_status == 1) ? 'Paid' : 'Unpaid' }}<br>
 
-// TODO: add payable url here.
-<x-mail::button :url="''">
-{{ ($order->payment_status == 1) ? 'Paid' : 'Pay Now' }}<br>
-</x-mail::button>
-
 Thanks for your order,<br>
 {{ config('app.name') }}
 </x-mail::message>

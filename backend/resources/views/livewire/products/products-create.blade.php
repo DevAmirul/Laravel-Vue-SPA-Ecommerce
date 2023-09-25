@@ -13,7 +13,8 @@ Products Create
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
-    <x-form pageTitle='Products Create' enctype="multipart/form-data">
+    <x-form pageTitle='Products Create' action='create' enctype="multipart/form-data">
+
         <x-form-input-field.general col="col-6" lable="Product name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Slug" name="slug" type="text" wireModel='slug'>
@@ -52,37 +53,44 @@ Products Create
 
         <x-form-input-field.text-area col="" lable="Description" name="description" type="text" wireModel='description'>
         </x-form-input-field.text-area>
+
         <div wire:ignore>
             <select id="select-tag" class="form-select" name="state[]" multiple placeholder="Select tags...(optional)"
                 autocomplete="off">
                 @foreach ($allTags as $tag)
-                <option value="{{ $tag->keyword }}">{{ $tag->keyword }}</option>
+                <option value="{{ $tag->keyword }}">{{ $tag->keyword }}
+                </option>
                 @endforeach
             </select>
-            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+        </div>
+        <div>
+            @error( 'selectedTags' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
-        <div class="d-flex">
-            <h6 class="mx-3">{{ $attributes[0]->name }} :- </h6>
-            @foreach ($attributes[0]->attributeOption as $key => $option)
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="{{ $option->value }}"  wire:model='selectedColor.{{ $key }}' value="{{ $option->value }}">
-                    <label class="form-check-label" for="{{ $option->value }}">{{ $option->value }}</label>
-                </div>
-            @endforeach
-            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+        <div wire:ignore>
+            <select id="select-size" class="form-select" name="state[]" multiple placeholder="Select size..."
+                autocomplete="off">
+                @foreach ($attributes[0]->attributeOption as $key => $option)
+                <option value="{{ $option->value }}">{{ $option->value }}
+                </option>
+                @endforeach
+            </select>
         </div>
-
-        <div class="d-flex">
-            <h6 class="mx-3">{{ $attributes[1]->name }} :- </h6>
-            @foreach ($attributes[1]->attributeOption as $key => $option)
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="{{ $option->value }}" wire:model='selectedSize.{{ $key }}'
-                        value="{{ $option->value }}">
-                    <label class="form-check-label" for="{{ $option->value }}">{{ $option->value }}</label>
-                </div>
-            @endforeach
+        <div>
             @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+        </div>
+
+        <div wire:ignore>
+            <select id="select-color" class="form-select" name="state[]" multiple placeholder="Select color..."
+                autocomplete="off">
+                @foreach ($attributes[1]->attributeOption as $key => $option)
+                <option value="{{ $option->value }}">{{ $option->value }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
@@ -93,8 +101,10 @@ Products Create
         </x-form-input-field.file>
 
         <div class="form-group col-12" wire:ignore>
-            <textarea name="edit" class="form-control" id="editor" rows="2"></textarea>
-            @error( 'edit' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+            <textarea name="edit" class="form-control" id="editor" rows="3"></textarea>
+        </div>
+        <div>
+            @error( 'specification' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
@@ -109,12 +119,30 @@ Products Create
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/classic/ckeditor.js"></script>
 <script>
-    var select = new TomSelect("#select-tag");
-    select.on('change',function (value){
+    new TomSelect("#select-tag",{
+        plugins: ['remove_button'],
+        create: true,
+        onChange: function (value){
         @this.set('selectedTags', value)
-    })
-</script>
-<script>
+        }
+    });
+
+    new TomSelect("#select-size",{
+        plugins: ['remove_button'],
+        create: true,
+        onChange: function (value){
+        @this.set('selectedSize', value)
+        }
+    });
+
+        new TomSelect("#select-color",{
+        plugins: ['remove_button'],
+        create: true,
+        onChange: function (value){
+        @this.set('selectedColor', value)
+        }
+    });
+
     ClassicEditor
         .create( document.querySelector( '#editor' ),{
         } )

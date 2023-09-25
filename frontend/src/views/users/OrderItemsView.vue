@@ -12,7 +12,7 @@ import useToken from "../../services/token";
 const { user } = storeToRefs(useAuth());
 
 const route = useRoute();
-const paramsId = route.params.id;
+const orderId = route.params.id;
 let discount = ref(0);
 let responseData = ref();
 let confirmed;
@@ -20,7 +20,7 @@ let Shipped;
 let Delivered;
 
 watchEffect(() => {
-    useAxios.get('/users/orders/' + paramsId + '/items', {
+    useAxios.get('/users/orders/' + orderId + '/items', {
         headers: { Authorization: 'Bearer ' + useToken().getToken() }
     })
         .then(response => {
@@ -46,6 +46,20 @@ watch(responseData, () => {
         Delivered = true;
     }
 })
+
+function payOrder(orderId){
+    useAxios.get('/users/orders/' + orderId + '/pay', {
+        headers: { Authorization: 'Bearer ' + useToken().getToken() }
+    })
+        .then(response => {
+            if (response.data.stripeUrl) {
+                window.location.href = response.data.stripeUrl;
+            }
+        })
+        .catch(error => {
+            useAlert().topAlert('error', error.response.data.message)
+        });
+}
 </script>
 <template>
     <!-- Page Header Start -->
@@ -57,7 +71,7 @@ watch(responseData, () => {
             <template v-if="responseData">
                 <div class="card-body">
                     <div class="d-lg-flex justify-content-between">
-                        <h6>Order ID: #{{ paramsId }}</h6>
+                        <h6>Order ID: #{{ orderId }}</h6>
                         <h6>Order Status: {{ responseData.orderItems[0].order_status }}</h6>
                         <h6 v-if="responseData.orderItems[0].payment_status == '0'">Payment Status: Unpaid</h6>
                         <h6 v-else>Payment Status: Paid</h6>
@@ -177,14 +191,14 @@ watch(responseData, () => {
                                     <strong style="color: #1c1c1c !important"
                                         >Total:</strong
                                     >
-                                    <br />${{  responseData.orderItems[0].total - discount }}
+                                    <br />${{ responseData.orderItems[0].total - discount }}
                                 </div>
 
                             </div>
                     </article>
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-sm btn-primary mt-3" @click="$router.go(-1)">Back to Order</button>
-                        <button class="btn btn-sm btn-outline-primary mt-3">Pay Now</button>
+                        <button class="btn btn-sm btn-outline-primary mt-3" @click="$router.go(-1)">Back to Order</button>
+                        <button @click="payOrder(orderId)" class="btn btn-sm btn-primary mt-3">Pay Now</button>
                     </div>
                 </div>
             </template>

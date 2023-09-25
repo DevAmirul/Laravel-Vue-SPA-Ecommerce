@@ -28,8 +28,13 @@ trait ProductsService
     public int $brand_id;
     public ?string $tags;
     public array $selectedTags = [];
+    public string $productAttribute = '';
+    public array $selectedProductAttribute = [];
+
     public array $selectedColor = [];
     public array $selectedSize  = [];
+
+
     public $image;
     public string $oldImage;
     public $gallery = [];
@@ -52,10 +57,10 @@ trait ProductsService
                 'brand_id'         => 'required|numeric',
                 'description'      => 'required|string',
                 'specification'    => 'required|string',
+                // 'selectedColor'    => 'required|array',
+                // 'selectedSize'     => 'required|array',
             ];
 
-            if ($this->selectedColor) $rulesForUpdate['selectedColor'] = 'required|array';
-            if ($this->selectedSize) $rulesForUpdate['selectedSize'] = 'required|array';
             if ($this->selectedTags) $rulesForUpdate['selectedTags'] = 'required|array';
             if (gettype($this->image) == 'object')  $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
             if (gettype($this->gallery) == 'array' && !empty($this->gallery)) $rulesForUpdate['gallery'] = 'required|array';
@@ -104,7 +109,6 @@ trait ProductsService
     public function beforeProductSaveFunc(): array
     {
         $validate                            = $this->validate();
-
         $validate['category_id']             = $validate['selectedCategory'];
 
         unset($validate['selectedCategory']);

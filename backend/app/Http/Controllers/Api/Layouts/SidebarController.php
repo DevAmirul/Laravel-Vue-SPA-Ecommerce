@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Layouts;
 
-use App\Models\Attribute as ModelsAttribute;
+use App\Models\Attribute as ProductAttribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Section;
@@ -21,7 +21,7 @@ class SidebarController {
 
     public function getSidebarFilter(): object
     {
-        return ModelsAttribute::with('attributeOption')->get(['id', 'name']);
+        return ProductAttribute::with('attributeOption')->get(['id', 'name']);
     }
 
     public function getSidebarCategory(): object

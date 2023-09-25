@@ -65,7 +65,7 @@ const useSearch = defineStore('search', () => {
         const hasRouteName = ["shop", "sale", "categories", "subCategories", "brands"];
 
         if (hasRouteName.includes(route.name)) {
-            console.log(query.value, 'form watch ');
+            // console.log(query.value, 'form watch ');
             getDataByQuery('watch route.query');
         }
     })
@@ -101,6 +101,7 @@ const useSearch = defineStore('search', () => {
             .then(response => {
                 responseData.value = response.data
                 isRefreshPage.value = false;
+
                 if (responseData.value.products.length === 0) useAlert().centerDialogAlert('info', 'Items not found')
             })
             .catch(error => {

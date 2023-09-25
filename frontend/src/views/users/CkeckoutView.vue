@@ -87,15 +87,13 @@ function placeOrder() {
     })
         .then(response => {
             errorData.value = null
-            console.log(response.data);
-            // if (response.data.stripeUrl) {
-            //     window.location.href = response.data.stripeUrl;
-            // }else{
-            //     useAlert().centerMessageAlert('success', response.data.status);
-            // }
+            if (response.data.stripeUrl) {
+                window.location.href = response.data.stripeUrl;
+            }else{
+                useAlert().centerMessageAlert('success', response.data.status);
+            }
         })
         .catch(error => {
-            console.log(error.response);
             errorData.value = error.response.data.errors
         });
 }
@@ -110,9 +108,6 @@ function getCoupon(code) {
                 // console.log(responseCoupon.value.coupon.discount);
                 if (responseCoupon.value.coupon == null) useAlert().centerDialogAlert('info', 'Code not valid')
             })
-            .catch(error => {
-                // console.log(error);
-            });
     }
 }
 </script>

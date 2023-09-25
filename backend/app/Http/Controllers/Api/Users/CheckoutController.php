@@ -15,9 +15,12 @@ use App\Models\User;
 use App\Repositories\Payments\StripeRepository;
 use App\Services\CartProductService;
 use DB;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CheckoutController extends Controller
 {
@@ -34,7 +37,7 @@ class CheckoutController extends Controller
         return response(compact('carts', 'shippingMethods', 'paymentMethods', 'billingDetails'), 200);
     }
 
-    public function placeOrder(Payments $payment, CheckoutRequest $request)
+    public function placeOrder(Payments $payment, CheckoutRequest $request) : Response
     {
         $cartItems = CartProductService::getCartProduct($request);
 
@@ -72,20 +75,38 @@ class CheckoutController extends Controller
 
         $order->orderItem()->createMany($orderItems);
 
-        // Cart::whereUserId($request->id)->delete();
+        Cart::whereUserId($request->id)->delete();
 
-        // Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
+        Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
 
         if ($request->validated('payment') === 'Online Payment') {
-            // TODO: error handaling.
-            $payment = $payment->checkOut($order);
-            $order = Order::whereId($order->id)->update(['session_id' => $payment['sessionId']]);
+            try {
+                $payment = $payment->checkOut(null);
+                Order::whereId($request->id)->update(['id' => $payment['sessionId']]);
+            } catch (\Stripe\Exception\CardException $e) {
+                throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+                throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
+            } catch (Exception $e) {
+                throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
+            }
         }
+
         return response(['stripeUrl'=> $payment['stripeUrl'] ?? null, 'status'=> 'Successfully added to order'], 200);
-        // return response($order , 200);
     }
 
-    public function payment(Payments $payment) : void {
-        $payment = $payment->checkOut(null);
+    public function payOrder(Payments $payment, Request $request) : Response {
+        try {
+            $payment = $payment->checkOut(null);
+            Order::whereId($request->id)->update(['session_id' => $payment['sessionId']]);
+        } catch(\Stripe\Exception\CardException $e) {
+            throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
+        } catch (\Stripe\Exception\InvalidRequestException $e) {
+            throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
+        } catch (Exception $e) {
+            throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
+        }
+
+        return response(['stripeUrl' => $payment['stripeUrl'] ?? null], 200);
     }
 }

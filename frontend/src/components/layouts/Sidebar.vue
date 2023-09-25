@@ -62,7 +62,6 @@ function addPriceFilter(min, max){
         useAlert().topAlert('info', 'The minimum value must be less than the maximum value.')
     }
 }
-
 </script>
 <template>
     <div v-if="responseData" class="col-lg-3 col-md-12">
@@ -142,45 +141,43 @@ function addPriceFilter(min, max){
         <!-- attribute Start -->
         <template v-if="responseData.sidebarFilter">
             <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
-                    <form>
-                        <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
+                <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
+                <form>
+                    <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
 
-                            <div
-                                class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    :id="data.id"
-                                    :checked="prevQueryColor.indexOf(data.value) !== -1"
-                                    @click="setAttributeValueToColor(data.value)"
-                                    />
-                                <label class="custom-control-label" :for="data.id"
-                                    >{{ data.value }}</label
-                                >
-                            </div>
-                        </template>
-                    </form>
+                        <div
+                            class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                :id="data.id"
+                                :checked="prevQueryColor.indexOf(data.value) !== -1"
+                                @click="setAttributeValueToSize(data.value)"
+                                />
+                            <label class="custom-control-label" :for="data.id"
+                                >{{ data.value }}</label >
+                        </div>
+                    </template>
+                </form>
             </div>
             <div class="border-bottom mb-4 pb-4">
-                    <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
-                    <form>
-                        <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
-                            <div
-                                class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    :id="data.id"
-                                    :checked="prevQuerySize.indexOf(data.value) !== -1"
-                                    @click="setAttributeValueToSize(data.value)"
-                                />
-                                <label class="custom-control-label" :for="data.id"
-                                    >{{ data.value }}</label
-                                >
-                            </div>
-                        </template>
-                    </form>
+                <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
+                <form>
+                    <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
+                        <div
+                            class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                :id="data.id"
+                                :checked="prevQuerySize.indexOf(data.value) !== -1"
+                                @click="setAttributeValueToColor(data.value)"
+                            />
+                            <label class="custom-control-label" :for="data.id"
+                                >{{ data.value }}</label >
+                        </div>
+                    </template>
+                </form>
             </div>
 
             <!-- <div class="border-bottom mb-4 pb-4">
@@ -237,7 +234,7 @@ function addPriceFilter(min, max){
     clear: both;
 }
 .clearfix {
-    *zoom: 1;
+    zoom: 1;
 }
 
 @media only screen and (min-width: 1200px) {

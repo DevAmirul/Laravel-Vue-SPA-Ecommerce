@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\Frontend\ProductCollection;
-use App\Http\Resources\Api\Frontend\ProductResource;
-use App\Models\Product;
 use App\Services\SearchProductService;
 use Illuminate\Http\Request;
 

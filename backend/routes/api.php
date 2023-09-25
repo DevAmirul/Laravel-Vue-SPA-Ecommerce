@@ -102,6 +102,8 @@ Route::name('api.')->group(function () {
             Route::get('/{id}', [OrderController::class, 'index'])->whereNumber('id');
 
             Route::get('/{id}/items', [OrderItemController::class, 'index'])->name('items')->whereNumber('id');
+
+            Route::get('/{id}/pay', [CheckoutController::class, 'payOrder'])->name('pay')->whereNumber('id');
         });
 
         Route::prefix('profiles')->name('profiles.')->group(function () {

@@ -18,9 +18,9 @@ class ProductsCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function save(): void {
+    public function create(): void {
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();
-        
+
         $product = Product::create($beforeProductSaveFunc['validate']);
 
         $product->productAttribute()->create($beforeProductSaveFunc['attribute']);

@@ -17,6 +17,7 @@ onMounted(() => {
         useSearch().getDataByQuery();
     }
 })
+
 </script>
 <template>
     <!-- Page Header Start -->
