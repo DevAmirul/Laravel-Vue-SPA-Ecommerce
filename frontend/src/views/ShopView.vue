@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted } from "vue";
-import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import useSearch from '../stores/Search'
 import Filter from "../components/layouts/Filter.vue";
@@ -8,14 +7,21 @@ import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
+import { useRoute } from "vue-router";
 
-const route = useRoute();
 const { responseData, isRefreshPage } = storeToRefs(useSearch());
+const route = useRoute();
 
 onMounted(() => {
+    console.log(route.query);
     if (isRefreshPage.value) {
-        useSearch().getDataByQuery();
+        // if (Object.keys(route.query).length == 0) {
+            useSearch().getDataByQuery('form on mounted');
+        // }
     }
+    // if (isRefreshPage.value) {
+        // useSearch().getDataByQuery('form on mounted');
+    // }
 })
 
 </script>

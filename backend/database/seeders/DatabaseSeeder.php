@@ -29,14 +29,15 @@ class DatabaseSeeder extends Seeder {
         \App\Models\Editor::factory()->count(4)->create();
         \App\Models\Offer::factory()->count(3)->create();
 
+        \App\Models\Attribute::factory()
+            ->has(AttributeOption::factory()->count(3))
+            ->count(2)->create();
+
         \App\Models\Product::factory()
             ->has(ProductView::factory()->count(1))
             ->has(RevenueFromPurchaseAndSaleOfProduct::factory()->count(1))
             ->count(30)->create();
 
-        \App\Models\Attribute::factory()
-            ->has(AttributeOption::factory()->count(3))
-            ->count(2)->create();
 
         \App\Models\ShippingMethod::factory()->count(3)->create();
         \App\Models\GeneralSettings::factory()->count(1)->create();

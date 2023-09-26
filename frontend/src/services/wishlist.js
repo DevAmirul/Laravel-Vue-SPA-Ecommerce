@@ -1,9 +1,7 @@
 import useAlert from './alert';
 import useRefresh from '../stores/Refresh';
 
-let productAttributeArray = []
-
-// const { refreshCartItemsNumber, refreshWishlistPage, refreshWishlistItemsNumber } = storeToRefs(useRefresh());
+let productAttributeArray = [];
 
 export default function useWishlist(productAttributes) {
 

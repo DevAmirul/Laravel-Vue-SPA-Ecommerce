@@ -53,8 +53,8 @@ class Product extends Model {
         return $this->belongsTo(Offer::class);
     }
 
-    public function productAttribute(): HasOne {
-        return $this->hasOne(ProductAttribute::class);
+    public function productAttribute(): HasMany {
+        return $this->hasMany(ProductAttribute::class);
     }
 
     public function revenueFromPurchaseAndSaleOfProduct(): HasOne {

@@ -2,7 +2,7 @@
 export default function useToken() {
 
     function setToken(value, remember) {
-        if (remember) localStorage.setItem('', value)
+        if (remember) localStorage.setItem('auth_token', value)
         else sessionStorage.setItem('auth_token', value)
     }
 

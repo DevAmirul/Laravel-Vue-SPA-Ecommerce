@@ -18,7 +18,7 @@ class Attribute extends Model {
         return $this->HasMany(AttributeOption::class);
     }
 
-    public function productAttribute(): BelongsTo {
-        return $this->belongsTo(ProductAttribute::class);
+    public function productAttribute(): HasMany {
+        return $this->hasMany(ProductAttribute::class);
     }
 }

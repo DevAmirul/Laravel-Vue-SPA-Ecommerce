@@ -18,7 +18,7 @@ class PaymentTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'types'=> fake()->unique()->randomElement(['Cash On Payment', 'Online Payment'])
+            'type'=> fake()->unique()->randomElement(['Cash On Payment', 'Online Payment'])
         ];
     }
 }

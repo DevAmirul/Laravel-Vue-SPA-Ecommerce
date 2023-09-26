@@ -23,4 +23,8 @@ class ProductAttribute extends Model {
     public function product(): BelongsTo {
         return $this->belongsTo(Product::class);
     }
+
+    public function attribute(): BelongsTo {
+        return $this->belongsTo(Attribute::class);
+    }
 }

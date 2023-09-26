@@ -5,11 +5,12 @@ namespace App\Services;
 use App\Http\Resources\Api\Frontend\ProductCollection;
 use App\Http\Resources\Api\Frontend\ProductResource;
 use App\Models\Product;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class SearchProductService
 {
-    public static function searchProductQuery($request, ?string $optionalRequest = null): object
+    public static function searchProductQuery($request, ?string $optionalRequest = null) 
     {
         $products = DB::table('products')
             ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
@@ -32,11 +33,13 @@ class SearchProductService
             ->when($request->minPrice && $request->maxPrice, function ($query) use ($request) {
                 $query->whereBetween('products.sale_price', [$request->minPrice, $request->maxPrice]);
             })
-            ->when($request->color || $request->size, function ($query) use ($request) {
+            ->when($request->except(['minPrice', 'maxPrice', 'page', 'sort', 'search', 'limit']), function ($query) use ($request) {
                 $query->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
                 ->where(function($query) use ($request){
-                    if ($request->size) $query->where('product_attributes.size_attribute_values', 'REGEXP', $request->size);
-                    if ($request->color) $query->orWhere('product_attributes.color_attribute_values', 'REGEXP', $request->color);
+                    $attributeQuery = $request->except(['minPrice', 'maxPrice', 'page', 'sort', 'search', 'limit']);
+                    $attribute = Arr::join(Arr::flatten($attributeQuery), '|');
+
+                    $query->where('product_attributes.value', 'REGEXP', $attribute);
                 });
             })
             ->when($request->search, function ($query) use ($request) {
@@ -53,7 +56,7 @@ class SearchProductService
                 elseif ($request->sort === 'des') $query->orderByDesc('products.name');
                 elseif ($request->sort === 'latest') $query->latest();
             }, fn($query) => $query->latest())
-            ->paginate($request->limit ?? 20);
+        ->paginate($request->limit ?? 5);
 
         return new ProductCollection($products);
     }

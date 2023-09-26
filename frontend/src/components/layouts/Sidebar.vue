@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import useAxios from '../../services/axios';
 import { RouterLink, useRoute } from "vue-router";
 import useSearch from '../../stores/Search'
@@ -7,49 +7,35 @@ import { storeToRefs } from "pinia";
 import useAlert from "../../services/alert";
 const route = useRoute();
 
-const { prevQuerySize, size, prevQueryColor, color, maxPrice, minPrice } = storeToRefs(useSearch());
+const { attribute, maxPrice, minPrice } = storeToRefs(useSearch());
 const { topAlert } = storeToRefs(useAlert());
 
 const responseData = ref();
 const min = ref(minPrice.value);
 const max = ref(maxPrice.value);
 
-useAxios.get('/sidebar')
-    .then(response => {
-        responseData.value = response.data
-    })
-    .catch(error => {
-        useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-    });
+onMounted(() => {
+    useAxios.get('/sidebar')
+        .then(response => {
+            responseData.value = response.data
+        })
+        .catch(error => {
+            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+        });
+} )
 
-function setAttributeValueToColor(attributeValue){
-    if (color.value == '') {
-        color.value = attributeValue
+function setAttributeValueToAttributeFilter(attributeName, attributeValue){
+    if (attribute.value[attributeName] == undefined || attribute.value[attributeName] == '') {
+        attribute.value[attributeName] = attributeValue
     } else{
-        if (color.value.search(attributeValue) == -1) {
-            color.value += '|' + attributeValue
+        if (attribute.value[attributeName].search(attributeValue) == -1) {
+            attribute.value[attributeName] += '|' + attributeValue
         }
         else{
-            const newArr = color.value.split('|');
+            const newArr = attribute.value[attributeName].split('|');
             const index = newArr.indexOf(attributeValue)
             newArr.splice(index, 1);
-            color.value = newArr.toString()
-        }
-    }
-}
-
-function setAttributeValueToSize(attributeValue){
-    if (size.value == '') {
-        size.value = attributeValue
-    } else{
-        if (size.value.search(attributeValue) == -1) {
-            size.value += '|' + attributeValue
-        }
-        else{
-            const newArr = size.value.split('|');
-            const index = newArr.indexOf(attributeValue)
-            newArr.splice(index, 1);
-            size.value = newArr.toString()
+            attribute.value[attributeName] = newArr.toString()
         }
     }
 }
@@ -84,6 +70,7 @@ function addPriceFilter(min, max){
                                                     {{ cateData.name }}
                                                 </a >
                                             </RouterLink>
+
                                             <ul>
                                                 <template v-if="cateData.sub_category">
                                                     <template v-for="(subCateData, subCateKey) in cateData.sub_category" :key='subCateKey' >
@@ -140,48 +127,10 @@ function addPriceFilter(min, max){
         <!-- Price End -->
         <!-- attribute Start -->
         <template v-if="responseData.sidebarFilter">
-            <div class="border-bottom mb-4 pb-4">
-                <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[0].name }}</h5>
-                <form>
-                    <template v-for="(data, key) in responseData.sidebarFilter[0].attribute_option" :key="key">
-                        <div
-                            class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
-                            <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                :id="data.id"
-                                :checked="prevQuerySize.indexOf(data.value) !== -1"
-                                @click="setAttributeValueToSize(data.value)"
-                                />
-                            <label class="custom-control-label" :for="data.id"
-                                >{{ data.value }}</label >
-                        </div>
-                    </template>
-                </form>
-            </div>
-            <div class="border-bottom mb-4 pb-4">
-                <h5 class="font-weight-semi-bold mb-4">Filter by {{ responseData.sidebarFilter[1].name }}</h5>
-                <form>
-                    <template v-for="(data, key) in responseData.sidebarFilter[1].attribute_option" :key="key">
-                        <div
-                            class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" >
-                            <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                :id="data.id"
-                                :checked="prevQueryColor.indexOf(data.value) !== -1"
-                                @click="setAttributeValueToColor(data.value)"
-                            />
-                            <label class="custom-control-label" :for="data.id"
-                                >{{ data.value }}</label >
-                        </div>
-                    </template>
-                </form>
-            </div>
 
-            <!-- <div class="border-bottom mb-4 pb-4">
+            <div class="border-bottom mb-4 pb-4">
                 <template v-for="(data, key) in responseData.sidebarFilter" :key="key">
-                <h5 class="font-weight-semi-bold mb-4">Filter by {{ data.name }}</h5>
+                    <h5 class="font-weight-semi-bold mb-4 mt-5">Filter by {{ data.name }}</h5>
                     <template v-for="(dataOption, keyOption) in data.attribute_option" :key="keyOption">
                         <form>
                             <div
@@ -189,10 +138,11 @@ function addPriceFilter(min, max){
                                 <input
                                     type="checkbox"
                                     class="custom-control-input"
+                                    :checked="(attribute[data.name]) ? attribute[data.name].indexOf(dataOption.value) !== -1 : null"
                                     :id="dataOption.id"
                                     :value="dataOption.value"
                                     @click="setAttributeValueToAttributeFilter(data.name, dataOption.value)"
-                                    />
+                                />
                                 <label class="custom-control-label" :for="dataOption.id"
                                     >{{ dataOption.value }}</label
                                 >
@@ -200,7 +150,7 @@ function addPriceFilter(min, max){
                         </form>
                     </template>
                 </template>
-            </div> -->
+            </div>
 
         </template>
         <!-- attribute end -->

@@ -10,10 +10,10 @@ return new class extends Migration {
      */
     public function up(): void{
         Schema::create('product_attributes', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->string('color_attribute_values');
-            $table->string('size_attribute_values');
+            $table->foreignId('attribute_id')->constrained()->onDelete('cascade');
+            $table->string('value');
+            $table->primary(['product_id', 'attribute_id']);
         });
     }
 

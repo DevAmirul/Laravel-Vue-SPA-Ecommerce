@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Attribute;
+use App\Models\ProductAttribute;
 use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,7 +20,7 @@ class AttributeOptionFactory extends Factory
     public function definition(): array
     {
         return [
-            'value'=> fake()->name(),
+            'value'=> fake()->unique()->word(),
             'attribute_id'=> Attribute::class
         ];
     }

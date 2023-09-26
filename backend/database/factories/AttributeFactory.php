@@ -17,7 +17,7 @@ class AttributeFactory extends Factory {
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->randomElement(['color', 'size']),
+            'name' => fake()->unique()->randomElement(['Color', 'Size']),
         ];
     }
 }
