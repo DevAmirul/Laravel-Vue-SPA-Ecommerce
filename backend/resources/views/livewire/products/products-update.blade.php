@@ -70,16 +70,16 @@ Products Create
         <div wire:ignore>
             <select id="select-{{ $attribute->name }}" class="form-select" name="state[]" multiple
                 placeholder="Select {{ $attribute->name }}...(optional)" autocomplete="off">
-                    @foreach ($attribute->attributeOption as $option)
-                        <option @selected(str_contains($productAttribute, $option->value)) value="{{ $option->value }}">{{ $option->value }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span>
-                @enderror
-            </div>
+                @foreach ($attribute->attributeOption as $option)
+                    <option @selected(str_contains($productAttribute, $option->value)) value="{{ $option->value }}">{{ $option->value }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span>
+            @enderror
+        </div>
         @endforeach
 
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>

@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder {
             ->count(3)->create();
 
         \App\Models\Brand::factory()->count(5)->create();
-        \App\Models\Editor::factory()->count(4)->create();
+        \App\Models\Editor::factory()->create();
         \App\Models\Offer::factory()->count(3)->create();
 
         \App\Models\Attribute::factory()

@@ -195,9 +195,11 @@ Profile
                                 </div>
                                 <br>
                                 <form wire:submit.prevent="destroy">
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-danger">Delete Account</button>
-                                    </div>
+                                    @if(Auth::guard('editor')->user()->role = 0)
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-danger">Delete Account</button>
+                                        </div>
+                                    @endif
                                 </form>
                                 <!-- End Bordered Tabs -->
 

@@ -50,12 +50,12 @@
                 </li>
                 <li>
                     <a href="{{ route('categories') }}">
-                        <i class="bi bi-circle"></i><span>Categories Table</span>
+                        <i class="bi bi-circle"></i><span>Category Table</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('subCategories') }}">
-                        <i class="bi bi-circle"></i><span>SubCategories Table</span>
+                        <i class="bi bi-circle"></i><span>SubCategory Table</span>
                     </a>
                 </li>
             </ul>

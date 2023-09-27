@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Editor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,12 +18,14 @@ class EditorFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->email(),
-            'phone' => '01834513' . fake()->numberBetween(100, 999),
+            'name' => 'Admin',
+            'email' => 'admin@mail.com',
+            'phone' => '01834513106',
             'address' => fake()->address(),
             'city' => fake()->city(),
             'state' => fake()->city(),
+            'role' => 1,
+            'status' => 1,
             'password' => '12Aa@!b*',
         ];
     }

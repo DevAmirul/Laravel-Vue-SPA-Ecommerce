@@ -13,13 +13,13 @@ trait ProductsService
     public string $slug;
     public string $sku;
     public string $description;
-    public int $sale_price;
-    public int $original_price;
+    public string $sale_price;
+    public string $original_price;
     public ?int $stock_status       = null;
     public ?int $status             = null;
     public array $stockStatusOption = ['Out of Stock', 'In Stock'];
     public array $statusOption      = ['Unpublish', 'Publish'];
-    public int $qty_in_stock;
+    public string $qty_in_stock;
     public string $specification;
     public int $selectedSection;
     public int $selectedCategory;
@@ -47,8 +47,8 @@ trait ProductsService
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'             => 'required|string|max:255',
-                'slug'             => 'required|string|max:255|unique:brands,slug,' . $this->productId,
-                'sku'              => 'required|max:10',
+                'slug'             => 'required|string|max:255|unique:products,slug,' . $this->productId,
+                'sku'              => 'required|max:20|string|unique:products,sku,' . $this->productId,
                 'sale_price'       => 'required|numeric',
                 'original_price'   => 'nullable|numeric',
                 'qty_in_stock'     => 'required|numeric',
@@ -69,17 +69,17 @@ trait ProductsService
         } else {
             return [
                 'name'             => 'required|string|max:255',
-                'slug'             => 'required|string|max:255',
-                'sku'              => 'required|max:10',
-                'sale_price'       => 'numeric',
-                'original_price'   => 'numeric',
-                'qty_in_stock'     => 'numeric',
+                'slug'             => 'required|string|max:255|unique:products,slug',
+                'sku'              => 'required|max:20|string|unique:products,sku',
+                'sale_price'       => 'required|numeric',
+                'original_price'   => 'required|numeric',
+                'qty_in_stock'     => 'required|numeric',
                 'stock_status'     => 'required|boolean',
                 'status'           => 'required|boolean',
                 'selectedCategory' => 'required|numeric',
                 'sub_category_id'  => 'required|numeric',
                 'brand_id'         => 'required|numeric',
-                'selectedTags'     => 'required|array',
+                'selectedTags'     => 'required_if:array,nullable',
                 'description'      => 'required|string',
                 'specification'    => 'required|string',
                 'image'            => 'required|mimes:jpg,jpeg,png',
@@ -119,7 +119,7 @@ trait ProductsService
             $attribute = [];
             foreach ($this->selectedProductAttribute as $key => $value) {
                 if (!empty($value)) {
-                    $attribute[] = ['attribute_id' => $key, 'value' => implode(',', $value)];
+                    $attribute[] = ['attribute_id' => $key, 'values' => implode(',', $value)];
                 }
             }
         }

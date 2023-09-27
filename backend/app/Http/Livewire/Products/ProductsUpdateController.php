@@ -42,13 +42,12 @@ class ProductsUpdateController extends Component
         $this->sub_category_id  = $product->sub_category_id;
         $this->brand_id         = $product->brand_id;
         $this->tags             = $product->tags;
-        $this->productAttribute = implode(',', $product->productAttribute->pluck('value')->all());
-        $this->selectedProductAttribute = explode(',', $this->productAttribute);
+        $this->productAttribute = implode(',', $product->productAttribute->pluck('values')->all());
         $this->description      = $product->description;
         $this->specification    = $product->specification;
         $this->oldImage         = $product->image;
         $this->oldGallery       = $product->gallery;
-
+        // dd($this->productAttribute);
         $this->categories    = Category::all('id', 'name');
         $this->subCategories = SubCategory::all('id', 'name');
         $this->sections = Section::all('id', 'name');
@@ -62,11 +61,13 @@ class ProductsUpdateController extends Component
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();
 
         Product::whereId($this->productId)->update($beforeProductSaveFunc['validate']);
-        dd($this->selectedProductAttribute);
+        
         if (!empty($beforeProductSaveFunc['attribute'])) {
             foreach ($beforeProductSaveFunc['attribute'] as $attribute) {
-                dd($attribute);
-                ProductAttribute::updateOrCreate(['product_id' => $this->productId], $attribute);
+                ProductAttribute::updateOrCreate(
+                    ["attribute_id" => $attribute['attribute_id'], 'product_id' => $this->productId],
+                    ["values" => $attribute['values']]
+                );
             }
         }
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);

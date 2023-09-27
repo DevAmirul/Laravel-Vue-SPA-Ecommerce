@@ -112,7 +112,7 @@
                                         @endif
 
                                         @if ($showBtn ?? true)
-                                        <td class="d-flex">
+                                        <td class="d-flex ">
                                             @if ($showBtnEdit ?? true)
                                             <button
                                                 onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
@@ -121,11 +121,11 @@
                                             </button>
                                             @endif
                                             @if ($showBtnDelete ?? true)
-                                            <button
-                                                onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
-                                                wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
-                                                    class="bi bi-trash"></i>
-                                            </button>
+                                                <button
+                                                    onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
+                                                    wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
+                                                        class="bi bi-trash"></i>
+                                                </button>
                                             @endif
                                         </td>
                                         @endif
