@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class SearchProductService
 {
-    public static function searchProductQuery($request, ?string $optionalRequest = null) 
+    public static function searchProductQuery($request, ?string $optionalRequest = null): object
     {
         $products = DB::table('products')
-            ->select('products.id as p_id', 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
+            ->select(DB::raw('DISTINCT(products.id) as p_id'), 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
             ->leftJoin('offers', 'products.offer_id', '=', 'offers.id')
             ->when($optionalRequest === 'categories', function ($query) use ($request) {
                 $query->join('categories', 'products.category_id', '=', 'categories.id')
@@ -33,13 +33,10 @@ class SearchProductService
             ->when($request->minPrice && $request->maxPrice, function ($query) use ($request) {
                 $query->whereBetween('products.sale_price', [$request->minPrice, $request->maxPrice]);
             })
-            ->when($request->except(['minPrice', 'maxPrice', 'page', 'sort', 'search', 'limit']), function ($query) use ($request) {
+            ->when($request->attribute, function ($query) use ($request) {
                 $query->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
                 ->where(function($query) use ($request){
-                    $attributeQuery = $request->except(['minPrice', 'maxPrice', 'page', 'sort', 'search', 'limit']);
-                    $attribute = Arr::join(Arr::flatten($attributeQuery), '|');
-
-                    $query->where('product_attributes.value', 'REGEXP', $attribute);
+                    $query->where('product_attributes.value', 'REGEXP', $request->attribute);
                 });
             })
             ->when($request->search, function ($query) use ($request) {
@@ -56,7 +53,7 @@ class SearchProductService
                 elseif ($request->sort === 'des') $query->orderByDesc('products.name');
                 elseif ($request->sort === 'latest') $query->latest();
             }, fn($query) => $query->latest())
-        ->paginate($request->limit ?? 5);
+        ->paginate($request->limit ?? 20);
 
         return new ProductCollection($products);
     }

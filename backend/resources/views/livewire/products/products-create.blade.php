@@ -67,31 +67,22 @@ Products Create
             @error( 'selectedTags' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
+        @foreach ($allAttributes as $attribute)
         <div wire:ignore>
-            <select id="select-size" class="form-select" name="state[]" multiple placeholder="Select size..."
-                autocomplete="off">
-                @foreach ($attributes[0]->attributeOption as $key => $option)
-                <option value="{{ $option->value }}">{{ $option->value }}
+            <select id="select-{{ $attribute->name }}" class="form-select" name="state[]" multiple
+                placeholder="Select {{ $attribute->name }}...(optional)" autocomplete="off">
+                @foreach ($attribute->attributeOption as $option)
+                <option
+                    value="{{ $option->value }}">{{ $option->value }}
                 </option>
                 @endforeach
             </select>
         </div>
         <div>
-            @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
+            @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span>
+            @enderror
         </div>
-
-        <div wire:ignore>
-            <select id="select-color" class="form-select" name="state[]" multiple placeholder="Select color..."
-                autocomplete="off">
-                @foreach ($attributes[1]->attributeOption as $key => $option)
-                <option value="{{ $option->value }}">{{ $option->value }}
-                </option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
-        </div>
+        @endforeach
 
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
         </x-form-input-field.file>
@@ -127,21 +118,15 @@ Products Create
         }
     });
 
-    new TomSelect("#select-size",{
-        plugins: ['remove_button'],
-        create: true,
-        onChange: function (value){
-        @this.set('selectedSize', value)
-        }
-    });
-
-        new TomSelect("#select-color",{
-        plugins: ['remove_button'],
-        create: true,
-        onChange: function (value){
-        @this.set('selectedColor', value)
-        }
-    });
+    for (const attribute in @js($allAttributes)) {
+        new TomSelect(`#select-${@js($allAttributes)[attribute].name}`,{
+            plugins: ['remove_button'],
+            create: true,
+            onChange: function (value){
+                @this.set(`selectedProductAttribute.${@js($allAttributes)[attribute].id}`, value)
+            }
+        });
+    }
 
     ClassicEditor
         .create( document.querySelector( '#editor' ),{

@@ -66,37 +66,10 @@ Products Create
             @error( 'selectedTags' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
         </div>
 
-        {{-- <div wire:ignore>
-            <select id="select-{{ $attributes[0]->name }}" class="form-select" name="state[]" multiple
-                placeholder="Select size..." autocomplete="off">
-                @foreach ($attributes[0]->attributeOption as $key => $option)
-                <option @selected(str_contains($size, $option->value)) value="{{ $option->value }}">{{ $option->value }}
-                </option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            @error( 'selectedSize' ) <span class=" error fw-light text-danger">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <div wire:ignore>
-            <select id="select-{{ $attributes[1]->name }}" class="form-select" name="state[]" multiple
-                placeholder="Select color..." autocomplete="off">
-                @foreach ($attributes[1]->attributeOption as $key => $option)
-                <option @selected(str_contains($color, $option->value))
-                    value="{{ $option->value }}">{{ $option->value }}
-                </option>
-                @endforeach
-            </select>
-        </div>
-        <div>
-            @error( 'selectedColor' ) <span class=" error fw-light text-danger">{{ $message }}</span> @enderror
-        </div> --}}
         @foreach ($allAttributes as $attribute)
         <div wire:ignore>
             <select id="select-{{ $attribute->name }}" class="form-select" name="state[]" multiple
-                placeholder="Select {{ $attribute->name }}..." autocomplete="off">
+                placeholder="Select {{ $attribute->name }}...(optional)" autocomplete="off">
                     @foreach ($attribute->attributeOption as $option)
                         <option @selected(str_contains($productAttribute, $option->value)) value="{{ $option->value }}">{{ $option->value }}
                         </option>
@@ -108,7 +81,7 @@ Products Create
                 @enderror
             </div>
         @endforeach
-        
+
         <x-form-input-field.file col="col-6" label="Upload Image" name="image" wireModel='image'>
         </x-form-input-field.file>
         <x-form-input-field.file col="col-6" name='gallery.*' label="Upload Gallery" wireModel='gallery'
@@ -149,17 +122,10 @@ Products Create
             plugins: ['remove_button'],
             create: true,
             onChange: function (value){
-                @this.set(`selectedProductAttribute.${@js($allAttributes)[attribute].name}`, value)
+                @this.set(`selectedProductAttribute.${@js($allAttributes)[attribute].id}`, value)
             }
         });
     }
-        // new TomSelect(`#select-${@js($allAttributes)[attribute].name}`,{
-        //     plugins: ['remove_button'],
-        //     create: true,
-        //     onChange: function (value){
-        //         @this.set('selectedColor', value)
-        //     }
-        // });
 
     ClassicEditor
         .create( document.querySelector( '#editor' ),{

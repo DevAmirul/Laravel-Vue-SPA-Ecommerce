@@ -14,8 +14,8 @@ class ProductAttribute extends Model {
 
     protected $fillable = [
         'product_id',
-        'color_attribute_values',
-        'size_attribute_values',
+        'attribute_id',
+        'value',
     ];
 
     public $timestamps = false;

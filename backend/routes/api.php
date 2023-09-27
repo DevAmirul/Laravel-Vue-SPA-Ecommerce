@@ -58,7 +58,7 @@ Route::name('api.')->group(function () {
 
     Route::get('/shop', ShopController::class)->name('shop');
 
-    Route::get('/categories/{slug}', CategoryController::class)->name('categories')->whereAlpha('slug');
+    Route::get('/categories/{slug}', CategoryController::class)->name('categories');
 
     Route::get('/sub-categories/{slug}', SubCategoryController::class)->name('subCategories')->whereAlpha('slug');
 

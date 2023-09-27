@@ -13,6 +13,7 @@ use App\Models\ProductAttribute;
 use App\Models\Section;
 use App\Models\SubCategory;
 use App\Models\Tag;
+use Arr;
 use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,38 +23,38 @@ class ProductsUpdateController extends Component
     use ProductsService, WithFileUploads, FileTrait, CreateSlugTrait;
 
     public string $pageUrl = 'update';
-    public int $productId;
 
     public function mount($id): void
     {
         $this->productId = $id;
 
-        $products = Product::where('id', $id)->with('productAttribute')->get();
+        $product = Product::where('id', $id)->with('productAttribute')->first();
 
-        foreach ($products as $product) {
-            $this->name             = $product->name;
-            $this->slug             = $product->slug;
-            $this->sku              = $product->sku;
-            $this->sale_price       = $product->sale_price;
-            $this->original_price   = $product->original_price;
-            $this->qty_in_stock     = $product->qty_in_stock;
-            $this->stock_status     = $product->stock_status;
-            $this->status           = $product->status;
-            $this->selectedCategory = $product->category_id;
-            $this->sub_category_id  = $product->sub_category_id;
-            $this->brand_id         = $product->brand_id;
-            $this->tags             = $product->tags;
-            $this->productAttribute = $product->productAttribute->color_attribute_values . $product->productAttribute->size_attribute_values;
-            // $this->selectedColor    = explode(',', $product->productAttribute->color_attribute_values);
-            // $this->selectedSize     = explode(',', $product->productAttribute->size_attribute_values);
-            $this->description      = $product->description;
-            $this->specification    = $product->specification;
-            $this->oldImage         = $product->image;
-            $this->oldGallery       = $product->gallery;
-        }
+        $this->name             = $product->name;
+        $this->slug             = $product->slug;
+        $this->sku              = $product->sku;
+        $this->sale_price       = $product->sale_price;
+        $this->original_price   = $product->original_price;
+        $this->qty_in_stock     = $product->qty_in_stock;
+        $this->stock_status     = $product->stock_status;
+        $this->status           = $product->status;
+        $this->selectedCategory = $product->category_id;
+        $this->sub_category_id  = $product->sub_category_id;
+        $this->brand_id         = $product->brand_id;
+        $this->tags             = $product->tags;
+        $this->productAttribute = implode(',', $product->productAttribute->pluck('value')->all());
+        $this->selectedProductAttribute = explode(',', $this->productAttribute);
+        $this->description      = $product->description;
+        $this->specification    = $product->specification;
+        $this->oldImage         = $product->image;
+        $this->oldGallery       = $product->gallery;
+
         $this->categories    = Category::all('id', 'name');
-
         $this->subCategories = SubCategory::all('id', 'name');
+        $this->sections = Section::all('id', 'name');
+        $this->brands   = Brand::all('id', 'name');
+        $this->allTags  = Tag::all('id', 'keyword');
+        $this->allAttributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
     }
 
     public function update(): void
@@ -61,33 +62,18 @@ class ProductsUpdateController extends Component
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();
 
         Product::whereId($this->productId)->update($beforeProductSaveFunc['validate']);
-
+        dd($this->selectedProductAttribute);
         if (!empty($beforeProductSaveFunc['attribute'])) {
-            if ($beforeProductSaveFunc['attribute']['size_attribute_values'] !== '') {
-                ProductAttribute::updateOrCreate(['product_id' => $this->productId],$beforeProductSaveFunc['attribute']);
-            }
-            if ($beforeProductSaveFunc['attribute']['color_attribute_values'] !== '') {
-                ProductAttribute::updateOrCreate(['product_id' => $this->productId],$beforeProductSaveFunc['attribute']);
+            foreach ($beforeProductSaveFunc['attribute'] as $attribute) {
+                dd($attribute);
+                ProductAttribute::updateOrCreate(['product_id' => $this->productId], $attribute);
             }
         }
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render(Request $request)
+    public function render()
     {
-        $sections = Section::all('id', 'name');
-
-        $brands   = Brand::all('id', 'name');
-
-        $allTags  = Tag::all('id', 'keyword');
-
-        $allAttributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
-
-        return view('livewire.products.products-update', [
-            'sections' => $sections,
-            'brands'   => $brands,
-            'allTags'  => $allTags,
-            'allAttributes' => $allAttributes,
-        ]);
+        return view('livewire.products.products-update');
     }
 }

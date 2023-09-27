@@ -31,7 +31,7 @@ class AttributesCreateController extends Component {
         }
     }
 
-    public function save(): void{
+    public function create(): void{
         $validate = $this->validate();
 
         $attributeValues = Arr::map($validate['values'], function ($value, $key) {

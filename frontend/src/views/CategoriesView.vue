@@ -16,7 +16,7 @@ const route = useRoute();
 
 onMounted(() => {
     if (isRefreshPage.value) {
-        useSearch().getDataByQuery();
+        useSearch().getDataByQuery('form on mounted');
     }
 })
 </script>

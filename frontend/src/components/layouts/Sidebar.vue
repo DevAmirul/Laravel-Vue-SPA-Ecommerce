@@ -24,18 +24,17 @@ onMounted(() => {
         });
 } )
 
-function setAttributeValueToAttributeFilter(attributeName, attributeValue){
-    if (attribute.value[attributeName] == undefined || attribute.value[attributeName] == '') {
-        attribute.value[attributeName] = attributeValue
+function setAttributeValueToAttributeFilter(attributeValue){
+    if (attribute.value == '') {
+        attribute.value = attributeValue
     } else{
-        if (attribute.value[attributeName].search(attributeValue) == -1) {
-            attribute.value[attributeName] += '|' + attributeValue
-        }
-        else{
-            const newArr = attribute.value[attributeName].split('|');
+        if (attribute.value.search(attributeValue) == -1) {
+            attribute.value += '|' + attributeValue
+        } else{
+            const newArr = attribute.value.split('|');
             const index = newArr.indexOf(attributeValue)
             newArr.splice(index, 1);
-            attribute.value[attributeName] = newArr.toString()
+            attribute.value = newArr.join('|')
         }
     }
 }
@@ -138,10 +137,10 @@ function addPriceFilter(min, max){
                                 <input
                                     type="checkbox"
                                     class="custom-control-input"
-                                    :checked="(attribute[data.name]) ? attribute[data.name].indexOf(dataOption.value) !== -1 : null"
+                                    :checked="(attribute) ? attribute.search(dataOption.value) !== -1 : null"
                                     :id="dataOption.id"
                                     :value="dataOption.value"
-                                    @click="setAttributeValueToAttributeFilter(data.name, dataOption.value)"
+                                    @click="setAttributeValueToAttributeFilter(dataOption.value)"
                                 />
                                 <label class="custom-control-label" :for="dataOption.id"
                                     >{{ dataOption.value }}</label

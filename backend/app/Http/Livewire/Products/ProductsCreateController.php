@@ -18,30 +18,29 @@ class ProductsCreateController extends Component {
 
     public string $pageUrl = 'create';
 
+    public function mount(): void
+    {
+        $this->sections   = Section::all(['id', 'name']);
+
+        $this->brands     = Brand::all(['id', 'name']);
+
+        $this->allTags    = Tag::all(['id', 'keyword']);
+
+        $this->allAttributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
+    }
+
     public function create(): void {
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();
 
         $product = Product::create($beforeProductSaveFunc['validate']);
-
-        $product->productAttribute()->create($beforeProductSaveFunc['attribute']);
-
+        
+        if (!empty($beforeProductSaveFunc['attribute'])) {
+            $product->productAttribute()->createMany($beforeProductSaveFunc['attribute']);
+        }
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
     public function render() {
-        $sections   = Section::all(['id', 'name']);
-
-        $brands     = Brand::all(['id', 'name']);
-
-        $allTags    = Tag::all(['id', 'keyword']);
-
-        $attributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
-
-        return view('livewire.products.products-create', [
-            'sections'   => $sections,
-            'brands'     => $brands,
-            'allTags'    => $allTags,
-            'attributes' => $attributes,
-        ]);
+        return view('livewire.products.products-create');
     }
 }

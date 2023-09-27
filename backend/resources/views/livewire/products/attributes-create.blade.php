@@ -12,7 +12,7 @@ Attributes Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Attribute Create' >
+    <x-form pageTitle='Attribute Create' action='create'>
         <x-form-input-field.general col="col-8" lable="Attribute name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
 

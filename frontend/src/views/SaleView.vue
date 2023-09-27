@@ -1,24 +1,20 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import useSearch from '../stores/Search'
-import useAlert from "../services/alert";
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import useAxios from "../services/axios";
-
-const { centerDialogAlert } = storeToRefs(useAlert());
 
 const { responseData, isRefreshPage } = storeToRefs(useSearch());
 const route = useRoute();
 
 onMounted(() => {
     if (isRefreshPage.value) {
-        useSearch().getDataByQuery();
+        useSearch().getDataByQuery('form on mounted');
     }
 })
 </script>

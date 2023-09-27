@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { storeToRefs } from "pinia";
 import useSearch from '../stores/Search'
 import Filter from "../components/layouts/Filter.vue";
@@ -13,15 +13,9 @@ const { responseData, isRefreshPage } = storeToRefs(useSearch());
 const route = useRoute();
 
 onMounted(() => {
-    console.log(route.query);
     if (isRefreshPage.value) {
-        // if (Object.keys(route.query).length == 0) {
-            useSearch().getDataByQuery('form on mounted');
-        // }
+        useSearch().getDataByQuery('form on mounted');
     }
-    // if (isRefreshPage.value) {
-        // useSearch().getDataByQuery('form on mounted');
-    // }
 })
 
 </script>

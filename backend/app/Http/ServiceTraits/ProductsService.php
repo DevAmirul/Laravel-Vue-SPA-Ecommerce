@@ -9,6 +9,7 @@ trait ProductsService
 {
 
     public string $name;
+    public int $productId;
     public string $slug;
     public string $sku;
     public string $description;
@@ -29,10 +30,11 @@ trait ProductsService
     public ?string $tags;
     public array $selectedTags = [];
     public string $productAttribute = '';
-    public array $selectedProductAttribute = [];
-
-    public array $selectedColor = [];
-    public array $selectedSize  = [];
+    public string|array $selectedProductAttribute = [];
+    public ?object $sections = null;
+    public ?object $brands = null;
+    public ?object $allTags = null;
+    public ?object $allAttributes = null;
 
 
     public $image;
@@ -57,8 +59,6 @@ trait ProductsService
                 'brand_id'         => 'required|numeric',
                 'description'      => 'required|string',
                 'specification'    => 'required|string',
-                // 'selectedColor'    => 'required|array',
-                // 'selectedSize'     => 'required|array',
             ];
 
             if ($this->selectedTags) $rulesForUpdate['selectedTags'] = 'required|array';
@@ -84,8 +84,6 @@ trait ProductsService
                 'specification'    => 'required|string',
                 'image'            => 'required|mimes:jpg,jpeg,png',
                 'gallery'          => 'required|array',
-                'selectedColor'    => 'required',
-                'selectedSize'     => 'required',
             ];
         }
     }
@@ -117,13 +115,13 @@ trait ProductsService
             $validate['tags']                    = implode(',', $validate['selectedTags']);
             unset($validate['selectedTags']);
         }
-        if ($this->selectedColor) {
-            $attribute['color_attribute_values'] = implode(',', $validate['selectedColor']);
-            unset($validate['selectedColor']);
-        }
-        if ($this->selectedSize) {
-            $attribute['size_attribute_values']  = implode(',', $validate['selectedSize']);
-            unset($validate['selectedSize']);
+        if ($this->selectedProductAttribute) {
+            $attribute = [];
+            foreach ($this->selectedProductAttribute as $key => $value) {
+                if (!empty($value)) {
+                    $attribute[] = ['attribute_id' => $key, 'value' => implode(',', $value)];
+                }
+            }
         }
         if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'products');
         if (gettype($this->gallery == 'array') && !empty($this->gallery)) $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
