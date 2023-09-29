@@ -30,8 +30,8 @@ trait OffersService {
                 'discount'    => 'required|string|max:255',
                 'type'        => 'required',
                 'status'      => 'required|boolean',
-                'start_date'  => 'required|date',
-                'expire_date' => 'required|date',
+                'start_date'  => 'required|date|before:expire_date',
+                'expire_date' => 'required|date|after:start_date',
             ];
 
             if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
@@ -45,8 +45,8 @@ trait OffersService {
                 'discount'    => 'required|string|max:255',
                 'type'        => 'required',
                 'status'      => 'required|boolean',
-                'start_date'  => 'required|date',
-                'expire_date' => 'required|date',
+                'start_date'  => 'required|date|before:expire_date',
+                'expire_date' => 'required|date|after:start_date',
             ];
         }
     }

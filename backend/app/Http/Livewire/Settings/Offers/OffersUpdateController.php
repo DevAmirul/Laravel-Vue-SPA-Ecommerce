@@ -7,27 +7,31 @@ use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\DiscountPrice;
 use App\Models\Offer;
-use App\Models\Product;
 use App\Models\SubCategory;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class OffersUpdateController extends Component
-{
+class OffersUpdateController extends Component {
     use CreateSlugTrait, OffersService, WithFileUploads, FileTrait;
 
     public string $pageUrl = 'update';
+    public $category_id;
 
-    public function mount($id): void
-    {
-        $this->offerId     = $id;
+    /**
+     * Get offer's by id
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
+        $this->offerId = $id;
 
-        $offer             = Offer::find($id);
+        $offer = Offer::with('category')->find($id);
 
         $this->name        = $offer->name;
-        $this->title        = $offer->title;
+        $this->title       = $offer->title;
         $this->image       = $offer->image;
         $this->oldImage    = $offer->image;
         $this->discount    = $offer->discount;
@@ -35,27 +39,45 @@ class OffersUpdateController extends Component
         $this->status      = $offer->status;
         $this->start_date  = $offer->start_date;
         $this->expire_date = $offer->expire_date;
+        $this->category_id = implode(',', $offer->category->pluck('id')->all());
 
-        $this->categories    = Category::all('id', 'name');
+        $this->categories = Category::all('id', 'name');
 
         $this->subCategories = SubCategory::all('id', 'name');
 
-        $this->brands        = Brand::all('id', 'name');
+        $this->brands = Brand::all('id', 'name');
     }
 
-    public function save(): void
-    {
+    /**
+     * Update offer
+     *
+     * @return void
+     */
+    public function update(): void {
         $validate = $this->validate();
 
-        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'offers');
+        if (gettype($this->image) == 'object') {
+            $validate['image'] = $this->fileUpload($this->image, 'offers');
+        }
 
         Offer::whereId($this->offerId)->update($validate);
 
+        if (!empty($this->selectedCategories)) {
+            Category::whereOfferId($this->offerId)->update(['offer_id' => null]);
+            Category::whereIn('id', $this->selectedCategories)->update(['offer_id' => $this->offerId]);
+        }
+        if (!empty($this->selectedSubCategories)) {
+            SubCategory::whereOfferId($this->offerId)->update(['offer_id' => null]);
+            SubCategory::whereIn('id', $this->selectedSubCategories)->update(['offer_id' => $this->offerId]);
+        }
+        if (!empty($this->selectedBrands)) {
+            Brand::whereOfferId($this->offerId)->update(['offer_id' => null]);
+            Brand::whereIn('id', $this->selectedBrands)->update(['offer_id' => $this->offerId]);
+        }
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render()
-    {
+    public function render(): View {
         return view('livewire.settings.offers.offers-update');
     }
 }

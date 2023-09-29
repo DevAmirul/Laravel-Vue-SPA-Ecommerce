@@ -11,32 +11,33 @@ use App\Models\Section;
 use App\Services\NewArrivalService;
 use App\Services\TopRatingService;
 use App\Services\TopSaleServices;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class HomeController extends Controller {
 
-    public function index(): Response {
-        return response([
+    public function index(): JsonResponse {
+        return response()->json([
             'topSales'    => TopSaleServices::topSalesQuery(),
             'topRatings'  => TopRatingService::topRatingsQuery(),
             'newArrivals' => NewArrivalService::newArrivalQuery(),
-        ], 200);
+        ]);
     }
 
-    public function getOffer(): Response{
+    public function getOffer(): JsonResponse {
         $offers = Offer::where('id', '!==', 1)->whereStatus(true)->where('expire_date', '>', now())
             ->latest('created_at')->take(3)
             ->get(['name', 'image', 'type', 'title', 'discount', 'status', 'expire_date']);
-        return response(['offers' => OfferResource::collection($offers)], 200);
+
+        return response()->json(['offers' => OfferResource::collection($offers)]);
     }
 
-    public function getCategory(): Response{
+    public function getCategory(): JsonResponse {
         $categories = Category::all(['name', 'image', 'slug']);
-        return response(['categories' => CategoryResource::collection($categories)], 200);
+        return response()->json(['categories' => CategoryResource::collection($categories)]);
     }
 
-    public function getSidebar(): Response{
+    public function getSidebar(): JsonResponse {
         $allCategory = Section::with('category:id,section_id,name,slug')->get(['id', 'name']);
-        return response(compact('allCategory'), 200);
+        return response()->json(compact('allCategory'));
     }
 }

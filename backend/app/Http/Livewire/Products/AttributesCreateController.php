@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Products;
 use App\Models\Attribute;
 use App\Models\AttributeOption;
 use Illuminate\Support\Arr;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class AttributesCreateController extends Component {
@@ -17,21 +18,36 @@ class AttributesCreateController extends Component {
         'values' => 'required',
     ];
 
-    public function updated($propertyName): void{
+    public function updated($propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function increaseInputField(): void{
+    /**
+     * Increment attribute's value input field.
+     *
+     * @return void
+     */
+    public function increaseInputField(): void {
         $this->plusButton++;
     }
 
+    /**
+     * Decrement attribute's value input field.
+     *
+     * @return void
+     */
     public function decreaseInputField(): void {
         if ($this->plusButton > 1) {
             $this->plusButton--;
         }
     }
 
-    public function create(): void{
+    /**
+     * Create attribute.
+     *
+     * @return void
+     */
+    public function create(): void {
         $validate = $this->validate();
 
         $attributeValues = Arr::map($validate['values'], function ($value, $key) {
@@ -45,7 +61,7 @@ class AttributesCreateController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.products.attributes-create');
     }
 }

@@ -12,20 +12,14 @@ use App\Models\Order;
 use App\Models\PaymentType;
 use App\Models\ShippingMethod;
 use App\Models\User;
-use App\Repositories\Payments\StripeRepository;
 use App\Services\CartProductService;
-use DB;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class CheckoutController extends Controller
-{
-    public function inbox(Request $request): Response
-    {
+class CheckoutController extends Controller {
+    public function inbox(Request $request): JsonResponse {
         $carts = CartProductService::getCartProduct($request);
 
         $shippingMethods = ShippingMethod::all('id', 'name', 'cost');
@@ -34,11 +28,10 @@ class CheckoutController extends Controller
 
         $billingDetails = BillingDetails::firstWhere('user_id', $request->id);
 
-        return response(compact('carts', 'shippingMethods', 'paymentMethods', 'billingDetails'), 200);
+        return response()->json(compact('carts', 'shippingMethods', 'paymentMethods', 'billingDetails'));
     }
 
-    public function placeOrder(Payments $payment, CheckoutRequest $request) : Response
-    {
+    public function placeOrder(Payments $payment, CheckoutRequest $request): JsonResponse {
         $cartItems = CartProductService::getCartProduct($request);
 
         $orderItems = [];
@@ -49,7 +42,7 @@ class CheckoutController extends Controller
                     $discount = number_format(($value->discount / 100) * $value->sale_price);
                 }
                 array_push($orderItems, ['product_id' => $value->p_id, 'qty' => $value->qty, 'discount_price' => $discount ?? $value->discount]);
-            }else{
+            } else {
                 array_push($orderItems, ['product_id' => $value->p_id, 'qty' => $value->qty]);
             }
         }
@@ -57,20 +50,20 @@ class CheckoutController extends Controller
         $user = User::find($request->id, ['id', 'name', 'email']);
 
         $user->billingDetail()->updateOrCreate(['user_id' => $request->id], [
-            'phone'=> $request->validated('phone'),
-            'city'=> $request->validated('city'),
-            'state'=> $request->validated('state'),
-            'zip_code'=> $request->validated('zip_code'),
-            'address'=> $request->validated('address'),
-            'address_2'=> $request->validated('address_2'),
+            'phone'     => $request->validated('phone'),
+            'city'      => $request->validated('city'),
+            'state'     => $request->validated('state'),
+            'zip_code'  => $request->validated('zip_code'),
+            'address'   => $request->validated('address'),
+            'address_2' => $request->validated('address_2'),
         ]);
 
         $order = $user->order()->create([
-            'discount' => $request->validated('discount') ,
-            'subtotal' => $request->validated('subtotal') ,
-            'total' => $request->validated('total') ,
-            'shipping_method_id' => $request->validated('shipping_method_id') ,
-            'coupon_id' => $request->validated('coupon_id') ,
+            'discount'           => $request->validated('discount'),
+            'subtotal'           => $request->validated('subtotal'),
+            'total'              => $request->validated('total'),
+            'shipping_method_id' => $request->validated('shipping_method_id'),
+            'coupon_id'          => $request->validated('coupon_id'),
         ]);
 
         $order->orderItem()->createMany($orderItems);
@@ -92,14 +85,14 @@ class CheckoutController extends Controller
             }
         }
 
-        return response(['stripeUrl'=> $payment['stripeUrl'] ?? null, 'status'=> 'Successfully added to order'], 200);
+        return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null, 'status' => 'Successfully added to order']);
     }
 
-    public function payOrder(Payments $payment, Request $request) : Response {
+    public function payOrder(Payments $payment, Request $request): JsonResponse {
         try {
             $payment = $payment->checkOut(null);
             Order::whereId($request->id)->update(['session_id' => $payment['sessionId']]);
-        } catch(\Stripe\Exception\CardException $e) {
+        } catch (\Stripe\Exception\CardException $e) {
             throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
         } catch (\Stripe\Exception\InvalidRequestException $e) {
             throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
@@ -107,6 +100,6 @@ class CheckoutController extends Controller
             throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
         }
 
-        return response(['stripeUrl' => $payment['stripeUrl'] ?? null], 200);
+        return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null]);
     }
 }

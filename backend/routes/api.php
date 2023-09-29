@@ -60,13 +60,13 @@ Route::name('api.')->group(function () {
 
     Route::get('/categories/{slug}', CategoryController::class)->name('categories');
 
-    Route::get('/sub-categories/{slug}', SubCategoryController::class)->name('subCategories')->whereAlpha('slug');
+    Route::get('/sub-categories/{slug}', SubCategoryController::class)->name('subCategories');
 
-    Route::get('/brands/{slug}', BrandController::class)->name('brands')->whereAlpha('slug');
+    Route::get('/brands/{slug}', BrandController::class)->name('brands');
 
     Route::get('/sales', TopSaleController::class)->name('sales');
 
-    Route::get('/products/{slug}', [ProductController::class, 'index'])->name('products.show')->whereAlpha('slug');
+    Route::get('/products/{slug}', [ProductController::class, 'index'])->name('products.show');
 
     Route::get('/products/view-count/{id}', [ProductController::class, 'productViewCount'])->name('products.viewCount')->whereNumber('id');
 
@@ -101,7 +101,7 @@ Route::name('api.')->group(function () {
 
             Route::get('/{id}', [OrderController::class, 'index'])->whereNumber('id');
 
-            Route::get('/{id}/items', [OrderItemController::class, 'index'])->name('items')->whereNumber('id');
+            Route::get('/{id}/items', OrderItemController::class)->name('items')->whereNumber('id');
 
             Route::get('/{id}/pay', [CheckoutController::class, 'payOrder'])->name('pay')->whereNumber('id');
         });

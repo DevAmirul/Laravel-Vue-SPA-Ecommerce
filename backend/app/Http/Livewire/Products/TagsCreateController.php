@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Products;
 
 use App\Models\Tag;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class TagsCreateController extends Component {
@@ -12,21 +13,26 @@ class TagsCreateController extends Component {
         'keyword' => 'required|string|max:100',
     ];
 
-    public function updated($propertyName): void{
+    public function updated($propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function save(): void{
-        $validate          = $this->validate();
-        
+    /**
+     * Create tag.
+     *
+     * @return void
+     */
+    public function create(): void {
+        $validate = $this->validate();
+
         Tag::create($validate);
-        
+
         $this->reset();
-        
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.products.tags-create');
     }
 }

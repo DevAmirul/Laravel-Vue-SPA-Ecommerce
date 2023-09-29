@@ -7,20 +7,26 @@ use App\Http\Traits\getTime;
 use App\Http\Traits\TableColumnTrait;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class SalesReportController extends Component {
     use TableColumnTrait, WithPagination, FilterSearch, getTime;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Quantity', 'Subtotal', 'Discount', 'Shipping', 'Total', 'Date'],
             ['qty', 'subtotal', 'discount', 'shippingCost', 'total', 'time']
         );
     }
 
-    public function render() {
+    public function render(): View {
         $saleReports = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('shipping_methods', 'orders.shipping_method_id', '=', 'shipping_methods.id')

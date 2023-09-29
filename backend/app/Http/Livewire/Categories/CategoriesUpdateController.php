@@ -7,6 +7,7 @@ use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Category;
 use App\Models\Section;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -15,12 +16,18 @@ class CategoriesUpdateController extends Component {
 
     public string $pageUrl = 'update';
 
-    public function mount($id): void{
+    /**
+     * Get category by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
         $this->categoryId = $id;
 
-        $this->sections   = Section::all('id', 'name');
+        $this->sections = Section::all('id', 'name');
 
-        $category         = Category::findOrFail($this->categoryId, ['name', 'image', 'slug', 'status', 'section_id']);
+        $category = Category::findOrFail($this->categoryId, ['name', 'image', 'slug', 'status', 'section_id']);
 
         $this->name       = $category->name;
         $this->image      = $category->image;
@@ -30,17 +37,23 @@ class CategoriesUpdateController extends Component {
         $this->section_id = $category->section_id;
     }
 
-    public function update() {
+    /**
+     * Update category.
+     *
+     * @return void
+     */
+    public function update(): void {
         $validate = $this->validate();
 
-        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'categories');
-
+        if (gettype($this->image) == 'object') {
+            $validate['image'] = $this->fileUpload($this->image, 'categories');
+        }
         Category::where('id', $this->categoryId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.categories.categories-update');
     }
 }

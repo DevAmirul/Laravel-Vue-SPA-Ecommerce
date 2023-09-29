@@ -7,7 +7,13 @@ use Livewire\Component;
 class EmptyPage extends Component {
     public string $tableName;
 
-    public function mount($tableName) : void {
+    /**
+     * Set table name when empty page component mount.
+     *
+     * @param string $tableName
+     * @return void
+     */
+    public function mount(string $tableName): void {
         $this->tableName = $tableName;
     }
     public function render() {

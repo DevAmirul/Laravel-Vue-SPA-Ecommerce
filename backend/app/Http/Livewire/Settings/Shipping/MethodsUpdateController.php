@@ -5,21 +5,33 @@ namespace App\Http\Livewire\Settings\Shipping;
 use App\Http\ServiceTraits\MethodsService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Models\ShippingMethod;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class MethodsUpdateController extends Component {
     use CreateSlugTrait, MethodsService;
 
-    public function mount($id): void{
+    /**
+     * Get shipping method's by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
         $this->methodId = $id;
 
-        $method     = ShippingMethod::find($id);
+        $method = ShippingMethod::find($id);
 
         $this->name = $method->name;
         $this->cost = $method->cost;
     }
 
-    public function save(): void{
+    /**
+     * Update shipping method's.
+     *
+     * @return void
+     */
+    public function update(): void {
         $validate = $this->validate();
 
         ShippingMethod::whereId($this->methodId)->update($validate);
@@ -27,7 +39,7 @@ class MethodsUpdateController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.settings.shipping.methods-update');
     }
 }

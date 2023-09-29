@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReviewRequest;
 use App\Models\Review;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
-class ReviewController extends Controller
-{
-    public function create(ReviewRequest $request) : Response {
+class ReviewController extends Controller {
+    public function create(ReviewRequest $request): JsonResponse {
         Review::create($request->validated());
-        return response(true, 200);
+        return response()->json(['status' => 'Successfully added review']);
     }
 }

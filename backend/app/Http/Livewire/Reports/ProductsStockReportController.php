@@ -6,6 +6,7 @@ use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,7 +17,12 @@ class ProductsStockReportController extends Component {
     public ?int $quantityAbove     = null;
     public ?int $quantityBelow     = null;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Image', 'Name', 'SKU', 'Quantity', 'Stock Status'],
             ['image', 'name', 'sku', 'qty_in_stock', 'stock_status']
@@ -28,11 +34,11 @@ class ProductsStockReportController extends Component {
         );
     }
 
-    public function render() {
+    public function render(): View {
         $productStockReports = Product::where(function (Builder $builder) {
-                $builder->where('name', 'LIKE', '%' . $this->searchStr . '%')
-                    ->orWhere('sku', 'LIKE', '%' . $this->searchStr . '%');
-            })
+            $builder->where('name', 'LIKE', '%' . $this->searchStr . '%')
+                ->orWhere('sku', 'LIKE', '%' . $this->searchStr . '%');
+        })
             ->when($this->quantityAbove, function (Builder $builder) {
                 $builder->where('qty_in_stock', '>', $this->quantityAbove);
             })

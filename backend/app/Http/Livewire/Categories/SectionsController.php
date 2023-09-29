@@ -5,13 +5,20 @@ namespace App\Http\Livewire\Categories;
 use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Section;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class SectionsController extends Component {
     use TableColumnTrait, BooleanTableTrait, WithPagination;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Id', 'image', 'Name', 'Slug', 'status', 'Action'],
             ['id', 'image', 'name', 'slug', 'status']
@@ -23,21 +30,33 @@ class SectionsController extends Component {
         );
     }
 
-    public function update($sectionId) {
+    /**
+     * Redirect to update controller.
+     *
+     * @param integer $sectionId
+     * @return RedirectResponse
+     */
+    public function update(int $sectionId): RedirectResponse {
         return redirect()->route('sections.update', $sectionId);
     }
 
-    public function destroy($id): void{
+    /**
+     * Delete section.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id): void {
         $section = Section::findOrFail($id);
 
         $this->fileDestroy($section->image, 'sections');
 
         $section->delete();
-        
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         $sections = Section::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 

@@ -7,10 +7,9 @@ use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\DiscountPrice;
 use App\Models\Offer;
-use App\Models\Product;
 use App\Models\SubCategory;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -19,46 +18,44 @@ class OffersCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function updated($propertyName): void{
-        $this->validateOnly($propertyName, $this->rules);
+    /**
+     * Get all category, subcategory and brand list to set offer id while creating new offer.
+     *
+     * @return void
+     */
+    function mount(): void {
+        $this->categories = Category::all('id', 'name');
+
+        $this->subCategories = SubCategory::all('id', 'name');
+
+        $this->brands = Brand::all('id', 'name');
     }
 
-    public function save(): void{
+    /**
+     * Create new offer
+     *
+     * @return void
+     */
+    public function create(): void {
         $validate = $this->validate();
 
         $validate['image'] = $this->fileUpload($this->image, 'offers');
 
-        $offer    = Offer::create($validate);
+        $offer = Offer::create($validate);
 
         if (!empty($this->selectedCategories)) {
-            $productsByCategory = Product::whereIn('category_id', $this->selectedCategories)->get('id');
-            DiscountPrice::whereIn('product_id', $productsByCategory->pluck('id'))->update(['offer_id' => $offer->id]);
+            Category::whereIn('id', $this->selectedCategories)->update(['offer_id' => $offer->id]);
         }
-
         if (!empty($this->selectedSubCategories)) {
-            $productsBySubCategory = Product::whereIn('sub_category_id', $this->selectedCategories)->get('id');
-            DiscountPrice::whereIn('product_id', $productsBySubCategory->pluck('id'))->update(['offer_id' => $offer->id]);
+            SubCategory::whereIn('id', $this->selectedSubCategories)->update(['offer_id' => $offer->id]);
         }
-
         if (!empty($this->selectedBrands)) {
-            $productsByBrand = Product::whereIn('brand_id', $this->selectedCategories)->get('id');
-            DiscountPrice::whereIn('product_id', $productsByBrand->pluck('id'))->update(['offer_id' => $offer->id]);
+            Brand::whereIn('id', $this->selectedBrands)->update(['offer_id' => $offer->id]);
         }
-
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
-    public function render() {
-        $allCategories    = Category::all('id', 'name');
-        
-        $allSubCategories = SubCategory::all('id', 'name');
-        
-        $allBrands        = Brand::all('id', 'name');
-        
-        return view('livewire.settings.offers.offers-create', [
-            'allCategories'    => $allCategories,
-            'allSubCategories' => $allSubCategories,
-            'allBrands'        => $allBrands,
-        ]);
+    public function render(): View {
+        return view('livewire.settings.offers.offers-create');
     }
 }

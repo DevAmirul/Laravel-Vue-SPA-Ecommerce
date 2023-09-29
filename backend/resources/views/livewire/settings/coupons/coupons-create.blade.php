@@ -13,7 +13,7 @@ Product Create
     <!-- End Sidebar-->
 
     <!-- End Page Title -->
-    <x-form pageTitle='Coupons Create' >
+    <x-form pageTitle='Coupons Create' action='create'>
         <x-form-input-field.general col="col-6" lable="Coupon name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Coupon discount" name="discount" type="text"

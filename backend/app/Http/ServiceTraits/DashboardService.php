@@ -31,34 +31,58 @@ trait DashboardService {
     public string $strTimeOfArrivals;
     public string $strTimeOfRecentSale;
 
-    public function showSaleQuery($timeStr): void{
+    /**
+     * Get offer products.
+     *
+     * @param [string] $timeStr
+     * @return void
+     */
+    public function showSaleQuery(string $timeStr): void {
         $this->strTimeOfSale = $timeStr;
 
         $this->sale = Order::where('order_status', 'Delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->count('order_status');
     }
 
-    public function showOrdersQuery($timeStr): void{
+    /**
+     * Get order information.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showOrdersQuery(string $timeStr): void {
         $this->strTimeOfOrders = $timeStr;
 
-        $this->totalOrders     = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
+        $this->totalOrders = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->where(function (Builder $builder) {
                 $builder->where('order_status', 'Approved')
                     ->orWhere('order_status', 'Pending');
             })->count();
     }
 
-    public function showRevenueQuery($timeStr): void{
+    /**
+     * Get products revenue information.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showRevenueQuery(string $timeStr): void {
         $this->strTimeOfRevenue = $timeStr;
 
-        $this->revenue          = Order::where('order_status', 'Delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->sum('total');
+        $this->revenue = Order::where('order_status', 'Delivered')->where('updated_at', '>', $this->getTimeCarbon($timeStr))->sum('total');
     }
 
-    public function showRecentSaleQuery($timeStr): void{
-        $this->strTimeOfRecentSale   = $timeStr;
+    /**
+     * Get recent sale products.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showRecentSaleQuery(string $timeStr): void {
+        $this->strTimeOfRecentSale = $timeStr;
 
         $this->newRecentSaleProducts = [];
 
-        $newRecentSaleProducts       = DB::table('orders')
+        $newRecentSaleProducts = DB::table('orders')
             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
             ->join('products', 'order_items.product_id', '=', 'products.id')
             ->select(
@@ -73,34 +97,67 @@ trait DashboardService {
         }
     }
 
-    public function newArrivalProductsQuery($timeStr): void{
-        $this->strTimeOfArrivals  = $timeStr;
-        
+    /**
+     * Get new  arrival products.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function newArrivalProductsQuery(string $timeStr): void {
+        $this->strTimeOfArrivals = $timeStr;
+
         $this->newArrivalProducts = Product::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->latest()->take(8)->get(['id', 'name', 'sale_price', 'sku', 'qty_in_stock', 'image']);
     }
 
-    public function showTopRevenueProductsQuery(): void{
+    /**
+     * Get top revenue products.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showTopRevenueProductsQuery(): void {
         $this->topRevenueProducts = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
     }
 
-    public function showUsersQuery($timeStr): void{
+    /**
+     * Get user information.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showUsersQuery(string $timeStr): void {
         $this->strTimeOfUsers = $timeStr;
 
-        $this->users          = User::where('updated_at', '>', $this->getTimeCarbon($timeStr))->count();
+        $this->users = User::where('updated_at', '>', $this->getTimeCarbon($timeStr))->count();
     }
 
-    public function showOrdersChartQuery(): void{
+    /**
+     * get total orders chart.
+     *
+     * @return void
+     */
+    public function showOrdersChartQuery(): void {
         $this->ordersChart = DB::table('orders')->
             select(DB::raw('count(order_status) as status_quantity, order_status'))
             ->groupBy('order_status')->get();
     }
 
-    public function showIncomeExpenditureChartQuery(): void{
+    /**
+     * Get total income expenditure chart.
+     *
+     * @return void
+     */
+    public function showIncomeExpenditureChartQuery(): void {
         $this->incomeExpenditureChart = RevenueFromPurchaseAndSaleOfProduct::all(['revenue', 'cost']);
     }
 
-    public function showOrdersBarChartQuery(): void{
+    /**
+     * Get last 6 month orders bar chart.
+     *
+     * @return void
+     */
+    public function showOrdersBarChartQuery(): void {
         $this->ordersBarChart = Order::query()
             ->selectRaw('count(updated_at) as total, MONTHNAME(updated_at) as month')
             ->where('updated_at', '>', Carbon::now()->startOfYear())
@@ -108,7 +165,13 @@ trait DashboardService {
             ->get();
     }
 
-    public function mountTimeOrderQuery($timeStr) {
+    /**
+     * Get all orders information when page mount.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function mountTimeOrderQuery(string $timeStr): void {
         $orders = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
             ->where(function (Builder $builder) {
                 $builder->where('order_status', 'Approved')
@@ -116,14 +179,20 @@ trait DashboardService {
                     ->orWhere('order_status', 'Pending');
             })->get(['total', 'order_status', 'updated_at']);
 
-        $this->sale        = $orders->where('order_status', 'Delivered')->count();
+        $this->sale = $orders->where('order_status', 'Delivered')->count();
 
-        $this->revenue     = $orders->where('order_status', 'Delivered')->sum('total');
+        $this->revenue = $orders->where('order_status', 'Delivered')->sum('total');
 
         $this->totalOrders = $orders->whereIn('order_status', ['Approved', 'Pending'])->count();
     }
 
-    public function AllCalculationsAreBasedOnDayMonthYearQuery($timeStr): void{
+    /**
+     * Get all Dashboard information based on day or month or year when clicked day or month or year.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function AllCalculationsAreBasedOnDayMonthOrYearOrQuery(string $timeStr): void {
 
         $this->mountTimeOrderQuery($timeStr);
 
@@ -142,7 +211,14 @@ trait DashboardService {
         $this->showOrdersBarChartQuery();
     }
 
-    public function setStrTime(string $timeStr): void{
+    /**
+     * Set the day or month or year as a string in the properties,
+     * when clicked from the blade file to the day  or month or year.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function setStrTime(string $timeStr): void {
         $this->strTimeOfSale       = $timeStr;
         $this->strTimeOfRevenue    = $timeStr;
         $this->strTimeOfUsers      = $timeStr;

@@ -15,7 +15,7 @@ Product Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Offers Create'>
+    <x-form pageTitle='Offers Create' action='create'>
         <x-form-input-field.general col="col-6" lable="Offers name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Offers title" name="title" type="text" wireModel='title'>
@@ -45,28 +45,32 @@ Product Create
             @error( 'expire_date' ) <span class="error fw-light text-danger">{{ $message }}</span> @enderror</div>
 
         <div wire:ignore>
-            <select id="select-cate" class="form-select" name="state[]" multiple placeholder="Select categories...(optional)" autocomplete="off">
-                @foreach ($allCategories as $category)
+            <select id="select-cate" class="form-select" name="state[]" multiple
+                placeholder="Select categories...(optional)" autocomplete="off">
+                @foreach ($categories as $category)
                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
         <div wire:ignore>
-            <select id="select-subCate" class="form-select" name="state[]" multiple placeholder="Select sub categories...(optional)" autocomplete="off">
-                @foreach ($allSubCategories as $subCategory)
+            <select id="select-subCate" class="form-select" name="state[]" multiple
+                placeholder="Select sub categories...(optional)" autocomplete="off">
+                @foreach ($subCategories as $subCategory)
                 <option value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
                 @endforeach
             </select>
         </div>
         <div wire:ignore>
-            <select id="select-brand" class="form-select" name="state[]" multiple placeholder="Select brands...(optional)" autocomplete="off">
-                @foreach ($allBrands as $brand)
+            <select id="select-brand" class="form-select" name="state[]" multiple
+                placeholder="Select brands...(optional)" autocomplete="off">
+                @foreach ($brands as $brand)
                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                 @endforeach
             </select>
         </div>
+
         <x-form-input-field.submit color='primary' buttonName="Save"></x-form-input-field.submit>
-    </x-form>
+        </x-form>
 
     <!-- End #main -->
     <!-- ======= Footer ======= -->
@@ -75,33 +79,29 @@ Product Create
 </div>
 @push('script')
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
-    flatpickr("#start_date", {
-        dateFormat: "Y-m-d H:i:s",
-        enableTime: true,
-        time_24hr: true
-    });
-    flatpickr("#expire_date", {
-        dateFormat: "Y-m-d H:i:s",
-        enableTime: true,
-        time_24hr: true
-    });
 
-    var select = new TomSelect("#select-cate");
-    select.on('change',function (value){
+    new TomSelect("#select-cate",{
+        plugins: ['remove_button'],
+        create: true,
+        onChange: function (value){
         @this.set('selectedCategories', value)
-    })
-    var select = new TomSelect("#select-subCate");
-    select.on('change',function (value){
+        }
+    });
+    new TomSelect("#select-subCate",{
+        plugins: ['remove_button'],
+        create: true,
+        onChange: function (value){
         @this.set('selectedSubCategories', value)
-    })
-    var select = new TomSelect("#select-brand");
-    select.on('change',function (value){
+        }
+    });
+    new TomSelect("#select-brand",{
+        plugins: ['remove_button'],
+        create: true,
+        onChange: function (value){
         @this.set('selectedBrands', value)
-    })
-
-
+        }
+    });
 </script>
 @endpush

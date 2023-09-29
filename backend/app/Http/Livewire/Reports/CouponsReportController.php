@@ -7,21 +7,26 @@ use App\Http\Traits\getTime;
 use App\Http\Traits\TableColumnTrait;
 use DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class CouponsReportController extends Component {
     use TableColumnTrait, WithPagination, FilterSearch, getTime;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Name', 'Code', 'Discount', 'Orders', 'Total', 'Date'],
             ['name', 'code', 'discount', 'orders', 'total', 'time']
         );
     }
 
-    public function render() {
-        
+    public function render(): View {
         $couponsReports = DB::table('orders')
             ->join('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->selectRaw('coupons.name as name, coupons.code as code, coupons.discount as discount, count(orders.coupon_id) as orders, sum(orders.total) as total, ' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')

@@ -11,8 +11,7 @@ class ShopController extends Controller {
     /**
      * Handle the incoming request.
      */
-
-    public function __invoke(Request $request): Object{
+    public function __invoke(Request $request): object {
         return SearchProductService::searchProductQuery($request);
     }
 }

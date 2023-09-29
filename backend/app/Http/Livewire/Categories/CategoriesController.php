@@ -7,13 +7,20 @@ use App\Http\Traits\FileTrait;
 use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Category;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class CategoriesController extends Component {
     use TableColumnTrait, FileTrait, BooleanTableTrait, RelationTableTrait, WithPagination;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Id', 'image', 'Name', 'Slug', 'status', 'Section', 'Action'],
             ['id', 'image', 'name', 'slug', 'status']
@@ -25,11 +32,23 @@ class CategoriesController extends Component {
         $this->RelationTrait('section', ['name']);
     }
 
-    public function update($categoryId) {
+    /**
+     * Redirect to update controller.
+     *
+     * @param integer $categoryId
+     * @return RedirectResponse
+     */
+    public function update(int $categoryId): RedirectResponse {
         return redirect()->route('categories.update', $categoryId);
     }
 
-    public function destroy($id): void {
+    /**
+     * Delete category.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id): void {
         $category = Category::findOrFail($id);
 
         $this->fileDestroy($category->image, 'categories');
@@ -39,7 +58,7 @@ class CategoriesController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         $categories = Category::with('section:id,name')
             ->where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);

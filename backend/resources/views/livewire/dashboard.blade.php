@@ -350,11 +350,11 @@ Dashboard
                     <!--Button Strat -->
                     <div class="card" wire:ignore>
                         <div class="card-body m-auto mt-3">
-                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("Today")'
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayOrMonthOrYear("Today")'
                                 class="btn btn-outline-primary btn-sm">Today</button>
-                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("This Month")'
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayOrMonthOrYear("This Month")'
                                 class="btn btn-outline-secondary btn-sm">This Month</button>
-                            <button type="button" wire:click='AllCalculationsAreBasedOnDayMonthYear("This Year")'
+                            <button type="button" wire:click='AllCalculationsAreBasedOnDayOrMonthOrYear("This Year")'
                                 class="btn btn-outline-success btn-sm">This Year</button>
                         </div>
                     </div>

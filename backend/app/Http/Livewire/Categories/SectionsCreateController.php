@@ -6,6 +6,7 @@ use App\Http\ServiceTraits\SectionsService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Section;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -14,18 +15,23 @@ class SectionsCreateController extends Component {
 
     public string $pageUrl = 'create';
 
-    public function save(): void{
+    /**
+     * Create section.
+     *
+     * @return void
+     */
+    public function create(): void {
         $validate          = $this->validate();
         $validate['image'] = $this->fileUpload($this->image, 'sections');
 
         Section::create($validate);
 
         $this->propertyResetExcept();
-        
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.categories.sections-create');
     }
 }

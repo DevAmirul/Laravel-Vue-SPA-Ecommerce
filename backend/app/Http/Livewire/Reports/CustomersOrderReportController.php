@@ -7,24 +7,30 @@ use App\Http\Traits\getTime;
 use App\Http\Traits\TableColumnTrait;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class CustomersOrderReportController extends Component {
     use TableColumnTrait, WithPagination, FilterSearch, getTime;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Name', 'Email', 'Orders', 'Total', 'Date'],
             ['name', 'email', 'orders', 'total', 'time']
         );
     }
 
-    public function render() {
+    public function render(): View {
         $usersReports = DB::table('orders')
             ->join('users', 'orders.user_id', '=', 'users.id')
             ->selectRaw(
-                    'users.name, users.email ,count(*) as orders, sum(total) as total,' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
+                'users.name, users.email ,count(*) as orders, sum(total) as total,' . $this->getTimeSql($this->groupBy, 'orders.created_at') . ' as time')
             ->where(function (Builder $query) {
                 $query->where('users.email', 'LIKE', '%' . $this->searchStr . '%')
                     ->orWhere('users.name', 'LIKE', '%' . $this->searchStr . '%');

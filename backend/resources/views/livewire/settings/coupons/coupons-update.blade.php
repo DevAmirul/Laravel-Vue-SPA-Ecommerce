@@ -1,5 +1,5 @@
 @push('title')
-Product Create
+Product Update
 @endpush
 @push('css')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -14,7 +14,7 @@ Product Create
     @livewire('layouts.sidebar')
     <!-- End Sidebar-->
 
-    <x-form pageTitle='Coupons Create'>
+    <x-form pageTitle='Coupons Update' action='update'>
         <x-form-input-field.general col="col-6" lable="Coupon name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
         <x-form-input-field.general col="col-6" lable="Coupon discount" name="discount" type="text"

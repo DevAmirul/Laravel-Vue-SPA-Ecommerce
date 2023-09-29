@@ -5,19 +5,23 @@ namespace App\Http\Livewire\Contacts;
 use App\Http\ServiceTraits\ContactsService;
 use App\Mail\Replay;
 use App\Models\ContactUs;
-use App\Repositories\Payments\StripeRepository;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 use Livewire\Component;
-use App\Interfaces\Payments;
-
 
 class ContactUsReplyController extends Component {
     use ContactsService;
 
-    public function mount($id): void{
+    /**
+     * Get contact's by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
         $this->contactId = $id;
 
-        $contact       = ContactUs::findOrFail($id, ['name', 'email', 'subject', 'message']);
+        $contact = ContactUs::findOrFail($id, ['name', 'email', 'subject', 'message']);
 
         $this->name    = $contact->name;
         $this->email   = $contact->email;
@@ -25,7 +29,12 @@ class ContactUsReplyController extends Component {
         $this->message = $contact->message;
     }
 
-    public function reply() {
+    /**
+     * Reply contact.
+     *
+     * @return void
+     */
+    public function reply(): void {
         $validate = $this->validate();
 
         ContactUs::whereId($this->contactId)->update(['status' => true]);
@@ -35,7 +44,7 @@ class ContactUsReplyController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.contacts.contact-us-replay');
     }
 }

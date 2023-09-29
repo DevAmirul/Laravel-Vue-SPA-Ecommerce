@@ -6,6 +6,7 @@ use App\Http\ServiceTraits\SectionsService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\Section;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -14,11 +15,17 @@ class SectionsUpdateController extends Component {
 
     public string $pageUrl = 'update';
 
-    public function mount($id): void {
+    /**
+     * Get section by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
         $this->sectionId    = $id;
         $this->statusOption = ['Unpublish', 'Publish'];
 
-        $sections       = Section::findOrFail($this->sectionId, ['name', 'image', 'slug', 'status']);
+        $sections = Section::findOrFail($this->sectionId, ['name', 'image', 'slug', 'status']);
 
         $this->name     = $sections->name;
         $this->oldImage = $sections->image;
@@ -26,17 +33,23 @@ class SectionsUpdateController extends Component {
         $this->status   = $sections->status;
     }
 
-    public function save() {
+    /**
+     * Update section.
+     *
+     * @return void
+     */
+    public function update() {
         $validate = $this->validate();
 
-        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'sections');
-
+        if (gettype($this->image) == 'object') {
+            $validate['image'] = $this->fileUpload($this->image, 'sections');
+        }
         Section::where('id', $this->sectionId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.categories.sections-update');
     }
 }

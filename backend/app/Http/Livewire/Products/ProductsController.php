@@ -6,13 +6,20 @@ use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\FileTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductsController extends Component {
     use WithPagination, BooleanTableTrait, TableColumnTrait, FileTrait;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Image', 'Name', 'SKU', 'Qty', 'Sub Category', 'Sale', 'Original', 'Stock', 'Status', 'Action'],
             ['image', 'name', 'sku', 'qty_in_stock', 'sub_category_id', 'sale_price', 'original_price', 'stock_status', 'status']
@@ -27,15 +34,26 @@ class ProductsController extends Component {
         );
     }
 
-    public function update($productId) {
+    /**
+     * Redirect to update controller.
+     *
+     * @param integer $productId
+     * @return RedirectResponse
+     */
+    public function update(int $productId): RedirectResponse {
         return redirect()->route('products.update', $productId);
     }
 
-    public function destroy($id): void{
+    /**
+     * Delete product.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id): void {
         $product = Product::findOrFail($id);
 
-        $images  = explode(' ', $product->all_images);
-
+        $images = explode(' ', $product->all_images);
         array_push($images, $product->image);
 
         $this->fileDestroy($images, 'products');
@@ -45,10 +63,10 @@ class ProductsController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         $products = Product::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, ['id', ...$this->tableDataColumnNames]);
-            
+
         return view('livewire.products.products', [
             'products' => $products,
         ]);

@@ -3,18 +3,16 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Mail\OrderStatusInformation;
-use App\Mail\OrderUpdateInformation;
-use App\Models\BillingDetails;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class OrdersUpdateController extends Component {
     public int $orderId;
     public object $order;
     public string $changedStatus;
-
 
     protected array $rules = [
         'changedStatus' => 'required|in:approved,delivered,pending,canceled,returned',
@@ -24,18 +22,29 @@ class OrdersUpdateController extends Component {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function mount($id): void {
+    /**
+     * Get order's by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
         $this->orderId = $id;
 
         $this->order = Order::where('id', $this->orderId)->with([
-                            'shippingMethod:id,cost', 'coupon:id,discount',
-                            'user:id,name,email' => ['billingDetail'],
-                            'orderItem' => ['product:id,name,sale_price']
-                        ])->firstOrFail();
+            'shippingMethod:id,cost', 'coupon:id,discount',
+            'user:id,name,email' => ['billingDetail'],
+            'orderItem'          => ['product:id,name,sale_price'],
+        ])->firstOrFail();
 
         $this->changedStatus = $this->order->order_status;
     }
 
+    /**
+     * Update order & send mail.
+     *
+     * @return void
+     */
     public function update(): void {
 
         Order::where('id', $this->orderId)->update(['order_status' => $this->changedStatus]);
@@ -58,7 +67,7 @@ class OrdersUpdateController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.orders.orders-update');
     }
 }

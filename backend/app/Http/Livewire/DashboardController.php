@@ -3,52 +3,101 @@
 namespace App\Http\Livewire;
 
 use App\Http\ServiceTraits\DashboardService;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class DashboardController extends Component {
     use DashboardService;
 
-    public function showSale($timeStr): void{
+    /**
+     * Get offer products.
+     *
+     * @param [string] $timeStr
+     * @return void
+     */
+    public function showSale(string $timeStr): void {
         $this->showSaleQuery($timeStr);
     }
 
-    public function showOrders($timeStr): void{
+    /**
+     * Get order information.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showOrders(string $timeStr): void {
         $this->showOrdersQuery($timeStr);
     }
 
-    public function showRevenue($timeStr): void{
+    /**
+     * Get products revenue information.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showRevenue(string $timeStr): void {
         $this->showRevenueQuery($timeStr);
     }
 
-    public function showUsers($timeStr): void{
+    /**
+     * Get users information.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showUsers(string $timeStr): void {
         $this->showUsersQuery($timeStr);
     }
 
-    public function showArrivals($timeStr): void{
+    /**
+     * Get new  arrival products.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showArrivals(string $timeStr): void {
         $this->newArrivalProductsQuery($timeStr);
     }
 
-    public function showRecentSale($timeStr): void{
+    /**
+     * Get recent sale products.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showRecentSale(string $timeStr): void {
         $this->showRecentSaleQuery($timeStr);
     }
 
-    public function showTopRevenueProducts($timeStr): void{
+    /**
+     * Get top revenue products.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function showTopRevenueProducts(string $timeStr): void {
         $this->showTopRevenueProductsQuery($timeStr);
     }
 
-    public function mount(): void{
+    /**
+     * Get all Dashboard information based on day or month or year when clicked day or month or year.
+     *
+     * @param string $timeStr
+     * @return void
+     */
+    public function AllCalculationsAreBasedOnDayOrMonthOrYear(string $timeStr): void {
+        $this->setStrTime($timeStr);
+
+        $this->AllCalculationsAreBasedOnDayMonthOrYearOrQuery($timeStr);
+    }
+
+    public function mount(): void {
         $this->setStrTime('Today');
 
-        $this->AllCalculationsAreBasedOnDayMonthYearQuery('Today');
+        $this->AllCalculationsAreBasedOnDayMonthOrYearOrQuery('Today');
     }
 
-    public function AllCalculationsAreBasedOnDayMonthYear($timeStr): void{
-        $this->setStrTime($timeStr);
-        
-        $this->AllCalculationsAreBasedOnDayMonthYearQuery($timeStr);
-    }
-
-    public function render() {
+    public function render(): View {
         return view('livewire.dashboard');
     }
 }

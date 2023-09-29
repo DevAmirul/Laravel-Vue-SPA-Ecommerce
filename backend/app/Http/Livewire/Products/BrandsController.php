@@ -5,13 +5,19 @@ namespace App\Http\Livewire\Products;
 use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Brand;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class BrandsController extends Component {
     use WithPagination, TableColumnTrait, BooleanTableTrait;
 
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
     public function mount(): void {
         $this->tableColumnTrait(
             ['Id', 'Image', 'Name', 'Slug', 'Status', 'Action'],
@@ -24,11 +30,23 @@ class BrandsController extends Component {
         );
     }
 
-    public function update($brandId) {
+    /**
+     * Redirect to update controller.
+     *
+     * @param integer $methodId
+     * @return RedirectResponse
+     */
+    public function update(int $brandId): RedirectResponse {
         return redirect()->route('brands.update', $brandId);
     }
 
-    public function destroy($id): void {
+    /**
+     * Delete brand.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id): void {
         $brand = Brand::findOrFail($id);
 
         $this->fileDestroy($brand->image, 'brands');
@@ -38,10 +56,10 @@ class BrandsController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'deleted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         $brands = Brand::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
-            
+
         return view('livewire.products.brands', [
             'brands' => $brands,
         ]);

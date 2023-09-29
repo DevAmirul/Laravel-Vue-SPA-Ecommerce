@@ -18,8 +18,8 @@ trait CouponsService {
         'code'        => 'required|string|max:100',
         'discount'    => 'required|string|max:255',
         'status'      => 'required|boolean',
-        'start_date'  => 'required|date',
-        'expire_date' => 'required|date',
+        'start_date'  => 'required|date|before:expire_date',
+        'expire_date' => 'required|date|after:start_date',
     ];
 
     public function updated($propertyName): void{

@@ -5,11 +5,11 @@ namespace App\Http\Livewire\Settings;
 use App\Http\Traits\CreateSlugTrait;
 use App\Http\Traits\FileTrait;
 use App\Models\GeneralSettings;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class GeneralController extends Component
-{
+class GeneralController extends Component {
     use WithFileUploads, FileTrait, CreateSlugTrait;
 
     public int $settingsId;
@@ -29,8 +29,7 @@ class GeneralController extends Component
     public $logo;
     public $banner;
 
-    protected function rules()
-    {
+    protected function rules() {
         $rules = [
             'name'      => 'required|string|max:255',
             'slogan'    => 'required|string',
@@ -45,44 +44,56 @@ class GeneralController extends Component
             'instagram' => 'required|string|max:255',
         ];
 
-        if (gettype($this->logo) == 'object') $rules['logo'] = 'required|mimes:jpeg,png,jpg';
-        elseif (empty($this->logo)) $rules['logo'] = 'required|mimes:jpeg,png,jpg';
+        if (gettype($this->logo) == 'object') {
+            $rules['logo'] = 'required|mimes:jpeg,png,jpg';
+        } elseif (empty($this->logo)) {
+            $rules['logo'] = 'required|mimes:jpeg,png,jpg';
+        }
 
-        if (gettype($this->banner) == 'object') $rules['banner'] = 'required|mimes:jpeg,png,jpg';
-        elseif (empty($this->banner)) $rules['banner'] = 'required|mimes:jpeg,png,jpg';
-
+        if (gettype($this->banner) == 'object') {
+            $rules['banner'] = 'required|mimes:jpeg,png,jpg';
+        } elseif (empty($this->banner)) {
+            $rules['banner'] = 'required|mimes:jpeg,png,jpg';
+        }
         return $rules;
     }
 
-    public function updated($propertyName): void
-    {
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function mount(): void
-    {
+    /**
+     * Get app setting's.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $settings = GeneralSettings::firstOrFail();
 
-        $this->settingsId      = $settings->id ?? 1;
-        $this->name            = $settings->name ?? '';
-        $this->logo            = $settings->logo ?? '';
-        $this->oldLogoName     = $settings->logo ?? '';
-        $this->banner          = $settings->banner ?? '';
-        $this->oldBannerName   = $settings->banner ?? '';
-        $this->slogan          = $settings->slogan ?? '';
-        $this->email           = $settings->email ?? '';
-        $this->phone           = $settings->phone ?? '';
-        $this->phone_2         = $settings->phone_2 ?? '';
-        $this->address         = $settings->address ?? '';
-        $this->zip_code        = $settings->zip_code ?? '';
-        $this->facebook        = $settings->facebook ?? '';
-        $this->youtube         = $settings->youtube ?? '';
-        $this->twitter         = $settings->twitter ?? '';
-        $this->instagram       = $settings->instagram ?? '';
+        $this->settingsId    = $settings->id ?? 1;
+        $this->name          = $settings->name ?? '';
+        $this->logo          = $settings->logo ?? '';
+        $this->oldLogoName   = $settings->logo ?? '';
+        $this->banner        = $settings->banner ?? '';
+        $this->oldBannerName = $settings->banner ?? '';
+        $this->slogan        = $settings->slogan ?? '';
+        $this->email         = $settings->email ?? '';
+        $this->phone         = $settings->phone ?? '';
+        $this->phone_2       = $settings->phone_2 ?? '';
+        $this->address       = $settings->address ?? '';
+        $this->zip_code      = $settings->zip_code ?? '';
+        $this->facebook      = $settings->facebook ?? '';
+        $this->youtube       = $settings->youtube ?? '';
+        $this->twitter       = $settings->twitter ?? '';
+        $this->instagram     = $settings->instagram ?? '';
     }
 
-    public function save(): void
-    {
+    /**
+     * Update setting.
+     *
+     * @return void
+     */
+    public function update(): void {
         $validate = $this->validate();
 
         if (!empty($this->oldLogoName) && (gettype($this->logo) == 'object')) {
@@ -91,10 +102,8 @@ class GeneralController extends Component
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
 
         } elseif (gettype($this->logo) == 'object') {
-
             $validate['logo'] = $this->fileUpload($this->logo, 'img');
         }
-
         if (!empty($this->oldBannerName) && (gettype($this->banner) == 'object')) {
             $this->fileDestroy($this->oldBannerName, 'img');
 
@@ -105,12 +114,11 @@ class GeneralController extends Component
         }
 
         GeneralSettings::updateOrCreate(['id' => $this->settingsId], $validate);
-        
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render()
-    {
+    public function render(): View {
         return view('livewire.settings.general');
     }
 }

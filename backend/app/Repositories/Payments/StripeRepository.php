@@ -6,48 +6,45 @@ use App\Interfaces\Payments;
 use App\Models\Order;
 use App\Models\PaymentType;
 use App\Models\UserPayment;
-use App\Services\CartProductService;
-use Illuminate\Http\Client\Events\ResponseReceived;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Redirect;
 
-class StripeRepository implements Payments
-{
+class StripeRepository implements Payments {
 
-    public function __construct(protected Request $request){}
+    public function __construct(protected Request $request) {}
 
-    public function checkOut(?object $order) : array {
+    public function checkOut(?object $order): array {
 
-        if (!$order) $order = Order::where('id', $this->request->id)->first();
+        if (!$order) {
+            $order = Order::where('id', $this->request->id)->first();
+        }
 
         $stripe = new \Stripe\StripeClient(config('app.stripeSecretKey'));
 
         $checkout_session = $stripe->checkout->sessions->create([
-            'line_items' => [[
+            'line_items'           => [[
                 'price_data' => [
-                    'currency' => 'usd',
+                    'currency'     => 'usd',
                     'product_data' => [
                         'name' => 'Your total bill',
                     ],
-                    'unit_amount' => $order->total * 100,
+                    'unit_amount'  => $order->total * 100,
                 ],
-                'quantity' => 1,
+                'quantity'   => 1,
             ]],
-            'customer_creation'=> 'always',
+            'customer_creation'    => 'always',
             'payment_method_types' => ['card'],
-            'customer_email'=> 'mailbox.amirul@gmail.com',
-            'mode' => 'payment',
-            'success_url' => config('app.url') . '/payment/success?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('payment.cancel'),
+            'customer_email'       => 'mailbox.amirul@gmail.com',
+            'mode'                 => 'payment',
+            'success_url'          => config('app.url') . '/payment/success?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url'           => route('payment.cancel'),
         ]);
 
-        return ['stripeUrl' => $checkout_session->url, 'sessionId'=> $checkout_session->id];
+        return ['stripeUrl' => $checkout_session->url, 'sessionId' => $checkout_session->id];
     }
 
-    public function success() : RedirectResponse {
+    public function success(): RedirectResponse {
         $sessionId = $this->request->get('session_id');
 
         $stripe = new \Stripe\StripeClient(config('app.stripeSecretKey'));
@@ -56,21 +53,21 @@ class StripeRepository implements Payments
 
         $paymentType = PaymentType::firstWhere('type', 'Online Payment');
 
-        $order = Order::where('session_id', $sessionId)->first();
+        $order                 = Order::where('session_id', $sessionId)->first();
         $order->payment_status = 1;
         $order->save();
 
         $order->userPayment()->create([
             'payment_type_id' => $paymentType->id,
-            'customer_id'=> $session->customer,
-            'payment_intent'=> $session->payment_intent,
-            'amount'=> $session->amount_total / 100,
+            'customer_id'     => $session->customer,
+            'payment_intent'  => $session->payment_intent,
+            'amount'          => $session->amount_total / 100,
         ]);
 
         return redirect()->away('http://localhost:3000/payment/success');
     }
 
-    public function cancel() : RedirectResponse {
+    public function cancel(): RedirectResponse {
         return redirect()->away('http://localhost:3000/payment/cancel');
     }
 }

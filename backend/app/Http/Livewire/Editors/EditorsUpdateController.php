@@ -5,17 +5,24 @@ namespace App\Http\Livewire\Editors;
 use App\Http\ServiceTraits\EditorsService;
 use App\Models\Editor;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class EditorsUpdateController extends Component {
     use EditorsService;
 
-    public string $pageUrl  = 'update';
+    public string $pageUrl = 'update';
 
-    public function mount($id): void{
-        $this->editorId    = $id;
+    /**
+     * Get editor's by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
+        $this->editorId = $id;
 
-        $editors              = Editor::findOrFail($this->editorId, ['id', 'name', 'email', 'phone', 'city', 'address', 'state', 'role', 'status']);
+        $editors = Editor::findOrFail($this->editorId, ['id', 'name', 'email', 'phone', 'city', 'address', 'state', 'role', 'status']);
 
         $this->name           = $editors->name;
         $this->email          = $editors->email;
@@ -27,19 +34,26 @@ class EditorsUpdateController extends Component {
         $this->selectedStatus = $editors->status;
     }
 
-    public function update() {
+    /**
+     * Update editor.
+     *
+     * @return void
+     */
+    public function update(): void {
         $validate = $this->validate();
 
-        if (isset($this->selectedRole)) $validate['role']     = $this->selectedRole;
+        if (isset($this->selectedRole)) $validate['role'] = $this->selectedRole;
+
         if (isset($this->selectedStatus)) $validate['status'] = $this->selectedStatus;
-        if (!empty($this->password)) $validate['password']    = Hash::make($this->password) ;
+
+        if (!empty($this->password)) $validate['password'] = Hash::make($this->password);
 
         Editor::whereId($this->editorId)->update($validate);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.editors.editors-update');
     }
 }

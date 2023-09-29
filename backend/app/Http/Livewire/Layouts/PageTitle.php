@@ -2,16 +2,23 @@
 
 namespace App\Http\Livewire\Layouts;
 
+use Illuminate\View\View;
 use Livewire\Component;
 
 class PageTitle extends Component {
     public string $pageTitle;
-    
-    public function mount($pageTitle) : void {
+
+    /**
+     * Set page title when component mount.
+     *
+     * @param string $pageTitle
+     * @return void
+     */
+    public function mount(string $pageTitle): void {
         $this->pageTitle = $pageTitle;
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.layouts.page-title');
     }
 }

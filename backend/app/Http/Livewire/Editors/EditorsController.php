@@ -5,13 +5,18 @@ namespace App\Http\Livewire\Editors;
 use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Editor;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class EditorsController extends Component {
     use TableColumnTrait, BooleanTableTrait, WithPagination;
 
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
     public function mount(): void {
         $this->tableColumnTrait(
             ['Id', 'Name', 'Email', 'Phone', 'City', 'Role', 'Status', 'Action'],
@@ -26,15 +31,28 @@ class EditorsController extends Component {
             ]
         );
     }
-    public function update($editorId) {
+
+    /**
+     * Redirect to update controller.
+     *
+     * @param integer $editorId
+     * @return RedirectResponse
+     */
+    public function update(int $editorId) {
         return redirect()->route('editors.update', $editorId);
     }
 
-    public function destroy($id): int {
+    /**
+     * Delete editor.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id): int {
         return Editor::destroy($id);
     }
 
-    public function render() {
+    public function render(): View {
         $editors = Editor::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);
 

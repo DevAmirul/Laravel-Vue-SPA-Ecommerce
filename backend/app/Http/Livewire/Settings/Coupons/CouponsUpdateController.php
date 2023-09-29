@@ -5,15 +5,22 @@ namespace App\Http\Livewire\Settings\Coupons;
 use App\Http\ServiceTraits\CouponsService;
 use App\Http\Traits\CreateSlugTrait;
 use App\Models\Coupon;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class CouponsUpdateController extends Component {
     use CreateSlugTrait, CouponsService;
 
-    public function mount($id): void{
-        $this->couponId    = $id;
+    /**
+     * Get coupon by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
+        $this->couponId = $id;
 
-        $coupon            = Coupon::find($id);
+        $coupon = Coupon::find($id);
 
         $this->name        = $coupon->name;
         $this->code        = $coupon->code;
@@ -23,7 +30,12 @@ class CouponsUpdateController extends Component {
         $this->expire_date = $coupon->expire_date;
     }
 
-    public function save() {
+    /**
+     * Update coupon
+     *
+     * @return void
+     */
+    public function update() {
         $validate = $this->validate();
 
         Coupon::whereId($this->couponId)->update($validate);
@@ -31,7 +43,7 @@ class CouponsUpdateController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render() {
+    public function render(): View {
         return view('livewire.settings.coupons.coupons-update');
     }
 }

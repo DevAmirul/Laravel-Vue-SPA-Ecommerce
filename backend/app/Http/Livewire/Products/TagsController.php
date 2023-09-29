@@ -4,27 +4,40 @@ namespace App\Http\Livewire\Products;
 
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Tag;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class TagsController extends Component {
     use WithPagination, TableColumnTrait;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
             ['Id', 'Keyword', 'Action'],
             ['id', 'keyword']
         );
     }
 
-    public function destroy($id): int {
-        return Tag::destroy($id);
+    /**
+     * Delete tag.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function destroy(int $id): void {
+        Tag::destroy($id);
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Deleted record!']);
     }
 
-    public function render() {
+    public function render(): View {
         $tags = Tag::where('keyword', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage);
-            
+
         return view('livewire.products.tags', [
             'tags' => $tags,
         ]);

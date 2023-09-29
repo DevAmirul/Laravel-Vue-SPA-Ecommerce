@@ -13,19 +13,22 @@ use App\Models\ProductAttribute;
 use App\Models\Section;
 use App\Models\SubCategory;
 use App\Models\Tag;
-use Arr;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class ProductsUpdateController extends Component
-{
+class ProductsUpdateController extends Component {
     use ProductsService, WithFileUploads, FileTrait, CreateSlugTrait;
 
     public string $pageUrl = 'update';
 
-    public function mount($id): void
-    {
+    /**
+     * Get product's by id.
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function mount(int $id): void {
         $this->productId = $id;
 
         $product = Product::where('id', $id)->with('productAttribute')->first();
@@ -47,21 +50,25 @@ class ProductsUpdateController extends Component
         $this->specification    = $product->specification;
         $this->oldImage         = $product->image;
         $this->oldGallery       = $product->gallery;
-        // dd($this->productAttribute);
+
         $this->categories    = Category::all('id', 'name');
         $this->subCategories = SubCategory::all('id', 'name');
-        $this->sections = Section::all('id', 'name');
-        $this->brands   = Brand::all('id', 'name');
-        $this->allTags  = Tag::all('id', 'keyword');
+        $this->sections      = Section::all('id', 'name');
+        $this->brands        = Brand::all('id', 'name');
+        $this->allTags       = Tag::all('id', 'keyword');
         $this->allAttributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
     }
 
-    public function update(): void
-    {
+    /**
+     * Update product.
+     *
+     * @return void
+     */
+    public function update(): void {
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();
 
         Product::whereId($this->productId)->update($beforeProductSaveFunc['validate']);
-        
+
         if (!empty($beforeProductSaveFunc['attribute'])) {
             foreach ($beforeProductSaveFunc['attribute'] as $attribute) {
                 ProductAttribute::updateOrCreate(
@@ -73,8 +80,7 @@ class ProductsUpdateController extends Component
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);
     }
 
-    public function render()
-    {
+    public function render(): View {
         return view('livewire.products.products-update');
     }
 }

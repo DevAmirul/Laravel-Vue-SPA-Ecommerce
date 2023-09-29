@@ -4,15 +4,13 @@ namespace App\Http\Controllers\Api\Users;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Frontend\Users\OrderItemResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class OrderItemController extends Controller
-{
+class OrderItemController extends Controller {
 
-    public function index(Request $request): Response
-    {
+    public function __invoke(Request $request): JsonResponse {
         $orderItems = DB::table('orders')->where('orders.id', '=', $request->id)
             ->leftJoin('coupons', 'orders.coupon_id', '=', 'coupons.id')
             ->join('users', 'orders.user_id', '=', 'users.id')
@@ -44,6 +42,6 @@ class OrderItemController extends Controller
                 'products.original_price',
             )->get();
 
-        return response(['orderItems'=> OrderItemResource::collection($orderItems)], 200);
+        return response()->json(['orderItems' => OrderItemResource::collection($orderItems)]);
     }
 }

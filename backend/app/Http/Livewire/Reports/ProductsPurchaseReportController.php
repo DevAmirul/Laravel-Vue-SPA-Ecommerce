@@ -4,20 +4,26 @@ namespace App\Http\Livewire\Reports;
 
 use App\Http\Traits\TableColumnTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ProductsPurchaseReportController extends Component {
     use TableColumnTrait, WithPagination;
 
-    public function mount(): void{
+    /**
+     * Set table column.
+     *
+     * @return void
+     */
+    public function mount(): void {
         $this->tableColumnTrait(
-            ['Image', 'Name', 'SKU','Revenue', 'Cost', 'Sold'],
-            ['image', 'name','sku', 'revenue', 'cost', 'sold_qty']
+            ['Image', 'Name', 'SKU', 'Revenue', 'Cost', 'Sold'],
+            ['image', 'name', 'sku', 'revenue', 'cost', 'sold_qty']
         );
     }
 
-    public function render() {
+    public function render(): View {
         $revenueReports = DB::table('revenue_from_purchase_and_sale_of_products as revenue')
             ->join('products', 'revenue.product_id', '=', 'products.id')
             ->select('revenue.cost', 'revenue.revenue', 'revenue.sold_qty', 'products.name', 'products.sku', 'products.image')
