@@ -7,17 +7,14 @@ import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
 import ProductsCard from '../components/ProductsCard.vue';
-import { useRoute } from "vue-router";
 
 const { responseData, isRefreshPage } = storeToRefs(useSearch());
-const route = useRoute();
 
 onMounted(() => {
     if (isRefreshPage.value) {
         useSearch().getDataByQuery('form on mounted');
     }
 })
-
 </script>
 <template>
     <!-- Page Header Start -->

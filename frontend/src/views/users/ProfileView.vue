@@ -24,30 +24,6 @@ const responseData = reactive({
     password_confirmation: null,
 });
 
-// onMounted(() => {
-//     if (isAuthenticated.value) {
-//         useAxios.get('/users/profiles/' + user.value.id,{
-//             headers: { Authorization: 'Bearer ' + useToken().getToken() }
-//         })
-//             .then(response => {
-//                 responseData.id = response.data.user.id
-//                 responseData.name = response.data.user.name
-//                 responseData.email = response.data.user.email
-//                 responseData.phone = response.data.user.billing_detail.phone
-//                 responseData.city = response.data.user.billing_detail.city
-//                 responseData.state = response.data.user.billing_detail.state
-//                 responseData.address = response.data.user.billing_detail.address
-//                 responseData.address_2 = response.data.user.billing_detail.address_2
-//                 responseData.zip_code = response.data.user.billing_detail.zip_code
-//                 responseData.orders = response.data.user.order_count
-//                 responseData.review = response.data.user.review_count
-//             })
-//             .catch(error => {
-//                 console.log(error);
-//             });
-//     }
-// } )
-
 function update(){
     useAxios.put('/users/profiles/' + responseData.id, {
             "name": responseData.name,

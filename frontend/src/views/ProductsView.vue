@@ -3,9 +3,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import useAxios from '../services/axios';
 import useAlert from '../services/alert';
-import useAddToCart from '../services/cart';
-import useAddToWishlist from '../services/wishlist';
-import useAddToCompare from '../services/compare';
+import useCart from '../services/cart';
+import useWishlist from '../services/wishlist';
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import PageHeader from "../components/layouts/PageHeader.vue";
 
@@ -20,7 +19,6 @@ const formData = reactive({
 });
 
 onMounted(() => {
-    // useAxios.get('/products/chelsey-feest')
     useAxios.get('/products/' + route.params.slug)
         .then(response => {
             responseData.value = response.data;
@@ -133,42 +131,7 @@ function productQuantityIncrement(){
                         <p class="mb-4">
                             {{ responseData.product.description.substring(0, 300) }}....
                         </p>
-                            <div class="d-flex mb-3 mt-3">
-                                <p class="text-dark font-weight-medium mb-0 mr-3">Color</p>
-                                <form>
-                                    <template v-for="(data, key) in responseData.product.product_attribute.color_attribute_values.split(',')" :key="key">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input
-                                                type="radio"
-                                                class="custom-control-input"
-                                                :id="key + data"
-                                                :value="data"
-                                                v-model="attribute.size"
-                                            />
-                                            <label class="custom-control-label" :for="key + data"
-                                                >{{ data }}</label>
-                                        </div>
-                                    </template>
-                                </form>
-                            </div>
-                            <div class="d-flex mb-3 mt-3">
-                                <p class="text-dark font-weight-medium mb-0 mr-3">Size</p>
-                                <form>
-                                    <template v-for="(data, key) in responseData.product.product_attribute.size_attribute_values.split(',')" :key="key">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input
-                                                type="radio"
-                                                class="custom-control-input"
-                                                :id="key + data"
-                                                :value="data"
-                                                v-model="attribute.color"
-                                            />
-                                            <label class="custom-control-label" :for="key + data"
-                                                >{{ data }}</label>
-                                        </div>
-                                    </template>
-                                </form>
-                            </div>
+
 
                         <div class="d-flex align-items-center mb-4 pt-2 ex-m">
                             <div class="input-group quantity mr-3" style="width: 130px">
@@ -188,7 +151,7 @@ function productQuantityIncrement(){
                                     </button>
                                 </div>
                             </div>
-                            <button @click="useAddToCart(responseData.product.id)" class="btn btn-primary px-3">
+                            <button @click="useCart().addCart(responseData.product.id)" class="btn btn-primary px-3">
                                 <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
                             </button>
                         </div>
@@ -365,9 +328,9 @@ function productQuantityIncrement(){
                                         </template>
                                     </div>
                                     <div class="card-footer d-flex justify-content-between bg-light border d-flex justify-content-around">
-                                        <button @click="useAddToWishlist({ id: data.id, name: data.name, image: data.image, salePrice: data.sale_price })" class="btn btn-sm text-dark p-0"><i
+                                        <button @click="useWishlist().addWishlist({ id: data.id, name: data.name, image: data.image, salePrice: data.sale_price })" class="btn btn-sm text-dark p-0"><i
                                                     class="fas fa-heart text-primary mr-1"></i></button>
-                                        <button @click="useAddToCart()" class="btn btn-sm text-dark p-0">
+                                        <button @click="useCart().addCart(responseData.product.id)" class="btn btn-sm text-dark p-0">
                                             <i
                                                     class="fas fa-shopping-cart text-primary mr-1"></i>
                                         </button>

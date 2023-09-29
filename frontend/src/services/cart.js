@@ -9,6 +9,7 @@ import useAuth from '../stores/Auth';
 export default function useCart() {
 
     function addCart(productId){
+
         if (useAuth().isAuthenticated) {
             useAxios.get('/users/cart/add/' + useAuth().user.id + '/' + productId, {
                 headers: { Authorization: 'Bearer ' + useToken().getToken() }
@@ -20,7 +21,7 @@ export default function useCart() {
                 })
                 .catch(error => {
                     console.log(error);
-                    useAlert().topAlert('error', error.response.data.message, 'bottom-end')
+                    useAlert().topAlert('error', error.response.data.status, 'bottom-end')
                 });
         }else{
             useAlert().topAlert('error', 'Please login first...', 'bottom-end')

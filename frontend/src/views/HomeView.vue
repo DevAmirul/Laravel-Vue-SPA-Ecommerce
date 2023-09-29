@@ -14,27 +14,17 @@ onMounted(() => {
     useAxios.get('/home')
         .then(response => {
             responseData.value = response.data
-            console.log(responseData.value);
         })
-        .catch(error => {
-            // console.log(error);
-        });
 
     useAxios.get('home/categories')
         .then(response => {
             responseCateData.value = response.data
         })
-        .catch(error => {
-            // console.log(error);
-        });
 
     useAxios.get('/home/offers')
         .then(response => {
             responseOfferData.value = response.data
         })
-        .catch(error => {
-            // console.log(error);
-        });
 } )
 
 </script>
