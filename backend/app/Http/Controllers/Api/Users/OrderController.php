@@ -10,7 +10,10 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller {
 
-    public function index(Request $request): JsonResponse {
+    /**
+     * Get order list by authenticated user.
+     */
+    public function __invoke(Request $request): JsonResponse {
         $orders = Order::whereUserId($request->id)->withCount('orderItem')
             ->get(['id', 'user_id', 'order_status', 'total', 'payment_status', 'created_at']);
 

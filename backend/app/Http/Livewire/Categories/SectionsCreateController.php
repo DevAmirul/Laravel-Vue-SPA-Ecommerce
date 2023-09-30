@@ -17,8 +17,6 @@ class SectionsCreateController extends Component {
 
     /**
      * Create section.
-     *
-     * @return void
      */
     public function create(): void {
         $validate          = $this->validate();

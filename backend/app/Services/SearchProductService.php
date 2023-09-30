@@ -3,15 +3,14 @@
 namespace App\Services;
 
 use App\Http\Resources\Api\Frontend\ProductCollection;
-use App\Http\Resources\Api\Frontend\ProductResource;
 use App\Models\Product;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class SearchProductService
-{
-    public static function searchProductQuery($request, ?string $optionalRequest = null): object
-    {
+class SearchProductService {
+    /**
+     * Get products by dynamic search.
+     */
+    public static function searchProductQuery(object $request, ?string $optionalRequest = null): object {
         $products = DB::table('products')
             ->select(DB::raw('DISTINCT(products.id) as p_id'), 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
             ->leftJoin('offers', 'products.offer_id', '=', 'offers.id')
@@ -35,9 +34,9 @@ class SearchProductService
             })
             ->when($request->attribute, function ($query) use ($request) {
                 $query->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
-                ->where(function($query) use ($request){
-                    $query->where('product_attributes.value', 'REGEXP', $request->attribute);
-                });
+                    ->where(function ($query) use ($request) {
+                        $query->where('product_attributes.value', 'REGEXP', $request->attribute);
+                    });
             })
             ->when($request->search, function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
@@ -46,14 +45,22 @@ class SearchProductService
                 });
             })
             ->when($request->sort, function ($query) use ($request) {
-                if ($request->sort === 'oldest') $query->oldest();
-                elseif ($request->sort === 'p_low_to_high') $query->orderBy('products.sale_price');
-                elseif ($request->sort === 'p_high_to_low') $query->orderByDesc('products.sale_price');
-                elseif ($request->sort === 'asc') $query->orderBy('products.name');
-                elseif ($request->sort === 'des') $query->orderByDesc('products.name');
-                elseif ($request->sort === 'latest') $query->latest();
+                if ($request->sort === 'oldest') {
+                    $query->oldest();
+                } elseif ($request->sort === 'p_low_to_high') {
+                    $query->orderBy('products.sale_price');
+                } elseif ($request->sort === 'p_high_to_low') {
+                    $query->orderByDesc('products.sale_price');
+                } elseif ($request->sort === 'asc') {
+                    $query->orderBy('products.name');
+                } elseif ($request->sort === 'des') {
+                    $query->orderByDesc('products.name');
+                } elseif ($request->sort === 'latest') {
+                    $query->latest();
+                }
+
             }, fn($query) => $query->latest())
-        ->paginate($request->limit ?? 20);
+            ->paginate($request->limit ?? 20);
 
         return new ProductCollection($products);
     }

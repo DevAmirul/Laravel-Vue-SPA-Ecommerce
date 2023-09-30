@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller {
 
+    /**
+     * Search products by name/sku/tags.
+     */
     public function index(Request $request): JsonResponse {
         $this->saveSearchedKeyword($request);
 
@@ -24,7 +27,10 @@ class SearchController extends Controller {
         return response()->json(compact('products'));
     }
 
-    public function saveSearchedKeyword($request): void {
+    /**
+     * Store the keywords searched by the user.
+     */
+    public function saveSearchedKeyword(object $request): void {
         SearchedKeyword::updateOrCreate(['keyword' => $request->keyword], ['hits' => DB::raw('hits+' . 1)]);
     }
 }

@@ -9,6 +9,9 @@ use Illuminate\Http\JsonResponse;
 
 class SidebarController {
 
+    /**
+     * Get categories, subcategories, attributes & brands list for sidebar.
+     */
     public function index(): JsonResponse {
         $allCategory   = $this->getSidebarCategory();
         $sidebarFilter = $this->getSidebarFilter();
@@ -17,10 +20,16 @@ class SidebarController {
         return response()->json(compact('allCategory', 'sidebarFilter', 'sidebarBrand'));
     }
 
+    /**
+     * Get attributes list for shop sidebar.
+     */
     public function getSidebarFilter(): object {
         return ProductAttribute::with('attributeOption')->get(['id', 'name']);
     }
 
+    /**
+     * Get categories & subcategories list for sidebar.
+     */
     public function getSidebarCategory(): object {
         return Section::with([
             'category:id,section_id,name,slug' => [
@@ -29,6 +38,9 @@ class SidebarController {
         ])->get(['id', 'name']);
     }
 
+    /**
+     * Get brands list for sidebar.
+     */
     public function getSidebarBrand(): object {
         return Brand::all(['name', 'slug']);
     }

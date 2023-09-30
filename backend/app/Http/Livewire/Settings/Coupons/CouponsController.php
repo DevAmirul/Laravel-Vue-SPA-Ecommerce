@@ -15,8 +15,6 @@ class CouponsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,19 +30,13 @@ class CouponsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $brandId
-     * @return RedirectResponse
      */
-    public function update(int $brandId): RedirectResponse {
+    public function update(int $brandId) {
         return redirect()->route('settings.coupons.update', $brandId);
     }
 
     /**
      * Delete coupon.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         Coupon::destroy($id);

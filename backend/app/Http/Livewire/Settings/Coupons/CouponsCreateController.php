@@ -12,9 +12,7 @@ class CouponsCreateController extends Component {
     use CreateSlugTrait, CouponsService;
 
     /**
-     * create coupon
-     *
-     * @return void
+     * create coupon.
      */
     public function create(): void {
         $validate = $this->validate();

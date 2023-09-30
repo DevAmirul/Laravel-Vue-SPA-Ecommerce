@@ -7,11 +7,13 @@ use App\Services\TopRatingService;
 use Illuminate\Http\JsonResponse;
 
 class TopRatingController extends Controller {
+
     /**
-     * Handle the incoming request.
+     * Get Top ratting products from service.
      */
     public function __invoke(): JsonResponse {
         $topRatings = TopRatingService::topRatingsQuery();
+
         return response()->json(compact('topRatings'));
     }
 }

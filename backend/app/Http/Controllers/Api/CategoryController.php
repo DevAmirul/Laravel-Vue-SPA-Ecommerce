@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller {
     /**
-     * Handle the incoming request.
+     * Get products based on category.
      */
     public function __invoke(Request $request): object {
         return SearchProductService::searchProductQuery($request, 'categories');

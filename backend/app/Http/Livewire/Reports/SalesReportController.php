@@ -12,12 +12,10 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 class SalesReportController extends Component {
-    use TableColumnTrait, WithPagination, FilterSearch, getTime;
+    use WithPagination, FilterSearch, getTime;
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(

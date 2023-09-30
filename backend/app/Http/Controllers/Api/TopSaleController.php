@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class TopSaleController extends Controller {
 
     /**
-     * Handle the incoming request.
+     * Get Top sale products.
      */
     public function __invoke(Request $request): object {
         return SearchProductService::searchProductQuery($request, 'sales');

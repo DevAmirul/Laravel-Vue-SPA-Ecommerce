@@ -33,9 +33,6 @@ trait DashboardService {
 
     /**
      * Get offer products.
-     *
-     * @param [string] $timeStr
-     * @return void
      */
     public function showSaleQuery(string $timeStr): void {
         $this->strTimeOfSale = $timeStr;
@@ -44,10 +41,7 @@ trait DashboardService {
     }
 
     /**
-     * Get order information.
-     *
-     * @param string $timeStr
-     * @return void
+     * Get orders information.
      */
     public function showOrdersQuery(string $timeStr): void {
         $this->strTimeOfOrders = $timeStr;
@@ -61,9 +55,6 @@ trait DashboardService {
 
     /**
      * Get products revenue information.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showRevenueQuery(string $timeStr): void {
         $this->strTimeOfRevenue = $timeStr;
@@ -73,9 +64,6 @@ trait DashboardService {
 
     /**
      * Get recent sale products.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showRecentSaleQuery(string $timeStr): void {
         $this->strTimeOfRecentSale = $timeStr;
@@ -98,10 +86,7 @@ trait DashboardService {
     }
 
     /**
-     * Get new  arrival products.
-     *
-     * @param string $timeStr
-     * @return void
+     * Get new arrival products.
      */
     public function newArrivalProductsQuery(string $timeStr): void {
         $this->strTimeOfArrivals = $timeStr;
@@ -112,19 +97,13 @@ trait DashboardService {
 
     /**
      * Get top revenue products.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showTopRevenueProductsQuery(): void {
         $this->topRevenueProducts = RevenueFromPurchaseAndSaleOfProduct::with('product:id,name,sale_price,image')->orderBy('revenue', 'desc')->take(8)->get(['id', 'sold_qty', 'revenue', 'product_id']);
     }
 
     /**
-     * Get user information.
-     *
-     * @param string $timeStr
-     * @return void
+     * Get users information.
      */
     public function showUsersQuery(string $timeStr): void {
         $this->strTimeOfUsers = $timeStr;
@@ -133,9 +112,7 @@ trait DashboardService {
     }
 
     /**
-     * get total orders chart.
-     *
-     * @return void
+     * Get total orders chart.
      */
     public function showOrdersChartQuery(): void {
         $this->ordersChart = DB::table('orders')->
@@ -145,8 +122,6 @@ trait DashboardService {
 
     /**
      * Get total income expenditure chart.
-     *
-     * @return void
      */
     public function showIncomeExpenditureChartQuery(): void {
         $this->incomeExpenditureChart = RevenueFromPurchaseAndSaleOfProduct::all(['revenue', 'cost']);
@@ -154,8 +129,6 @@ trait DashboardService {
 
     /**
      * Get last 6 month orders bar chart.
-     *
-     * @return void
      */
     public function showOrdersBarChartQuery(): void {
         $this->ordersBarChart = Order::query()
@@ -167,9 +140,6 @@ trait DashboardService {
 
     /**
      * Get all orders information when page mount.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function mountTimeOrderQuery(string $timeStr): void {
         $orders = Order::where('updated_at', '>', $this->getTimeCarbon($timeStr))
@@ -188,9 +158,6 @@ trait DashboardService {
 
     /**
      * Get all Dashboard information based on day or month or year when clicked day or month or year.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function AllCalculationsAreBasedOnDayMonthOrYearOrQuery(string $timeStr): void {
 
@@ -214,9 +181,6 @@ trait DashboardService {
     /**
      * Set the day or month or year as a string in the properties,
      * when clicked from the blade file to the day  or month or year.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function setStrTime(string $timeStr): void {
         $this->strTimeOfSale       = $timeStr;

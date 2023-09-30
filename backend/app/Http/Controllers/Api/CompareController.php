@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CompareController extends Controller {
     /**
-     * Handle the incoming request.
+     * Get compare products.
      */
     public function __invoke(Request $request): JsonResponse {
         $products = Product::select('id', 'name', 'image', 'slug', 'description', 'sale_price', 'offer_id')

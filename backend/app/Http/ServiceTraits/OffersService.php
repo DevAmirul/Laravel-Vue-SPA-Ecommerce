@@ -33,7 +33,6 @@ trait OffersService {
                 'start_date'  => 'required|date|before:expire_date',
                 'expire_date' => 'required|date|after:start_date',
             ];
-
             if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
 
             return $rulesForUpdate;
@@ -51,7 +50,7 @@ trait OffersService {
         }
     }
 
-    public function updated($propertyName): void {
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
     }
 }

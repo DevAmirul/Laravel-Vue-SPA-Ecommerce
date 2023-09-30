@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class OrderItemController extends Controller {
 
+    /**
+     * Get the item ordered by the authenticated user.
+     */
     public function __invoke(Request $request): JsonResponse {
         $orderItems = DB::table('orders')->where('orders.id', '=', $request->id)
             ->leftJoin('coupons', 'orders.coupon_id', '=', 'coupons.id')

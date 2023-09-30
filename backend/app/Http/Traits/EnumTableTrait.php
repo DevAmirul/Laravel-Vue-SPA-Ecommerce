@@ -7,11 +7,14 @@ trait EnumTableTrait {
     public array $enumColNames;
     public array $enumClasses;
 
-    public function enumTrait(array $enumColNames, array $enumAttributes, array $enumClasses): void{
-        $this->enumColNames   = $enumColNames;
-        
+    /**
+     * Set table enum name and set attributes & classes for blade.
+     */
+    public function enumTrait(array $enumColNames, array $enumAttributes, array $enumClasses): void {
+        $this->enumColNames = $enumColNames;
+
         $this->enumAttributes = $enumAttributes;
-        
-        $this->enumClasses    = $enumClasses;
+
+        $this->enumClasses = $enumClasses;
     }
 }

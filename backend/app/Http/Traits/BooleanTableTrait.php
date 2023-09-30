@@ -7,6 +7,9 @@ trait BooleanTableTrait {
     public $booleanAttributes;
     public array $booleanClasses;
 
+    /**
+    * Set table boolean column name and set boolean attributes & classes for blade.
+     */
     public function booleanTrait(array $booleanColNames = [], array $booleanAttributes = [], array $booleanClasses = []): void{
         $this->booleanColNames   = $booleanColNames;
 

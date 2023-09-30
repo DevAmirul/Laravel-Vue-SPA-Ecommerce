@@ -17,8 +17,6 @@ class BrandsCreateController extends Component {
 
     /**
      * Create brand.
-     *
-     * @return void
      */
     public function create(): void {
         $validate = $this->validate();

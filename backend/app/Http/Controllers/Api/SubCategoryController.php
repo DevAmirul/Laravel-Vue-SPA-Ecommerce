@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller {
     /**
-     * Handle the incoming request.
+     * Get products based on subcategory.
      */
     public function __invoke(Request $request): object {
         return SearchProductService::searchProductQuery($request, 'subCategories');

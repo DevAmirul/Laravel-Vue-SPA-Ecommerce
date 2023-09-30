@@ -20,10 +20,13 @@ trait SubCategoriesService {
         ];
     }
 
-    public function updated($propertyName): void{
+    public function updated(mixed $propertyName): void{
         $this->validateOnly($propertyName, $this->rules());
     }
 
+    /**
+     * Reset property.
+     */
     public function propertyResetExcept(): void{
         $this->resetExcept(['subCategoryId', 'categories']);
     }

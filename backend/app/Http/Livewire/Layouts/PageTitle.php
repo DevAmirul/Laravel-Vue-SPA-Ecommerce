@@ -10,9 +10,6 @@ class PageTitle extends Component {
 
     /**
      * Set page title when component mount.
-     *
-     * @param string $pageTitle
-     * @return void
      */
     public function mount(string $pageTitle): void {
         $this->pageTitle = $pageTitle;

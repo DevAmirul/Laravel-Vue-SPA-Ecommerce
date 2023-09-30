@@ -15,8 +15,6 @@ class OffersController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,22 +30,17 @@ class OffersController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $offerId
-     * @return RedirectResponse
      */
-    public function update(int $offerId): RedirectResponse {
+    public function update(int $offerId) {
         return redirect()->route('settings.offers.update', $offerId);
     }
 
     /**
      * Delete offer.
-     *
-     * @param integer $id
-     * @return void
      */
-    public function destroy(int $id): int {
-        return Offer::destroy($id);
+    public function destroy(int $id): void {
+        Offer::destroy($id);
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Deleted record!']);
     }
 
     public function render(): View {

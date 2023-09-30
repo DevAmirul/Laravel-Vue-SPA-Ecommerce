@@ -11,12 +11,10 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShippingReportController extends Component {
-    use TableColumnTrait, WithPagination, FilterSearch, getTime;
+    use WithPagination, FilterSearch, getTime;
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -24,7 +22,6 @@ class ShippingReportController extends Component {
             ['name', 'orders', 'total', 'time']
         );
     }
-
 
     public function render(): View {
         $shippingReports = DB::table('orders')

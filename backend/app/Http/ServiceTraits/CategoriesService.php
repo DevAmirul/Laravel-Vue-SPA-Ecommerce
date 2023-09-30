@@ -2,8 +2,6 @@
 
 namespace App\Http\ServiceTraits;
 
-use Illuminate\Validation\Rule;
-
 trait CategoriesService {
     public string $name        = '';
     public string $slug        = '';
@@ -24,11 +22,12 @@ trait CategoriesService {
                 'status'     => 'required|boolean',
             ];
 
-            if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
-            
+            if (gettype($this->image) == 'object') {
+                $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+            }
+
             return $rulesForUpdate;
-        }
-        else {
+        } else {
             return [
                 'name'       => 'required|string|max:255',
                 'slug'       => 'required|string|max:255',
@@ -39,11 +38,14 @@ trait CategoriesService {
         }
     }
 
-    public function updated($propertyName): void{
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function propertyResetExcept(): void{
+    /**
+     * Reset some property.
+     */
+    public function propertyResetExcept(): void {
         $this->resetExcept(['categoryId', 'sections', 'image', 'oldImage']);
     }
 }

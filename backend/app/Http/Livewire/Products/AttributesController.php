@@ -10,9 +10,6 @@ class AttributesController extends Component {
 
     /**
      * Delete attribute.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $attributeId): void {
         Attribute::destroy($attributeId);

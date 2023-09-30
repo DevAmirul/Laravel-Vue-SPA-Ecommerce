@@ -14,9 +14,6 @@ class ContactUsReplyController extends Component {
 
     /**
      * Get contact's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->contactId = $id;
@@ -31,8 +28,6 @@ class ContactUsReplyController extends Component {
 
     /**
      * Reply contact.
-     *
-     * @return void
      */
     public function reply(): void {
         $validate = $this->validate();

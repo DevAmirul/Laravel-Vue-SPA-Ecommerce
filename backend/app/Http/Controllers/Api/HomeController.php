@@ -15,6 +15,9 @@ use Illuminate\Http\JsonResponse;
 
 class HomeController extends Controller {
 
+    /**
+     * Get json data for frontend home.
+     */
     public function index(): JsonResponse {
         return response()->json([
             'topSales'    => TopSaleServices::topSalesQuery(),
@@ -23,6 +26,9 @@ class HomeController extends Controller {
         ]);
     }
 
+    /**
+     * Get all offer.
+     */
     public function getOffer(): JsonResponse {
         $offers = Offer::where('id', '!==', 1)->whereStatus(true)->where('expire_date', '>', now())
             ->latest('created_at')->take(3)
@@ -31,12 +37,18 @@ class HomeController extends Controller {
         return response()->json(['offers' => OfferResource::collection($offers)]);
     }
 
+    /**
+     * Get all category.
+     */
     public function getCategory(): JsonResponse {
         $categories = Category::all(['name', 'image', 'slug']);
         return response()->json(['categories' => CategoryResource::collection($categories)]);
     }
 
-    public function getSidebar(): JsonResponse {
+    /**
+     * Get sections and categories for navbar.
+     */
+    public function getNavbar(): JsonResponse {
         $allCategory = Section::with('category:id,section_id,name,slug')->get(['id', 'name']);
         return response()->json(compact('allCategory'));
     }

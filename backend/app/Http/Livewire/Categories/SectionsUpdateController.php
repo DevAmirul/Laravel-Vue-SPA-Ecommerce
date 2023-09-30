@@ -17,9 +17,6 @@ class SectionsUpdateController extends Component {
 
     /**
      * Get section by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->sectionId    = $id;
@@ -35,8 +32,6 @@ class SectionsUpdateController extends Component {
 
     /**
      * Update section.
-     *
-     * @return void
      */
     public function update() {
         $validate = $this->validate();

@@ -7,27 +7,29 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileTrait {
 
-    public function fileUpload(array | object $images, string $path): string{
+    /**
+     * Save file function.
+     */
+    public function fileUpload(array | object $images, string $path): string {
         $imageName = '';
 
         if (gettype($images) === 'array') {
             foreach ($images as $image) {
                 $newName = Carbon::now()->timestamp . random_int(0, 20) . '.' . $image->extension();
-
                 $imageName .= $newName . ' ';
-
                 $image->storeAs('public/' . $path . '/', $newName);
             }
             $imageName = rtrim($imageName);
-            
         } else {
             $imageName .= Carbon::now()->timestamp . '1.' . $images->extension();
-
             $images->storeAs('public/' . $path . '/', $imageName);
         }
         return $imageName;
     }
 
+    /**
+     * Delete file function.
+     */
     public function fileDestroy(array | string $images, string $path): bool {
         if (gettype($images) === 'array') {
             foreach ($images as $image) {
@@ -43,5 +45,4 @@ trait FileTrait {
         }
         return false;
     }
-
 }

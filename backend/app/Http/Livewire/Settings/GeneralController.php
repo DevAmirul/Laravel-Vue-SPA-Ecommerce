@@ -63,9 +63,7 @@ class GeneralController extends Component {
     }
 
     /**
-     * Get app setting's.
-     *
-     * @return void
+     * Get app setting.
      */
     public function mount(): void {
         $settings = GeneralSettings::firstOrFail();
@@ -90,8 +88,6 @@ class GeneralController extends Component {
 
     /**
      * Update setting.
-     *
-     * @return void
      */
     public function update(): void {
         $validate = $this->validate();

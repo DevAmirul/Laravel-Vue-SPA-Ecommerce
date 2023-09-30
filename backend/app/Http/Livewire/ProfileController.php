@@ -4,8 +4,6 @@ namespace App\Http\Livewire;
 
 use App\Http\ServiceTraits\EditorsService;
 use App\Models\Editor;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -18,9 +16,6 @@ class ProfileController extends Component {
 
     /**
      * Get editor's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     function mount(int $id): void {
         $editor = Editor::firstWhere('id', $id);
@@ -40,8 +35,6 @@ class ProfileController extends Component {
 
     /**
      * Update editor's profile.
-     *
-     * @return void
      */
     public function update(): void {
         if (!Gate::allows('isAuthenticateEditor', $this->editorId)) abort(403);
@@ -55,10 +48,8 @@ class ProfileController extends Component {
 
     /**
      * Delete the editor's account.
-     *
-     * @return RedirectResponse
      */
-    public function destroy(): RedirectResponse {
+    public function destroy() {
         Editor::destroy($this->editorId);
 
         Auth::logout();

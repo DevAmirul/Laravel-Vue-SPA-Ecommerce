@@ -15,8 +15,6 @@ class SectionsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,19 +30,13 @@ class SectionsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $sectionId
-     * @return RedirectResponse
      */
-    public function update(int $sectionId): RedirectResponse {
+    public function update(int $sectionId) {
         return redirect()->route('sections.update', $sectionId);
     }
 
     /**
      * Delete section.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         $section = Section::findOrFail($id);

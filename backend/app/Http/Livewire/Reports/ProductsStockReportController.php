@@ -19,8 +19,6 @@ class ProductsStockReportController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(

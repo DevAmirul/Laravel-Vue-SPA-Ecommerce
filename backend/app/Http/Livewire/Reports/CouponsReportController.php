@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Reports;
 
 use App\Http\Traits\FilterSearch;
 use App\Http\Traits\getTime;
-use App\Http\Traits\TableColumnTrait;
 use DB;
 use Illuminate\Database\Query\Builder;
 use Illuminate\View\View;
@@ -12,12 +11,10 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 class CouponsReportController extends Component {
-    use TableColumnTrait, WithPagination, FilterSearch, getTime;
+    use WithPagination, FilterSearch, getTime;
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(

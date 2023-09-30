@@ -18,14 +18,12 @@ class AttributesCreateController extends Component {
         'values' => 'required',
     ];
 
-    public function updated($propertyName): void {
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
     /**
      * Increment attribute's value input field.
-     *
-     * @return void
      */
     public function increaseInputField(): void {
         $this->plusButton++;
@@ -33,8 +31,6 @@ class AttributesCreateController extends Component {
 
     /**
      * Decrement attribute's value input field.
-     *
-     * @return void
      */
     public function decreaseInputField(): void {
         if ($this->plusButton > 1) {
@@ -44,8 +40,6 @@ class AttributesCreateController extends Component {
 
     /**
      * Create attribute.
-     *
-     * @return void
      */
     public function create(): void {
         $validate = $this->validate();
@@ -53,9 +47,8 @@ class AttributesCreateController extends Component {
         $attributeValues = Arr::map($validate['values'], function ($value, $key) {
             return ['value' => $value];
         });
-
         $attribute = Attribute::create(['name' => $validate['name']]);
-
+        
         $attribute->attributeOption()->createMany($attributeValues);
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);

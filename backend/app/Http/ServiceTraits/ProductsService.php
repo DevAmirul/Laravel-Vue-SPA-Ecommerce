@@ -5,9 +5,7 @@ namespace App\Http\ServiceTraits;
 use App\Models\Category;
 use App\Models\SubCategory;
 
-trait ProductsService
-{
-
+trait ProductsService {
     public string $name;
     public int $productId;
     public string $slug;
@@ -23,27 +21,24 @@ trait ProductsService
     public string $specification;
     public int $selectedSection;
     public int $selectedCategory;
-    public ?object $categories = null;
+    public ?object $categories    = null;
     public ?object $subCategories = null;
     public int $sub_category_id;
     public int $brand_id;
     public ?string $tags;
-    public array $selectedTags = [];
-    public string $productAttribute = '';
-    public string|array $selectedProductAttribute = [];
-    public ?object $sections = null;
-    public ?object $brands = null;
-    public ?object $allTags = null;
-    public ?object $allAttributes = null;
-
-
+    public array $selectedTags                      = [];
+    public string $productAttribute                 = '';
+    public string | array $selectedProductAttribute = [];
+    public ?object $sections                        = null;
+    public ?object $brands                          = null;
+    public ?object $allTags                         = null;
+    public ?object $allAttributes                   = null;
     public $image;
     public string $oldImage;
     public $gallery = [];
     public string $oldGallery;
 
-    protected function rules()
-    {
+    protected function rules() {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'             => 'required|string|max:255',
@@ -61,9 +56,17 @@ trait ProductsService
                 'specification'    => 'required|string',
             ];
 
-            if ($this->selectedTags) $rulesForUpdate['selectedTags'] = 'required|array';
-            if (gettype($this->image) == 'object')  $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
-            if (gettype($this->gallery) == 'array' && !empty($this->gallery)) $rulesForUpdate['gallery'] = 'required|array';
+            if ($this->selectedTags) {
+                $rulesForUpdate['selectedTags'] = 'required|array';
+            }
+
+            if (gettype($this->image) == 'object') {
+                $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+            }
+
+            if (gettype($this->gallery) == 'array' && !empty($this->gallery)) {
+                $rulesForUpdate['gallery'] = 'required|array';
+            }
 
             return $rulesForUpdate;
         } else {
@@ -88,31 +91,36 @@ trait ProductsService
         }
     }
 
-    public function updated($propertyName): void
-    {
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function updatedSelectedSection(): void
-    {
+    /**
+     * Fetch categories based on section while changing section.
+     */
+    public function updatedSelectedSection(): void {
         $this->categories = Category::where('section_id', $this->selectedSection)
             ->get(['id', 'name']);
     }
 
-    public function updatedSelectedCategory(): void
-    {
+    /**
+     * Fetch subcategories based on category while changing category.
+     */
+    public function updatedSelectedCategory(): void {
         $this->subCategories = SubCategory::where('category_id', $this->selectedCategory)->get(['id', 'name']);
     }
 
-    public function beforeProductSaveFunc(): array
-    {
-        $validate                            = $this->validate();
-        $validate['category_id']             = $validate['selectedCategory'];
+    /**
+     * Before creating or updating the product some common tasks will be performed from this function.
+     */
+    public function beforeProductSaveFunc(): array {
+        $validate                = $this->validate();
+        $validate['category_id'] = $validate['selectedCategory'];
 
         unset($validate['selectedCategory']);
 
         if ($this->selectedTags) {
-            $validate['tags']                    = implode(',', $validate['selectedTags']);
+            $validate['tags'] = implode(',', $validate['selectedTags']);
             unset($validate['selectedTags']);
         }
         if ($this->selectedProductAttribute) {
@@ -123,9 +131,12 @@ trait ProductsService
                 }
             }
         }
-        if (gettype($this->image) == 'object') $validate['image'] = $this->fileUpload($this->image, 'products');
-        if (gettype($this->gallery == 'array') && !empty($this->gallery)) $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
-
+        if (gettype($this->image) == 'object') {
+            $validate['image'] = $this->fileUpload($this->image, 'products');
+        }
+        if (gettype($this->gallery == 'array') && !empty($this->gallery)) {
+            $validate['gallery'] = $this->fileUpload($this->gallery, 'products');
+        }
         return ['validate' => $validate, 'attribute' => $attribute ?? null];
     }
 }

@@ -15,8 +15,6 @@ class BrandsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,19 +30,13 @@ class BrandsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $methodId
-     * @return RedirectResponse
      */
-    public function update(int $brandId): RedirectResponse {
+    public function update(int $brandId) {
         return redirect()->route('brands.update', $brandId);
     }
 
     /**
      * Delete brand.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         $brand = Brand::findOrFail($id);

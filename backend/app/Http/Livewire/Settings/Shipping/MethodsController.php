@@ -14,8 +14,6 @@ class MethodsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -26,19 +24,13 @@ class MethodsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $methodId
-     * @return RedirectResponse
      */
-    public function update(int $methodId): RedirectResponse {
+    public function update(int $methodId) {
         return redirect()->route('settings.shippingMethods.update', $methodId);
     }
 
     /**
      * Delete shipping method.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         ShippingMethod::destroy($id);

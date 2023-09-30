@@ -12,11 +12,14 @@ trait MethodsService {
         'cost' => 'required|numeric',
     ];
 
-    public function updated($propertyName): void{
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
-    public function propertyResetExcept(): void{
+    /**
+     * Reset some property.
+     */
+    public function propertyResetExcept(): void {
         $this->resetExcept('methodId');
     }
 }

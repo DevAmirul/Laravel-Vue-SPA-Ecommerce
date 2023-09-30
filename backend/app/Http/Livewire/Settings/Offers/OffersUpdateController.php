@@ -17,13 +17,10 @@ class OffersUpdateController extends Component {
     use CreateSlugTrait, OffersService, WithFileUploads, FileTrait;
 
     public string $pageUrl = 'update';
-    public $category_id;
+    public string $category_id;
 
     /**
-     * Get offer's by id
-     *
-     * @param integer $id
-     * @return void
+     * Get offer's by id.
      */
     public function mount(int $id): void {
         $this->offerId = $id;
@@ -42,16 +39,12 @@ class OffersUpdateController extends Component {
         $this->category_id = implode(',', $offer->category->pluck('id')->all());
 
         $this->categories = Category::all('id', 'name');
-
         $this->subCategories = SubCategory::all('id', 'name');
-
         $this->brands = Brand::all('id', 'name');
     }
 
     /**
-     * Update offer
-     *
-     * @return void
+     * Update offer.
      */
     public function update(): void {
         $validate = $this->validate();

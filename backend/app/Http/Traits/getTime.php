@@ -5,6 +5,10 @@ namespace App\Http\Traits;
 use Carbon\Carbon;
 
 trait getTime {
+    
+    /**
+     * Get carbon time.
+     */
     public function getTimeCarbon(string $timeStr): object {
         return match ($timeStr) {
             'This Month' => Carbon::now()->startOfMonth(),
@@ -13,6 +17,9 @@ trait getTime {
         };
     }
 
+    /**
+     * Get time in SQL format.
+     */
     public function getTimeSql(string $timeStr, string $tableColumnName) {
         return match ($timeStr) {
             'This Month' => 'MONTHNAME(' . $tableColumnName . ')',
@@ -20,6 +27,4 @@ trait getTime {
             default => $tableColumnName,
         };
     }
-
-
 }

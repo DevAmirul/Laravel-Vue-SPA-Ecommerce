@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller {
 
+    /**
+     * Get specific product details by product slug.
+     */
     public function index(Request $request): JsonResponse {
         $product = Product::select('id', 'name', 'image', 'slug', 'description', 'sale_price', 'category_id', 'gallery', 'offer_id')
             ->where('slug', $request->slug)
@@ -28,7 +31,10 @@ class ProductController extends Controller {
         return response()->json(compact('product', 'relatedProducts'));
     }
 
-    public function productViewCount(Request $request) {
+    /**
+     * When a product is visited it will be updated or created in the database.
+     */
+    public function productViewCount(Request $request): void {
         ProductView::updateOrCreate(['product_id' => $request->id], ['view_count' => DB::raw('view_count+' . 1)]);
     }
 }

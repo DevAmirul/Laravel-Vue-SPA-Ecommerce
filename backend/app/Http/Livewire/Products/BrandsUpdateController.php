@@ -17,9 +17,6 @@ class BrandsUpdateController extends Component {
 
     /**
      * Get brand's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->brandId = $id;
@@ -37,8 +34,6 @@ class BrandsUpdateController extends Component {
 
     /**
      * Update brand.
-     *
-     * @return void
      */
     public function update() {
         $validate = $this->validate();

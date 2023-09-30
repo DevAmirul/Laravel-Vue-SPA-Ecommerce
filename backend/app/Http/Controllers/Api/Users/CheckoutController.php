@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller {
+
     public function inbox(Request $request): JsonResponse {
         $carts = CartProductService::getCartProduct($request);
 
@@ -31,6 +32,9 @@ class CheckoutController extends Controller {
         return response()->json(compact('carts', 'shippingMethods', 'paymentMethods', 'billingDetails'));
     }
 
+    /**
+     * Place order by the authenticated user.
+     */
     public function placeOrder(Payments $payment, CheckoutRequest $request): JsonResponse {
         $cartItems = CartProductService::getCartProduct($request);
 
@@ -88,6 +92,9 @@ class CheckoutController extends Controller {
         return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null, 'status' => 'Successfully added to order']);
     }
 
+    /**
+     * If the payment is due, the payment will be made from here.
+     */
     public function payOrder(Payments $payment, Request $request): JsonResponse {
         try {
             $payment = $payment->checkOut(null);

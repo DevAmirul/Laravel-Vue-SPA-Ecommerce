@@ -18,9 +18,6 @@ class CategoriesUpdateController extends Component {
 
     /**
      * Get category by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->categoryId = $id;
@@ -39,8 +36,6 @@ class CategoriesUpdateController extends Component {
 
     /**
      * Update category.
-     *
-     * @return void
      */
     public function update(): void {
         $validate = $this->validate();

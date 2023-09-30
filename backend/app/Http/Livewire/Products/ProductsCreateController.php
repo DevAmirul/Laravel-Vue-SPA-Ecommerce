@@ -21,8 +21,6 @@ class ProductsCreateController extends Component {
 
     /**
      * Get a list of categories, tags, attributes and brand IDs to set when creating new products.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->sections = Section::all(['id', 'name']);
@@ -36,8 +34,6 @@ class ProductsCreateController extends Component {
 
     /**
      * Create product.
-     *
-     * @return void
      */
     public function create(): void {
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();

@@ -15,9 +15,6 @@ class EditorsUpdateController extends Component {
 
     /**
      * Get editor's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->editorId = $id;
@@ -36,8 +33,6 @@ class EditorsUpdateController extends Component {
 
     /**
      * Update editor.
-     *
-     * @return void
      */
     public function update(): void {
         $validate = $this->validate();

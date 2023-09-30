@@ -19,8 +19,10 @@ trait SectionsService {
                 'status' => 'required|boolean',
             ];
 
-            if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
-            
+            if (gettype($this->image) == 'object') {
+                $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+            }
+
             return $rulesForUpdate;
         } else {
             return [
@@ -32,11 +34,14 @@ trait SectionsService {
         }
     }
 
-    public function updated($propertyName): void{
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function propertyResetExcept(): void{
+    /**
+     * Reset property.
+     */
+    public function propertyResetExcept(): void {
         $this->resetExcept(['sectionId', 'image', 'oldImage']);
     }
 }

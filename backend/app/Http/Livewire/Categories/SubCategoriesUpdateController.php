@@ -14,9 +14,6 @@ class SubCategoriesUpdateController extends Component {
 
     /**
      * Get subcategory by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->subCategoryId = $id;
@@ -33,8 +30,6 @@ class SubCategoriesUpdateController extends Component {
 
     /**
      * Update subcategory.
-     *
-     * @return void
      */
     public function update(): void {
         $validate = $this->validate();

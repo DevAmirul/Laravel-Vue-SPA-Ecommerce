@@ -13,8 +13,6 @@ class MethodsCreateController extends Component {
 
     /**
      * Create new shipping method.
-     *
-     * @return Void
      */
     public function create(): Void {
         $validate = $this->validate();

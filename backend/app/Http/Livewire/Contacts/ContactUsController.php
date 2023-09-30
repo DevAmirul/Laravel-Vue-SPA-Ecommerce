@@ -15,8 +15,6 @@ class ContactUsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,19 +30,13 @@ class ContactUsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $contactId
-     * @return RedirectResponse
      */
-    public function update(int $contactId): RedirectResponse {
+    public function update(int $contactId) {
         return redirect()->route('contacts.reply', $contactId);
     }
 
     /**
      * Delete contact.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         ContactUs::destroy($id);

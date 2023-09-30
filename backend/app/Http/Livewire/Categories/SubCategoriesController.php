@@ -6,6 +6,7 @@ use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\SubCategory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,8 +16,6 @@ class SubCategoriesController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,9 +31,6 @@ class SubCategoriesController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $subCategoryId
-     * @return RedirectResponse
      */
     public function update(int $subCategoryId) {
         return redirect()->route('subCategories.update', $subCategoryId);
@@ -42,9 +38,6 @@ class SubCategoriesController extends Component {
 
     /**
      * Delete subcategory.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         SubCategory::destroy($id);

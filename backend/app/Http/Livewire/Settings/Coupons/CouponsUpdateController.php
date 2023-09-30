@@ -13,9 +13,6 @@ class CouponsUpdateController extends Component {
 
     /**
      * Get coupon by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->couponId = $id;
@@ -31,9 +28,7 @@ class CouponsUpdateController extends Component {
     }
 
     /**
-     * Update coupon
-     *
-     * @return void
+     * Update coupon.
      */
     public function update() {
         $validate = $this->validate();

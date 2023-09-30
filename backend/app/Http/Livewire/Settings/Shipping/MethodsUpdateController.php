@@ -13,9 +13,6 @@ class MethodsUpdateController extends Component {
 
     /**
      * Get shipping method's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->methodId = $id;
@@ -27,9 +24,7 @@ class MethodsUpdateController extends Component {
     }
 
     /**
-     * Update shipping method's.
-     *
-     * @return void
+     * Update shipping method.
      */
     public function update(): void {
         $validate = $this->validate();

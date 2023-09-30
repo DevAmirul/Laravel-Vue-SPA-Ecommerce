@@ -18,8 +18,9 @@ trait BrandsService {
                 'slug'   => 'required|string|max:255|unique:brands,slug,' . $this->brandId,
                 'status' => 'required|boolean',
             ];
-
-            if (gettype($this->image) == 'object') $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+            if (gettype($this->image) == 'object') {
+                $rulesForUpdate['image'] = 'required|mimes:jpeg,png,jpg';
+            }
 
             return $rulesForUpdate;
         } else {
@@ -32,11 +33,14 @@ trait BrandsService {
         }
     }
 
-    public function updated($propertyName): void{
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
     }
 
-    public function propertyResetExcept(): void{
+    /**
+     * Reset some property.
+     */
+    public function propertyResetExcept(): void {
         $this->resetExcept(['brandId', 'oldImage']);
     }
 }

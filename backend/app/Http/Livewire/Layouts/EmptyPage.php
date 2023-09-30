@@ -9,9 +9,6 @@ class EmptyPage extends Component {
 
     /**
      * Set table name when empty page component mount.
-     *
-     * @param string $tableName
-     * @return void
      */
     public function mount(string $tableName): void {
         $this->tableName = $tableName;

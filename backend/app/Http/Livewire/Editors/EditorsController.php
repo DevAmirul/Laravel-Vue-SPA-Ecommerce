@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Editors;
 use App\Http\Traits\BooleanTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Editor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,8 +15,6 @@ class EditorsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -34,9 +33,6 @@ class EditorsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $editorId
-     * @return RedirectResponse
      */
     public function update(int $editorId) {
         return redirect()->route('editors.update', $editorId);
@@ -44,12 +40,10 @@ class EditorsController extends Component {
 
     /**
      * Delete editor.
-     *
-     * @param integer $id
-     * @return void
      */
-    public function destroy(int $id): int {
-        return Editor::destroy($id);
+    public function destroy(int $id): void {
+        Editor::destroy($id);
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Deleted record!']);
     }
 
     public function render(): View {

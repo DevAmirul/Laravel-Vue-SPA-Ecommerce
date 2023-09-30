@@ -20,8 +20,6 @@ class OffersCreateController extends Component {
 
     /**
      * Get all category, subcategory and brand list to set offer id while creating new offer.
-     *
-     * @return void
      */
     function mount(): void {
         $this->categories = Category::all('id', 'name');
@@ -32,9 +30,7 @@ class OffersCreateController extends Component {
     }
 
     /**
-     * Create new offer
-     *
-     * @return void
+     * Create new offer.
      */
     public function create(): void {
         $validate = $this->validate();

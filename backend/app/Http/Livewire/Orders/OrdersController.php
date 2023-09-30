@@ -5,9 +5,10 @@ namespace App\Http\Livewire\Orders;
 use App\Http\Traits\EnumTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Order;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Livewire\Component;
+use Livewire\Redirector;
 use Livewire\WithPagination;
 
 class OrdersController extends Component {
@@ -15,8 +16,6 @@ class OrdersController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -32,22 +31,17 @@ class OrdersController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $orderId
-     * @return RedirectResponse
      */
-    public function update($orderId): RedirectResponse {
+    public function update(int $orderId) {
         return redirect()->route('orders.update', $orderId);
     }
 
     /**
      * Delete order.
-     *
-     * @param integer $id
-     * @return void
      */
-    public function destroy(int $id): int {
-        return Order::destroy($id);
+    public function destroy(int $id): void {
+        Order::destroy($id);
+        $this->dispatchBrowserEvent('success-toast', ['message' => 'Deleted record!']);
     }
 
     public function render(): View {

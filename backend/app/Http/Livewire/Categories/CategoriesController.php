@@ -17,8 +17,6 @@ class CategoriesController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -34,19 +32,13 @@ class CategoriesController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $categoryId
-     * @return RedirectResponse
      */
-    public function update(int $categoryId): RedirectResponse {
+    public function update(int $categoryId) {
         return redirect()->route('categories.update', $categoryId);
     }
 
     /**
      * Delete category.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         $category = Category::findOrFail($id);

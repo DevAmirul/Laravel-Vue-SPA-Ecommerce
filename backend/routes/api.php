@@ -43,7 +43,7 @@ Route::name('api.')->group(function () {
 
         Route::get('/categories', [HomeController::class, 'getCategory'])->name('categories');
 
-        Route::get('/navbar', [HomeController::class, 'getSidebar'])->name('navbar');
+        Route::get('/navbar', [HomeController::class, 'getNavbar'])->name('navbar');
     });
 
     Route::get('/site-settings', SettingsController::class)->name('settings');
@@ -99,7 +99,7 @@ Route::name('api.')->group(function () {
 
         Route::prefix('orders')->name('orders.')->group(function () {
 
-            Route::get('/{id}', [OrderController::class, 'index'])->whereNumber('id');
+            Route::get('/{id}', [OrderController::class])->whereNumber('id');
 
             Route::get('/{id}/items', OrderItemController::class)->name('items')->whereNumber('id');
 

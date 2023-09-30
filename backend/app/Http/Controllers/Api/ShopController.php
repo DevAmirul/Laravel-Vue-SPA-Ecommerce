@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ShopController extends Controller {
 
     /**
-     * Handle the incoming request.
+     * Get products for shop page.
      */
     public function __invoke(Request $request): object {
         return SearchProductService::searchProductQuery($request);

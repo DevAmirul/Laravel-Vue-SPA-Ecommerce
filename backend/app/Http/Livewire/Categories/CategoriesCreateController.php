@@ -18,8 +18,6 @@ class CategoriesCreateController extends Component {
 
     /**
      * Create category.
-     *
-     * @return void
      */
     public function create(): void {
         $validate = $this->validate();

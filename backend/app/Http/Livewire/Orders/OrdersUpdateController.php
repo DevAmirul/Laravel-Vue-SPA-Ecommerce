@@ -18,15 +18,12 @@ class OrdersUpdateController extends Component {
         'changedStatus' => 'required|in:approved,delivered,pending,canceled,returned',
     ];
 
-    public function updated($propertyName): void {
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
     /**
      * Get order's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->orderId = $id;
@@ -42,8 +39,6 @@ class OrdersUpdateController extends Component {
 
     /**
      * Update order & send mail.
-     *
-     * @return void
      */
     public function update(): void {
 
@@ -61,7 +56,6 @@ class OrdersUpdateController extends Component {
                     );
             }
         }
-
         Mail::to($this->order->user->email)->send(new OrderStatusInformation($this->changedStatus, $this->order));
 
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Updated record!']);

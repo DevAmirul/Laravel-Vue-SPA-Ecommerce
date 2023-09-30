@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class BrandController extends Controller {
     /**
-     * Handle the incoming request.
+     * Get products based on brand.
      */
     public function __invoke(Request $request): object {
         return SearchProductService::searchProductQuery($request, 'brands');

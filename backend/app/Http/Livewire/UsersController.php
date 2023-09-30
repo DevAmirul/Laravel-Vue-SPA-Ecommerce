@@ -13,8 +13,6 @@ class UsersController extends Component {
 
     /**
      * Get all user list.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -22,7 +20,7 @@ class UsersController extends Component {
             ['id', 'name', 'email']
         );
     }
-    
+
     public function render(): View {
         $users = User::where('name', 'LIKE', '%' . $this->searchStr . '%')
             ->paginate($this->showDataPerPage, [...$this->tableDataColumnNames]);

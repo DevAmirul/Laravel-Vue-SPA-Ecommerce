@@ -14,8 +14,6 @@ class SubCategoriesCreateController extends Component {
 
     /**
      * Create subCategory.
-     *
-     * @return void
      */
     public function create(): void {
         $validate = $this->validate();

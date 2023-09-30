@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 class ContactController extends Controller {
     /**
-     * Handle the incoming request.
+     * Save contact message.
      */
     public function __invoke(ContactUsRequest $request): JsonResponse {
         ContactUs::create($request->validated());

@@ -13,14 +13,12 @@ class TagsCreateController extends Component {
         'keyword' => 'required|string|max:100',
     ];
 
-    public function updated($propertyName): void {
+    public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
     }
 
     /**
      * Create tag.
-     *
-     * @return void
      */
     public function create(): void {
         $validate = $this->validate();

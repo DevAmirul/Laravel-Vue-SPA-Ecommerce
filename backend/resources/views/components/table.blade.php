@@ -90,45 +90,45 @@
                                     {{-- End check enum column --}}
 
                                     @if ($tableDataColumnName == 'created_at')
-                                    @if ($data->created_at < $data->updated_at)
+                                        @if ($data->created_at < $data->updated_at)
                                         <td>{{ $data->updated_at->toFormattedDateString() }}</td>
                                         @else
                                         <td>{{ $data->created_at->toFormattedDateString() }}</td>
                                         @endif
                                         @continue
-                                        @endif
-                                        @if ($tableDataColumnName == 'updated_at')
+                                    @endif
+                                    @if ($tableDataColumnName == 'updated_at')
                                         @continue
+                                    @endif
+
+                                    <td>{{ $data->$tableDataColumnName }}</td>
+
+                                    @endforeach
+
+                                    @if ($relation ?? false)
+                                    @foreach ($relationTableDataColumnNames as $relationTableDataColumnName)
+                                    <td>{{ $data->$relationName->$relationTableDataColumnName }}</td>
+                                    @endforeach
+                                    @endif
+
+                                    @if ($showBtn ?? true)
+                                    <td class="d-flex ">
+                                        @if ($showBtnEdit ?? true)
+                                        <button
+                                            onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
+                                            wire:click='update({{ $data->id }})' class="btn btn-primary "><i
+                                                class="bi bi-pencil-square"></i>
+                                        </button>
                                         @endif
-
-                                        <td>{{ $data->$tableDataColumnName }}</td>
-
-                                        @endforeach
-
-                                        @if ($relation ?? false)
-                                        @foreach ($relationTableDataColumnNames as $relationTableDataColumnName)
-                                        <td>{{ $data->$relationName->$relationTableDataColumnName }}</td>
-                                        @endforeach
-                                        @endif
-
-                                        @if ($showBtn ?? true)
-                                        <td class="d-flex ">
-                                            @if ($showBtnEdit ?? true)
+                                        @if ($showBtnDelete ?? true)
                                             <button
-                                                onclick="confirm('Are you sure,You want to Edit this Data?') || event.stopImmediatePropagation();"
-                                                wire:click='update({{ $data->id }})' class="btn btn-primary "><i
-                                                    class="bi bi-pencil-square"></i>
+                                                onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
+                                                wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
+                                                    class="bi bi-trash"></i>
                                             </button>
-                                            @endif
-                                            @if ($showBtnDelete ?? true)
-                                                <button
-                                                    onclick="confirm('Are you sure,You want to delete this Data?') || event.stopImmediatePropagation();"
-                                                    wire:click='destroy({{ $data->id }})' class="btn btn-danger mx-1"><i
-                                                        class="bi bi-trash"></i>
-                                                </button>
-                                            @endif
-                                        </td>
                                         @endif
+                                    </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

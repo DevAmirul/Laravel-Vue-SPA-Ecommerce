@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class TopRatingService {
 
+    /**
+     * Get Top ratting products.
+     */
     public static function topRatingsQuery(): object {
         $products = DB::table('products')
             ->join('reviews', 'products.id', '=', 'reviews.product_id')

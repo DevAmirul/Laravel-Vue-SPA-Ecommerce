@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller {
 
+    /**
+     * Get authenticated user.
+     */
     public function index(Request $request): JsonResponse {
         $user = User::with('billingDetail:user_id,phone,address,address_2,city,state,zip_code')
             ->withCount('order')
@@ -20,6 +23,9 @@ class UserController extends Controller {
         return response()->json(compact('user'));
     }
 
+    /**
+     * Update authenticated user.
+     */
     public function update(UserRequest $request): JsonResponse {
         $user        = User::find($request->id);
         $user->name  = $request->validated('name');
@@ -27,7 +33,6 @@ class UserController extends Controller {
         if ($request->validated('password')) {
             $user->password = $request->validated('password');
         }
-
         $user->save();
 
         BillingDetails::updateOrCreate(['user_id' => $request->id], [

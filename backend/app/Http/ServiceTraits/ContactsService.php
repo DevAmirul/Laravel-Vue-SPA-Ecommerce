@@ -16,7 +16,7 @@ trait ContactsService {
         'repliedMessage' => 'required|string|max:65000',
     ];
 
-    public function updated($propertyName): void{
+    public function updated(mixed $propertyName): void{
         $this->validateOnly($propertyName, $this->rules);
     }
 }

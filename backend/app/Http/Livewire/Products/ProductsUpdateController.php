@@ -24,9 +24,6 @@ class ProductsUpdateController extends Component {
 
     /**
      * Get product's by id.
-     *
-     * @param integer $id
-     * @return void
      */
     public function mount(int $id): void {
         $this->productId = $id;
@@ -61,8 +58,6 @@ class ProductsUpdateController extends Component {
 
     /**
      * Update product.
-     *
-     * @return void
      */
     public function update(): void {
         $beforeProductSaveFunc = $this->beforeProductSaveFunc();

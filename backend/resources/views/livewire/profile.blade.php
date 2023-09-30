@@ -195,7 +195,7 @@ Profile
                                 </div>
                                 <br>
                                 <form wire:submit.prevent="destroy">
-                                    @if(Auth::guard('editor')->user()->role = 0)
+                                    @if(Auth::guard('editor')->user()->role == 0)
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-danger">Delete Account</button>
                                         </div>

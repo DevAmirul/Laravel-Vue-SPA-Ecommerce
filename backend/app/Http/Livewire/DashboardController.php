@@ -11,9 +11,6 @@ class DashboardController extends Component {
 
     /**
      * Get offer products.
-     *
-     * @param [string] $timeStr
-     * @return void
      */
     public function showSale(string $timeStr): void {
         $this->showSaleQuery($timeStr);
@@ -21,9 +18,6 @@ class DashboardController extends Component {
 
     /**
      * Get order information.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showOrders(string $timeStr): void {
         $this->showOrdersQuery($timeStr);
@@ -31,9 +25,6 @@ class DashboardController extends Component {
 
     /**
      * Get products revenue information.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showRevenue(string $timeStr): void {
         $this->showRevenueQuery($timeStr);
@@ -41,9 +32,6 @@ class DashboardController extends Component {
 
     /**
      * Get users information.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showUsers(string $timeStr): void {
         $this->showUsersQuery($timeStr);
@@ -51,9 +39,6 @@ class DashboardController extends Component {
 
     /**
      * Get new  arrival products.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showArrivals(string $timeStr): void {
         $this->newArrivalProductsQuery($timeStr);
@@ -61,9 +46,6 @@ class DashboardController extends Component {
 
     /**
      * Get recent sale products.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showRecentSale(string $timeStr): void {
         $this->showRecentSaleQuery($timeStr);
@@ -71,9 +53,6 @@ class DashboardController extends Component {
 
     /**
      * Get top revenue products.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function showTopRevenueProducts(string $timeStr): void {
         $this->showTopRevenueProductsQuery($timeStr);
@@ -81,9 +60,6 @@ class DashboardController extends Component {
 
     /**
      * Get all Dashboard information based on day or month or year when clicked day or month or year.
-     *
-     * @param string $timeStr
-     * @return void
      */
     public function AllCalculationsAreBasedOnDayOrMonthOrYear(string $timeStr): void {
         $this->setStrTime($timeStr);

@@ -16,8 +16,6 @@ class ProductsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -36,19 +34,13 @@ class ProductsController extends Component {
 
     /**
      * Redirect to update controller.
-     *
-     * @param integer $productId
-     * @return RedirectResponse
      */
-    public function update(int $productId): RedirectResponse {
+    public function update(int $productId) {
         return redirect()->route('products.update', $productId);
     }
 
     /**
      * Delete product.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         $product = Product::findOrFail($id);

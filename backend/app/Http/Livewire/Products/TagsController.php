@@ -13,8 +13,6 @@ class TagsController extends Component {
 
     /**
      * Set table column.
-     *
-     * @return void
      */
     public function mount(): void {
         $this->tableColumnTrait(
@@ -25,9 +23,6 @@ class TagsController extends Component {
 
     /**
      * Delete tag.
-     *
-     * @param integer $id
-     * @return void
      */
     public function destroy(int $id): void {
         Tag::destroy($id);
