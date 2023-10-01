@@ -1,6 +1,6 @@
 import { onBeforeMount, ref, watch } from "vue";
 import { defineStore } from 'pinia'
-import axios from 'axios';
+import useAxios from '../services/axios';
 import useToken from '../services/token';
 import useAlert from '../services/alert';
 import { useRouter } from 'vue-router'
@@ -17,7 +17,7 @@ const useAuth = defineStore('auth', () => {
     })
 
     function getAuthUser() {
-        axios.get('http://127.0.0.1:8000/api/user', {
+        useAxios.get('/user', {
             headers: { Authorization: 'Bearer ' + useToken().getToken() }
         })
             .then(response => {
@@ -31,7 +31,7 @@ const useAuth = defineStore('auth', () => {
     }
 
     function login(email, password, remember) {
-        axios.post('http://127.0.0.1:8000/api/login', {
+        useAxios.post('/login', {
             'email': email,
             'password': password,
             'remember': remember,
@@ -46,7 +46,7 @@ const useAuth = defineStore('auth', () => {
     }
 
     function logout() {
-        axios.get('http://127.0.0.1:8000/api/logout', {
+        useAxios.get('/logout', {
             headers: {
                 Authorization: 'Bearer ' + useToken().getToken()
             }
@@ -73,6 +73,7 @@ const useAuth = defineStore('auth', () => {
     watch(isAuthenticated, () => {
         if (!isAuthenticated.value) router.push({ name: 'login' });
     } )
+    
     return { isAuthenticated, user, errorData, logout, login }
 })
 

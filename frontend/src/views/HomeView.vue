@@ -1,32 +1,29 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
-import useAxios from '../services/axios';
-import ProductsCard from '../components/ProductsCard.vue';
-import HomeNavbar from '../components/layouts/HomeNavbar.vue';
+import useAxios from "../services/axios";
+import ProductsCard from "../components/ProductsCard.vue";
+import HomeNavbar from "../components/layouts/HomeNavbar.vue";
 
 let responseData = ref();
 let responseCateData = ref();
 let responseOfferData = ref();
 
+// Fetch useful json data for home page.
 onMounted(() => {
-    useAxios.get('/home')
-        .then(response => {
-            responseData.value = response.data
-        })
+    useAxios.get("/home").then((response) => {
+        responseData.value = response.data;
+    });
 
-    useAxios.get('home/categories')
-        .then(response => {
-            responseCateData.value = response.data
-        })
+    useAxios.get("home/categories").then((response) => {
+        responseCateData.value = response.data;
+    });
 
-    useAxios.get('/home/offers')
-        .then(response => {
-            responseOfferData.value = response.data
-        })
-} )
-
+    useAxios.get("/home/offers").then((response) => {
+        responseOfferData.value = response.data;
+    });
+});
 </script>
 <template>
     <!-- Navbar Start -->
@@ -77,17 +74,29 @@ onMounted(() => {
     <!-- Categories Start -->
     <div v-if="responseCateData">
         <Carousel :items-to-show="5" :wrap-around="true">
-        <Slide v-for="(data, key) in responseCateData.categories" :key="key">
-            <div class="card" style="width: 10rem;">
-                <img :src="data.image" class="card-img-top" alt="image">
-                <div class="card-body">
-                    <RouterLink :to="{ name: 'categories', params: { slug: data.slug } }">
-                        <h6 class="card-text text-primary" style="cursor: pointer;">{{ data.name }}</h6>
-                    </RouterLink>
-
+            <Slide
+                v-for="(data, key) in responseCateData.categories"
+                :key="key"
+            >
+                <div class="card" style="width: 10rem">
+                    <img :src="data.image" class="card-img-top" alt="image" />
+                    <div class="card-body">
+                        <RouterLink
+                            :to="{
+                                name: 'categories',
+                                params: { slug: data.slug },
+                            }"
+                        >
+                            <h6
+                                class="card-text text-primary"
+                                style="cursor: pointer"
+                            >
+                                {{ data.name }}
+                            </h6>
+                        </RouterLink>
+                    </div>
                 </div>
-            </div>
-        </Slide>
+            </Slide>
             <template #addons>
                 <Navigation />
             </template>
@@ -103,15 +112,26 @@ onMounted(() => {
             </h2>
         </div>
         <template v-if="responseData">
-        <ProductsCard :products="responseData.topSales"></ProductsCard>
+            <ProductsCard :products="responseData.topSales"></ProductsCard>
         </template>
     </div>
     <!-- Top Sales End -->
     <!-- Offer Start -->
     <div v-if="responseOfferData" class="container-fluid offer pt-5">
         <div class="row px-xl-5">
-            <template v-for="(data, key) in responseOfferData.offers" :key="key">
-                <div :class="[(responseOfferData.offers.length == 3 ? 'col-md-4' : 'col-md-6'), 'pb-4', 'm-auto']">
+            <template
+                v-for="(data, key) in responseOfferData.offers"
+                :key="key"
+            >
+                <div
+                    :class="[
+                        responseOfferData.offers.length == 3
+                            ? 'col-md-4'
+                            : 'col-md-6',
+                        'pb-4',
+                        'm-auto',
+                    ]"
+                >
                     <div
                         class="position-relative bg-secondary text-center text-white mb-2 py-5 px-5"
                     >
@@ -123,12 +143,17 @@ onMounted(() => {
                             <h1 class="mb-4 font-weight-semi-bold">
                                 {{ data.name }}
                             </h1>
-                            <RouterLink :to="{ name: 'offers', params: { name: data.name } }">
-                            <a class="btn btn-outline-primary py-md-2 px-md-3"
+                            <RouterLink
+                                :to="{
+                                    name: 'offers',
+                                    params: { name: data.name },
+                                }"
+                            >
+                                <a
+                                    class="btn btn-outline-primary py-md-2 px-md-3"
                                     >Shop Now
-                            </a>
+                                </a>
                             </RouterLink>
-
                         </div>
                     </div>
                 </div>
@@ -157,7 +182,7 @@ onMounted(() => {
             </template> -->
         </div>
     </div>
-        <!-- Offer End -->
+    <!-- Offer End -->
     <!-- Products Start -->
     <div class="container-fluid pt-5">
         <div class="text-center mb-4">
@@ -166,7 +191,7 @@ onMounted(() => {
             </h2>
         </div>
         <template v-if="responseData">
-        <ProductsCard :products="responseData.topRatings"></ProductsCard>
+            <ProductsCard :products="responseData.topRatings"></ProductsCard>
         </template>
     </div>
     <!-- Products End -->
@@ -178,7 +203,7 @@ onMounted(() => {
             </h2>
         </div>
         <template v-if="responseData">
-        <ProductsCard :products="responseData.newArrivals"></ProductsCard>
+            <ProductsCard :products="responseData.newArrivals"></ProductsCard>
         </template>
     </div>
     <!-- Products End -->
@@ -186,42 +211,42 @@ onMounted(() => {
 
 <style scoped>
 .carousel__slide {
-  padding: 5px;
+    padding: 5px;
 }
 
 .carousel__viewport {
-  perspective: 2000px;
+    perspective: 2000px;
 }
 
 .carousel__track {
-  transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
 .carousel__slide--sliding {
-  transition: 0.5s;
+    transition: 0.5s;
 }
 
 .carousel__slide {
-  opacity: 0.9;
-  transform: rotateY(-20deg) scale(0.9);
+    opacity: 0.9;
+    transform: rotateY(-20deg) scale(0.9);
 }
 
 .carousel__slide--active ~ .carousel__slide {
-  transform: rotateY(20deg) scale(0.9);
+    transform: rotateY(20deg) scale(0.9);
 }
 
 .carousel__slide--prev {
-  opacity: 1;
-  transform: rotateY(-10deg) scale(0.95);
+    opacity: 1;
+    transform: rotateY(-10deg) scale(0.95);
 }
 
 .carousel__slide--next {
-  opacity: 1;
-  transform: rotateY(10deg) scale(0.95);
+    opacity: 1;
+    transform: rotateY(10deg) scale(0.95);
 }
 
 .carousel__slide--active {
-  opacity: 1;
-  transform: rotateY(0) scale(1.1);
+    opacity: 1;
+    transform: rotateY(0) scale(1.1);
 }
 </style>

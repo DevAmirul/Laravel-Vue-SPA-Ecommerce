@@ -10,6 +10,7 @@ const auth = useAuth();
 const responseData = ref();
 const route = useRoute();
 
+// Fetch navbar.
 onMounted(() => {
     useAxios.get('/home/navbar')
         .then(response => {

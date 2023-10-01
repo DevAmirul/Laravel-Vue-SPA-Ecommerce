@@ -91,7 +91,7 @@ Route::name('api.')->group(function () {
             Route::get('/add/{userId}/{productId}', [CartController::class, 'add'])->name('add')->where(['userId' => '[0-9]+', 'productId' => '[0-9]+']);
         });
 
-        Route::post('/review', [ReviewController::class, 'create'])->name('review');
+        Route::post('/review', [ReviewController::class, 'store'])->name('review');
 
         Route::get('/checkout/{id}', [CheckoutController::class, 'inbox'])->name('checkout.inbox')->whereNumber('id');
 
@@ -99,7 +99,7 @@ Route::name('api.')->group(function () {
 
         Route::prefix('orders')->name('orders.')->group(function () {
 
-            Route::get('/{id}', [OrderController::class])->whereNumber('id');
+            Route::get('/{id}', OrderController::class)->whereNumber('id');
 
             Route::get('/{id}/items', OrderItemController::class)->name('items')->whereNumber('id');
 

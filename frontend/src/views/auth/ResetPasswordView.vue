@@ -13,8 +13,9 @@ const formData = reactive({
     password_confirmation: 'route.query.email'
 });
 
+// Reset password.
 function resetPassword() {
-    axios.post( 'http://127.0.0.1:8000/api/reset-password', {
+    axios.post( '/reset-password', {
         'email': route.query.email,
         'token': route.params.token,
         'password': formData.password,
@@ -25,7 +26,6 @@ function resetPassword() {
         })
         .catch(error => {
             errorData.value = error.response.data.errors
-            console.log(error);
         });
 }
 </script>

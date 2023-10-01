@@ -1,20 +1,21 @@
 <script setup>
-import { onMounted, watch } from "vue";
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import useSearch from '../stores/Search'
+import useSearch from "../stores/Search";
 import Filter from "../components/layouts/Filter.vue";
 import Paginate from "../components/Paginate.vue";
 import Sidebar from "../components/layouts/Sidebar.vue";
 import PageHeader from "../components/layouts/PageHeader.vue";
-import ProductsCard from '../components/ProductsCard.vue';
+import ProductsCard from "../components/ProductsCard.vue";
 
 const { responseData, isRefreshPage } = storeToRefs(useSearch());
 
+//Fetch products. When the page is mounted
 onMounted(() => {
     if (isRefreshPage.value) {
-        useSearch().getDataByQuery('form on mounted');
+        useSearch().getDataByQuery("form on mounted");
     }
-})
+});
 </script>
 <template>
     <!-- Page Header Start -->
@@ -35,7 +36,9 @@ onMounted(() => {
                         <!-- filter end -->
                     </div>
                     <template v-if="responseData">
-                        <ProductsCard :products="responseData.products"></ProductsCard>
+                        <ProductsCard
+                            :products="responseData.products"
+                        ></ProductsCard>
                         <Paginate :links="responseData.meta.links"></Paginate>
                     </template>
                 </div>

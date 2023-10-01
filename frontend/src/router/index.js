@@ -152,16 +152,6 @@ const router = createRouter({
             component: () => import('../views/auth/ResetPasswordView.vue')
         },
         {
-            path: '/500',
-            name: '500',
-            component: () => import('../views/errors/500View.vue')
-        },
-
-
-
-
-
-        {
             path: '/payment/success',
             name: 'paymentSuccess',
             component: () => import('../views/payment/SuccessView.vue')
@@ -171,9 +161,11 @@ const router = createRouter({
             name: 'paymentCancel',
             component: () => import('../views/payment/CancelView.vue')
         },
-
-
-
+        {
+            path: '/500',
+            name: 'serverError',
+            component: () => import('../views/errors/500View.vue')
+        },
         {
             path: '/:pathMatch(.*)*',
             name: 'NotFound',

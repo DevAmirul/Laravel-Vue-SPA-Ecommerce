@@ -72,24 +72,24 @@ class CheckoutController extends Controller {
 
         $order->orderItem()->createMany($orderItems);
 
-        Cart::whereUserId($request->id)->delete();
+        // Cart::whereUserId($request->id)->delete();
 
         Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
 
-        if ($request->validated('payment') === 'Online Payment') {
-            try {
-                $payment = $payment->checkOut(null);
-                Order::whereId($request->id)->update(['id' => $payment['sessionId']]);
-            } catch (\Stripe\Exception\CardException $e) {
-                throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
-            } catch (\Stripe\Exception\InvalidRequestException $e) {
-                throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
-            } catch (Exception $e) {
-                throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
-            }
-        }
+        // if ($request->validated('payment') === 'Online Payment') {
+        //     try {
+        //         $payment = $payment->checkOut(null);
+        //         Order::whereId($request->id)->update(['id' => $payment['sessionId']]);
+        //     } catch (\Stripe\Exception\CardException $e) {
+        //         throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
+        //     } catch (\Stripe\Exception\InvalidRequestException $e) {
+        //         throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
+        //     } catch (Exception $e) {
+        //         throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
+        //     }
+        // }
 
-        return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null, 'status' => 'Successfully added to order']);
+        return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null, 'status' => 'Successfully created order']);
     }
 
     /**

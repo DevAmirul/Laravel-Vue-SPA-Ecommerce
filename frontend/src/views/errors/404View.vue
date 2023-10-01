@@ -1,5 +1,14 @@
 <script setup>
-import PageHeader from '../../components/layouts/PageHeader.vue'
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import PageHeader from "../../components/layouts/PageHeader.vue";
+
+const router = useRouter();
+const topBarSearch = ref();
+
+watch(topBarSearch, () => {
+    router.push({ name: 'search', params: { search: topBarSearch.value } })
+})
 </script>
 <template>
     <!-- Page Header Start -->
@@ -35,13 +44,14 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
 
                             or try using the search form.
                         </p>
-                        <form class="search-form py-5">
+                        <form @submit.prevent class="search-form py-5">
                             <div class="input-group">
                                 <input
                                     type="text"
                                     name="search"
                                     class="form-control"
-                                    placeholder="Search"
+                                    placeholder="Search..."
+                                    v-model.lazy="topBarSearch"
                                 />
                                 <div class="input-group-append">
                                     <button

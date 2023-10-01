@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import { RouterView, useRouter } from "vue-router";
 import useAxios from './services/axios';
 import Navbar from "./components/layouts/Navbar.vue";
@@ -7,11 +7,12 @@ import Footer from "./components/layouts/Footer.vue";
 import Topbar from "./components/layouts/Topbar.vue";
 import useAuth from './stores/Auth';
 
-useAuth();
+onBeforeMount(() => {
+    useAuth();
+} )
 
 const router = useRouter();
-
-let responseData = ref();
+const responseData = ref();
 
 onMounted(() => {
     useAxios.get('/site-settings')
@@ -21,9 +22,8 @@ onMounted(() => {
         .catch(error => {
             // console.log(error);
         });
-        
-} )
 
+} )
 
 </script>
 <template>

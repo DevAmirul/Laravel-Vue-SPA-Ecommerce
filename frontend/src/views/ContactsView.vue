@@ -1,45 +1,45 @@
 <script setup>
-import { ref,reactive, onMounted } from 'vue';
-import useAxios from '../services/axios';
-import useAlert from '../services/alert';
-import PageHeader from '../components/layouts/PageHeader.vue'
+import { ref, reactive, onMounted } from "vue";
+import useAxios from "../services/axios";
+import useAlert from "../services/alert";
+import PageHeader from "../components/layouts/PageHeader.vue";
 
 const responseData = ref();
 const errorData = ref();
 const formData = reactive({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
 });
 
-function sendMessage(){
-    useAxios.post('/contacts',{
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-    })
-        .then(response => {
-            formData.name = ''
-            formData.email = ''
-            formData.subject = ''
-            formData.message = ''
-            errorData.value = null
-            useAlert().centerMessageAlert('success', response.data.message)
+// Send contact messages to editors.
+function sendMessage() {
+    useAxios.post("/contacts", {
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
         })
-        .catch(error => {
-            errorData.value = error.response.data.errors
+        .then((response) => {
+            formData.name = "";
+            formData.email = "";
+            formData.subject = "";
+            formData.message = "";
+            errorData.value = null;
+            useAlert().centerMessageAlert("success", response.data.message);
+        })
+        .catch((error) => {
+            errorData.value = error.response.data.errors;
         });
 }
 
+// Fetch app setting.
 onMounted(() => {
-    useAxios.get('/site-settings')
-        .then(response => {
-            responseData.value = response.data
-        })
-} )
-
+    useAxios.get("/site-settings").then((response) => {
+        responseData.value = response.data;
+    });
+});
 </script>
 <template>
     <!-- Page Header Start -->
@@ -56,8 +56,7 @@ onMounted(() => {
             <div class="col-lg-7 mb-5">
                 <div class="contact-form">
                     <div id="success"></div>
-                    <form @submit.prevent="sendMessage()" id="contactForm"
-                    >
+                    <form @submit.prevent="sendMessage()" id="contactForm">
                         <div class="control-group mb-2">
                             <input
                                 type="text"
@@ -69,7 +68,11 @@ onMounted(() => {
                             <!-- required="required" -->
                             <template v-if="errorData">
                                 <template v-if="errorData['name']">
-                                    <small v-if="errorData['name'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['name'][0] }}</small>
+                                    <small
+                                        v-if="errorData['name'][0]"
+                                        class="error fw-lighter text-danger text-lg mx-3"
+                                        >{{ errorData["name"][0] }}</small
+                                    >
                                 </template>
                             </template>
                         </div>
@@ -81,10 +84,14 @@ onMounted(() => {
                                 placeholder="Your Email"
                                 v-model="formData.email"
                             />
-                                <!-- required="required" -->
+                            <!-- required="required" -->
                             <template v-if="errorData">
                                 <template v-if="errorData['email']">
-                                    <small v-if="errorData['email'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['email'][0] }}</small>
+                                    <small
+                                        v-if="errorData['email'][0]"
+                                        class="error fw-lighter text-danger text-lg mx-3"
+                                        >{{ errorData["email"][0] }}</small
+                                    >
                                 </template>
                             </template>
                         </div>
@@ -96,13 +103,16 @@ onMounted(() => {
                                 placeholder="Subject"
                                 v-model="formData.subject"
                                 required="required"
-                                />
+                            />
                             <template v-if="errorData">
                                 <template v-if="errorData['subject']">
-                                    <small v-if="errorData['subject'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['subject'][0] }}</small>
+                                    <small
+                                        v-if="errorData['subject'][0]"
+                                        class="error fw-lighter text-danger text-lg mx-3"
+                                        >{{ errorData["subject"][0] }}</small
+                                    >
                                 </template>
                             </template>
-
                         </div>
                         <div class="control-group mb-2">
                             <textarea
@@ -112,10 +122,14 @@ onMounted(() => {
                                 placeholder="Message"
                                 v-model="formData.message"
                                 required="required"
-                                ></textarea>
+                            ></textarea>
                             <template v-if="errorData">
                                 <template v-if="errorData['message']">
-                                    <small v-if="errorData['message'][0]" class=" error fw-lighter text-danger text-lg mx-3" >{{ errorData['message'][0] }}</small>
+                                    <small
+                                        v-if="errorData['message'][0]"
+                                        class="error fw-lighter text-danger text-lg mx-3"
+                                        >{{ errorData["message"][0] }}</small
+                                    >
                                 </template>
                             </template>
                         </div>
@@ -132,7 +146,6 @@ onMounted(() => {
                 </div>
             </div>
             <div class="col-lg-5 mb-5">
-
                 <div v-if="responseData" class="d-flex flex-column mb-3">
                     <h5 class="font-weight-semi-bold mb-3">Address</h5>
 
@@ -141,11 +154,12 @@ onMounted(() => {
                         >{{ responseData.settings.email }}
                     </p>
                     <p class="mb-2">
-                        <i class="fa fa-phone-alt text-primary mr-3"></i>{{ responseData.settings.phone }}
+                        <i class="fa fa-phone-alt text-primary mr-3"></i
+                        >{{ responseData.settings.phone }}
                     </p>
                     <p class="mb-2">
-                            <i class="fa fa-map-marker-alt text-primary mr-3"></i
-                            >{{ responseData.settings.address }}
+                        <i class="fa fa-map-marker-alt text-primary mr-3"></i
+                        >{{ responseData.settings.address }}
                     </p>
                 </div>
             </div>

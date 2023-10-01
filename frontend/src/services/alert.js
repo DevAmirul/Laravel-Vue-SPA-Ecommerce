@@ -1,8 +1,5 @@
 import Swal from 'sweetalert2'
-import { useRouter } from "vue-router";
 
-
-const router = useRouter();
 export default function useAlert() {
 
     function topAlert(icon, title, position = 'top-end') {
@@ -33,13 +30,14 @@ export default function useAlert() {
         })
     }
 
-    function centerDialogAlert(icon, text = 'Something went wrong!', title = 'Oops...', ) {
-        Swal.fire({
+    async function centerDialogAlert(icon, text = 'Something went wrong!', title = 'Oops...', ) {
+        return await Swal.fire({
             icon: icon,
             title: 'Oops...',
             text: text,
             confirmButtonText: 'Ok',
         })
     }
+    
     return { topAlert, centerMessageAlert, centerDialogAlert };
 }

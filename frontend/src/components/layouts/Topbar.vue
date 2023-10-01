@@ -17,27 +17,33 @@ const cartItemsNumber = ref();
 const compareList = ref();
 const wishlist = ref();
 
+// Count wish list and comparison list.
 onMounted(() => {
     wishlist.value = JSON.parse(localStorage.getItem('productAttributes'));
     compareList.value = JSON.parse(localStorage.getItem('compare'));
 } )
 
+// Push the search keyword to the path of the search router.
 watch(topBarSearch, () => {
     router.push({ name: 'search', params: { search: topBarSearch.value } })
 })
 
+// Recalculate the compare list when the user updates or deletes the compare list.
 watch(refreshCompareItemsNumber, () => {
     compareList.value = JSON.parse(localStorage.getItem('compare'));
 })
 
+// Recalculate the wishlist when the user updates or deletes the wishlist.
 watch(refreshWishlistItemsNumber, () => {
     wishlist.value = JSON.parse(localStorage.getItem('productAttributes'));
 })
 
+// Recalculate the cart's items when the user updates or deletes the cart's items.
 watch(refreshCartItemsNumber, () => {
     cartCount();
 })
 
+// Count cart items if user is logged in.
 watch(isAuthenticated, () => {
     cartCount();
 })

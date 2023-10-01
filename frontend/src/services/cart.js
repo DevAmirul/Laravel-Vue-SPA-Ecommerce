@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import useAxios from './axios';
 import useAlert from './alert';
 import useWishlist from './wishlist';
@@ -8,8 +7,8 @@ import useAuth from '../stores/Auth';
 
 export default function useCart() {
 
+    // Store item to cart.
     function addCart(productId){
-
         if (useAuth().isAuthenticated) {
             useAxios.get('/users/cart/add/' + useAuth().user.id + '/' + productId, {
                 headers: { Authorization: 'Bearer ' + useToken().getToken() }
@@ -28,16 +27,18 @@ export default function useCart() {
         }
     }
 
+    // Fetch cart items.
     async function  getCartItems() {
         return await useAxios.get('/users/cart/' + useAuth().user.id, {
             headers: { Authorization: 'Bearer ' + useToken().getToken() }
         })
             .then(response => {
-                if (response.data.carts.length === 0) useAlert().centerDialogAlert('info', 'Your cart list is empty')
                 return response.data;
-            })
+            }).catch((error) => {
+            });
     }
 
+    // Delete cart's item.
     function deleteCartItems(itemId) {
         useAxios.delete('/users/cart/' + itemId, {
             headers: { Authorization: 'Bearer ' + useToken().getToken() }
@@ -52,6 +53,7 @@ export default function useCart() {
             });
     }
 
+    // Increase the quantity of items in the cart.
     function productQuantityIncrement(cartId, productId, qty) {
         useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + ++qty, {
             headers: { Authorization: 'Bearer ' + useToken().getToken() }
@@ -65,6 +67,7 @@ export default function useCart() {
             });
     }
 
+    // Decrease the quantity of items in the cart.
     function productQuantityDecrement(cartId, productId, qty) {
         if (qty > 1) {
             useAxios.get('/users/cart/' + cartId + '/' + productId + '/' + --qty, {

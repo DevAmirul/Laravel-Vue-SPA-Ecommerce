@@ -121,16 +121,6 @@
                                     <div class="col-xl-10">
                                         <p>Thank you for your purchase</p>
                                     </div>
-                                    @if ($order->payment_status)
-                                        <div class="col-xl-2">
-                                            <button type="button" class="btn btn-primary text-capitalize" style="background-color:#b5f8b9 ;">Paid</button>
-                                        </div>
-                                    @else
-                                        <div class="col-xl-2">
-                                            <button type="button" class="btn btn-primary text-capitalize" style="background-color:#60bdf3 ;">Pay Now</button>
-                                            // TODO: here pay now option.
-                                        </div>
-                                    @endif
                                 </div>
 
                             </div>

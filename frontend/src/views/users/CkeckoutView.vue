@@ -6,8 +6,10 @@ import PageHeader from '../../components/layouts/PageHeader.vue'
 import { storeToRefs } from "pinia";
 import useAuth from '../../stores/Auth';
 import useToken from "../../services/token";
+import { useRouter } from 'vue-router';
 
-const { user } = storeToRefs(useAuth());
+const router = useRouter();
+const { user, isAuthenticated } = storeToRefs(useAuth());
 
 const paymentMethod = ref();
 const shippingMethodCost = ref(null);
@@ -28,27 +30,30 @@ let discount;
 let subtotal;
 let total;
 
+// Fetch user cart's items and user billing details.
 watchEffect(() => {
-    useAxios.get('/users/checkout/' + user.value.id, {
-        headers: { Authorization: 'Bearer ' + useToken().getToken() }
-    })
-        .then(response => {
-            responseData.value = response.data;
-            if (responseData.value.billingDetails !== null) {
-                formData.phone = responseData.value.billingDetails.phone
-                formData.address = responseData.value.billingDetails.address
-                formData.address_2 = responseData.value.billingDetails.address_2
-                formData.city = responseData.value.billingDetails.city
-                formData.state = responseData.value.billingDetails.state
-                formData.zip_code = responseData.value.billingDetails.zip_code
-            }
+    if (isAuthenticated.value) {
+        useAxios.get('/users/checkout/' + user.value.id, {
+            headers: { Authorization: 'Bearer ' + useToken().getToken() }
         })
-        .catch(error => {
-            useAlert().topAlert('error', error.response.data.message, 'bottom-end')
-            console.log(error);
-        });
+            .then(response => {
+                responseData.value = response.data;
+                if (responseData.value.billingDetails !== null) {
+                    formData.phone = responseData.value.billingDetails.phone
+                    formData.address = responseData.value.billingDetails.address
+                    formData.address_2 = responseData.value.billingDetails.address_2
+                    formData.city = responseData.value.billingDetails.city
+                    formData.state = responseData.value.billingDetails.state
+                    formData.zip_code = responseData.value.billingDetails.zip_code
+                }
+            })
+            .catch((error) => {
+                router.push({ name: 'serverError' });
+            });
+    }
 } )
 
+// Discounts will be calculated on cart items.
 watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
         if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {
@@ -66,6 +71,7 @@ watch(responseData, () => {
     }, 0)
 })
 
+// Store user orders.
 function placeOrder() {
     useAxios.post('/users/checkout/' + user.value.id, {
             "city": formData.city,
@@ -98,6 +104,7 @@ function placeOrder() {
         });
 }
 
+// Fetch valid coupon.
 function getCoupon(code) {
     if (code) {
         useAxios.get('/users/cart/coupon/' + code, {
@@ -105,7 +112,6 @@ function getCoupon(code) {
         })
             .then(response => {
                 responseCoupon.value = response.data;
-                // console.log(responseCoupon.value.coupon.discount);
                 if (responseCoupon.value.coupon == null) useAlert().centerDialogAlert('info', 'Code not valid')
             })
     }

@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import useAxios from '../../services/axios';
 import useAlert from '../../services/alert';
 import axios from 'axios';
 import PageHeader from '../../components/layouts/PageHeader.vue'
@@ -10,8 +9,9 @@ const formData = reactive({
     email: 'mailbox.amirul@gmail.com'
 });
 
+// Send reset link.
 function sendResetLink() {
-    axios.post('http://127.0.0.1:8000/api/forgot-password', {
+    axios.post('/forgot-password', {
         'email': formData.email
     })
         .then(response => {
@@ -21,7 +21,6 @@ function sendResetLink() {
         })
         .catch(error => {
             errorData.value = error.response.data.errors
-            console.log(error);
         });
 }
 </script>

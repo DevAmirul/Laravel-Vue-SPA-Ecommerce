@@ -1,63 +1,75 @@
 <script setup>
-import { onMounted, ref, watch, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from "vue";
 import { useRoute } from "vue-router";
-import useAxios from '../../services/axios';
+import useAxios from "../../services/axios";
 import useAlert from "../../services/alert";
 import PageHeader from "../../components/layouts/PageHeader.vue";
 import { storeToRefs } from "pinia";
-import useAuth from '../../stores/Auth';
+import useAuth from "../../stores/Auth";
 import useToken from "../../services/token";
+import { useRouter } from 'vue-router';
 
-
-const { user } = storeToRefs(useAuth());
+const router = useRouter();
+const { user, isAuthenticated } = storeToRefs(useAuth());
 
 const route = useRoute();
 const orderId = route.params.id;
+
 let discount = ref(0);
 let responseData = ref();
 let confirmed;
 let Shipped;
 let Delivered;
 
+// Fetch user order's items.
 watchEffect(() => {
-    useAxios.get('/users/orders/' + orderId + '/items', {
-        headers: { Authorization: 'Bearer ' + useToken().getToken() }
-    })
-        .then(response => {
-            responseData.value = response.data
-            console.log(responseData.value);
-            if (responseData.value.orderItems.length == 0) useAlert().centerDialogAlert('info', 'Order item list is empty')
-        })
-        .catch(error => {
-            // console.log(error);
-        });
-} )
+    if (isAuthenticated.value) {
+        useAxios
+            .get("/users/orders/" + orderId + "/items", {
+                headers: { Authorization: "Bearer " + useToken().getToken() },
+            })
+            .then((response) => {
+                responseData.value = response.data;
+                console.log(responseData.value);
+                if (responseData.value.orderItems.length == 0)
+                    useAlert().centerDialogAlert(
+                        "info",
+                        "Order item list is empty"
+                    );
+            })
+            .catch((error) => {
+                router.push({ name: 'serverError' });
+            });
+    }
 
+});
 
 watch(responseData, () => {
-    if (responseData.value.orderItems[0].order_status == 'Approved') {
+    if (responseData.value.orderItems[0].order_status == "Approved") {
         confirmed = true;
-    } else if (responseData.value.orderItems[0].order_status == 'Shipped') {
+    } else if (responseData.value.orderItems[0].order_status == "Shipped") {
         confirmed = true;
         Shipped = true;
-    } else if (responseData.value.orderItems[0].order_status == 'Delivered') {
+    } else if (responseData.value.orderItems[0].order_status == "Delivered") {
         confirmed = true;
         Shipped = true;
         Delivered = true;
     }
-})
+});
 
-function payOrder(orderId){
-    useAxios.get('/users/orders/' + orderId + '/pay', {
-        headers: { Authorization: 'Bearer ' + useToken().getToken() }
-    })
-        .then(response => {
+// Pay order's payments.
+function payOrder(orderId) {
+    useAxios
+        .get("/users/orders/" + orderId + "/pay", {
+            headers: { Authorization: "Bearer " + useToken().getToken() },
+        })
+        .then((response) => {
             if (response.data.stripeUrl) {
                 window.location.href = response.data.stripeUrl;
             }
         })
-        .catch(error => {
-            useAlert().topAlert('error', error.response.data.message)
+        .catch((error) => {
+            useAlert().topAlert("error", error.response.data.message);
         });
 }
 </script>
@@ -72,8 +84,17 @@ function payOrder(orderId){
                 <div class="card-body">
                     <div class="d-lg-flex justify-content-between">
                         <h6>Order ID: #{{ orderId }}</h6>
-                        <h6>Order Status: {{ responseData.orderItems[0].order_status }}</h6>
-                        <h6 v-if="responseData.orderItems[0].payment_status == '0'">Payment Status: Unpaid</h6>
+                        <h6>
+                            Order Status:
+                            {{ responseData.orderItems[0].order_status }}
+                        </h6>
+                        <h6
+                            v-if="
+                                responseData.orderItems[0].payment_status == '0'
+                            "
+                        >
+                            Payment Status: Unpaid
+                        </h6>
                         <h6 v-else>Payment Status: Paid</h6>
                     </div>
                     <article class="card">
@@ -109,96 +130,156 @@ function payOrder(orderId){
                                 <br />{{ responseData.orderItems[0].state }}
                             </div>
                             <div class="col-lg">
-                                    <strong style="color: #1c1c1c !important"
-                                        >Address:</strong
-                                    >
-                                    <br />{{ responseData.orderItems[0].address }}
-                                </div>
+                                <strong style="color: #1c1c1c !important"
+                                    >Address:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].address }}
+                            </div>
                             <div class="col-lg">
-                                    <strong style="color: #1c1c1c !important"
-                                        >Zip Code:</strong
-                                    >
-                                    <br />{{ responseData.orderItems[0].zip_code }}
-                                </div>
+                                <strong style="color: #1c1c1c !important"
+                                    >Zip Code:</strong
+                                >
+                                <br />{{ responseData.orderItems[0].zip_code }}
+                            </div>
                         </div>
                     </article>
                     <!-- <template v-if="responseData.orderItems[0].order_status !== 'Returned'"> -->
-                        <div class="track">
-                            <div :class="[confirmed ? 'active' : '', 'step']">
-                                <span class="icon"> <i class="fa fa-check"></i> </span>
-                                <span class="text">Order confirmed</span>
-                            </div>
-                            <div  :class="[Shipped ? 'active' : '', 'step']">
-                                <span class="icon"> <i class="fa fa-truck"></i> </span>
-                                <span class="text">Picked by courier</span>
-                            </div>
-                            <div :class="[Delivered ? 'active' : '', 'step']">
-                                <span class="icon"> <i class="fa fa-box"></i> </span>
-                                <span class="text">Delivered</span>
-                            </div>
+                    <div class="track">
+                        <div :class="[confirmed ? 'active' : '', 'step']">
+                            <span class="icon">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            <span class="text">Order confirmed</span>
                         </div>
+                        <div :class="[Shipped ? 'active' : '', 'step']">
+                            <span class="icon">
+                                <i class="fa fa-truck"></i>
+                            </span>
+                            <span class="text">Picked by courier</span>
+                        </div>
+                        <div :class="[Delivered ? 'active' : '', 'step']">
+                            <span class="icon">
+                                <i class="fa fa-box"></i>
+                            </span>
+                            <span class="text">Delivered</span>
+                        </div>
+                    </div>
                     <!-- </template> -->
-                    <hr/>
+                    <hr />
 
-                    <ul  class="row">
-                        <template v-for="(data, key) in responseData.orderItems" :key="key">
+                    <ul class="row">
+                        <template
+                            v-for="(data, key) in responseData.orderItems"
+                            :key="key"
+                        >
                             <li class="col-md-4">
-                                        <figure class="itemside mb-3">
-                                            <div class="aside">
-                                                <img
-                                                    :src="data.image"
-                                                    class="img-sm border"
-                                                />
-                                            </div>
-                                            <figcaption class="info align-self-center">
-                                                <p class="title">
-                                                    {{ data.name }}
-                                                </p>
-                                                <h6 class="text-muted">${{ data.sale_price }} </h6>
-                                                <h6 class="text-muted">${{ data.discount_price }} </h6>
-                                            </figcaption>
-                                        </figure>
-                                    </li>
+                                <figure class="itemside mb-3">
+                                    <div class="aside">
+                                        <img
+                                            :src="data.image"
+                                            class="img-sm border"
+                                        />
+                                    </div>
+                                    <figcaption class="info align-self-center">
+                                        <p class="title">
+                                            {{ data.name }}
+                                        </p>
+                                        <h6 class="text-muted">
+                                            ${{ data.sale_price }}
+                                        </h6>
+                                        <h6 class="text-muted">
+                                            ${{ data.discount_price }}
+                                        </h6>
+                                    </figcaption>
+                                </figure>
+                            </li>
                         </template>
                     </ul>
 
                     <hr />
                     <article class="card">
-                            <div class="card-body row">
-                                <div v-if="responseData.orderItems[0].c_discount" class="col-lg">
-                                    <strong style="color: #1c1c1c !important"
-                                        >Coupon:</strong
-                                    >
-                                    <br />${{ Math.ceil(responseData.orderItems[0].c_discount) }}
-                                </div>
-                                <div v-if="responseData.orderItems[0].discount_price" class="col-lg">
-                                    <strong style="color: #1c1c1c !important"
-                                        >Total Discount:</strong
-                                    >
-                                    <br />
-                                    <template v-if="responseData.orderItems[0].c_discount">
-                                    ${{ discount = parseInt(responseData.orderItems[0].discount_price) + parseInt(responseData.orderItems[0].c_discount) }}
-                                    </template>
-                                    <template v-else>${{ discount =  Math.ceil(responseData.orderItems[0].discount_price) }}</template>
-                                </div>
-                                <div class="col-lg">
-                                    <strong style="color: #1c1c1c !important"
-                                        >Subtotal:</strong
-                                    >
-                                    <br />${{ Math.ceil(responseData.orderItems[0].subtotal) }}
-                                </div>
-                                <div class="col-lg">
-                                    <strong style="color: #1c1c1c !important"
-                                        >Total:</strong
-                                    >
-                                    <br />${{ responseData.orderItems[0].total - discount }}
-                                </div>
-
+                        <div class="card-body row">
+                            <div
+                                v-if="responseData.orderItems[0].c_discount"
+                                class="col-lg"
+                            >
+                                <strong style="color: #1c1c1c !important"
+                                    >Coupon:</strong
+                                >
+                                <br />${{
+                                    Math.ceil(
+                                        responseData.orderItems[0].c_discount
+                                    )
+                                }}
                             </div>
+                            <div
+                                v-if="responseData.orderItems[0].discount_price"
+                                class="col-lg"
+                            >
+                                <strong style="color: #1c1c1c !important"
+                                    >Total Discount:</strong
+                                >
+                                <br />
+                                <template
+                                    v-if="responseData.orderItems[0].c_discount"
+                                >
+                                    ${{
+                                        (discount =
+                                            parseInt(
+                                                responseData.orderItems[0]
+                                                    .discount_price
+                                            ) +
+                                            parseInt(
+                                                responseData.orderItems[0]
+                                                    .c_discount
+                                            ))
+                                    }}
+                                </template>
+                                <template v-else
+                                    >${{
+                                        (discount = Math.ceil(
+                                            responseData.orderItems[0]
+                                                .discount_price
+                                        ))
+                                    }}</template
+                                >
+                            </div>
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >Subtotal:</strong
+                                >
+                                <br />${{
+                                    Math.ceil(
+                                        responseData.orderItems[0].subtotal
+                                    )
+                                }}
+                            </div>
+                            <div class="col-lg">
+                                <strong style="color: #1c1c1c !important"
+                                    >Total:</strong
+                                >
+                                <br />${{
+                                    responseData.orderItems[0].total - discount
+                                }}
+                            </div>
+                        </div>
                     </article>
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-sm btn-outline-primary mt-3" @click="$router.go(-1)">Back to Order</button>
-                        <button @click="payOrder(orderId)" class="btn btn-sm btn-primary mt-3">Pay Now</button>
+                        <button
+                            class="btn btn-sm btn-outline-primary mt-3"
+                            @click="$router.go(-1)"
+                        >
+                            Back to Order
+                        </button>
+                        <button
+                            v-if="
+                                responseData.orderItems[0].payment_status == '0'
+                            "
+                            @click="payOrder(orderId)"
+                            class="btn btn-sm btn-primary mt-3"
+                        >
+                            Pay Now
+                        </button>
                     </div>
                 </div>
             </template>

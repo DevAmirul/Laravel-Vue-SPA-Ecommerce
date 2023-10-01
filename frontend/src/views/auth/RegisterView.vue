@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, ref } from 'vue'
-import useAxios from '../../services/axios';
 import axios from 'axios';
 import { RouterLink, useRouter } from "vue-router";
 import PageHeader from '../../components/layouts/PageHeader.vue'
@@ -14,8 +13,9 @@ const formData = reactive({
     password_confirmation: '12345678'
 });
 
+//Register new user.
 function register() {
-    axios.post('http://127.0.0.1:8000/api/register', {
+    axios.post('/register', {
         'name': formData.name,
         'email': formData.email,
         'password': formData.password,
@@ -27,7 +27,6 @@ function register() {
         })
         .catch(error => {
             errorData.value = error.response.data.errors
-            console.log(error.response);
         });
 }
 </script>

@@ -1,28 +1,51 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useRefresh from '../../stores/Refresh';
 import useCart from '../../services/cart';
 import { storeToRefs } from "pinia";
+import useAuth from "../../stores/Auth";
+import useAlert from "../../services/alert";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const { isAuthenticated } = storeToRefs(useAuth());
 const { refreshCartPage } = storeToRefs(useRefresh());
-
 const responseData = ref();
 let discount;
 let subtotal;
 
-onMounted(() => {
-    useCart().getCartItems().then((response) => {
-        responseData.value = response
-    } );
+// Fetch user cart's items.
+watchEffect(() => {
+    if (isAuthenticated.value) {
+        useCart().getCartItems().then((response) => {
+            if (response.carts.length === 0) {
+                useAlert().centerDialogAlert("info", "Your cart list is empty")
+                    .then((result) => {
+                        router.back();
+                    });
+            }
+            responseData.value = response
+        } );
+    }
 } )
 
+// Re-fetch cart items when user updates or deletes cart items.
 watch(refreshCartPage, () => {
-    useCart().getCartItems().then((response) => {
-        responseData.value = response
-    });
+    if (isAuthenticated.value) {
+        useCart().getCartItems().then((response) => {
+            if (response.carts.length === 0) {
+                useAlert().centerDialogAlert("info", "Your cart list is empty")
+                    .then((result) => {
+                        router.back();
+                    });
+            }
+            responseData.value = response
+        });
+    }
 } )
 
+// Discounts will be calculated on cart items.
 watch(responseData, () => {
     discount = responseData.value.carts.reduce((accumulator, currentValue) => {
         if (currentValue['discount'] !== null && currentValue['status'] !== 0 && currentValue['expire_date'] > new Date().toISOString()) {

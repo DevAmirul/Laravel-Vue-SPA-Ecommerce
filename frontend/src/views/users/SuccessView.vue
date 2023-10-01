@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink } from "vue-router";
-
 </script>
 
 <template>
@@ -14,16 +13,24 @@ import { RouterLink } from "vue-router";
                 <div class="col-lg-6 offset-lg-3 col-12">
                     <!-- Error Inner -->
                     <div class="success-inner my-5">
-                        <h1><i class="fa fa-check-circle" aria-hidden="true"></i><span>Order Successful!</span></h1>
-                        <small>You'll receive a confirmation email shortly.</small>
+                        <h1>
+                            <i class="fa fa-check-circle" aria-hidden="true"></i
+                            ><span>Order Successful!</span>
+                        </h1>
+                        <small
+                            >You'll receive a confirmation email shortly.</small
+                        >
                         <p>Thanks for your order!</p>
 
-
-                        <RouterLink style="text-decoration: none; color: inherit" :to="{ name: 'home' }"><a
-                                class="btn btn-primary btn-lg">Continue Shopping</a>
-                            ></RouterLink>
+                        <RouterLink
+                            style="text-decoration: none; color: inherit"
+                            :to="{ name: 'home' }"
+                            ><a class="btn btn-primary btn-lg"
+                                >Continue Shopping</a
+                            >
+                            ></RouterLink
+                        >
                     </div>
-
                     <!--/ End Error Inner -->
                 </div>
             </div>
@@ -64,4 +71,5 @@ import { RouterLink } from "vue-router";
 
 .mail-seccess .success-inner .btn {
     color: #fff;
-}</style>
+}
+</style>

@@ -5,6 +5,7 @@ let productAttributeArray = [];
 
 export default function useWishlist(productAttributes) {
 
+    // Store the product in the wishlist in local storage.
     function addWishlist(productAttributes){
         let ifExistLocalStorageData = localStorage.getItem('productAttributes');
         if (ifExistLocalStorageData) {
@@ -32,6 +33,7 @@ export default function useWishlist(productAttributes) {
         }
     }
 
+    // Delete the product in the wishlist in local storage.
     function deleteWishlist(productId) {
         let ifExistLocalStorageData = localStorage.getItem('productAttributes');
         if (ifExistLocalStorageData) {

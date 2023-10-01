@@ -5,15 +5,14 @@ import { RouterLink, useRoute } from "vue-router";
 import useSearch from '../../stores/Search'
 import { storeToRefs } from "pinia";
 import useAlert from "../../services/alert";
-const route = useRoute();
 
 const { attribute, maxPrice, minPrice } = storeToRefs(useSearch());
-const { topAlert } = storeToRefs(useAlert());
 
 const responseData = ref();
 const min = ref(minPrice.value);
 const max = ref(maxPrice.value);
 
+// Fetch sidebar's attributes, categories and brands.
 onMounted(() => {
     useAxios.get('/sidebar')
         .then(response => {
@@ -24,6 +23,7 @@ onMounted(() => {
         });
 } )
 
+// Set Attribute value to path attribute query.
 function setAttributeValueToAttributeFilter(attributeValue){
     if (attribute.value == '') {
         attribute.value = attributeValue
@@ -39,6 +39,7 @@ function setAttributeValueToAttributeFilter(attributeValue){
     }
 }
 
+// Set price value to path price query.
 function addPriceFilter(min, max){
     if (min < max) {
         minPrice.value = min

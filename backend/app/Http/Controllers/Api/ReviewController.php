@@ -12,7 +12,7 @@ class ReviewController extends Controller {
     /**
      * Save it when users send reviews.
      */
-    public function create(ReviewRequest $request): JsonResponse {
+    public function store(ReviewRequest $request): JsonResponse {
         Review::create($request->validated());
 
         return response()->json(['status' => 'Successfully added review']);

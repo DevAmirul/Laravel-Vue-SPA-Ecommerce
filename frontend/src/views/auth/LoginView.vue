@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, watch } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import PageHeader from '../../components/layouts/PageHeader.vue'
 import useAuth from '../../stores/Auth';
@@ -14,6 +14,7 @@ const formData = reactive({
     remember: false
 });
 
+// Check if the login URL has a successful query.
 onMounted(() => {
     if (route.query?.status) useAlert().topAlert('success', route.query.status)
 })

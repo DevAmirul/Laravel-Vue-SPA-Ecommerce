@@ -3,8 +3,10 @@ import useRefresh from '../stores/Refresh';
 
 let productCompareArray = []
 
+//Store the product ID in the comparison list in local storage.
 export default function useCompare(productId) {
     let ifExistLocalStorageData = JSON.parse(localStorage.getItem('compare'));
+
     if (ifExistLocalStorageData) {
         if (ifExistLocalStorageData.length < 3) {
             let hasId = false
