@@ -5,7 +5,7 @@ const { settings } = defineProps(['settings'])
 </script>
 <template>
     <!-- Footer Start -->
-    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
+    <div class="container-fluid bg-secondary text-dark mt-5 pt-5 b-bg-color">
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-6 col-md-12 mb-5 pr-3 pr-xl-5">
                 <RouterLink :to="{ name: 'home' }">

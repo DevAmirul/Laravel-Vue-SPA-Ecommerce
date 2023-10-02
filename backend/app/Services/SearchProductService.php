@@ -35,7 +35,7 @@ class SearchProductService {
             ->when($request->attribute, function ($query) use ($request) {
                 $query->join('product_attributes', 'products.id', '=', 'product_attributes.product_id')
                     ->where(function ($query) use ($request) {
-                        $query->where('product_attributes.value', 'REGEXP', $request->attribute);
+                        $query->where('product_attributes.values', 'REGEXP', $request->attribute);
                     });
             })
             ->when($request->search, function ($query) use ($request) {

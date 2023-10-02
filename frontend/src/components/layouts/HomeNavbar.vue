@@ -6,7 +6,6 @@ import useAuth from '../../stores/Auth'
 import { RouterLink, useRoute } from "vue-router";
 
 const auth = useAuth();
-
 const responseData = ref();
 const route = useRoute();
 
@@ -20,7 +19,7 @@ onMounted(() => {
 
 </script>
 <template>
-        <div class="container-fluid mb-5">
+        <div class="container-fluid mb-2 pt-2">
                 <div class="row border-top px-xl-5">
                     <div v-if="responseData" class="col-lg-3 d-none d-lg-block">
                         <a
@@ -205,7 +204,7 @@ onMounted(() => {
                         >
                             <div class="carousel-inner">
                             <div class="carousel-item active" style="height: 410px;">
-                            <img class="img-fluid" src="img/carousel-1.jpg" alt="Image">
+                            <img class="img-fluid" src="http://127.0.0.1:8000/storage/img/banner.jpg" alt="Image">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>

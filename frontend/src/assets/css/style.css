@@ -10747,7 +10747,9 @@ a.text-dark:focus {
 .offer .text-md-left img {
   right: 0;
 }
-
+.top-bg-color {
+  background-color: #ffd0d0bf !important;
+}
 .cat-item .cat-img img,
 .product-item .product-img img {
   transition: .5s;

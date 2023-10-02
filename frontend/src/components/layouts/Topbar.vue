@@ -8,7 +8,7 @@ import useAuth from '../../stores/Auth';
 import useToken from '../../services/token';
 
 
-const { settings } = defineProps(['settings'])
+const { logo } = defineProps(['logo'])
 const { user, isAuthenticated } = storeToRefs(useAuth());
 const { refreshCartItemsNumber, refreshWishlistItemsNumber, refreshCompareItemsNumber } = storeToRefs(useRefresh());
 const router = useRouter();
@@ -62,17 +62,17 @@ function cartCount() {
 }
 </script>
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid top-bg-color">
         <div class="row align-items-center py-3 px-xl-5 m-auto">
             <div class="col-lg-3 d-none d-lg-block ">
                 <RouterLink style="text-decoration: none; color: inherit;" :to="{ name: 'home' }"
                     ><a class="text-decoration-none">
-                        <img :src="settings" alt="logo" style="height: 90px;">
+                        <img :src="logo" alt="logo" style="height: 90px;">
                     </a>
                 </RouterLink
                 >
             </div>
-            <div class="col-lg-6 col-6 text-left">
+            <div class="col-lg-6 col-6 text-left search-round">
                 <form  @submit.prevent>
                     <div class="input-group">
                         <input

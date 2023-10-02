@@ -20,7 +20,7 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid mb-2 pt-2">
         <div class="row border-top px-xl-5">
             <div v-if="responseData" class="col-lg-3">
                 <a
