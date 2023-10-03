@@ -17,7 +17,8 @@ class OfferResource extends JsonResource
     {
         return [
             'name' => $this->whenHas('name'),
-            'image' => $this->whenHas(asset(Storage::url('offers/' . $this->image))),
+            'slug' => $this->whenHas('slug'),
+            'image' => $this->when($this->image, asset(Storage::url('offers/' . $this->image))),
             'title' => $this->whenHas('title'),
             'type' => $this->type,
             'discount' => $this->discount,

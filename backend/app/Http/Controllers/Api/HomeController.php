@@ -30,9 +30,9 @@ class HomeController extends Controller {
      * Get all offer.
      */
     public function getOffer(): JsonResponse {
-        $offers = Offer::where('id', '!==', 1)->whereStatus(true)->where('expire_date', '>', now())
-            ->latest('created_at')->take(3)
-            ->get(['name', 'image', 'type', 'title', 'discount', 'status', 'expire_date']);
+        $offers = Offer::whereStatus('1')->where('expire_date', '>', now())
+            ->latest()->take(3)
+            ->get(['name', 'slug', 'image', 'type', 'title', 'discount', 'status', 'expire_date']);
 
         return response()->json(['offers' => OfferResource::collection($offers)]);
     }

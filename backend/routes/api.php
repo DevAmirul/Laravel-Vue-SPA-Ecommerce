@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\Layouts\SettingsController;
 use App\Http\Controllers\Api\Layouts\SidebarController;
+use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SearchController;
@@ -63,6 +64,8 @@ Route::name('api.')->group(function () {
     Route::get('/sub-categories/{slug}', SubCategoryController::class)->name('subCategories');
 
     Route::get('/brands/{slug}', BrandController::class)->name('brands');
+
+    Route::get('/offers/{slug}', OfferController::class)->name('offers');
 
     Route::get('/sales', TopSaleController::class)->name('sales');
 

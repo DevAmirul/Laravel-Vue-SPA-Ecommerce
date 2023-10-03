@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Offer>
@@ -18,8 +19,11 @@ class OfferFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->name();
+        $slug = Str::slug($name);
         return [
-            'name'   => fake()->name(),
+            'name'   => $name,
+            'slug'   => $slug,
             'title'   => fake()->text(100),
             'image'   => 'offer.jpg',
             'type'   => fake()->randomElement(['Percentage', 'Decimal']),

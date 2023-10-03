@@ -74,22 +74,22 @@ class CheckoutController extends Controller {
 
         // Cart::whereUserId($request->id)->delete();
 
-        Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
+        // Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
 
-        // if ($request->validated('payment') === 'Online Payment') {
-        //     try {
-        //         $payment = $payment->checkOut(null);
-        //         Order::whereId($request->id)->update(['id' => $payment['sessionId']]);
-        //     } catch (\Stripe\Exception\CardException $e) {
-        //         throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
-        //     } catch (\Stripe\Exception\InvalidRequestException $e) {
-        //         throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
-        //     } catch (Exception $e) {
-        //         throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
-        //     }
-        // }
+        if ($request->validated('payment') === 'Online Payment') {
+            try {
+                $checkoutSession = $payment->checkOut(null);
+                Order::whereId($request->id)->update(['session_id' => $checkoutSession['sessionId']]);
+            } catch (\Stripe\Exception\CardException $e) {
+                throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
+            } catch (\Stripe\Exception\InvalidRequestException $e) {
+                throw new \Stripe\Exception\InvalidRequestException("An invalid request occurred.");
+            } catch (Exception $e) {
+                throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
+            }
+        }
 
-        return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null, 'status' => 'Successfully created order']);
+        return response()->json(['stripeUrl' => $checkoutSession['stripeUrl'] ?? null, 'status' => 'Successfully created order']);
     }
 
     /**
@@ -97,8 +97,8 @@ class CheckoutController extends Controller {
      */
     public function payOrder(Payments $payment, Request $request): JsonResponse {
         try {
-            $payment = $payment->checkOut(null);
-            Order::whereId($request->id)->update(['session_id' => $payment['sessionId']]);
+            $checkoutSession = $payment->checkOut(null);
+            Order::whereId($request->id)->update(['session_id' => $checkoutSession['sessionId']]);
         } catch (\Stripe\Exception\CardException $e) {
             throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
         } catch (\Stripe\Exception\InvalidRequestException $e) {
@@ -107,6 +107,6 @@ class CheckoutController extends Controller {
             throw new Exception("Another problem occurred, maybe unrelated to Stripe.");
         }
 
-        return response()->json(['stripeUrl' => $payment['stripeUrl'] ?? null]);
+        return response()->json(['stripeUrl' => $checkoutSession['stripeUrl'] ?? null]);
     }
 }

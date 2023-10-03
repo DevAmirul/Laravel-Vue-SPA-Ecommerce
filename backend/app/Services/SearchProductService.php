@@ -14,6 +14,9 @@ class SearchProductService {
         $products = DB::table('products')
             ->select(DB::raw('DISTINCT(products.id) as p_id'), 'products.name', 'products.sale_price', 'products.slug', 'products.sku', 'products.image', 'products.created_at', 'offers.discount', 'offers.type', 'offers.status', 'offers.expire_date')
             ->leftJoin('offers', 'products.offer_id', '=', 'offers.id')
+            ->when($optionalRequest === 'offers', function ($query) use ($request) {
+                $query->where('offers.slug', $request->slug);
+            })
             ->when($optionalRequest === 'categories', function ($query) use ($request) {
                 $query->join('categories', 'products.category_id', '=', 'categories.id')
                     ->where('categories.slug', $request->slug);
