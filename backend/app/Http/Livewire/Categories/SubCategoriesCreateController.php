@@ -12,6 +12,8 @@ use Livewire\Component;
 class SubCategoriesCreateController extends Component {
     use CreateSlugTrait, SubCategoriesService;
 
+    public string $pageUrl = 'create';
+
     /**
      * Create subCategory.
      */
@@ -25,11 +27,11 @@ class SubCategoriesCreateController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
-    public function render(): View {
-        $allCategories = Category::all('id', 'name');
+    function mount() : void {
+        $this->categories = Category::whereStatus(1)->get(['id', 'name']);
+    }
 
-        return view('livewire.categories.sub-categories-create', [
-            'allCategories' => $allCategories,
-        ]);
+    public function render(): View {
+        return view('livewire.categories.sub-categories-create');
     }
 }

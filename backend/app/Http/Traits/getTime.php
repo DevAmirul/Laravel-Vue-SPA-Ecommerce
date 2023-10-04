@@ -5,7 +5,7 @@ namespace App\Http\Traits;
 use Carbon\Carbon;
 
 trait getTime {
-    
+
     /**
      * Get carbon time.
      */
@@ -24,7 +24,7 @@ trait getTime {
         return match ($timeStr) {
             'This Month' => 'MONTHNAME(' . $tableColumnName . ')',
             'This Year' => 'YEAR(' . $tableColumnName . ')',
-            default => $tableColumnName,
+            default => 'DATE(' . $tableColumnName. ')',
         };
     }
 }

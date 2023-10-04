@@ -10,7 +10,6 @@ trait CouponsService {
     public ?int $status            = null;
     public string $start_date      = '';
     public string $expire_date     = '';
-    public array $couponTypeOption = ['percentage', 'decimal'];
     public array $statusOption     = ['Unpublish', 'Publish'];
 
     protected array $rules = [

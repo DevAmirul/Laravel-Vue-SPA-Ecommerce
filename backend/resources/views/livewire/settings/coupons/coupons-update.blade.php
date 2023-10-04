@@ -9,6 +9,7 @@ Product Update
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
@@ -20,9 +21,6 @@ Product Update
         <x-form-input-field.general col="col-6" lable="Coupon discount" name="discount" type="text"
             wireModel='discount'>
         </x-form-input-field.general>
-        <x-form-input-field.select-for-enum col='col-6' defaultOption='Select Coupon type' :options='$couponTypeOption'
-            wireModel='type' colName='name' name="type">
-        </x-form-input-field.select-for-enum>
 
         <x-form-input-field.general col="col-6" lable="Coupon code" name="code" type="text" wireModel='code'>
         </x-form-input-field.general>
@@ -52,16 +50,14 @@ Product Update
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     flatpickr("#start_date", {
-        dateFormat: "Y-m-d H:i:s",
-        // mode: "range",
-        enableTime: true,
-        time_24hr: true
+    dateFormat: "Y-m-d H:i:s",
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
     });
     flatpickr("#expire_date", {
-        dateFormat: "Y-m-d H:i:s",
-        // mode: "range",
-        enableTime: true,
-        time_24hr: true
+    dateFormat: "Y-m-d H:i:s",
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
     });
 </script>
 @endpush

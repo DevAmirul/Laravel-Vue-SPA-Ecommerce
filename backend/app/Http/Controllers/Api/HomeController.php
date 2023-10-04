@@ -41,7 +41,7 @@ class HomeController extends Controller {
      * Get all category.
      */
     public function getCategory(): JsonResponse {
-        $categories = Category::all(['name', 'image', 'slug']);
+        $categories = Category::whereStatus(1)->get(['name', 'image', 'slug']);
         return response()->json(['categories' => CategoryResource::collection($categories)]);
     }
 

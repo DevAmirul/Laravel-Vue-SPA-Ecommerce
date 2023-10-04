@@ -60,4 +60,3 @@
 
     <!-- End Icons Navigation -->
 </header>
-<hr>

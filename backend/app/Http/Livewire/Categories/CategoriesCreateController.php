@@ -30,11 +30,11 @@ class CategoriesCreateController extends Component {
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 
-    public function render(): View {
-        $allSections = Section::all(['id', 'name']);
+    function mount() : void {
+        $this->sections = Section::whereStatus(1)->get(['id', 'name']);
+    }
 
-        return view('livewire.categories.categories-create', [
-            'allSections' => $allSections,
-        ]);
+    public function render(): View {
+        return view('livewire.categories.categories-create');
     }
 }

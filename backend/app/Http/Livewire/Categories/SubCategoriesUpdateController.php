@@ -12,13 +12,15 @@ use Livewire\Component;
 class SubCategoriesUpdateController extends Component {
     use CreateSlugTrait, SubCategoriesService;
 
+    public string $pageUrl = 'update';
+
     /**
      * Get subcategory by id.
      */
     public function mount(int $id): void {
         $this->subCategoryId = $id;
 
-        $this->categories = Category::all('id', 'name');
+        $this->categories = Category::whereStatus(1)->get(['id', 'name']);
 
         $subCategory = SubCategory::findOrFail($this->subCategoryId, ['name', 'slug', 'status', 'category_id']);
 

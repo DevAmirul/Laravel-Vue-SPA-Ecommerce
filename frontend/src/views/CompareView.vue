@@ -15,6 +15,7 @@ const compareList = ref();
 // Fetch products by ID stored in local storage.
 onMounted(() => {
     compareList.value = JSON.parse(localStorage.getItem("compare"));
+
     if (compareList.value) {
         useAxios
             .post("/compare", {
@@ -24,7 +25,6 @@ onMounted(() => {
             })
             .then((response) => {
                 responseData.value = response.data;
-                console.log(responseData.value);
             });
     } else {
         useAlert().centerDialogAlert("info", "Your compare list is empty")

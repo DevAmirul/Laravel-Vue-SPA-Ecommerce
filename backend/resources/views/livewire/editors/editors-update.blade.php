@@ -7,6 +7,7 @@ Editors Create
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')

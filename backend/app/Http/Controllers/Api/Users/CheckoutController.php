@@ -72,14 +72,14 @@ class CheckoutController extends Controller {
 
         $order->orderItem()->createMany($orderItems);
 
-        // Cart::whereUserId($request->id)->delete();
+        Cart::whereUserId($request->id)->delete();
 
-        // Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
+        Mail::to($user->email)->send(new SendInvoice($cartItems, $user, $order, $request->validated()));
 
         if ($request->validated('payment') === 'Online Payment') {
             try {
-                $checkoutSession = $payment->checkOut(null);
-                Order::whereId($request->id)->update(['session_id' => $checkoutSession['sessionId']]);
+                $checkoutSession = $payment->checkOut($order);
+                Order::whereId($order->id)->update(['session_id' => $checkoutSession['sessionId']]);
             } catch (\Stripe\Exception\CardException $e) {
                 throw new \Stripe\Exception\CardException("A payment error occurred: {$e->getError()->message}");
             } catch (\Stripe\Exception\InvalidRequestException $e) {

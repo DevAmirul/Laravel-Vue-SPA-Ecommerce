@@ -35,7 +35,7 @@ class StripeRepository implements Payments {
             ]],
             'customer_creation'    => 'always',
             'payment_method_types' => ['card'],
-            'customer_email'       => 'mailbox.amirul@gmail.com',
+            // 'customer_email'       => 'example@mail.com',
             'mode'                 => 'payment',
             'success_url'          => config('app.url') . '/payment/success?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url'           => route('payment.cancel'),

@@ -13,9 +13,9 @@ use Livewire\WithPagination;
 class ProductsStockReportController extends Component {
     use TableColumnTrait, WithPagination, BooleanTableTrait;
 
-    public ?int $stockAvailability = null;
-    public ?int $quantityAbove     = null;
-    public ?int $quantityBelow     = null;
+    public string $stockAvailability = '';
+    public string $quantityAbove     = '';
+    public string $quantityBelow     = '';
 
     /**
      * Set table column.

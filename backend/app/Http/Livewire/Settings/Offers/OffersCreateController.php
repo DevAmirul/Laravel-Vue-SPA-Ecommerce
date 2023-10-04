@@ -8,6 +8,7 @@ use App\Http\Traits\FileTrait;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Offer;
+use App\Models\Product;
 use App\Models\SubCategory;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -41,13 +42,19 @@ class OffersCreateController extends Component {
 
         if (!empty($this->selectedCategories)) {
             Category::whereIn('id', $this->selectedCategories)->update(['offer_id' => $offer->id]);
+            Product::whereIn('category_id', $this->selectedCategories)->update(['offer_id' => $offer->id]);
         }
         if (!empty($this->selectedSubCategories)) {
             SubCategory::whereIn('id', $this->selectedSubCategories)->update(['offer_id' => $offer->id]);
+            Product::whereIn('sub_category_id', $this->selectedSubCategories)->update(['offer_id' => $offer->id]);
         }
         if (!empty($this->selectedBrands)) {
             Brand::whereIn('id', $this->selectedBrands)->update(['offer_id' => $offer->id]);
+            Product::whereIn('brand_id', $this->selectedBrands)->update(['offer_id' => $offer->id]);
         }
+
+        $this->propertyResetExcept();
+
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 

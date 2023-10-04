@@ -24,6 +24,7 @@ class CategoryFactory extends Factory {
             'image'      => 'category.png',
             'slug'       => $slug,
             'section_id' => Section::class,
+            'status'     => array_rand([0, 1]),
         ];
     }
 }

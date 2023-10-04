@@ -22,6 +22,7 @@ class SubCategoryFactory extends Factory {
             'name'        => $name,
             'slug'        => $slug,
             'category_id' => Category::class,
+            'status'      => array_rand([0,1]),
         ];
     }
 }

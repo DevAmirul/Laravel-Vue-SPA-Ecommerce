@@ -22,6 +22,7 @@ class BrandFactory extends Factory {
             'name'       => $name,
             'image'      => 'brand.jpg',
             'slug'       => $slug,
+            'status'      => array_rand([0, 1]),
         ];
     }
 }

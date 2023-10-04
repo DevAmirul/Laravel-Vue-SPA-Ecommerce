@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Categories;
 
 use App\Http\Traits\BooleanTableTrait;
+use App\Http\Traits\FileTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Section;
 use Illuminate\Http\RedirectResponse;
@@ -11,7 +12,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 class SectionsController extends Component {
-    use TableColumnTrait, BooleanTableTrait, WithPagination;
+    use TableColumnTrait, BooleanTableTrait, WithPagination, FileTrait;
 
     /**
      * Set table column.

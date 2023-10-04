@@ -10,6 +10,7 @@ Product Create
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
@@ -18,6 +19,10 @@ Product Create
     <x-form pageTitle='Offers Create' action='create'>
         <x-form-input-field.general col="col-6" lable="Offers name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
+
+        <x-form-input-field.general col="col-6" lable="Offers slug" name="slug" type="text" wireModel='slug'>
+        </x-form-input-field.general>
+
         <x-form-input-field.general col="col-6" lable="Offers title" name="title" type="text" wireModel='title'>
         </x-form-input-field.general>
 
@@ -103,5 +108,19 @@ Product Create
         @this.set('selectedBrands', value)
         }
     });
+
+
+    flatpickr("#start_date", {
+    dateFormat: "Y-m-d H:i:s",
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    });
+    flatpickr("#expire_date", {
+    dateFormat: "Y-m-d H:i:s",
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    });
+
+
 </script>
 @endpush

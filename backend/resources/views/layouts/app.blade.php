@@ -23,7 +23,7 @@
 </head>
 
 <body>
-
+    
     {{ $slot }}
 
     <!-- Vendor JS Files -->

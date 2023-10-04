@@ -23,6 +23,7 @@ class SectionFactory extends Factory {
             'name'       => $name,
             'image'      => 'section.png',
             'slug'       => $slug,
+            'status'      => array_rand([0, 1]),
         ];
     }
 }

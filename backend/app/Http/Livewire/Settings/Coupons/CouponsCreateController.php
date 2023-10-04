@@ -9,7 +9,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 
 class CouponsCreateController extends Component {
-    use CreateSlugTrait, CouponsService;
+    use CouponsService;
 
     /**
      * create coupon.

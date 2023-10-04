@@ -7,6 +7,7 @@ Categories Create
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
@@ -16,7 +17,7 @@ Categories Create
         <x-form-input-field.general col="col-6" lable="Category name" name="name" type="text" wireModel='name'>
         </x-form-input-field.general>
 
-        <x-form-input-field.select col='col-6' defaultOption='Select Section' :options='$allSections'
+        <x-form-input-field.select col='col-6' defaultOption='Select Section' :options='$sections'
             wireModel='section_id' colName='name' name="section_id">
         </x-form-input-field.select>
         <x-form-input-field.general col="col-6" lable="Category Slug" name="slug" type="text" wireModel='slug'>

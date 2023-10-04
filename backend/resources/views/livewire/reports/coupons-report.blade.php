@@ -1,11 +1,15 @@
 @push('title')
 Coupon Report
 @endpush
+@push('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
 <div>
     <!-- ======= Header ======= -->
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
@@ -43,5 +47,17 @@ Coupon Report
     <!-- ======= Footer ======= -->
     @livewire('layouts.footer')
     <!-- End Footer -->
-
 </div>
+@push('script')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#start_date", {
+        dateFormat: "Y-m-d H:i:s",
+        enableTime: true,
+        });
+        flatpickr("#expire_date", {
+        dateFormat: "Y-m-d H:i:s",
+        enableTime: true,
+        });
+    </script>
+@endpush

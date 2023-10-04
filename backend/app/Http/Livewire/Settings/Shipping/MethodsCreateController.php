@@ -19,8 +19,6 @@ class MethodsCreateController extends Component {
 
         ShippingMethod::create($validate);
 
-        $this->propertyResetExcept();
-
         $this->dispatchBrowserEvent('success-toast', ['message' => 'Inserted record!']);
     }
 

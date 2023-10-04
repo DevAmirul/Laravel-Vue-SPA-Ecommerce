@@ -123,14 +123,7 @@ onMounted(() => {
                 v-for="(data, key) in responseOfferData.offers"
                 :key="key"
             >
-                <div
-                    :class="[
-                        responseOfferData.offers.length == 3
-                            ? 'col-md-4'
-                            : 'col-md-6',
-                        'pb-4',
-                        'm-auto',
-                    ]"
+                <div :class="[ responseOfferData.offers.length == 3 ? 'col-md-4' : 'col-md-6', 'pb-4', 'm-auto', ]"
                 >
                     <div
                         class="position-relative bg-secondary text-center text-white mb-2 py-5 px-5"
@@ -144,10 +137,7 @@ onMounted(() => {
                                 {{ data.name }}
                             </h1>
                             <RouterLink
-                                :to="{
-                                    name: 'offers',
-                                    params: { name: data.name },
-                                }"
+                                :to="{ name: 'offers', params: { slug: data.slug } }"
                             >
                                 <a
                                     class="btn btn-outline-primary py-md-2 px-md-3"
@@ -158,28 +148,6 @@ onMounted(() => {
                     </div>
                 </div>
             </template>
-            <!-- <template v-if="responseOfferData.offers.length > 1">
-                <div class="col-md-6 pb-4">
-                    <div
-                        class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5"
-                    >
-                        <img :src="responseOfferData.offers[1].image" alt="image"  />
-                        <div class="position-relative" style="z-index: 1">
-                            <h5 class="text-uppercase text-primary mb-3">
-                                {{ responseOfferData.offers[1].title }}
-                            </h5>
-                            <h1 class="mb-4 font-weight-semi-bold">
-                                {{ responseOfferData.offers[1].name }}
-                            </h1>
-                            <RouterLink :to="{ name: 'offers', params: { name: responseOfferData.offers[1].name } }">
-                                <a class="btn btn-outline-primary py-md-2 px-md-3"
-                                        >Shop Now
-                                </a>
-                            </RouterLink>
-                        </div>
-                    </div>
-                </div>
-            </template> -->
         </div>
     </div>
     <!-- Offer End -->

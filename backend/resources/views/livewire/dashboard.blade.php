@@ -6,6 +6,7 @@ Dashboard
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
@@ -325,14 +326,15 @@ Dashboard
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            {{-- {{ $topRevenueProducts }} --}}
                                             @foreach ($topRevenueProducts as $topRevenueProduct)
                                             <tr>
-                                                <th scope="row"><img src="{{ $topRevenueProduct->product->image }}"
-                                                        alt="{{ $topRevenueProduct->product->image }}">
+                                                <th scope="row"><img src="{{ $topRevenueProduct->product?->image }}"
+                                                        alt="{{ $topRevenueProduct->product?->image }}">
                                                 </th>
-                                                <td>{{ $topRevenueProduct->product->name }}
+                                                <td>{{ $topRevenueProduct->product?->name }}
                                                 </td>
-                                                <td class="fw-bold">${{ $topRevenueProduct->product->sale_price }}</td>
+                                                <td class="fw-bold">${{ $topRevenueProduct->product?->sale_price }}</td>
                                                 <td>{{ $topRevenueProduct->sold_qty }}</td>
                                                 <td class="fw-bold">${{ $topRevenueProduct->revenue }}</td>
                                             </tr>

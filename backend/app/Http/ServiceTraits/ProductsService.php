@@ -99,15 +99,16 @@ trait ProductsService {
      * Fetch categories based on section while changing section.
      */
     public function updatedSelectedSection(): void {
-        $this->categories = Category::where('section_id', $this->selectedSection)
-            ->get(['id', 'name']);
+        $this->categories = Category::where('section_id', $this->selectedSection)->whereStatus(1)
+        ->get(['id', 'name']);
     }
 
     /**
      * Fetch subcategories based on category while changing category.
      */
     public function updatedSelectedCategory(): void {
-        $this->subCategories = SubCategory::where('category_id', $this->selectedCategory)->get(['id', 'name']);
+        $this->subCategories = SubCategory::where('category_id', $this->selectedCategory)->whereStatus(1)
+        ->get(['id', 'name']);
     }
 
     /**

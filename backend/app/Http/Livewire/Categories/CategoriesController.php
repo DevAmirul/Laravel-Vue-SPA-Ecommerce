@@ -7,7 +7,6 @@ use App\Http\Traits\FileTrait;
 use App\Http\Traits\RelationTableTrait;
 use App\Http\Traits\TableColumnTrait;
 use App\Models\Category;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;

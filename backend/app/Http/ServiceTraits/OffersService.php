@@ -6,8 +6,11 @@ trait OffersService {
     public int $offerId;
     public object $categories;
     public object $subCategories;
+    public string $subCategory_id;
+    public string $brand_id;
     public object $brands;
     public string $name                 = '';
+    public string $slug                 = '';
     public string $title                = '';
     public string $discount             = '';
     public string $type                 = '';
@@ -26,8 +29,9 @@ trait OffersService {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'        => 'required|string|max:100',
+                'slug'        => 'required|string|max:100',
                 'title'       => 'required|string|max:255',
-                'discount'    => 'required|string|max:255',
+                'discount'    => 'required|numeric',
                 'type'        => 'required',
                 'status'      => 'required|boolean',
                 'start_date'  => 'required|date|before:expire_date',
@@ -39,9 +43,10 @@ trait OffersService {
         } else {
             return [
                 'name'        => 'required|string|max:100',
+                'slug'        => 'required|string|max:100',
                 'title'       => 'required|string|max:255',
                 'image'       => 'required|mimes:jpg,jpeg,png',
-                'discount'    => 'required|string|max:255',
+                'discount'    => 'required|numeric',
                 'type'        => 'required',
                 'status'      => 'required|boolean',
                 'start_date'  => 'required|date|before:expire_date',
@@ -52,5 +57,13 @@ trait OffersService {
 
     public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules());
+    }
+
+    /**
+     * Reset some property.
+     */
+    public function propertyResetExcept(): void
+    {
+        $this->resetExcept(['offerId', 'categories', 'subCategories', 'subCategory_id', 'brand_id', 'brands', 'oldImage', 'image']);
     }
 }

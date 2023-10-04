@@ -3,7 +3,6 @@ import { onBeforeMount, reactive, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import useAxios from "../services/axios";
 import useAlert from "../services/alert";
-import { isAxiosError } from 'axios';
 
 const useSearch = defineStore('search', () => {
     const router = useRouter();
@@ -95,7 +94,7 @@ const useSearch = defineStore('search', () => {
     })
 
     watch(() => route.path, () => {
-        if (route.name == 'sales') {
+        if (route.name == 'sales' || route.name == 'offers') {
             getDataByQuery('watch route.path');
         }
     })

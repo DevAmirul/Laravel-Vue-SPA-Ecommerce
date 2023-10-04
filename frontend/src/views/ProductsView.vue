@@ -30,9 +30,7 @@ onMounted(() => {
         .get("/products/" + route.params.slug)
         .then((response) => {
             responseData.value = response.data;
-            useAxios.get(
-                "/products/view-count/" + responseData.value.product.id
-            );
+            useAxios.get( "/products/view-count/" + responseData.value.product.id );
         });
 });
 

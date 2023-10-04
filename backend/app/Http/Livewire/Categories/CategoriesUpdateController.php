@@ -22,7 +22,7 @@ class CategoriesUpdateController extends Component {
     public function mount(int $id): void {
         $this->categoryId = $id;
 
-        $this->sections = Section::all('id', 'name');
+        $this->sections = Section::whereStatus(1)->get('id', 'name');
 
         $category = Category::findOrFail($this->categoryId, ['name', 'image', 'slug', 'status', 'section_id']);
 

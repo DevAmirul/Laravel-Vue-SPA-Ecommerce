@@ -38,6 +38,9 @@ watchEffect(() => {
         })
             .then(response => {
                 responseData.value = response.data;
+
+                if (responseData.value.carts.length === 0) router.push({name: 'shop'});
+
                 if (responseData.value.billingDetails !== null) {
                     formData.phone = responseData.value.billingDetails.phone
                     formData.address = responseData.value.billingDetails.address
@@ -93,13 +96,15 @@ function placeOrder() {
     })
         .then(response => {
             errorData.value = null
+
             if (response.data.stripeUrl) {
                 window.location.href = response.data.stripeUrl;
             }else{
-                useAlert().centerMessageAlert('success', response.data.status);
+                router.push({name: 'orderSuccess' })
             }
         })
         .catch(error => {
+            console.log(error.response);
             errorData.value = error.response.data.errors
         });
 }

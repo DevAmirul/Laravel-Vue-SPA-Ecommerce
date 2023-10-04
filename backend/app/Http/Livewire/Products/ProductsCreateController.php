@@ -23,9 +23,9 @@ class ProductsCreateController extends Component {
      * Get a list of categories, tags, attributes and brand IDs to set when creating new products.
      */
     public function mount(): void {
-        $this->sections = Section::all(['id', 'name']);
+        $this->sections = Section::whereStatus(1)->get(['id', 'name']);
 
-        $this->brands = Brand::all(['id', 'name']);
+        $this->brands = Brand::whereStatus(1)->get(['id', 'name']);
 
         $this->allTags = Tag::all(['id', 'keyword']);
 

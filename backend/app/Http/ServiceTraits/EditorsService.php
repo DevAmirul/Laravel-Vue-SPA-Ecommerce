@@ -26,7 +26,7 @@ trait EditorsService {
         if ($this->pageUrl == 'update') {
             $rulesForUpdate = [
                 'name'    => 'required|string|max:255',
-                'email'   => 'required|email|max:255|unique:editors,email,' . Auth::user()->id,
+                'email'   => 'required|email|max:255|unique:editors,email,' . $this->editorId,
                 'phone'   => 'required|string|max:11',
                 'city'    => 'required|string|max:255',
                 'address' => 'required|string|max:255',

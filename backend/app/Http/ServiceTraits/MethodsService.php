@@ -3,7 +3,7 @@
 namespace App\Http\ServiceTraits;
 
 trait MethodsService {
-    public int $methodId;
+    public ?int $methodId = null;
     public string $name = '';
     public string $cost = '';
 
@@ -14,12 +14,5 @@ trait MethodsService {
 
     public function updated(mixed $propertyName): void {
         $this->validateOnly($propertyName, $this->rules);
-    }
-
-    /**
-     * Reset some property.
-     */
-    public function propertyResetExcept(): void {
-        $this->resetExcept('methodId');
     }
 }

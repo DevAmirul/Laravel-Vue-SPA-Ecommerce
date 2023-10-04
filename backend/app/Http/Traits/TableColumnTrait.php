@@ -3,7 +3,6 @@
 namespace App\Http\Traits;
 
 trait TableColumnTrait {
-
     public int $showDataPerPage = 10;
     public string $searchStr    = '';
     public array $columnNamesArr;

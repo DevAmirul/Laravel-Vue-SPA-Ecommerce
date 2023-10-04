@@ -6,6 +6,7 @@ Orders Details
     <div wire:ignore>
         @livewire('layouts.header')
     </div>
+    <hr>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
     @livewire('layouts.sidebar')
@@ -90,9 +91,9 @@ Orders Details
                                                         <td>UnPaid
                                                         </td>
                                                     </span>
-                                                    @elseif ($paymentStatus == 1)
+                                                    @else
                                                     <span class="me-1 fw-bold">Payment Status:</span><span
-                                                        class="badge bg-success text-black fw-bold">
+                                                        class="badge bg-info text-black fw-bold">
                                                         <td>Paid
                                                         </td>
                                                     </span>

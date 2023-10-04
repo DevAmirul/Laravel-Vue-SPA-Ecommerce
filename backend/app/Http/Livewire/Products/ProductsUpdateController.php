@@ -48,10 +48,10 @@ class ProductsUpdateController extends Component {
         $this->oldImage         = $product->image;
         $this->oldGallery       = $product->gallery;
 
-        $this->categories    = Category::all('id', 'name');
-        $this->subCategories = SubCategory::all('id', 'name');
-        $this->sections      = Section::all('id', 'name');
-        $this->brands        = Brand::all('id', 'name');
+        $this->categories    = Category::whereStatus(1)->get(['id', 'name']);
+        $this->subCategories = SubCategory::whereStatus(1)->get(['id', 'name']);
+        $this->sections      = Section::whereStatus(1)->get(['id', 'name']);
+        $this->brands        = Brand::whereStatus(1)->get(['id', 'name']);
         $this->allTags       = Tag::all('id', 'keyword');
         $this->allAttributes = Attribute::with('attributeOption:attribute_id,value')->get(['id', 'name']);
     }
