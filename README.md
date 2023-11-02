@@ -1,8 +1,8 @@
-# Laravel-Vue-SPA-Ecommerce
+# Laravel-Vue-SPA-Ecommerce:
 
 SPA Laravel E-commerce project. E-commerce platform with REST Api, Multiple Auth (admin , editor , user) and admin panel integration.
 
-## Features
+## Features:
 - Authentication and Authorization (Breeze Starter kit)
 - Multiple Authentication (Admin, Editors, Users)
 - Search (Name, Tag, SKU)
@@ -15,30 +15,49 @@ SPA Laravel E-commerce project. E-commerce platform with REST Api, Multiple Auth
 - Site settings
 - Mobile First Design
 
-  
+
 ![Dashboard](https://i.ibb.co/zb5z8jw/spa1.png)
 
-## Run Locally
+## Run Locally:
 
-Clone the project
+Clone the project:
 
 ```bash
   git clone https://github.com/DevAmirul/Laravel-Vue-SPA-Ecommerce.git
 ```
 
-Go to the project directory
+Go to the project frontend directory:
 
 ```bash
-  cd Laravel-Vue-SPA-Ecommerce
+  cd Laravel-Vue-SPA-Ecommerce/frontend
 ```
 
-Install dependencies
+Install frontend dependencies:
+
+```bash
+  npm install
+```
+Run frontend:
+
+```bash
+  npm run dev
+```
+
+Go to the project backend directory:
+
+First open new terminal.
+
+```bash
+  cd Laravel-Vue-SPA-Ecommerce/backend
+```
+
+Install dependencies:
 
 ```bash
   composer install
   npm install
 ```
-Create .env file and copy .env.example to .env
+Create .env file and copy .env.example to .env, create database name and add into .env database name.
 
 Key Generate
 ```bash
@@ -55,6 +74,8 @@ Migrate database
 ```bash
 php artisan migrate --seed
 ```
+
+Run project:
 
 ```bash
 php artisan serve
