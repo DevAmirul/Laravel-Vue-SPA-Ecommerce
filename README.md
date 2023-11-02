@@ -2,6 +2,20 @@
 
 SPA Laravel E-commerce project. E-commerce platform with REST Api, Multiple Auth (admin , editor , user) and admin panel integration.
 
+## Features
+- Authentication and Authorization (Breeze Starter kit)
+- Multiple Authentication (Admin, Editors, Users)
+- Search (Name, Tag, SKU)
+- Reports
+- Chart report
+- Add dynamic product Attributes
+- Coupon
+- Shipping
+- payment gateway
+- Site settings
+- Mobile First Design
+
+  
 ![Dashboard](https://i.ibb.co/zb5z8jw/spa1.png)
 
 ## Run Locally
@@ -55,19 +69,6 @@ Open: http://127.0.0.1:8000
 ![Customers Orders Reports](https://i.ibb.co/9WNRVmw/spa3.png)
 ![Orders Chart](https://i.ibb.co/phgCVbw/spa7.png)
 ![Settings](https://i.ibb.co/vsGPXpN/spa5.png)
-
-## Features
-- Authentication and Authorization (Breeze Starter kit)
-- Multiple Authentication (Admin, Editors, Users)
-- Search (Name, Tag, SKU)
-- Reports
-- Chart report
-- Add dynamic product Attributes
-- Coupon
-- Shipping
-- payment gateway
-- Site settings
-- Mobile First Design
 
 
 ## Tech Stack
