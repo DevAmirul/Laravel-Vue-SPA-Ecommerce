@@ -68,9 +68,8 @@ Storage Link
 php artisan storage:link
 ```
 
-```##-Update DB info in .env-##```
+Migrate database:
 
-Migrate database
 ```bash
 php artisan migrate --seed
 ```
