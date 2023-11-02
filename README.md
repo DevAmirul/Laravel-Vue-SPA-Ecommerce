@@ -81,6 +81,7 @@ php artisan serve
 ```
 Open: http://127.0.0.1:8000
 
+**If you work with order, add stripe key and mail config in .env**
 
 ## Screenshots
 
