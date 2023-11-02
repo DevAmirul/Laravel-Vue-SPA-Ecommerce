@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('sub_category_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
