@@ -80,7 +80,7 @@ Run project:
   php artisan serve
 ```
 
-Open another terminal:
+Open another terminal for vite:
 
 ```bash
   cd Laravel-Vue-SPA-Ecommerce/backend
