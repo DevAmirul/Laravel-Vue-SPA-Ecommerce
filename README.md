@@ -61,23 +61,23 @@ Create .env file and copy .env.example to .env, create database name and add int
 
 Key Generate
 ```bash
-php artisan key:generate
+  php artisan key:generate
 ```
 Storage Link
 ```bash
-php artisan storage:link
+  php artisan storage:link
 ```
 
 Migrate database:
 
 ```bash
-php artisan migrate --seed
+  php artisan migrate --seed
 ```
 
 Run project:
 
 ```bash
-php artisan serve
+  php artisan serve
 ```
 
 Open another terminal:
