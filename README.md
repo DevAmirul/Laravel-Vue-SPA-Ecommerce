@@ -79,6 +79,17 @@ Run project:
 ```bash
 php artisan serve
 ```
+
+Open another terminal:
+
+```bash
+  cd Laravel-Vue-SPA-Ecommerce/backend
+```
+
+```bash
+  npm run dev
+```
+
 Open: http://127.0.0.1:8000
 
 **If you work with order, add stripe key and mail config in .env**
